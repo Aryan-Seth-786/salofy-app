@@ -5,7 +5,7 @@
 /* ── Phone Frame ── */
 .phone-shell {
   width: var(--phone-w);
-  height: auto;
+  height: var(--phone-h);
   background: var(--bg);
   border-radius: var(--phone-radius);
   border: 3px solid var(--border);
@@ -56,21 +56,24 @@
 
 /* ── Scrollable Content ── */
 .phone-content {
-  height: auto;
-  overflow-y: visible;
-  padding-bottom: 0;
+  height: calc(100% - 30px);
+  overflow-y: auto;
+  padding-bottom: 85px;
+  -webkit-overflow-scrolling: touch;
 }
 .phone-content::-webkit-scrollbar { display: none; }
 .phone-content { scrollbar-width: none; }
 
-.phone-content--no-nav { padding-bottom: 0; }
+.phone-content--no-nav { padding-bottom: 20px; }
 
 /* ── Bottom Nav ── */
 .bottom-nav {
-  position: relative;
-  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   height: 78px;
-  background: var(--surface);
+  background: linear-gradient(to top, var(--surface) 85%, transparent);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -99,7 +102,7 @@
 
 /* ── Salon Dashboard Bottom Nav ── */
 .bottom-nav--dashboard {
-  background: #1A1A28;
+  background: linear-gradient(to top, #1A1A28 85%, transparent);
 }
 .bottom-nav--dashboard .bottom-nav__item {
   color: #6E6E7A;

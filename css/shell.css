@@ -54,15 +54,11 @@
   gap: 4px;
 }
 
-/* ── Scrollable Content ── */
+/* ── Phone Content (no internal scroll) ── */
 .phone-content {
-  height: calc(100% - 30px);
-  overflow-y: auto;
+  overflow: hidden;
   padding-bottom: 85px;
-  -webkit-overflow-scrolling: touch;
 }
-.phone-content::-webkit-scrollbar { display: none; }
-.phone-content { scrollbar-width: none; }
 
 .phone-content--no-nav { padding-bottom: 20px; }
 

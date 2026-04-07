@@ -51,7 +51,7 @@
 
   /* ── Phone Frame ── */
   --phone-w: 375px;
-  --phone-h: auto;
+  --phone-h: 812px;
   --phone-radius: 44px;
 
   /* ── Spacing ── */

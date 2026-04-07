@@ -45,6 +45,7 @@ const salons = [
       { id: "pkg2", name: "Skin Glow", desc: "Refresh your skin and hair", services: ["facial", "headwash"], price: 899, savings: 201, duration: "60 min" },
       { id: "pkg3", name: "Full Makeover", desc: "Complete hair and skin transformation", services: ["haircut", "color", "facial"], price: 2099, savings: 501, duration: "2.5 hrs" },
       { id: "pkg4", name: "Bridal Luxe", desc: "The complete bridal experience", services: ["bridal", "facial", "waxing"], price: 8499, savings: 1301, duration: "4 hrs" },
+      { id: "pkg5", name: "Head-to-Toe Luxe", desc: "Every service we offer — the full works", services: ["haircut", "headwash", "beard", "color", "facial", "waxing", "spa", "manicure", "threading", "shave", "massage"], price: 12999, savings: 2451, duration: "7 hrs" },
     ]
   },
   {

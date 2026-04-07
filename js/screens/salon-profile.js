@@ -75,7 +75,21 @@ function renderSalonProfile() {
                 </div>
               </div>
               <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px">
-                ${pkg.services.map(sid => { const svc = getSvc(sid); return svc ? `<span style="font-size:10px;padding:3px 8px;background:${sel ? C.primaryS : C.surface2};border:1px solid ${sel ? C.primary+'44' : C.border};border-radius:10px;color:${sel ? C.primary : C.text2}">${svc.label}</span>` : ''; }).join('')}
+                ${(() => {
+                  const limit = 4;
+                  const shown = pkg.services.slice(0, limit);
+                  const hidden = pkg.services.slice(limit);
+                  const extra = hidden.length;
+                  const hiddenId = `pkg-extra-${s.id}-${pkg.id}`;
+                  const chipStyle = (active) => `font-size:10px;padding:3px 8px;background:${active ? C.primaryS : C.surface2};border:1px solid ${active ? C.primary+'44' : C.border};border-radius:10px;color:${active ? C.primary : C.text2}`;
+                  return shown.map(sid => { const svc = getSvc(sid); return svc ? `<span style="${chipStyle(sel)}">${svc.label}</span>` : ''; }).join('')
+                    + (extra > 0 ? `
+                      <span id="${hiddenId}" style="display:none;flex-wrap:wrap;gap:5px;">
+                        ${hidden.map(sid => { const svc = getSvc(sid); return svc ? `<span style="${chipStyle(sel)}">${svc.label}</span>` : ''; }).join('')}
+                      </span>
+                      <span onclick="event.stopPropagation();const el=document.getElementById('${hiddenId}');const isOpen=el.style.display!=='none';el.style.display=isOpen?'none':'inline-flex';this.textContent=isOpen?'+${extra} more':'Show less';"
+                        style="font-size:10px;padding:3px 8px;background:${C.surface3};border:1px solid ${C.border};border-radius:10px;color:${C.primary};font-weight:600;cursor:pointer">+${extra} more</span>` : '');
+                })()}
                 <span style="font-size:10px;padding:3px 8px;background:${C.surface2};border:1px solid ${C.border};border-radius:10px;color:${C.text3}">${pkg.duration}</span>
               </div>
               <div style="display:flex;align-items:center;justify-content:space-between">

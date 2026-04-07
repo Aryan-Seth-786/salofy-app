@@ -10,6 +10,7 @@ const AppState = {
   selectedSalon: salons[0],          // salon object
   selectedServices: [],              // services picked in search (pre-fill salon)
   salonServices: [],                 // services selected on salon profile page
+  salonPackages: [],                 // packages selected on salon profile page
   salonTab: 'Services',
   favorites: new Set([1, 4]),
   searchQuery: '',
@@ -27,9 +28,9 @@ const screens = [
   { id: 'home',                label: 'Home',                group: 'Customer',   render: renderHome },
   { id: 'search-input',        label: 'Search',              group: 'Customer',   render: renderSearchInput },
   { id: 'search-results',      label: 'Results',             group: 'Customer',   render: renderSearchResults },
-  { id: 'salon-starter',       label: 'Salon (Starter)',     group: 'Customer',   render: () => { AppState.selectedSalon = salons[2]; AppState.salonServices = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
-  { id: 'salon-growth',        label: 'Salon (Growth)',      group: 'Customer',   render: () => { AppState.selectedSalon = salons[1]; AppState.salonServices = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
-  { id: 'salon-premium',       label: 'Salon (Premium)',     group: 'Customer',   render: () => { AppState.selectedSalon = salons[0]; AppState.salonServices = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
+  { id: 'salon-starter',       label: 'Salon (Starter)',     group: 'Customer',   render: () => { AppState.selectedSalon = salons[2]; AppState.salonServices = []; AppState.salonPackages = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
+  { id: 'salon-growth',        label: 'Salon (Growth)',      group: 'Customer',   render: () => { AppState.selectedSalon = salons[1]; AppState.salonServices = []; AppState.salonPackages = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
+  { id: 'salon-premium',       label: 'Salon (Premium)',     group: 'Customer',   render: () => { AppState.selectedSalon = salons[0]; AppState.salonServices = []; AppState.salonPackages = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
   { id: 'booking',             label: 'Booking',             group: 'Customer',   render: renderBooking },
   { id: 'booking-confirmed',   label: 'Confirmed',           group: 'Customer',   render: renderBookingConfirmed },
   { id: 'deals',               label: 'Deals',               group: 'Customer',   render: renderDeals },
@@ -97,6 +98,7 @@ function goToSalon(salonId, preSelected = []) {
   navigate(screenId, {
     selectedSalon: salon,
     salonServices: preSelected.filter(sid => salon.services[sid]),
+    salonPackages: [],
     salonTab: 'Services',
   });
 }
@@ -124,19 +126,61 @@ function toggleSalonService(svcId, phoneEl) {
   updateSalonSummaryBar(phoneEl);
 }
 
+/* ── Package Toggle (on salon page) ── */
+function toggleSalonPackage(pkgId, phoneEl) {
+  const s = AppState.selectedSalon;
+  const pkg = (s.packages || []).find(p => p.id === pkgId);
+  if (!pkg) return;
+  const idx = AppState.salonPackages.indexOf(pkgId);
+  if (idx > -1) AppState.salonPackages.splice(idx, 1);
+  else AppState.salonPackages.push(pkgId);
+
+  // Update card appearance
+  const card = phoneEl.querySelector(`[data-pkg-toggle="${pkgId}"]`);
+  if (card) {
+    const sel = AppState.salonPackages.includes(pkgId);
+    card.classList.toggle('pkg-card--active', sel);
+    const chk = card.querySelector('.pkg-card__check');
+    if (chk) {
+      chk.style.background = sel ? C.primary : 'transparent';
+      chk.style.borderColor = sel ? C.primary : C.border;
+      chk.innerHTML = sel ? Icons.check(13, '#fff') : '';
+    }
+    // Update service chips color
+    card.querySelectorAll('[data-pkg-chip]').forEach(chip => {
+      chip.style.background = sel ? C.primaryS : C.surface2;
+      chip.style.borderColor = sel ? C.primary + '44' : C.border;
+      chip.style.color = sel ? C.primary : C.text2;
+    });
+  }
+  updateSalonSummaryBar(phoneEl);
+}
+
 function updateSalonSummaryBar(phoneEl) {
   const s = AppState.selectedSalon;
   const svcs = AppState.salonServices.filter(sid => s.services[sid]);
-  const subtotal = svcs.reduce((a, sid) => a + s.services[sid], 0);
+  const pkgs = AppState.salonPackages.filter(pkgId => (s.packages||[]).some(p => p.id === pkgId));
+  const svcTotal = svcs.reduce((a, sid) => a + s.services[sid], 0);
+  const pkgTotal = pkgs.reduce((a, pkgId) => { const p = (s.packages||[]).find(pk => pk.id === pkgId); return a + (p ? p.price : 0); }, 0);
+  const subtotal = svcTotal + pkgTotal;
+  const totalItems = svcs.length + pkgs.length;
   const bar = phoneEl.querySelector('.salon-summary-bar');
   if (!bar) return;
-  if (svcs.length === 0) {
+  if (totalItems === 0) {
     bar.style.display = 'none';
   } else {
     bar.style.display = 'flex';
     const countEl = bar.querySelector('.ssb-count');
     const priceEl = bar.querySelector('.ssb-price');
-    if (countEl) countEl.textContent = `${svcs.length} service${svcs.length > 1 ? 's' : ''}`;
+    if (countEl) {
+      if (svcs.length > 0 && pkgs.length > 0) {
+        countEl.textContent = `${svcs.length} service${svcs.length > 1 ? 's' : ''} + ${pkgs.length} package${pkgs.length > 1 ? 's' : ''}`;
+      } else if (svcs.length > 0) {
+        countEl.textContent = `${svcs.length} service${svcs.length > 1 ? 's' : ''}`;
+      } else {
+        countEl.textContent = `${pkgs.length} package${pkgs.length > 1 ? 's' : ''}`;
+      }
+    }
     if (priceEl) priceEl.textContent = `\u20B9${subtotal}`;
   }
 }
@@ -218,6 +262,13 @@ function initEvents() {
       return;
     }
 
+    // Package toggle on salon page
+    const pkgEl = e.target.closest('[data-pkg-toggle]');
+    if (pkgEl) {
+      toggleSalonPackage(pkgEl.dataset.pkgToggle, pkgEl.closest('.phone-shell'));
+      return;
+    }
+
     // Favorite toggle
     const favEl = e.target.closest('.fav-btn[data-fav]');
     if (favEl) {
@@ -245,7 +296,7 @@ function initEvents() {
           navigate('search-results', { selectedServices: [...AppState.selectedServices] });
           break;
         case 'book-now':
-          navigate('booking', { salonServices: [...AppState.salonServices] });
+          navigate('booking', { salonServices: [...AppState.salonServices], salonPackages: [...AppState.salonPackages] });
           break;
         case 'confirm-booking':
           navigate('booking-confirmed');

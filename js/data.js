@@ -39,7 +39,13 @@ const salons = [
       { n: "Meera", r: "Bridal Specialist", gender: "f" },
       { n: "Ravi", r: "Skin Expert", gender: "m" }
     ],
-    services: { haircut: 400, headwash: 100, beard: 200, color: 1200, facial: 1000, waxing: 800, spa: 1500, bridal: 8000, manicure: 500, threading: 100, shave: 150, massage: 300 }
+    services: { haircut: 400, headwash: 100, beard: 200, color: 1200, facial: 1000, waxing: 800, spa: 1500, bridal: 8000, manicure: 500, threading: 100, shave: 150, massage: 300 },
+    packages: [
+      { id: "pkg1", name: "Groom & Go", desc: "Quick all-in-one groom", services: ["haircut", "headwash", "beard"], price: 550, savings: 150, duration: "65 min" },
+      { id: "pkg2", name: "Skin Glow", desc: "Refresh your skin and hair", services: ["facial", "headwash"], price: 899, savings: 201, duration: "60 min" },
+      { id: "pkg3", name: "Full Makeover", desc: "Complete hair and skin transformation", services: ["haircut", "color", "facial"], price: 2099, savings: 501, duration: "2.5 hrs" },
+      { id: "pkg4", name: "Bridal Luxe", desc: "The complete bridal experience", services: ["bridal", "facial", "waxing"], price: 8499, savings: 1301, duration: "4 hrs" },
+    ]
   },
   {
     id: 2, name: "Urban Style", loc: "Kharar Main Road", dist: "3.8 km",
@@ -50,14 +56,23 @@ const salons = [
       { n: "Vikram", r: "Color Expert", gender: "m" },
       { n: "Neha", r: "Facial Specialist", gender: "f" }
     ],
-    services: { haircut: 250, headwash: 50, beard: 150, color: 800, facial: 600, shave: 100, massage: 200, threading: 40 }
+    services: { haircut: 250, headwash: 50, beard: 150, color: 800, facial: 600, shave: 100, massage: 200, threading: 40 },
+    packages: [
+      { id: "pkg1", name: "Quick Refresh", desc: "Haircut and wash combo", services: ["haircut", "headwash"], price: 249, savings: 51, duration: "45 min" },
+      { id: "pkg2", name: "Gent's Full", desc: "Complete grooming session", services: ["haircut", "beard", "headwash"], price: 369, savings: 81, duration: "65 min" },
+      { id: "pkg3", name: "Colour & Glow", desc: "Hair colour with a facial", services: ["color", "facial"], price: 1149, savings: 251, duration: "1.75 hrs" },
+    ]
   },
   {
     id: 3, name: "Glow Beauty Parlour", loc: "Phase 3B2, Mohali", dist: "5.1 km",
     rating: 4.1, reviews: 38, tier: "starter", photos: 5,
     hours: "10 AM - 8 PM",
     staff: [],
-    services: { haircut: 200, headwash: 30, facial: 400, waxing: 350, manicure: 250, threading: 50 }
+    services: { haircut: 200, headwash: 30, facial: 400, waxing: 350, manicure: 250, threading: 50 },
+    packages: [
+      { id: "pkg1", name: "Glow Package", desc: "Facial with threading", services: ["facial", "threading"], price: 379, savings: 71, duration: "1 hr" },
+      { id: "pkg2", name: "Polish & Shine", desc: "Facial and manicure combo", services: ["facial", "manicure"], price: 549, savings: 101, duration: "1.5 hrs" },
+    ]
   },
   {
     id: 4, name: "Royal Cuts", loc: "Phase 5, Mohali", dist: "2.4 km",
@@ -67,14 +82,23 @@ const salons = [
       { n: "Harpreet", r: "Owner & Stylist", gender: "m" },
       { n: "Jaspreet", r: "Beard Expert", gender: "m" }
     ],
-    services: { haircut: 350, headwash: 80, beard: 180, color: 1000, shave: 130, massage: 250, spa: 1200 }
+    services: { haircut: 350, headwash: 80, beard: 180, color: 1000, shave: 130, massage: 250, spa: 1200 },
+    packages: [
+      { id: "pkg1", name: "Royal Groom", desc: "Haircut, beard & wash", services: ["haircut", "beard", "headwash"], price: 499, savings: 111, duration: "65 min" },
+      { id: "pkg2", name: "King's Treat", desc: "Haircut, shave & massage", services: ["haircut", "shave", "massage"], price: 599, savings: 131, duration: "1.25 hrs" },
+      { id: "pkg3", name: "Color & Spa", desc: "Hair color with full spa", services: ["color", "spa"], price: 1799, savings: 401, duration: "2 hrs" },
+    ]
   },
   {
     id: 5, name: "Neha's Salon", loc: "Patiala Gate", dist: "6.3 km",
     rating: 3.9, reviews: 22, tier: "starter", photos: 4,
     hours: "10 AM - 7 PM",
     staff: [],
-    services: { haircut: 180, facial: 350, threading: 40, waxing: 300, manicure: 200 }
+    services: { haircut: 180, facial: 350, threading: 40, waxing: 300, manicure: 200 },
+    packages: [
+      { id: "pkg1", name: "Essentials", desc: "Facial with threading", services: ["facial", "threading"], price: 329, savings: 61, duration: "1 hr" },
+      { id: "pkg2", name: "Full Pampering", desc: "Facial, waxing & manicure", services: ["facial", "waxing", "manicure"], price: 699, savings: 151, duration: "2 hrs" },
+    ]
   },
   {
     id: 6, name: "Blade & Co.", loc: "Sector 22, Chandigarh", dist: "2.1 km",
@@ -83,7 +107,11 @@ const salons = [
     staff: [
       { n: "Karan", r: "Master Barber", gender: "m" }
     ],
-    services: { haircut: 300, headwash: 99, beard: 160, shave: 120, massage: 180, color: 900 }
+    services: { haircut: 300, headwash: 99, beard: 160, shave: 120, massage: 180, color: 900 },
+    packages: [
+      { id: "pkg1", name: "The Classic", desc: "Haircut, headwash & beard trim", services: ["haircut", "headwash", "beard"], price: 449, savings: 110, duration: "65 min" },
+      { id: "pkg2", name: "Barber's Best", desc: "Haircut, shave & massage", services: ["haircut", "shave", "massage"], price: 479, savings: 121, duration: "1.25 hrs" },
+    ]
   },
 ];
 

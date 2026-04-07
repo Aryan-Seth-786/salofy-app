@@ -5,10 +5,11 @@ function renderSalonProfile() {
   const isStarter = s.tier === 'starter';
   const activeTab = AppState.salonTab || 'Services';
   const selSvcs   = AppState.salonServices || [];
+  const selPkgs   = AppState.salonPackages || [];
 
   const tabs = isStarter
-    ? ['Services', 'Reviews', 'Photos']
-    : ['Services', 'Staff', 'Reviews', 'Photos', 'Video'];
+    ? ['Services', 'Packages', 'Reviews', 'Photos']
+    : ['Services', 'Packages', 'Staff', 'Reviews', 'Photos', 'Video'];
 
   const heroGrad  = isPremium
     ? 'linear-gradient(135deg, #3a2058, #1e3a4f)'
@@ -16,9 +17,12 @@ function renderSalonProfile() {
   const heroColor = isPremium ? 'rgba(255,255,255,0.35)' : C.text3;
   const backColor = isPremium ? '#fff' : C.text;
 
-  const subtotal = selSvcs.filter(sid => s.services[sid]).reduce((a, sid) => a + s.services[sid], 0);
+  const svcTotal = selSvcs.filter(sid => s.services[sid]).reduce((a, sid) => a + s.services[sid], 0);
+  const pkgTotal = selPkgs.reduce((a, pkgId) => { const p = (s.packages||[]).find(pk => pk.id === pkgId); return a + (p ? p.price : 0); }, 0);
+  const subtotal = svcTotal + pkgTotal;
   const dp       = s.deal ? parseInt(s.deal) || 0 : 0;
   const discount = (!isStarter && dp > 0) ? Math.round(subtotal * dp / 100) : 0;
+  const totalItems = selSvcs.length + selPkgs.length;
   const isFav    = AppState.favorites.has(s.id);
 
   /* ── Tab Panels ── */
@@ -50,13 +54,39 @@ function renderSalonProfile() {
             </div>`;
         }).join('')}
       </div>
-      <!-- Sticky summary bar -->
-      <div class="salon-summary-bar" style="display:${selSvcs.length > 0 ? 'flex' : 'none'};position:sticky;bottom:0;left:0;right:0;padding:10px 20px 12px;background:${C.bg};border-top:1px solid ${C.border};align-items:center;justify-content:space-between;gap:12px">
-        <div>
-          <div style="font-size:11px;color:${C.text3}"><span class="ssb-count">${selSvcs.length} service${selSvcs.length > 1 ? 's' : ''}</span> selected</div>
-          <div style="font-size:16px;font-weight:700;color:${C.primary}"><span class="ssb-price">\u20B9${subtotal}</span>${discount > 0 ? ` <span style="font-size:11px;color:${C.success};font-weight:500">-\u20B9${discount} off</span>` : ''}</div>
-        </div>
-        <button data-action="book-now" style="padding:12px 22px;background:${C.primary};color:#fff;border:none;border-radius:12px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer">Book Now</button>
+    </div>`;
+
+  // PACKAGES panel
+  const packagesPanel = `
+    <div class="tab-panel" data-panel="Packages" style="${activeTab === 'Packages' ? '' : 'display:none'}">
+      <div style="padding:0 20px 4px">
+        <div style="font-size:11px;color:${C.text3};margin-bottom:12px">Pre-bundled services at a special price</div>
+        ${(s.packages || []).map(pkg => {
+          const sel = selPkgs.includes(pkg.id);
+          return `
+            <div class="pkg-card${sel ? ' pkg-card--active' : ''}" data-pkg-toggle="${pkg.id}">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
+                <div style="flex:1">
+                  <div style="font-size:14px;font-weight:600;color:${C.text}">${pkg.name}</div>
+                  <div style="font-size:11px;color:${C.text3};margin-top:2px">${pkg.desc}</div>
+                </div>
+                <div class="pkg-card__check" style="width:22px;height:22px;border-radius:6px;border:2px solid ${sel ? C.primary : C.border};background:${sel ? C.primary : 'transparent'};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  ${sel ? Icons.check(13, '#fff') : ''}
+                </div>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px">
+                ${pkg.services.map(sid => { const svc = getSvc(sid); return svc ? `<span style="font-size:10px;padding:3px 8px;background:${sel ? C.primaryS : C.surface2};border:1px solid ${sel ? C.primary+'44' : C.border};border-radius:10px;color:${sel ? C.primary : C.text2}">${svc.label}</span>` : ''; }).join('')}
+                <span style="font-size:10px;padding:3px 8px;background:${C.surface2};border:1px solid ${C.border};border-radius:10px;color:${C.text3}">${pkg.duration}</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <div>
+                  <span style="font-size:17px;font-weight:700;color:${C.primary}">\u20B9${pkg.price}</span>
+                  <span style="font-size:11px;color:${C.success};font-weight:500;margin-left:6px">Save \u20B9${pkg.savings}</span>
+                </div>
+                <div style="font-size:10px;color:${C.text3}">vs \u20B9${pkg.price + pkg.savings} separately</div>
+              </div>
+            </div>`;
+        }).join('')}
       </div>
     </div>`;
 
@@ -228,9 +258,19 @@ function renderSalonProfile() {
 
     <!-- Tab panels -->
     ${servicesPanel}
+    ${packagesPanel}
     ${staffPanel}
     ${reviewsPanel}
     ${photosPanel}
     ${videoPanel}
+
+    <!-- Global sticky summary bar (services + packages) -->
+    <div class="salon-summary-bar" style="display:${totalItems > 0 ? 'flex' : 'none'};position:sticky;bottom:0;left:0;right:0;padding:10px 20px 12px;background:${C.bg};border-top:1px solid ${C.border};align-items:center;justify-content:space-between;gap:12px">
+      <div>
+        <div style="font-size:11px;color:${C.text3}"><span class="ssb-count">${selSvcs.length > 0 && selPkgs.length > 0 ? `${selSvcs.length} service${selSvcs.length > 1 ? 's' : ''} + ${selPkgs.length} package${selPkgs.length > 1 ? 's' : ''}` : selSvcs.length > 0 ? `${selSvcs.length} service${selSvcs.length > 1 ? 's' : ''}` : `${selPkgs.length} package${selPkgs.length > 1 ? 's' : ''}`}</span> selected</div>
+        <div style="font-size:16px;font-weight:700;color:${C.primary}"><span class="ssb-price">\u20B9${subtotal}</span>${discount > 0 ? ` <span style="font-size:11px;color:${C.success};font-weight:500">-\u20B9${discount} off</span>` : ''}</div>
+      </div>
+      <button data-action="book-now" style="padding:12px 22px;background:${C.primary};color:#fff;border:none;border-radius:12px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer">Book Now</button>
+    </div>
   `, { activeTab: 'search' });
 }

@@ -1,8 +1,9 @@
 function renderBooking() {
   const s       = AppState.selectedSalon || salons[1];
+  const selPkgs = (AppState.salonPackages || []).filter(pkgId => (s.packages||[]).some(p => p.id === pkgId));
   const selSvcs = (AppState.salonServices && AppState.salonServices.length > 0)
     ? AppState.salonServices.filter(sid => s.services[sid])
-    : Object.keys(s.services).slice(0, 2);
+    : selPkgs.length > 0 ? [] : Object.keys(s.services).slice(0, 2);
   const dates   = [
     { d:'Today',n:'28' },{ d:'Sun',n:'29' },{ d:'Mon',n:'30' },
     { d:'Tue',n:'31'  },{ d:'Wed',n:'1'  },{ d:'Thu',n:'2'  },
@@ -10,7 +11,9 @@ function renderBooking() {
   const times   = ['9:00','9:30','10:00','10:30','11:00','11:30','12:00','12:30','2:00','2:30','3:00','3:30'];
   const selDate = AppState.booking.dateIdx;
   const selTime = AppState.booking.time;
-  const subtotal = selSvcs.reduce((a, sid) => a + (s.services[sid] || 0), 0);
+  const svcTotal = selSvcs.reduce((a, sid) => a + (s.services[sid] || 0), 0);
+  const pkgTotal = selPkgs.reduce((a, pkgId) => { const p = (s.packages||[]).find(pk => pk.id === pkgId); return a + (p ? p.price : 0); }, 0);
+  const subtotal = svcTotal + pkgTotal;
   const dp       = s.deal ? parseInt(s.deal) || 0 : 0;
   const discount = (s.tier !== 'starter' && dp > 0) ? Math.round(subtotal * dp / 100) : 0;
 
@@ -45,18 +48,37 @@ function renderBooking() {
 
     <!-- Selected services summary (editable) -->
     <div style="padding:0 20px 12px">
-      <div style="font-size:12px;font-weight:600;color:${C.text2};margin-bottom:6px">Your services</div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div style="font-size:12px;font-weight:600;color:${C.text2}">Your selection</div>
+        <span data-nav="back" style="font-size:11px;color:${C.primary};font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:3px">
+          ${Icons.edit(11, C.primary)} Edit
+        </span>
+      </div>
+      ${selPkgs.map(pkgId => {
+        const pkg = (s.packages||[]).find(p => p.id === pkgId);
+        if (!pkg) return '';
+        return `<div style="background:${C.primaryS};border:1px solid rgba(212,160,23,0.3);border-radius:12px;padding:10px 12px;margin-bottom:6px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="font-size:9px;font-weight:700;letter-spacing:0.5px;color:#fff;background:${C.primary};padding:2px 6px;border-radius:6px">PACKAGE</span>
+              <span style="font-size:13px;font-weight:600;color:${C.text}">${pkg.name}</span>
+            </div>
+            <span style="font-size:13px;font-weight:700;color:${C.primary}">\u20B9${pkg.price}</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px">
+            ${pkg.services.map(sid => { const svc = getSvc(sid); return svc ? `<span style="font-size:10px;padding:2px 7px;background:rgba(255,255,255,0.6);border-radius:8px;color:${C.text2}">${svc.label}</span>` : ''; }).join('')}
+            <span style="font-size:10px;padding:2px 7px;background:${C.successS};color:${C.success};border-radius:8px">Save \u20B9${pkg.savings}</span>
+          </div>
+        </div>`;
+      }).join('')}
+      ${selSvcs.length > 0 ? `<div style="display:flex;gap:6px;flex-wrap:wrap">
         ${selSvcs.map(sid => {
           const svc = getSvc(sid);
           return `<span style="font-size:11px;padding:4px 10px;background:${C.primaryS};border:1px solid rgba(212,160,23,0.25);border-radius:16px;color:${C.primary};font-weight:500;display:inline-flex;align-items:center;gap:4px">
             ${svcIcon(svc.icon, 12, C.primary)} ${svc.label} \u20B9${s.services[sid]}
           </span>`;
         }).join('')}
-        <span data-nav="back" style="font-size:11px;color:${C.primary};font-weight:600;padding:4px 8px;cursor:pointer;display:inline-flex;align-items:center;gap:3px">
-          ${Icons.edit(11, C.primary)} Edit
-        </span>
-      </div>
+      </div>` : ''}
     </div>
 
     <!-- Date picker -->
@@ -91,6 +113,14 @@ function renderBooking() {
         return `<div style="display:flex;justify-content:space-between;font-size:13px;color:${C.text};margin-bottom:6px">
           <span style="color:${C.text3};display:flex;align-items:center;gap:5px">${svcIcon(svc.icon, 12, C.text3)} ${svc.label}</span>
           <span>\u20B9${s.services[sid]}</span>
+        </div>`;
+      }).join('')}
+      ${selPkgs.map(pkgId => {
+        const pkg = (s.packages||[]).find(p => p.id === pkgId);
+        if (!pkg) return '';
+        return `<div style="display:flex;justify-content:space-between;font-size:13px;color:${C.text};margin-bottom:6px">
+          <span style="color:${C.text3};display:flex;align-items:center;gap:5px">${Icons.scissors(12, C.text3)} ${pkg.name} <span style="font-size:10px;background:${C.successS};color:${C.success};padding:1px 5px;border-radius:6px">Save \u20B9${pkg.savings}</span></span>
+          <span>\u20B9${pkg.price}</span>
         </div>`;
       }).join('')}
       ${discount > 0 ? `

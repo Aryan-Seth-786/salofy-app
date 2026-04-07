@@ -1,8 +1,9 @@
 function renderMyBookings() {
   const bks = [
     { idx: 0, salon: salons[1], date: 'Sun, Mar 29', time: '10:30 AM', services: "Men's Haircut, Beard Styling", status: 'upcoming' },
-    { idx: 1, salon: salons[0], date: 'Sat, Mar 22', time: '2:00 PM',  services: 'Gold Facial',                status: 'completed' },
-    { idx: 2, salon: salons[2], date: 'Mon, Mar 15', time: '11:00 AM', services: 'Basic Facial, Waxing',        status: 'completed' },
+    { idx: 1, salon: salons[0], date: 'Wed, Mar 26', time: '11:00 AM', pkg: salons[0].packages[2], status: 'upcoming' },
+    { idx: 2, salon: salons[0], date: 'Sat, Mar 22', time: '2:00 PM',  services: 'Gold Facial',                status: 'completed' },
+    { idx: 3, salon: salons[2], date: 'Mon, Mar 15', time: '11:00 AM', services: 'Basic Facial, Waxing',        status: 'completed' },
   ];
 
   return Shell(`
@@ -31,7 +32,17 @@ function renderMyBookings() {
             <div style="display:flex;align-items:center;gap:4px">${Icons.calendar(12, C.text3)}<span style="color:${C.text3}"> ${b.date}</span></div>
             <div style="display:flex;align-items:center;gap:4px">${Icons.clock(12, C.text3)}<span style="color:${C.text3}"> ${b.time}</span></div>
           </div>
-          <div style="font-size:12px;color:${C.text2};margin-top:6px">${b.services}</div>
+          ${b.pkg ? `
+            <div style="background:${C.primaryS};border:1px solid rgba(212,160,23,0.3);border-radius:10px;padding:8px 10px;margin-top:6px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+                <div style="display:flex;align-items:center;gap:5px">
+                  <span style="font-size:9px;font-weight:700;letter-spacing:0.5px;color:#fff;background:${C.primary};padding:2px 5px;border-radius:5px">PACKAGE</span>
+                  <span style="font-size:12px;font-weight:600;color:${C.text}">${b.pkg.name}</span>
+                </div>
+                <span style="font-size:12px;font-weight:700;color:${C.primary}">\u20B9${b.pkg.price}</span>
+              </div>
+              <div style="font-size:11px;color:${C.text2}">${b.pkg.services.map(sid => getSvc(sid)?.label).filter(Boolean).join(' · ')}</div>
+            </div>` : `<div style="font-size:12px;color:${C.text2};margin-top:6px">${b.services}</div>`}
 
           ${b.status === 'upcoming' ? `
             <div style="margin-top:8px">${PayAtSalon()}</div>

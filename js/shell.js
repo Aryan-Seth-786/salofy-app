@@ -27,7 +27,7 @@ function Shell(innerHTML, opts = {}) {
 function BottomNav(active) {
   const items = [
     { key: 'home', label: 'Home', icon: (c, f) => Icons.home(22, c, f) },
-    { key: 'search', label: 'Search', icon: (c) => Icons.search(22, c) },
+    { key: 'map', label: 'Map', icon: (c) => Icons.mapPin(22, c) },
     { key: 'favorites', label: 'Saved', icon: (c, f) => Icons.heart(22, c, f) },
     { key: 'bookings', label: 'Bookings', icon: (c) => Icons.calendar(22, c) },
     { key: 'profile', label: 'Profile', icon: (c) => Icons.user(22, c) },

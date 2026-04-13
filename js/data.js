@@ -29,7 +29,7 @@ const allServices = [
 
 const salons = [
   {
-    id: 1, name: "Luxe Hair Studio", loc: "Sector 17, Chandigarh", dist: "1.2 km",
+    id: 1, name: "Luxe Hair Studio", loc: "Sector 17, Chandigarh", dist: "1.2 km", mapX: 55, mapY: 25,
     rating: 4.8, reviews: 312, tier: "premium", photos: 32,
     hours: "10 AM - 10 PM", deal: "30% Off First Visit",
     flash: { title: "50% Off All Facials", sub: "Today Only", hrs: "02", min: "34", sec: "11" },
@@ -49,7 +49,7 @@ const salons = [
     ]
   },
   {
-    id: 2, name: "Urban Style", loc: "Kharar Main Road", dist: "3.8 km",
+    id: 2, name: "Urban Style", loc: "Kharar Main Road", dist: "3.8 km", mapX: 78, mapY: 72,
     rating: 4.5, reviews: 124, tier: "growth", photos: 15,
     hours: "9 AM - 9 PM", deal: "20% Off First Visit",
     staff: [
@@ -65,7 +65,7 @@ const salons = [
     ]
   },
   {
-    id: 3, name: "Glow Beauty Parlour", loc: "Phase 3B2, Mohali", dist: "5.1 km",
+    id: 3, name: "Glow Beauty Parlour", loc: "Phase 3B2, Mohali", dist: "5.1 km", mapX: 42, mapY: 68,
     rating: 4.1, reviews: 38, tier: "starter", photos: 5,
     hours: "10 AM - 8 PM",
     staff: [],
@@ -76,7 +76,7 @@ const salons = [
     ]
   },
   {
-    id: 4, name: "Royal Cuts", loc: "Phase 5, Mohali", dist: "2.4 km",
+    id: 4, name: "Royal Cuts", loc: "Phase 5, Mohali", dist: "2.4 km", mapX: 35, mapY: 52,
     rating: 4.7, reviews: 198, tier: "premium", photos: 28,
     hours: "9 AM - 9 PM", deal: "15% Off Combo",
     staff: [
@@ -91,7 +91,7 @@ const salons = [
     ]
   },
   {
-    id: 5, name: "Neha's Salon", loc: "Patiala Gate", dist: "6.3 km",
+    id: 5, name: "Neha's Salon", loc: "Patiala Gate", dist: "6.3 km", mapX: 18, mapY: 82,
     rating: 3.9, reviews: 22, tier: "starter", photos: 4,
     hours: "10 AM - 7 PM",
     staff: [],
@@ -102,7 +102,7 @@ const salons = [
     ]
   },
   {
-    id: 6, name: "Blade & Co.", loc: "Sector 22, Chandigarh", dist: "2.1 km",
+    id: 6, name: "Blade & Co.", loc: "Sector 22, Chandigarh", dist: "2.1 km", mapX: 62, mapY: 35,
     rating: 4.6, reviews: 87, tier: "growth", photos: 12,
     hours: "10 AM - 9 PM", deal: "\u20B999 Head Wash",
     staff: [

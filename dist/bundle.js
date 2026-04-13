@@ -1,4 +1,3 @@
-/* js/data.js */
 /* ═══════════════════════════════════════════════════
    SALOFY DATA
    Color constants, services, and salon sample data
@@ -30,7 +29,7 @@ const allServices = [
 
 const salons = [
   {
-    id: 1, name: "Luxe Hair Studio", loc: "Sector 17, Chandigarh", dist: "1.2 km",
+    id: 1, name: "Luxe Hair Studio", loc: "Sector 17, Chandigarh", dist: "1.2 km", mapX: 55, mapY: 25,
     rating: 4.8, reviews: 312, tier: "premium", photos: 32,
     hours: "10 AM - 10 PM", deal: "30% Off First Visit",
     flash: { title: "50% Off All Facials", sub: "Today Only", hrs: "02", min: "34", sec: "11" },
@@ -40,10 +39,17 @@ const salons = [
       { n: "Meera", r: "Bridal Specialist", gender: "f" },
       { n: "Ravi", r: "Skin Expert", gender: "m" }
     ],
-    services: { haircut: 400, headwash: 100, beard: 200, color: 1200, facial: 1000, waxing: 800, spa: 1500, bridal: 8000, manicure: 500, threading: 100, shave: 150, massage: 300 }
+    services: { haircut: 400, headwash: 100, beard: 200, color: 1200, facial: 1000, waxing: 800, spa: 1500, bridal: 8000, manicure: 500, threading: 100, shave: 150, massage: 300 },
+    packages: [
+      { id: "pkg1", name: "Groom & Go", desc: "Quick all-in-one groom", services: ["haircut", "headwash", "beard"], price: 550, savings: 150, duration: "65 min" },
+      { id: "pkg2", name: "Skin Glow", desc: "Refresh your skin and hair", services: ["facial", "headwash"], price: 899, savings: 201, duration: "60 min" },
+      { id: "pkg3", name: "Full Makeover", desc: "Complete hair and skin transformation", services: ["haircut", "color", "facial"], price: 2099, savings: 501, duration: "2.5 hrs" },
+      { id: "pkg4", name: "Bridal Luxe", desc: "The complete bridal experience", services: ["bridal", "facial", "waxing"], price: 8499, savings: 1301, duration: "4 hrs" },
+      { id: "pkg5", name: "Head-to-Toe Luxe", desc: "Every service we offer — the full works", services: ["haircut", "headwash", "beard", "color", "facial", "waxing", "spa", "manicure", "threading", "shave", "massage"], price: 12999, savings: 2451, duration: "7 hrs" },
+    ]
   },
   {
-    id: 2, name: "Urban Style", loc: "Kharar Main Road", dist: "3.8 km",
+    id: 2, name: "Urban Style", loc: "Kharar Main Road", dist: "3.8 km", mapX: 78, mapY: 72,
     rating: 4.5, reviews: 124, tier: "growth", photos: 15,
     hours: "9 AM - 9 PM", deal: "20% Off First Visit",
     staff: [
@@ -51,49 +57,68 @@ const salons = [
       { n: "Vikram", r: "Color Expert", gender: "m" },
       { n: "Neha", r: "Facial Specialist", gender: "f" }
     ],
-    services: { haircut: 250, headwash: 50, beard: 150, color: 800, facial: 600, shave: 100, massage: 200, threading: 40 }
+    services: { haircut: 250, headwash: 50, beard: 150, color: 800, facial: 600, shave: 100, massage: 200, threading: 40 },
+    packages: [
+      { id: "pkg1", name: "Quick Refresh", desc: "Haircut and wash combo", services: ["haircut", "headwash"], price: 249, savings: 51, duration: "45 min" },
+      { id: "pkg2", name: "Gent's Full", desc: "Complete grooming session", services: ["haircut", "beard", "headwash"], price: 369, savings: 81, duration: "65 min" },
+      { id: "pkg3", name: "Colour & Glow", desc: "Hair colour with a facial", services: ["color", "facial"], price: 1149, savings: 251, duration: "1.75 hrs" },
+    ]
   },
   {
-    id: 3, name: "Glow Beauty Parlour", loc: "Phase 3B2, Mohali", dist: "5.1 km",
+    id: 3, name: "Glow Beauty Parlour", loc: "Phase 3B2, Mohali", dist: "5.1 km", mapX: 42, mapY: 68,
     rating: 4.1, reviews: 38, tier: "starter", photos: 5,
     hours: "10 AM - 8 PM",
     staff: [],
-    services: { haircut: 200, headwash: 30, facial: 400, waxing: 350, manicure: 250, threading: 50 }
+    services: { haircut: 200, headwash: 30, facial: 400, waxing: 350, manicure: 250, threading: 50 },
+    packages: [
+      { id: "pkg1", name: "Glow Package", desc: "Facial with threading", services: ["facial", "threading"], price: 379, savings: 71, duration: "1 hr" },
+      { id: "pkg2", name: "Polish & Shine", desc: "Facial and manicure combo", services: ["facial", "manicure"], price: 549, savings: 101, duration: "1.5 hrs" },
+    ]
   },
   {
-    id: 4, name: "Royal Cuts", loc: "Phase 5, Mohali", dist: "2.4 km",
+    id: 4, name: "Royal Cuts", loc: "Phase 5, Mohali", dist: "2.4 km", mapX: 35, mapY: 52,
     rating: 4.7, reviews: 198, tier: "premium", photos: 28,
     hours: "9 AM - 9 PM", deal: "15% Off Combo",
     staff: [
       { n: "Harpreet", r: "Owner & Stylist", gender: "m" },
       { n: "Jaspreet", r: "Beard Expert", gender: "m" }
     ],
-    services: { haircut: 350, headwash: 80, beard: 180, color: 1000, shave: 130, massage: 250, spa: 1200 }
+    services: { haircut: 350, headwash: 80, beard: 180, color: 1000, shave: 130, massage: 250, spa: 1200 },
+    packages: [
+      { id: "pkg1", name: "Royal Groom", desc: "Haircut, beard & wash", services: ["haircut", "beard", "headwash"], price: 499, savings: 111, duration: "65 min" },
+      { id: "pkg2", name: "King's Treat", desc: "Haircut, shave & massage", services: ["haircut", "shave", "massage"], price: 599, savings: 131, duration: "1.25 hrs" },
+      { id: "pkg3", name: "Color & Spa", desc: "Hair color with full spa", services: ["color", "spa"], price: 1799, savings: 401, duration: "2 hrs" },
+    ]
   },
   {
-    id: 5, name: "Neha's Salon", loc: "Patiala Gate", dist: "6.3 km",
+    id: 5, name: "Neha's Salon", loc: "Patiala Gate", dist: "6.3 km", mapX: 18, mapY: 82,
     rating: 3.9, reviews: 22, tier: "starter", photos: 4,
     hours: "10 AM - 7 PM",
     staff: [],
-    services: { haircut: 180, facial: 350, threading: 40, waxing: 300, manicure: 200 }
+    services: { haircut: 180, facial: 350, threading: 40, waxing: 300, manicure: 200 },
+    packages: [
+      { id: "pkg1", name: "Essentials", desc: "Facial with threading", services: ["facial", "threading"], price: 329, savings: 61, duration: "1 hr" },
+      { id: "pkg2", name: "Full Pampering", desc: "Facial, waxing & manicure", services: ["facial", "waxing", "manicure"], price: 699, savings: 151, duration: "2 hrs" },
+    ]
   },
   {
-    id: 6, name: "Blade & Co.", loc: "Sector 22, Chandigarh", dist: "2.1 km",
+    id: 6, name: "Blade & Co.", loc: "Sector 22, Chandigarh", dist: "2.1 km", mapX: 62, mapY: 35,
     rating: 4.6, reviews: 87, tier: "growth", photos: 12,
     hours: "10 AM - 9 PM", deal: "\u20B999 Head Wash",
     staff: [
       { n: "Karan", r: "Master Barber", gender: "m" }
     ],
-    services: { haircut: 300, headwash: 99, beard: 160, shave: 120, massage: 180, color: 900 }
+    services: { haircut: 300, headwash: 99, beard: 160, shave: 120, massage: 180, color: 900 },
+    packages: [
+      { id: "pkg1", name: "The Classic", desc: "Haircut, headwash & beard trim", services: ["haircut", "headwash", "beard"], price: 449, savings: 110, duration: "65 min" },
+      { id: "pkg2", name: "Barber's Best", desc: "Haircut, shave & massage", services: ["haircut", "shave", "massage"], price: 479, savings: 121, duration: "1.25 hrs" },
+    ]
   },
 ];
 
 function getSvc(id) {
   return allServices.find(s => s.id === id);
 }
-
-
-/* js/icons.js */
 /* ═══════════════════════════════════════════════════
    SALOFY SVG ICON SYSTEM
    All icons return raw SVG strings.
@@ -277,9 +302,6 @@ const Icons = {
 function svcIcon(iconName, size, color) {
   return Icons[iconName] ? Icons[iconName](size, color) : Icons.sparkle(size, color);
 }
-
-
-/* js/shell.js */
 /* ═══════════════════════════════════════════════════
    SHELL & NAVIGATION
    Phone frame wrapper and bottom navigation
@@ -309,7 +331,7 @@ function Shell(innerHTML, opts = {}) {
 function BottomNav(active) {
   const items = [
     { key: 'home', label: 'Home', icon: (c, f) => Icons.home(22, c, f) },
-    { key: 'search', label: 'Search', icon: (c) => Icons.search(22, c) },
+    { key: 'map', label: 'Map', icon: (c) => Icons.mapPin(22, c) },
     { key: 'favorites', label: 'Saved', icon: (c, f) => Icons.heart(22, c, f) },
     { key: 'bookings', label: 'Bookings', icon: (c) => Icons.calendar(22, c) },
     { key: 'profile', label: 'Profile', icon: (c) => Icons.user(22, c) },
@@ -352,9 +374,6 @@ function DashboardNav(active) {
 function BackBtn(color) {
   return `<div class="back-btn" data-action="back">${Icons.back(18, color || C.text)}</div>`;
 }
-
-
-/* js/components.js */
 /* ═══════════════════════════════════════════════════
    SHARED COMPONENTS
    HTML string generators for reusable UI pieces
@@ -495,6 +514,71 @@ function FlashDealCard(title, sub, salon, hrs, min, sec) {
     </div>`;
 }
 
+function AreaMap(activeSalonId, filteredSalonIds) {
+  const showSalons = filteredSalonIds ? salons.filter(s => filteredSalonIds.includes(s.id)) : salons;
+  const vw = 335, vh = 280;
+
+  // Pin color by tier
+  function pinColor(s) {
+    if (activeSalonId === s.id) return C.primary;
+    if (s.tier === 'premium') return C.primary;
+    if (s.tier === 'growth') return C.verified;
+    return C.text3;
+  }
+
+  // Generate salon pin SVG groups
+  const pins = showSalons.map(s => {
+    const x = s.mapX / 100 * vw;
+    const y = s.mapY / 100 * vh;
+    const col = pinColor(s);
+    const isActive = activeSalonId === s.id;
+    const scale = isActive ? 1.3 : 1;
+    const name = s.name.length > 14 ? s.name.slice(0, 13) + '…' : s.name;
+    return `
+      <g data-map-pin="${s.id}" style="cursor:pointer" transform="translate(${x},${y})">
+        <circle r="14" fill="transparent" />
+        <g transform="scale(${scale}) translate(-8,-18)">
+          <path d="M8 0C3.6 0 0 3.6 0 8c0 5.4 8 12 8 12s8-6.6 8-12c0-4.4-3.6-8-8-8z" fill="${col}" opacity="${isActive ? 1 : 0.85}"/>
+          <circle cx="8" cy="8" r="3" fill="#fff"/>
+        </g>
+        ${isActive ? `<circle r="3" cy="-8" fill="${col}"><animate attributeName="r" values="3;6;3" dur="1.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/></circle>` : ''}
+        <text y="8" text-anchor="middle" font-size="8" font-weight="600" fill="${C.text2}" font-family="var(--font-body)">${name}</text>
+        <text y="17" text-anchor="middle" font-size="7" fill="${C.text3}" font-family="var(--font-body)">${s.dist}</text>
+      </g>`;
+  }).join('');
+
+  return `
+    <div style="margin:0 16px;border-radius:12px;border:1px solid ${C.border};overflow:hidden;background:${C.surface2};position:relative">
+      <svg viewBox="0 0 ${vw} ${vh}" width="100%" style="display:block">
+        <!-- Area fills -->
+        <path d="M120 15 Q200 5 280 20 Q320 50 310 100 Q295 130 240 140 Q180 145 140 120 Q100 100 90 60 Q95 25 120 15Z" fill="${C.surface}" stroke="${C.border}" stroke-width="1"/>
+        <text x="200" y="70" text-anchor="middle" font-size="10" fill="${C.text3}" font-family="var(--font-body)" font-weight="500" opacity="0.7">Chandigarh</text>
+
+        <path d="M30 150 Q80 135 130 145 Q160 160 155 200 Q145 240 100 255 Q55 260 30 240 Q10 215 15 185 Q18 160 30 150Z" fill="${C.surface}" stroke="${C.border}" stroke-width="1"/>
+        <text x="85" y="205" text-anchor="middle" font-size="10" fill="${C.text3}" font-family="var(--font-body)" font-weight="500" opacity="0.7">Mohali</text>
+
+        <ellipse cx="270" cy="210" rx="50" ry="40" fill="${C.surface}" stroke="${C.border}" stroke-width="1" opacity="0.6"/>
+        <text x="270" y="215" text-anchor="middle" font-size="9" fill="${C.text3}" font-family="var(--font-body)" font-weight="500" opacity="0.5">Kharar</text>
+
+        <!-- Roads -->
+        <line x1="50" y1="120" x2="300" y2="90" stroke="${C.border}" stroke-width="1" stroke-dasharray="6 4" opacity="0.6"/>
+        <line x1="160" y1="10" x2="140" y2="260" stroke="${C.border}" stroke-width="1" stroke-dasharray="6 4" opacity="0.6"/>
+        <line x1="20" y1="180" x2="310" y2="200" stroke="${C.border}" stroke-width="1" stroke-dasharray="6 4" opacity="0.4"/>
+
+        <!-- "You are here" dot -->
+        <circle cx="${vw * 0.45}" cy="${vh * 0.45}" r="4" fill="${C.info}" opacity="0.9">
+          <animate attributeName="r" values="4;8;4" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.9;0.3;0.9" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="${vw * 0.45}" cy="${vh * 0.45}" r="4" fill="${C.info}"/>
+        <circle cx="${vw * 0.45}" cy="${vh * 0.45}" r="2" fill="#fff"/>
+
+        <!-- Salon pins -->
+        ${pins}
+      </svg>
+    </div>`;
+}
+
 function ToggleSwitch(on) {
   return `<div class="toggle${on ? ' toggle--on' : ''}"><div class="toggle__knob"></div></div>`;
 }
@@ -506,9 +590,6 @@ function SectionHeader(text, seeAll, iconHtml) {
       ${seeAll ? `<span class="section-header__see-all">See all</span>` : ''}
     </div>`;
 }
-
-
-/* js/screens/splash.js */
 function renderSplash() {
   return Shell(`
     <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg, #1A1A2E 0%, #2a2040 50%, #1A1A2E 100%);margin-top:-40px;padding-bottom:60px">
@@ -521,9 +602,6 @@ function renderSplash() {
     </div>
   `, { noNav: true, statusDark: true });
 }
-
-
-/* js/screens/login.js */
 function renderLogin() {
   return Shell(`
     <div style="padding:60px 24px 24px">
@@ -557,9 +635,6 @@ function renderLogin() {
     </div>
   `, { noNav: true });
 }
-
-
-/* js/screens/otp.js */
 function renderOTP() {
   const digits = ['4', '7', '2', '9', '', ''];
   return Shell(`
@@ -582,9 +657,6 @@ function renderOTP() {
     </div>
   `, { noNav: true });
 }
-
-
-/* js/screens/home.js */
 function renderHome() {
   const popularSvcs = [
     { id: 'haircut', icon: 'scissors', label: 'Haircut' },
@@ -730,9 +802,6 @@ function renderHome() {
     </div>
   `, { activeTab: 'home' });
 }
-
-
-/* js/screens/search-input.js */
 function renderSearchInput() {
   const selSvcs = AppState.selectedServices || [];
   const recent  = ['Haircut + Head Wash', 'Facial', 'Beard Trim', 'Bridal Package'];
@@ -798,11 +867,9 @@ function renderSearchInput() {
     </div>
   `, { noNav: true });
 }
-
-
-/* js/screens/search-results.js */
 function renderSearchResults() {
   const selSvcs = AppState.selectedServices || [];
+  const viewMode = AppState.searchViewMode || 'list';
   const results = salons
     .filter(s => selSvcs.length === 0 || selSvcs.some(sid => s.services[sid]))
     .sort((a, b) => ({ premium: 0, growth: 1, starter: 2 })[a.tier] - ({ premium: 0, growth: 1, starter: 2 })[b.tier]);
@@ -829,10 +896,43 @@ function renderSearchResults() {
       <span data-nav="search" style="font-size:11px;color:${C.primary};font-weight:600;white-space:nowrap;cursor:pointer">${Icons.plus(12, C.primary)} Edit</span>
     </div>` : ''}
 
-    <div style="padding:4px 20px 8px;font-size:12px;color:${C.text3}">
-      ${results.length} salon${results.length !== 1 ? 's' : ''} found${selSvcs.length > 0 ? ` \u2022 showing prices for your services` : ''}
+    <!-- Count + View Toggle -->
+    <div style="padding:4px 20px 8px;display:flex;justify-content:space-between;align-items:center">
+      <div style="font-size:12px;color:${C.text3}">
+        ${results.length} salon${results.length !== 1 ? 's' : ''} found${selSvcs.length > 0 ? ` \u2022 showing prices for your services` : ''}
+      </div>
+      <div style="display:flex;border:1px solid ${C.border};border-radius:8px;overflow:hidden">
+        <div data-action="search-view-list" style="padding:5px 10px;cursor:pointer;display:flex;align-items:center;gap:3px;font-size:11px;font-weight:500;${viewMode === 'list' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
+          ${Icons.filter(12, viewMode === 'list' ? '#fff' : C.text3)} List
+        </div>
+        <div data-action="search-view-map" style="padding:5px 10px;cursor:pointer;display:flex;align-items:center;gap:3px;font-size:11px;font-weight:500;${viewMode === 'map' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
+          ${Icons.mapPin(12, viewMode === 'map' ? '#fff' : C.text3)} Map
+        </div>
+      </div>
     </div>
 
+    ${viewMode === 'map' ? `
+    <!-- Map View -->
+    ${AreaMap(null, results.map(s => s.id))}
+    <div style="padding:12px 20px;display:flex;flex-direction:column;gap:8px">
+      ${results.map(s => `
+        <div data-goto-salon="${s.id}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:${C.surface};border:1px solid ${C.border};border-radius:10px;cursor:pointer">
+          <div style="width:32px;height:32px;background:${C.primaryS};border-radius:8px;display:flex;align-items:center;justify-content:center">
+            ${Icons.mapPin(16, s.tier === 'premium' ? C.primary : s.tier === 'growth' ? C.verified : C.text3)}
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:600;color:${C.text};display:flex;align-items:center;gap:4px">
+              ${s.name}
+              ${s.tier === 'premium' ? TopDot() : s.tier === 'growth' ? VerifiedDot() : ''}
+            </div>
+            <div style="font-size:11px;color:${C.text3}">${s.loc} &bull; ${s.dist}${s.deal ? ` &bull; <span style="color:${C.primary};font-weight:500">${s.deal}</span>` : ''}</div>
+          </div>
+          ${Icons.forward(14, C.text3)}
+        </div>
+      `).join('')}
+    </div>
+    ` : `
+    <!-- List View -->
     <!-- Pinned -->
     ${results.some(s => s.tier === 'premium') ? `
     <div style="padding:4px 20px;font-size:10px;font-weight:700;color:${C.primary};text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center;gap:4px">
@@ -847,11 +947,64 @@ function renderSearchResults() {
         return `${divider}<div data-goto-salon="${s.id}">${SalonResultCard(s, selSvcs, AppState.favorites.has(s.id))}</div>`;
       }).join('')}
     </div>
-  `, { activeTab: 'search' });
+    `}
+  `, { activeTab: 'home' });
 }
+function renderMap() {
+  const active = AppState.mapActiveSalon;
 
+  return Shell(`
+    <!-- Header -->
+    <div style="padding:44px 20px 10px;display:flex;align-items:center;gap:12px">
+      <div style="font-family:var(--font-heading);font-size:18px;font-weight:700;color:${C.text};flex:1">Explore</div>
+      <div style="font-size:12px;color:${C.text3};display:flex;align-items:center;gap:4px">${Icons.mapPin(12, C.primary)} Chandigarh / Mohali</div>
+    </div>
 
-/* js/screens/salon-profile.js */
+    <!-- Map -->
+    <div style="padding:0 0 8px">
+      ${AreaMap(active ? active.id : null, null)}
+    </div>
+
+    <!-- Legend -->
+    <div style="display:flex;gap:12px;padding:0 20px 12px;justify-content:center">
+      <span style="display:flex;align-items:center;gap:4px;font-size:9px;color:${C.text3}"><span style="width:8px;height:8px;border-radius:50%;background:${C.primary};display:inline-block"></span> Top Salon</span>
+      <span style="display:flex;align-items:center;gap:4px;font-size:9px;color:${C.text3}"><span style="width:8px;height:8px;border-radius:50%;background:${C.verified};display:inline-block"></span> Verified</span>
+      <span style="display:flex;align-items:center;gap:4px;font-size:9px;color:${C.text3}"><span style="width:8px;height:8px;border-radius:50%;background:${C.text3};display:inline-block"></span> Salon</span>
+      <span style="display:flex;align-items:center;gap:4px;font-size:9px;color:${C.text3}"><span style="width:8px;height:8px;border-radius:50%;background:${C.info};display:inline-block"></span> You</span>
+    </div>
+
+    <!-- Active salon card OR hint -->
+    ${active ? `
+    <div style="padding:0 16px 8px" data-goto-salon="${active.id}">
+      ${SalonResultCard(active, [], AppState.favorites.has(active.id))}
+    </div>
+    ` : `
+    <div style="padding:12px 20px;text-align:center;font-size:12px;color:${C.text3}">Tap a pin to see salon details</div>
+    `}
+
+    <!-- All Locations list -->
+    <div style="padding:8px 20px 4px;font-size:14px;font-weight:600;color:${C.text}">All Locations</div>
+    <div style="padding:4px 16px 16px;display:flex;flex-direction:column;gap:8px">
+      ${salons.map(s => {
+        const isActive = active && active.id === s.id;
+        return `
+        <div data-map-pin="${s.id}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:${isActive ? C.primaryS : C.surface};border:1px solid ${isActive ? C.primary+'44' : C.border};border-radius:10px;cursor:pointer">
+          <div style="width:32px;height:32px;background:${isActive ? C.primary+'18' : C.surface2};border-radius:8px;display:flex;align-items:center;justify-content:center">
+            ${Icons.mapPin(16, isActive ? C.primary : C.text3)}
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:600;color:${C.text};display:flex;align-items:center;gap:4px">
+              ${s.name}
+              ${s.tier === 'premium' ? TopDot() : s.tier === 'growth' ? VerifiedDot() : ''}
+            </div>
+            <div style="font-size:11px;color:${C.text3}">${s.loc} &bull; ${s.dist}</div>
+          </div>
+          ${Icons.forward(14, C.text3)}
+        </div>`;
+      }).join('')}
+    </div>
+  `, { activeTab: 'map' });
+}
 function renderSalonProfile() {
   const s = AppState.selectedSalon;
   const isPremium = s.tier === 'premium';
@@ -859,10 +1012,11 @@ function renderSalonProfile() {
   const isStarter = s.tier === 'starter';
   const activeTab = AppState.salonTab || 'Services';
   const selSvcs   = AppState.salonServices || [];
+  const selPkgs   = AppState.salonPackages || [];
 
   const tabs = isStarter
-    ? ['Services', 'Reviews', 'Photos']
-    : ['Services', 'Staff', 'Reviews', 'Photos', 'Video'];
+    ? ['Services', 'Packages', 'Reviews', 'Photos']
+    : ['Services', 'Packages', 'Staff', 'Reviews', 'Photos', 'Video'];
 
   const heroGrad  = isPremium
     ? 'linear-gradient(135deg, #3a2058, #1e3a4f)'
@@ -870,9 +1024,12 @@ function renderSalonProfile() {
   const heroColor = isPremium ? 'rgba(255,255,255,0.35)' : C.text3;
   const backColor = isPremium ? '#fff' : C.text;
 
-  const subtotal = selSvcs.filter(sid => s.services[sid]).reduce((a, sid) => a + s.services[sid], 0);
+  const svcTotal = selSvcs.filter(sid => s.services[sid]).reduce((a, sid) => a + s.services[sid], 0);
+  const pkgTotal = selPkgs.reduce((a, pkgId) => { const p = (s.packages||[]).find(pk => pk.id === pkgId); return a + (p ? p.price : 0); }, 0);
+  const subtotal = svcTotal + pkgTotal;
   const dp       = s.deal ? parseInt(s.deal) || 0 : 0;
   const discount = (!isStarter && dp > 0) ? Math.round(subtotal * dp / 100) : 0;
+  const totalItems = selSvcs.length + selPkgs.length;
   const isFav    = AppState.favorites.has(s.id);
 
   /* ── Tab Panels ── */
@@ -904,13 +1061,53 @@ function renderSalonProfile() {
             </div>`;
         }).join('')}
       </div>
-      <!-- Sticky summary bar -->
-      <div class="salon-summary-bar" style="display:${selSvcs.length > 0 ? 'flex' : 'none'};position:sticky;bottom:0;left:0;right:0;padding:10px 20px 12px;background:${C.bg};border-top:1px solid ${C.border};align-items:center;justify-content:space-between;gap:12px">
-        <div>
-          <div style="font-size:11px;color:${C.text3}"><span class="ssb-count">${selSvcs.length} service${selSvcs.length > 1 ? 's' : ''}</span> selected</div>
-          <div style="font-size:16px;font-weight:700;color:${C.primary}"><span class="ssb-price">\u20B9${subtotal}</span>${discount > 0 ? ` <span style="font-size:11px;color:${C.success};font-weight:500">-\u20B9${discount} off</span>` : ''}</div>
-        </div>
-        <button data-action="book-now" style="padding:12px 22px;background:${C.primary};color:#fff;border:none;border-radius:12px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer">Book Now</button>
+    </div>`;
+
+  // PACKAGES panel
+  const packagesPanel = `
+    <div class="tab-panel" data-panel="Packages" style="${activeTab === 'Packages' ? '' : 'display:none'}">
+      <div style="padding:0 20px 4px">
+        <div style="font-size:11px;color:${C.text3};margin-bottom:12px">Pre-bundled services at a special price</div>
+        ${(s.packages || []).map(pkg => {
+          const sel = selPkgs.includes(pkg.id);
+          return `
+            <div class="pkg-card${sel ? ' pkg-card--active' : ''}" data-pkg-toggle="${pkg.id}">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
+                <div style="flex:1">
+                  <div style="font-size:14px;font-weight:600;color:${C.text}">${pkg.name}</div>
+                  <div style="font-size:11px;color:${C.text3};margin-top:2px">${pkg.desc}</div>
+                </div>
+                <div class="pkg-card__check" style="width:22px;height:22px;border-radius:6px;border:2px solid ${sel ? C.primary : C.border};background:${sel ? C.primary : 'transparent'};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  ${sel ? Icons.check(13, '#fff') : ''}
+                </div>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px">
+                ${(() => {
+                  const limit = 4;
+                  const shown = pkg.services.slice(0, limit);
+                  const hidden = pkg.services.slice(limit);
+                  const extra = hidden.length;
+                  const hiddenId = `pkg-extra-${s.id}-${pkg.id}`;
+                  const chipStyle = (active) => `font-size:10px;padding:3px 8px;background:${active ? C.primaryS : C.surface2};border:1px solid ${active ? C.primary+'44' : C.border};border-radius:10px;color:${active ? C.primary : C.text2}`;
+                  return shown.map(sid => { const svc = getSvc(sid); return svc ? `<span style="${chipStyle(sel)}">${svc.label}</span>` : ''; }).join('')
+                    + (extra > 0 ? `
+                      <span id="${hiddenId}" style="display:none;flex-wrap:wrap;gap:5px;">
+                        ${hidden.map(sid => { const svc = getSvc(sid); return svc ? `<span style="${chipStyle(sel)}">${svc.label}</span>` : ''; }).join('')}
+                      </span>
+                      <span onclick="event.stopPropagation();const el=document.getElementById('${hiddenId}');const isOpen=el.style.display!=='none';el.style.display=isOpen?'none':'inline-flex';this.textContent=isOpen?'+${extra} more':'Show less';"
+                        style="font-size:10px;padding:3px 8px;background:${C.surface3};border:1px solid ${C.border};border-radius:10px;color:${C.primary};font-weight:600;cursor:pointer">+${extra} more</span>` : '');
+                })()}
+                <span style="font-size:10px;padding:3px 8px;background:${C.surface2};border:1px solid ${C.border};border-radius:10px;color:${C.text3}">${pkg.duration}</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <div>
+                  <span style="font-size:17px;font-weight:700;color:${C.primary}">\u20B9${pkg.price}</span>
+                  <span style="font-size:11px;color:${C.success};font-weight:500;margin-left:6px">Save \u20B9${pkg.savings}</span>
+                </div>
+                <div style="font-size:10px;color:${C.text3}">vs \u20B9${pkg.price + pkg.savings} separately</div>
+              </div>
+            </div>`;
+        }).join('')}
       </div>
     </div>`;
 
@@ -1082,20 +1279,28 @@ function renderSalonProfile() {
 
     <!-- Tab panels -->
     ${servicesPanel}
+    ${packagesPanel}
     ${staffPanel}
     ${reviewsPanel}
     ${photosPanel}
     ${videoPanel}
+
+    <!-- Global sticky summary bar (services + packages) -->
+    <div class="salon-summary-bar" style="display:${totalItems > 0 ? 'flex' : 'none'};position:sticky;bottom:0;left:0;right:0;padding:10px 20px 12px;background:${C.bg};border-top:1px solid ${C.border};align-items:center;justify-content:space-between;gap:12px">
+      <div>
+        <div style="font-size:11px;color:${C.text3}"><span class="ssb-count">${selSvcs.length > 0 && selPkgs.length > 0 ? `${selSvcs.length} service${selSvcs.length > 1 ? 's' : ''} + ${selPkgs.length} package${selPkgs.length > 1 ? 's' : ''}` : selSvcs.length > 0 ? `${selSvcs.length} service${selSvcs.length > 1 ? 's' : ''}` : `${selPkgs.length} package${selPkgs.length > 1 ? 's' : ''}`}</span> selected</div>
+        <div style="font-size:16px;font-weight:700;color:${C.primary}"><span class="ssb-price">\u20B9${subtotal}</span>${discount > 0 ? ` <span style="font-size:11px;color:${C.success};font-weight:500">-\u20B9${discount} off</span>` : ''}</div>
+      </div>
+      <button data-action="book-now" style="padding:12px 22px;background:${C.primary};color:#fff;border:none;border-radius:12px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer">Book Now</button>
+    </div>
   `, { activeTab: 'search' });
 }
-
-
-/* js/screens/booking.js */
 function renderBooking() {
   const s       = AppState.selectedSalon || salons[1];
+  const selPkgs = (AppState.salonPackages || []).filter(pkgId => (s.packages||[]).some(p => p.id === pkgId));
   const selSvcs = (AppState.salonServices && AppState.salonServices.length > 0)
     ? AppState.salonServices.filter(sid => s.services[sid])
-    : Object.keys(s.services).slice(0, 2);
+    : selPkgs.length > 0 ? [] : Object.keys(s.services).slice(0, 2);
   const dates   = [
     { d:'Today',n:'28' },{ d:'Sun',n:'29' },{ d:'Mon',n:'30' },
     { d:'Tue',n:'31'  },{ d:'Wed',n:'1'  },{ d:'Thu',n:'2'  },
@@ -1103,7 +1308,9 @@ function renderBooking() {
   const times   = ['9:00','9:30','10:00','10:30','11:00','11:30','12:00','12:30','2:00','2:30','3:00','3:30'];
   const selDate = AppState.booking.dateIdx;
   const selTime = AppState.booking.time;
-  const subtotal = selSvcs.reduce((a, sid) => a + (s.services[sid] || 0), 0);
+  const svcTotal = selSvcs.reduce((a, sid) => a + (s.services[sid] || 0), 0);
+  const pkgTotal = selPkgs.reduce((a, pkgId) => { const p = (s.packages||[]).find(pk => pk.id === pkgId); return a + (p ? p.price : 0); }, 0);
+  const subtotal = svcTotal + pkgTotal;
   const dp       = s.deal ? parseInt(s.deal) || 0 : 0;
   const discount = (s.tier !== 'starter' && dp > 0) ? Math.round(subtotal * dp / 100) : 0;
 
@@ -1138,18 +1345,37 @@ function renderBooking() {
 
     <!-- Selected services summary (editable) -->
     <div style="padding:0 20px 12px">
-      <div style="font-size:12px;font-weight:600;color:${C.text2};margin-bottom:6px">Your services</div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div style="font-size:12px;font-weight:600;color:${C.text2}">Your selection</div>
+        <span data-nav="back" style="font-size:11px;color:${C.primary};font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:3px">
+          ${Icons.edit(11, C.primary)} Edit
+        </span>
+      </div>
+      ${selPkgs.map(pkgId => {
+        const pkg = (s.packages||[]).find(p => p.id === pkgId);
+        if (!pkg) return '';
+        return `<div style="background:${C.primaryS};border:1px solid rgba(212,160,23,0.3);border-radius:12px;padding:10px 12px;margin-bottom:6px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="font-size:9px;font-weight:700;letter-spacing:0.5px;color:#fff;background:${C.primary};padding:2px 6px;border-radius:6px">PACKAGE</span>
+              <span style="font-size:13px;font-weight:600;color:${C.text}">${pkg.name}</span>
+            </div>
+            <span style="font-size:13px;font-weight:700;color:${C.primary}">\u20B9${pkg.price}</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px">
+            ${pkg.services.map(sid => { const svc = getSvc(sid); return svc ? `<span style="font-size:10px;padding:2px 7px;background:rgba(255,255,255,0.6);border-radius:8px;color:${C.text2}">${svc.label}</span>` : ''; }).join('')}
+            <span style="font-size:10px;padding:2px 7px;background:${C.successS};color:${C.success};border-radius:8px">Save \u20B9${pkg.savings}</span>
+          </div>
+        </div>`;
+      }).join('')}
+      ${selSvcs.length > 0 ? `<div style="display:flex;gap:6px;flex-wrap:wrap">
         ${selSvcs.map(sid => {
           const svc = getSvc(sid);
           return `<span style="font-size:11px;padding:4px 10px;background:${C.primaryS};border:1px solid rgba(212,160,23,0.25);border-radius:16px;color:${C.primary};font-weight:500;display:inline-flex;align-items:center;gap:4px">
             ${svcIcon(svc.icon, 12, C.primary)} ${svc.label} \u20B9${s.services[sid]}
           </span>`;
         }).join('')}
-        <span data-nav="back" style="font-size:11px;color:${C.primary};font-weight:600;padding:4px 8px;cursor:pointer;display:inline-flex;align-items:center;gap:3px">
-          ${Icons.edit(11, C.primary)} Edit
-        </span>
-      </div>
+      </div>` : ''}
     </div>
 
     <!-- Date picker -->
@@ -1186,6 +1412,14 @@ function renderBooking() {
           <span>\u20B9${s.services[sid]}</span>
         </div>`;
       }).join('')}
+      ${selPkgs.map(pkgId => {
+        const pkg = (s.packages||[]).find(p => p.id === pkgId);
+        if (!pkg) return '';
+        return `<div style="display:flex;justify-content:space-between;font-size:13px;color:${C.text};margin-bottom:6px">
+          <span style="color:${C.text3};display:flex;align-items:center;gap:5px">${Icons.scissors(12, C.text3)} ${pkg.name} <span style="font-size:10px;background:${C.successS};color:${C.success};padding:1px 5px;border-radius:6px">Save \u20B9${pkg.savings}</span></span>
+          <span>\u20B9${pkg.price}</span>
+        </div>`;
+      }).join('')}
       ${discount > 0 ? `
         <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px">
           <span style="color:${C.success}">Discount (${dp}%)</span>
@@ -1205,15 +1439,15 @@ function renderBooking() {
     </div>
   `, { activeTab: 'bookings' });
 }
-
-
-/* js/screens/booking-confirmed.js */
 function renderBookingConfirmed() {
   const s = AppState.selectedSalon || salons[1];
+  const selPkgs = (AppState.salonPackages || []).filter(pkgId => (s.packages||[]).some(p => p.id === pkgId));
   const selSvcs = (AppState.salonServices && AppState.salonServices.length > 0)
     ? AppState.salonServices.filter(sid => s.services[sid])
-    : Object.keys(s.services).slice(0, 2);
-  const subtotal = selSvcs.reduce((a, sid) => a + (s.services[sid] || 0), 0);
+    : selPkgs.length > 0 ? [] : Object.keys(s.services).slice(0, 2);
+  const svcTotal = selSvcs.reduce((a, sid) => a + (s.services[sid] || 0), 0);
+  const pkgTotal = selPkgs.reduce((a, pkgId) => { const p = (s.packages||[]).find(pk => pk.id === pkgId); return a + (p ? p.price : 0); }, 0);
+  const subtotal = svcTotal + pkgTotal;
   const dp       = s.deal ? parseInt(s.deal) || 0 : 0;
   const discount = (s.tier !== 'starter' && dp > 0) ? Math.round(subtotal * dp / 100) : 0;
   const dates    = ['Today','Sun 29','Mon 30','Tue 31','Wed 1','Thu 2'];
@@ -1252,8 +1486,22 @@ function renderBookingConfirmed() {
             <div style="font-size:13px;font-weight:600;color:${C.primary};margin-top:2px">\u20B9${subtotal - discount}</div>
           </div>
         </div>
-        <div style="font-size:10px;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Services</div>
-        <div style="font-size:12px;color:${C.text2};margin-bottom:12px">${selSvcs.map(sid => getSvc(sid)?.label || sid).join(', ')}</div>
+        <div style="font-size:10px;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">Booked</div>
+        ${selPkgs.map(pkgId => {
+          const pkg = (s.packages||[]).find(p => p.id === pkgId);
+          if (!pkg) return '';
+          return `<div style="background:${C.primaryS};border:1px solid rgba(212,160,23,0.3);border-radius:10px;padding:8px 10px;margin-bottom:6px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+              <div style="display:flex;align-items:center;gap:5px">
+                <span style="font-size:9px;font-weight:700;letter-spacing:0.5px;color:#fff;background:${C.primary};padding:2px 5px;border-radius:5px">PACKAGE</span>
+                <span style="font-size:12px;font-weight:600;color:${C.text}">${pkg.name}</span>
+              </div>
+              <span style="font-size:12px;font-weight:700;color:${C.primary}">\u20B9${pkg.price}</span>
+            </div>
+            <div style="font-size:11px;color:${C.text2}">${pkg.services.map(sid => getSvc(sid)?.label).filter(Boolean).join(' · ')}</div>
+          </div>`;
+        }).join('')}
+        ${selSvcs.length > 0 ? `<div style="font-size:12px;color:${C.text2};margin-bottom:12px">${selSvcs.map(sid => getSvc(sid)?.label || sid).join(', ')}</div>` : ''}
         <div style="padding-top:10px;border-top:1px solid ${C.border}">${PayAtSalon()}</div>
       </div>
 
@@ -1275,9 +1523,6 @@ function renderBookingConfirmed() {
     </div>
   `, { activeTab: 'bookings' });
 }
-
-
-/* js/screens/notifications.js */
 function renderNotifications() {
   const ns = [
     { icon: Icons.lightning(16, '#fff'), bg: C.error, title: 'Flash Deal: 50% Off Facials!', body: 'Luxe Hair Studio \u2014 only 2 hrs left.', time: '12 min ago', category: 'flash', action: 'go-deals' },
@@ -1336,14 +1581,12 @@ function renderNotifications() {
     </div>
   `, { activeTab: 'home' });
 }
-
-
-/* js/screens/my-bookings.js */
 function renderMyBookings() {
   const bks = [
     { idx: 0, salon: salons[1], date: 'Sun, Mar 29', time: '10:30 AM', services: "Men's Haircut, Beard Styling", status: 'upcoming' },
-    { idx: 1, salon: salons[0], date: 'Sat, Mar 22', time: '2:00 PM',  services: 'Gold Facial',                status: 'completed' },
-    { idx: 2, salon: salons[2], date: 'Mon, Mar 15', time: '11:00 AM', services: 'Basic Facial, Waxing',        status: 'completed' },
+    { idx: 1, salon: salons[0], date: 'Wed, Mar 26', time: '11:00 AM', pkg: salons[0].packages[2], status: 'upcoming' },
+    { idx: 2, salon: salons[0], date: 'Sat, Mar 22', time: '2:00 PM',  services: 'Gold Facial',                status: 'completed' },
+    { idx: 3, salon: salons[2], date: 'Mon, Mar 15', time: '11:00 AM', services: 'Basic Facial, Waxing',        status: 'completed' },
   ];
 
   return Shell(`
@@ -1372,7 +1615,17 @@ function renderMyBookings() {
             <div style="display:flex;align-items:center;gap:4px">${Icons.calendar(12, C.text3)}<span style="color:${C.text3}"> ${b.date}</span></div>
             <div style="display:flex;align-items:center;gap:4px">${Icons.clock(12, C.text3)}<span style="color:${C.text3}"> ${b.time}</span></div>
           </div>
-          <div style="font-size:12px;color:${C.text2};margin-top:6px">${b.services}</div>
+          ${b.pkg ? `
+            <div style="background:${C.primaryS};border:1px solid rgba(212,160,23,0.3);border-radius:10px;padding:8px 10px;margin-top:6px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+                <div style="display:flex;align-items:center;gap:5px">
+                  <span style="font-size:9px;font-weight:700;letter-spacing:0.5px;color:#fff;background:${C.primary};padding:2px 5px;border-radius:5px">PACKAGE</span>
+                  <span style="font-size:12px;font-weight:600;color:${C.text}">${b.pkg.name}</span>
+                </div>
+                <span style="font-size:12px;font-weight:700;color:${C.primary}">\u20B9${b.pkg.price}</span>
+              </div>
+              <div style="font-size:11px;color:${C.text2}">${b.pkg.services.map(sid => getSvc(sid)?.label).filter(Boolean).join(' · ')}</div>
+            </div>` : `<div style="font-size:12px;color:${C.text2};margin-top:6px">${b.services}</div>`}
 
           ${b.status === 'upcoming' ? `
             <div style="margin-top:8px">${PayAtSalon()}</div>
@@ -1402,9 +1655,6 @@ function renderMyBookings() {
     </div>
   `, { activeTab: 'bookings' });
 }
-
-
-/* js/screens/favorites.js */
 function renderFavorites() {
   const favSalons = [salons[0], salons[3]]; // Luxe and Royal Cuts
 
@@ -1419,9 +1669,6 @@ function renderFavorites() {
     </div>
   `, { activeTab: 'favorites' });
 }
-
-
-/* js/screens/profile.js */
 function renderProfile() {
   const menuItems = [
     { icon: Icons.user(16, C.text2),     label: 'Edit Profile',          sub: 'Name, email, phone',     nav: 'edit-profile'            },
@@ -1484,9 +1731,6 @@ function renderProfile() {
     </div>
   `, { activeTab: 'profile' });
 }
-
-
-/* js/screens/deals.js */
 function renderDeals() {
   const deals = [
     { salon: salons[1], percent: '20%', title: '20% Off Your First Visit', desc: 'Valid on all services for new customers', icon: 'scissors' },
@@ -1540,9 +1784,6 @@ function renderDeals() {
     </div>
   `, { activeTab: 'search' });
 }
-
-
-/* js/screens/dashboard-growth.js */
 function renderDashboardGrowth() {
   const stats = [
     { label: 'Profile Views', value: '1,247', change: '+23%', up: true, sub: 'vs last month' },
@@ -1609,9 +1850,6 @@ function renderDashboardGrowth() {
     </div>
   `, { activeTab: 'dashboard', statusDark: true, navType: 'dashboard' });
 }
-
-
-/* js/screens/dashboard-premium.js */
 function renderDashboardPremium() {
   const stats = [
     { label: 'Profile Views', value: '3,842', change: '+41%', up: true, sub: 'vs last month' },
@@ -1696,9 +1934,6 @@ function renderDashboardPremium() {
     </div>
   `, { activeTab: 'dashboard', statusDark: true, navType: 'dashboard' });
 }
-
-
-/* js/screens/edit-profile.js */
 function renderEditProfile() {
   return Shell(`
     <div style="padding:44px 20px 12px;display:flex;align-items:center;gap:10px">
@@ -1743,9 +1978,6 @@ function renderEditProfile() {
     </div>
   `, { activeTab: 'profile' });
 }
-
-
-/* js/screens/saved-addresses.js */
 function renderSavedAddresses() {
   const addresses = [
     { label: 'Home', icon: Icons.address(18, C.primary), address: '123, Phase 3B2, Mohali, Punjab 160059', isDefault: true },
@@ -1785,9 +2017,6 @@ function renderSavedAddresses() {
     </div>
   `, { activeTab: 'profile' });
 }
-
-
-/* js/screens/refer-earn.js */
 function renderReferEarn() {
   return Shell(`
     <div style="padding:44px 20px 12px;display:flex;align-items:center;gap:10px">
@@ -1865,9 +2094,6 @@ function renderReferEarn() {
     </div>
   `, { activeTab: 'profile' });
 }
-
-
-/* js/screens/notification-settings.js */
 function renderNotificationSettings() {
   const settings = [
     { label: 'Push Notifications', sub: 'Receive alerts on your device', on: true, icon: Icons.bell(16, C.text2) },
@@ -1901,9 +2127,6 @@ function renderNotificationSettings() {
     </div>
   `, { activeTab: 'profile' });
 }
-
-
-/* js/screens/help-support.js */
 function renderHelpSupport() {
   const faqs = [
     { q: 'How do I book an appointment?', a: 'Search for a salon or service, select the services you want, choose a date & time, and confirm your booking. You pay directly at the salon.' },
@@ -1966,9 +2189,6 @@ function renderHelpSupport() {
     </div>
   `, { activeTab: 'profile' });
 }
-
-
-/* js/screens/reschedule.js */
 function renderReschedule() {
   const bk = AppState.rescheduleBooking || {
     salon: salons[1], date: 'Sun, Mar 29', time: '10:30 AM', services: "Men's Haircut, Beard Styling"
@@ -2043,9 +2263,6 @@ function renderReschedule() {
     </div>
   `, { activeTab: 'bookings' });
 }
-
-
-/* js/app.js */
 /* ═══════════════════════════════════════════════════
    SALOFY APP CONTROLLER
    State management, navigation, event delegation
@@ -2058,11 +2275,14 @@ const AppState = {
   selectedSalon: salons[0],          // salon object
   selectedServices: [],              // services picked in search (pre-fill salon)
   salonServices: [],                 // services selected on salon profile page
+  salonPackages: [],                 // packages selected on salon profile page
   salonTab: 'Services',
   favorites: new Set([1, 4]),
   searchQuery: '',
   booking: { dateIdx: 1, time: '10:30' },
   rescheduleBooking: null,           // booking being rescheduled
+  mapActiveSalon: null,              // selected salon on map screen
+  searchViewMode: 'list',            // 'list' or 'map' on search results
 };
 
 /* ── Screen Registry ── */
@@ -2073,11 +2293,12 @@ const screens = [
   { id: 'otp',                 label: 'OTP',                 group: 'Auth',       render: renderOTP },
   // Customer
   { id: 'home',                label: 'Home',                group: 'Customer',   render: renderHome },
+  { id: 'map',                 label: 'Map',                 group: 'Customer',   render: renderMap },
   { id: 'search-input',        label: 'Search',              group: 'Customer',   render: renderSearchInput },
   { id: 'search-results',      label: 'Results',             group: 'Customer',   render: renderSearchResults },
-  { id: 'salon-starter',       label: 'Salon (Starter)',     group: 'Customer',   render: () => { AppState.selectedSalon = salons[2]; AppState.salonServices = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
-  { id: 'salon-growth',        label: 'Salon (Growth)',      group: 'Customer',   render: () => { AppState.selectedSalon = salons[1]; AppState.salonServices = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
-  { id: 'salon-premium',       label: 'Salon (Premium)',     group: 'Customer',   render: () => { AppState.selectedSalon = salons[0]; AppState.salonServices = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
+  { id: 'salon-starter',       label: 'Salon (Starter)',     group: 'Customer',   render: () => { AppState.selectedSalon = salons[2]; AppState.salonServices = []; AppState.salonPackages = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
+  { id: 'salon-growth',        label: 'Salon (Growth)',      group: 'Customer',   render: () => { AppState.selectedSalon = salons[1]; AppState.salonServices = []; AppState.salonPackages = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
+  { id: 'salon-premium',       label: 'Salon (Premium)',     group: 'Customer',   render: () => { AppState.selectedSalon = salons[0]; AppState.salonServices = []; AppState.salonPackages = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
   { id: 'booking',             label: 'Booking',             group: 'Customer',   render: renderBooking },
   { id: 'booking-confirmed',   label: 'Confirmed',           group: 'Customer',   render: renderBookingConfirmed },
   { id: 'deals',               label: 'Deals',               group: 'Customer',   render: renderDeals },
@@ -2145,6 +2366,7 @@ function goToSalon(salonId, preSelected = []) {
   navigate(screenId, {
     selectedSalon: salon,
     salonServices: preSelected.filter(sid => salon.services[sid]),
+    salonPackages: [],
     salonTab: 'Services',
   });
 }
@@ -2172,19 +2394,61 @@ function toggleSalonService(svcId, phoneEl) {
   updateSalonSummaryBar(phoneEl);
 }
 
+/* ── Package Toggle (on salon page) ── */
+function toggleSalonPackage(pkgId, phoneEl) {
+  const s = AppState.selectedSalon;
+  const pkg = (s.packages || []).find(p => p.id === pkgId);
+  if (!pkg) return;
+  const idx = AppState.salonPackages.indexOf(pkgId);
+  if (idx > -1) AppState.salonPackages.splice(idx, 1);
+  else AppState.salonPackages.push(pkgId);
+
+  // Update card appearance
+  const card = phoneEl.querySelector(`[data-pkg-toggle="${pkgId}"]`);
+  if (card) {
+    const sel = AppState.salonPackages.includes(pkgId);
+    card.classList.toggle('pkg-card--active', sel);
+    const chk = card.querySelector('.pkg-card__check');
+    if (chk) {
+      chk.style.background = sel ? C.primary : 'transparent';
+      chk.style.borderColor = sel ? C.primary : C.border;
+      chk.innerHTML = sel ? Icons.check(13, '#fff') : '';
+    }
+    // Update service chips color
+    card.querySelectorAll('[data-pkg-chip]').forEach(chip => {
+      chip.style.background = sel ? C.primaryS : C.surface2;
+      chip.style.borderColor = sel ? C.primary + '44' : C.border;
+      chip.style.color = sel ? C.primary : C.text2;
+    });
+  }
+  updateSalonSummaryBar(phoneEl);
+}
+
 function updateSalonSummaryBar(phoneEl) {
   const s = AppState.selectedSalon;
   const svcs = AppState.salonServices.filter(sid => s.services[sid]);
-  const subtotal = svcs.reduce((a, sid) => a + s.services[sid], 0);
+  const pkgs = AppState.salonPackages.filter(pkgId => (s.packages||[]).some(p => p.id === pkgId));
+  const svcTotal = svcs.reduce((a, sid) => a + s.services[sid], 0);
+  const pkgTotal = pkgs.reduce((a, pkgId) => { const p = (s.packages||[]).find(pk => pk.id === pkgId); return a + (p ? p.price : 0); }, 0);
+  const subtotal = svcTotal + pkgTotal;
+  const totalItems = svcs.length + pkgs.length;
   const bar = phoneEl.querySelector('.salon-summary-bar');
   if (!bar) return;
-  if (svcs.length === 0) {
+  if (totalItems === 0) {
     bar.style.display = 'none';
   } else {
     bar.style.display = 'flex';
     const countEl = bar.querySelector('.ssb-count');
     const priceEl = bar.querySelector('.ssb-price');
-    if (countEl) countEl.textContent = `${svcs.length} service${svcs.length > 1 ? 's' : ''}`;
+    if (countEl) {
+      if (svcs.length > 0 && pkgs.length > 0) {
+        countEl.textContent = `${svcs.length} service${svcs.length > 1 ? 's' : ''} + ${pkgs.length} package${pkgs.length > 1 ? 's' : ''}`;
+      } else if (svcs.length > 0) {
+        countEl.textContent = `${svcs.length} service${svcs.length > 1 ? 's' : ''}`;
+      } else {
+        countEl.textContent = `${pkgs.length} package${pkgs.length > 1 ? 's' : ''}`;
+      }
+    }
     if (priceEl) priceEl.textContent = `\u20B9${subtotal}`;
   }
 }
@@ -2240,6 +2504,7 @@ function initEvents() {
       const nav = navEl.dataset.nav;
       switch (nav) {
         case 'home':         navigate('home'); break;
+        case 'map':          navigate('map'); break;
         case 'search':       navigate('search-input'); break;
         case 'favorites':    navigate('favorites'); break;
         case 'bookings':     navigate('my-bookings'); break;
@@ -2266,11 +2531,36 @@ function initEvents() {
       return;
     }
 
+    // Package toggle on salon page
+    const pkgEl = e.target.closest('[data-pkg-toggle]');
+    if (pkgEl) {
+      toggleSalonPackage(pkgEl.dataset.pkgToggle, pkgEl.closest('.phone-shell'));
+      return;
+    }
+
     // Favorite toggle
     const favEl = e.target.closest('.fav-btn[data-fav]');
     if (favEl) {
       e.stopPropagation();
       toggleFav(parseInt(favEl.dataset.fav));
+      return;
+    }
+
+    // Map pin tap (highlight salon on map screen)
+    const mapPinEl = e.target.closest('[data-map-pin]');
+    if (mapPinEl) {
+      e.stopPropagation();
+      const salonId = parseInt(mapPinEl.dataset.mapPin);
+      const salon = salons.find(s => s.id === salonId);
+      if (salon) {
+        // If already active, navigate to salon profile
+        if (AppState.mapActiveSalon && AppState.mapActiveSalon.id === salonId) {
+          goToSalon(salonId, []);
+        } else {
+          AppState.mapActiveSalon = salon;
+          navigate('map');
+        }
+      }
       return;
     }
 
@@ -2293,7 +2583,7 @@ function initEvents() {
           navigate('search-results', { selectedServices: [...AppState.selectedServices] });
           break;
         case 'book-now':
-          navigate('booking', { salonServices: [...AppState.salonServices] });
+          navigate('booking', { salonServices: [...AppState.salonServices], salonPackages: [...AppState.salonPackages] });
           break;
         case 'confirm-booking':
           navigate('booking-confirmed');
@@ -2306,6 +2596,14 @@ function initEvents() {
           break;
         case 'go-profile':
           navigate('profile');
+          break;
+        case 'search-view-list':
+          AppState.searchViewMode = 'list';
+          navigate('search-results', { selectedServices: [...AppState.selectedServices] });
+          break;
+        case 'search-view-map':
+          AppState.searchViewMode = 'map';
+          navigate('search-results', { selectedServices: [...AppState.selectedServices] });
           break;
         case 'open-deals':
         case 'go-deals':

@@ -138,6 +138,71 @@ function FlashDealCard(title, sub, salon, hrs, min, sec) {
     </div>`;
 }
 
+function AreaMap(activeSalonId, filteredSalonIds) {
+  const showSalons = filteredSalonIds ? salons.filter(s => filteredSalonIds.includes(s.id)) : salons;
+  const vw = 335, vh = 280;
+
+  // Pin color by tier
+  function pinColor(s) {
+    if (activeSalonId === s.id) return C.primary;
+    if (s.tier === 'premium') return C.primary;
+    if (s.tier === 'growth') return C.verified;
+    return C.text3;
+  }
+
+  // Generate salon pin SVG groups
+  const pins = showSalons.map(s => {
+    const x = s.mapX / 100 * vw;
+    const y = s.mapY / 100 * vh;
+    const col = pinColor(s);
+    const isActive = activeSalonId === s.id;
+    const scale = isActive ? 1.3 : 1;
+    const name = s.name.length > 14 ? s.name.slice(0, 13) + '…' : s.name;
+    return `
+      <g data-map-pin="${s.id}" style="cursor:pointer" transform="translate(${x},${y})">
+        <circle r="14" fill="transparent" />
+        <g transform="scale(${scale}) translate(-8,-18)">
+          <path d="M8 0C3.6 0 0 3.6 0 8c0 5.4 8 12 8 12s8-6.6 8-12c0-4.4-3.6-8-8-8z" fill="${col}" opacity="${isActive ? 1 : 0.85}"/>
+          <circle cx="8" cy="8" r="3" fill="#fff"/>
+        </g>
+        ${isActive ? `<circle r="3" cy="-8" fill="${col}"><animate attributeName="r" values="3;6;3" dur="1.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/></circle>` : ''}
+        <text y="8" text-anchor="middle" font-size="8" font-weight="600" fill="${C.text2}" font-family="var(--font-body)">${name}</text>
+        <text y="17" text-anchor="middle" font-size="7" fill="${C.text3}" font-family="var(--font-body)">${s.dist}</text>
+      </g>`;
+  }).join('');
+
+  return `
+    <div style="margin:0 16px;border-radius:12px;border:1px solid ${C.border};overflow:hidden;background:${C.surface2};position:relative">
+      <svg viewBox="0 0 ${vw} ${vh}" width="100%" style="display:block">
+        <!-- Area fills -->
+        <path d="M120 15 Q200 5 280 20 Q320 50 310 100 Q295 130 240 140 Q180 145 140 120 Q100 100 90 60 Q95 25 120 15Z" fill="${C.surface}" stroke="${C.border}" stroke-width="1"/>
+        <text x="200" y="70" text-anchor="middle" font-size="10" fill="${C.text3}" font-family="var(--font-body)" font-weight="500" opacity="0.7">Chandigarh</text>
+
+        <path d="M30 150 Q80 135 130 145 Q160 160 155 200 Q145 240 100 255 Q55 260 30 240 Q10 215 15 185 Q18 160 30 150Z" fill="${C.surface}" stroke="${C.border}" stroke-width="1"/>
+        <text x="85" y="205" text-anchor="middle" font-size="10" fill="${C.text3}" font-family="var(--font-body)" font-weight="500" opacity="0.7">Mohali</text>
+
+        <ellipse cx="270" cy="210" rx="50" ry="40" fill="${C.surface}" stroke="${C.border}" stroke-width="1" opacity="0.6"/>
+        <text x="270" y="215" text-anchor="middle" font-size="9" fill="${C.text3}" font-family="var(--font-body)" font-weight="500" opacity="0.5">Kharar</text>
+
+        <!-- Roads -->
+        <line x1="50" y1="120" x2="300" y2="90" stroke="${C.border}" stroke-width="1" stroke-dasharray="6 4" opacity="0.6"/>
+        <line x1="160" y1="10" x2="140" y2="260" stroke="${C.border}" stroke-width="1" stroke-dasharray="6 4" opacity="0.6"/>
+        <line x1="20" y1="180" x2="310" y2="200" stroke="${C.border}" stroke-width="1" stroke-dasharray="6 4" opacity="0.4"/>
+
+        <!-- "You are here" dot -->
+        <circle cx="${vw * 0.45}" cy="${vh * 0.45}" r="4" fill="${C.info}" opacity="0.9">
+          <animate attributeName="r" values="4;8;4" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.9;0.3;0.9" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="${vw * 0.45}" cy="${vh * 0.45}" r="4" fill="${C.info}"/>
+        <circle cx="${vw * 0.45}" cy="${vh * 0.45}" r="2" fill="#fff"/>
+
+        <!-- Salon pins -->
+        ${pins}
+      </svg>
+    </div>`;
+}
+
 function ToggleSwitch(on) {
   return `<div class="toggle${on ? ' toggle--on' : ''}"><div class="toggle__knob"></div></div>`;
 }

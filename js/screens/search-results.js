@@ -1,5 +1,6 @@
 function renderSearchResults() {
   const selSvcs = AppState.selectedServices || [];
+  const viewMode = AppState.searchViewMode || 'list';
   const results = salons
     .filter(s => selSvcs.length === 0 || selSvcs.some(sid => s.services[sid]))
     .sort((a, b) => ({ premium: 0, growth: 1, starter: 2 })[a.tier] - ({ premium: 0, growth: 1, starter: 2 })[b.tier]);
@@ -26,10 +27,43 @@ function renderSearchResults() {
       <span data-nav="search" style="font-size:11px;color:${C.primary};font-weight:600;white-space:nowrap;cursor:pointer">${Icons.plus(12, C.primary)} Edit</span>
     </div>` : ''}
 
-    <div style="padding:4px 20px 8px;font-size:12px;color:${C.text3}">
-      ${results.length} salon${results.length !== 1 ? 's' : ''} found${selSvcs.length > 0 ? ` \u2022 showing prices for your services` : ''}
+    <!-- Count + View Toggle -->
+    <div style="padding:4px 20px 8px;display:flex;justify-content:space-between;align-items:center">
+      <div style="font-size:12px;color:${C.text3}">
+        ${results.length} salon${results.length !== 1 ? 's' : ''} found${selSvcs.length > 0 ? ` \u2022 showing prices for your services` : ''}
+      </div>
+      <div style="display:flex;border:1px solid ${C.border};border-radius:8px;overflow:hidden">
+        <div data-action="search-view-list" style="padding:5px 10px;cursor:pointer;display:flex;align-items:center;gap:3px;font-size:11px;font-weight:500;${viewMode === 'list' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
+          ${Icons.filter(12, viewMode === 'list' ? '#fff' : C.text3)} List
+        </div>
+        <div data-action="search-view-map" style="padding:5px 10px;cursor:pointer;display:flex;align-items:center;gap:3px;font-size:11px;font-weight:500;${viewMode === 'map' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
+          ${Icons.mapPin(12, viewMode === 'map' ? '#fff' : C.text3)} Map
+        </div>
+      </div>
     </div>
 
+    ${viewMode === 'map' ? `
+    <!-- Map View -->
+    ${AreaMap(null, results.map(s => s.id))}
+    <div style="padding:12px 20px;display:flex;flex-direction:column;gap:8px">
+      ${results.map(s => `
+        <div data-goto-salon="${s.id}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:${C.surface};border:1px solid ${C.border};border-radius:10px;cursor:pointer">
+          <div style="width:32px;height:32px;background:${C.primaryS};border-radius:8px;display:flex;align-items:center;justify-content:center">
+            ${Icons.mapPin(16, s.tier === 'premium' ? C.primary : s.tier === 'growth' ? C.verified : C.text3)}
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:600;color:${C.text};display:flex;align-items:center;gap:4px">
+              ${s.name}
+              ${s.tier === 'premium' ? TopDot() : s.tier === 'growth' ? VerifiedDot() : ''}
+            </div>
+            <div style="font-size:11px;color:${C.text3}">${s.loc} &bull; ${s.dist}${s.deal ? ` &bull; <span style="color:${C.primary};font-weight:500">${s.deal}</span>` : ''}</div>
+          </div>
+          ${Icons.forward(14, C.text3)}
+        </div>
+      `).join('')}
+    </div>
+    ` : `
+    <!-- List View -->
     <!-- Pinned -->
     ${results.some(s => s.tier === 'premium') ? `
     <div style="padding:4px 20px;font-size:10px;font-weight:700;color:${C.primary};text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center;gap:4px">
@@ -44,5 +78,6 @@ function renderSearchResults() {
         return `${divider}<div data-goto-salon="${s.id}">${SalonResultCard(s, selSvcs, AppState.favorites.has(s.id))}</div>`;
       }).join('')}
     </div>
-  `, { activeTab: 'search' });
+    `}
+  `, { activeTab: 'home' });
 }

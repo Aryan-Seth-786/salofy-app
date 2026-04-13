@@ -16,6 +16,8 @@ const AppState = {
   searchQuery: '',
   booking: { dateIdx: 1, time: '10:30' },
   rescheduleBooking: null,           // booking being rescheduled
+  mapActiveSalon: null,              // selected salon on map screen
+  searchViewMode: 'list',            // 'list' or 'map' on search results
 };
 
 /* ── Screen Registry ── */
@@ -26,6 +28,7 @@ const screens = [
   { id: 'otp',                 label: 'OTP',                 group: 'Auth',       render: renderOTP },
   // Customer
   { id: 'home',                label: 'Home',                group: 'Customer',   render: renderHome },
+  { id: 'map',                 label: 'Map',                 group: 'Customer',   render: renderMap },
   { id: 'search-input',        label: 'Search',              group: 'Customer',   render: renderSearchInput },
   { id: 'search-results',      label: 'Results',             group: 'Customer',   render: renderSearchResults },
   { id: 'salon-starter',       label: 'Salon (Starter)',     group: 'Customer',   render: () => { AppState.selectedSalon = salons[2]; AppState.salonServices = []; AppState.salonPackages = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
@@ -236,6 +239,7 @@ function initEvents() {
       const nav = navEl.dataset.nav;
       switch (nav) {
         case 'home':         navigate('home'); break;
+        case 'map':          navigate('map'); break;
         case 'search':       navigate('search-input'); break;
         case 'favorites':    navigate('favorites'); break;
         case 'bookings':     navigate('my-bookings'); break;
@@ -277,6 +281,24 @@ function initEvents() {
       return;
     }
 
+    // Map pin tap (highlight salon on map screen)
+    const mapPinEl = e.target.closest('[data-map-pin]');
+    if (mapPinEl) {
+      e.stopPropagation();
+      const salonId = parseInt(mapPinEl.dataset.mapPin);
+      const salon = salons.find(s => s.id === salonId);
+      if (salon) {
+        // If already active, navigate to salon profile
+        if (AppState.mapActiveSalon && AppState.mapActiveSalon.id === salonId) {
+          goToSalon(salonId, []);
+        } else {
+          AppState.mapActiveSalon = salon;
+          navigate('map');
+        }
+      }
+      return;
+    }
+
     // Go to salon from card
     const salonCard = e.target.closest('[data-goto-salon]');
     if (salonCard && !e.target.closest('.fav-btn')) {
@@ -309,6 +331,14 @@ function initEvents() {
           break;
         case 'go-profile':
           navigate('profile');
+          break;
+        case 'search-view-list':
+          AppState.searchViewMode = 'list';
+          navigate('search-results', { selectedServices: [...AppState.selectedServices] });
+          break;
+        case 'search-view-map':
+          AppState.searchViewMode = 'map';
+          navigate('search-results', { selectedServices: [...AppState.selectedServices] });
           break;
         case 'open-deals':
         case 'go-deals':

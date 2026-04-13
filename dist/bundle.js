@@ -902,11 +902,11 @@ function renderSearchResults() {
         ${results.length} salon${results.length !== 1 ? 's' : ''} found${selSvcs.length > 0 ? ` \u2022 showing prices for your services` : ''}
       </div>
       <div style="display:flex;border:1px solid ${C.border};border-radius:8px;overflow:hidden">
-        <div data-action="search-view-list" style="padding:5px 10px;cursor:pointer;display:flex;align-items:center;gap:3px;font-size:11px;font-weight:500;${viewMode === 'list' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
-          ${Icons.filter(12, viewMode === 'list' ? '#fff' : C.text3)} List
+        <div data-action="search-view-list" style="padding:6px 12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:500;line-height:1;${viewMode === 'list' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
+          <span style="display:flex;align-items:center">${Icons.filter(11, viewMode === 'list' ? '#fff' : C.text3)}</span><span>List</span>
         </div>
-        <div data-action="search-view-map" style="padding:5px 10px;cursor:pointer;display:flex;align-items:center;gap:3px;font-size:11px;font-weight:500;${viewMode === 'map' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
-          ${Icons.mapPin(12, viewMode === 'map' ? '#fff' : C.text3)} Map
+        <div data-action="search-view-map" style="padding:6px 12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:500;line-height:1;${viewMode === 'map' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
+          <span style="display:flex;align-items:center">${Icons.mapPin(11, viewMode === 'map' ? '#fff' : C.text3)}</span><span>Map</span>
         </div>
       </div>
     </div>

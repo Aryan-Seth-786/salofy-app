@@ -40,6 +40,40 @@ function renderSearchInput() {
       `).join('')}
     </div>
 
+    <!-- Popular Packages -->
+    <div style="padding:4px 0 8px">
+      <div style="padding:0 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:600;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px">Popular Packages</div>
+        <div style="font-size:11px;color:${C.primary};font-weight:600">Bundle &amp; save</div>
+      </div>
+      <div style="display:flex;gap:10px;overflow-x:auto;padding:0 20px 4px" class="hide-sb">
+        ${(() => {
+          const allPkgs = salons.flatMap(s => (s.packages || []).map(p => ({ ...p, salon: s })));
+          return allPkgs.sort((a, b) => b.savings - a.savings).slice(0, 8).map(pkg => `
+            <div data-goto-package-salon="${pkg.salon.id}" style="min-width:155px;max-width:155px;flex-shrink:0;background:${C.surface};border:1px solid ${C.border};border-radius:12px;padding:12px;cursor:pointer">
+              <div style="background:${C.successS};border:1px solid rgba(45,139,85,0.2);border-radius:8px;padding:3px 8px;display:inline-flex;align-items:center;gap:4px;margin-bottom:8px">
+                ${Icons.gift(10, C.success)}
+                <span style="font-size:10px;font-weight:700;color:${C.success}">Save \u20B9${pkg.savings}</span>
+              </div>
+              <div style="font-size:13px;font-weight:700;color:${C.text};margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${pkg.name}</div>
+              <div style="font-size:10px;color:${C.text3};margin-bottom:8px;display:flex;align-items:center;gap:3px;min-width:0">
+                ${pkg.salon.tier === 'premium' ? TopDot() : pkg.salon.tier === 'growth' ? VerifiedDot() : ''}
+                <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${pkg.salon.name}</span>
+              </div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:9px">
+                ${pkg.services.slice(0, 3).map(sid => { const svc = getSvc(sid); return svc ? `<span style="font-size:9px;padding:2px 6px;background:${C.surface2};border:1px solid ${C.border};border-radius:8px;color:${C.text2}">${svc.label}</span>` : ''; }).join('')}
+                ${pkg.services.length > 3 ? `<span style="font-size:9px;padding:2px 6px;background:${C.surface2};border:1px solid ${C.border};border-radius:8px;color:${C.text3}">+${pkg.services.length - 3} more</span>` : ''}
+              </div>
+              <div style="display:flex;align-items:baseline;justify-content:space-between">
+                <span style="font-size:14px;font-weight:700;color:${C.primary}">\u20B9${pkg.price}</span>
+                <span style="font-size:10px;color:${C.text3}">${pkg.duration}</span>
+              </div>
+            </div>
+          `).join('');
+        })()}
+      </div>
+    </div>
+
     <!-- All Services -->
     <div style="padding:8px 20px 100px">
       <div style="font-size:11px;font-weight:600;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">All Services</div>

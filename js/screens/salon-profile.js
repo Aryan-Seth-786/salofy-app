@@ -30,6 +30,10 @@ function renderSalonProfile() {
   // SERVICES panel
   const servicesPanel = `
     <div class="tab-panel" data-panel="Services" style="${activeTab === 'Services' ? '' : 'display:none'}">
+      <!-- Suggested packages — re-rendered in-place on service toggle -->
+      <div data-suggested-pkgs style="padding:12px 20px 0">
+        ${SuggestedPackagesHtml(s, selSvcs)}
+      </div>
       <div style="padding:0 20px 4px">
         ${isStarter ? '' : `<div style="font-size:11px;color:${C.text3};margin-bottom:10px">Tap a service to select it for booking</div>`}
         ${Object.entries(s.services).map(([k, v], i, arr) => {

@@ -413,6 +413,13 @@ function SalonResultCard(s, selectedSvcs = [], isFav = false) {
   const dp = s.deal ? parseInt(s.deal) || 0 : 0;
   const disc = dp > 0 ? Math.round(combo * (1 - dp / 100)) : null;
 
+  // Find best package that covers ALL selected services
+  const matchingPkg = selectedSvcs.length >= 2
+    ? (s.packages || [])
+        .filter(pkg => selectedSvcs.every(sid => pkg.services.includes(sid)))
+        .sort((a, b) => b.savings - a.savings)[0]
+    : null;
+
   let servicesHtml = '';
   if (selectedSvcs.length > 0 && matched.length > 0) {
     servicesHtml = `
@@ -427,7 +434,17 @@ function SalonResultCard(s, selectedSvcs = [], isFav = false) {
         <span style="font-size:14px;font-weight:700;color:${C.primary}">\u20B9${disc || combo}</span>
         ${disc ? `<span style="font-size:12px;color:${C.text3};text-decoration:line-through">\u20B9${combo}</span>` : ''}
         <span style="font-size:10px;color:${C.text3}">for ${matched.length} service${matched.length > 1 ? 's' : ''}</span>
-      </div>`;
+      </div>
+      ${matchingPkg ? `
+      <div data-goto-package="${s.id}:${matchingPkg.id}" style="display:flex;align-items:center;gap:8px;margin-top:8px;padding:8px 10px;background:${C.successS};border:1px solid rgba(45,139,85,0.25);border-radius:8px;cursor:pointer">
+        ${Icons.gift(14, C.success)}
+        <div style="flex:1;min-width:0;font-size:12px">
+          <span style="font-weight:600;color:${C.success}">${matchingPkg.name}</span>
+          <span style="color:${C.text3}"> covers all — </span>
+          <span style="font-weight:600;color:${C.success}">Save \u20B9${matchingPkg.savings}</span>
+        </div>
+        ${Icons.forward(12, C.success)}
+      </div>` : ''}`;
   } else {
     const entries = Object.entries(s.services).slice(0, 3);
     servicesHtml = `
@@ -576,6 +593,68 @@ function AreaMap(activeSalonId, filteredSalonIds) {
         <!-- Salon pins -->
         ${pins}
       </svg>
+    </div>`;
+}
+
+function SuggestedPackagesHtml(s, selSvcs) {
+  const pkgs = s.packages || [];
+  let suggested, heading, subheading;
+
+  if (selSvcs.length >= 1) {
+    // Packages that cover ALL selected services
+    suggested = pkgs
+      .filter(pkg => selSvcs.every(sid => pkg.services.includes(sid)))
+      .sort((a, b) => b.savings - a.savings);
+    heading = 'Bundle your selection';
+    subheading = 'These packages include everything you picked';
+  } else {
+    // No services selected — surface top packages by savings
+    suggested = [...pkgs].sort((a, b) => b.savings - a.savings).slice(0, 3);
+    heading = 'Popular packages here';
+    subheading = 'Pre-bundled services at a special price';
+  }
+
+  if (suggested.length === 0) return '';
+
+  return `
+    <div style="margin-bottom:4px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div>
+          <div style="display:flex;align-items:center;gap:5px">
+            ${Icons.gift(13, C.success)}
+            <span style="font-size:12px;font-weight:700;color:${C.text}">${heading}</span>
+          </div>
+          <div style="font-size:11px;color:${C.text3};margin-top:1px">${subheading}</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        ${suggested.map(pkg => {
+          const matchedSvcs  = selSvcs.filter(sid => pkg.services.includes(sid));
+          const bonusSvcs    = pkg.services.filter(sid => !selSvcs.includes(sid));
+          const showBonus    = bonusSvcs.slice(0, selSvcs.length >= 1 ? 2 : 3);
+          const hiddenCount  = bonusSvcs.length - showBonus.length;
+          return `
+            <div data-suggest-pkg="${pkg.id}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:${C.successS};border:1px solid rgba(45,139,85,0.22);border-radius:10px;cursor:pointer">
+              <div style="flex:1;min-width:0">
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+                  <span style="font-size:13px;font-weight:600;color:${C.text}">${pkg.name}</span>
+                  <span style="font-size:10px;font-weight:700;color:${C.success};background:rgba(45,139,85,0.14);padding:2px 6px;border-radius:6px;white-space:nowrap">Save \u20B9${pkg.savings}</span>
+                </div>
+                <div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center">
+                  ${matchedSvcs.map(sid => { const svc = getSvc(sid); return svc ? `<span style="font-size:9px;padding:2px 6px;background:rgba(184,134,11,0.12);border:1px solid rgba(184,134,11,0.3);border-radius:6px;color:${C.primary};font-weight:600">${svc.label}</span>` : ''; }).join('')}
+                  ${showBonus.map(sid => { const svc = getSvc(sid); return svc ? `<span style="font-size:9px;padding:2px 6px;background:${C.surface};border:1px solid ${C.border};border-radius:6px;color:${C.text2}">${svc.label}</span>` : ''; }).join('')}
+                  ${hiddenCount > 0 ? `<span style="font-size:9px;color:${C.text3}">+${hiddenCount} more</span>` : ''}
+                </div>
+              </div>
+              <div style="text-align:right;flex-shrink:0">
+                <div style="font-size:14px;font-weight:700;color:${C.primary}">\u20B9${pkg.price}</div>
+                <div style="font-size:10px;color:${C.text3};white-space:nowrap">${pkg.duration}</div>
+              </div>
+              ${Icons.forward(14, C.success)}
+            </div>`;
+        }).join('')}
+      </div>
+      <div style="height:1px;background:${C.border};margin:14px 0 4px"></div>
     </div>`;
 }
 
@@ -844,6 +923,40 @@ function renderSearchInput() {
       `).join('')}
     </div>
 
+    <!-- Popular Packages -->
+    <div style="padding:4px 0 8px">
+      <div style="padding:0 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:600;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px">Popular Packages</div>
+        <div style="font-size:11px;color:${C.primary};font-weight:600">Bundle &amp; save</div>
+      </div>
+      <div style="display:flex;gap:10px;overflow-x:auto;padding:0 20px 4px" class="hide-sb">
+        ${(() => {
+          const allPkgs = salons.flatMap(s => (s.packages || []).map(p => ({ ...p, salon: s })));
+          return allPkgs.sort((a, b) => b.savings - a.savings).slice(0, 8).map(pkg => `
+            <div data-goto-package-salon="${pkg.salon.id}" style="min-width:155px;max-width:155px;flex-shrink:0;background:${C.surface};border:1px solid ${C.border};border-radius:12px;padding:12px;cursor:pointer">
+              <div style="background:${C.successS};border:1px solid rgba(45,139,85,0.2);border-radius:8px;padding:3px 8px;display:inline-flex;align-items:center;gap:4px;margin-bottom:8px">
+                ${Icons.gift(10, C.success)}
+                <span style="font-size:10px;font-weight:700;color:${C.success}">Save \u20B9${pkg.savings}</span>
+              </div>
+              <div style="font-size:13px;font-weight:700;color:${C.text};margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${pkg.name}</div>
+              <div style="font-size:10px;color:${C.text3};margin-bottom:8px;display:flex;align-items:center;gap:3px;min-width:0">
+                ${pkg.salon.tier === 'premium' ? TopDot() : pkg.salon.tier === 'growth' ? VerifiedDot() : ''}
+                <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${pkg.salon.name}</span>
+              </div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:9px">
+                ${pkg.services.slice(0, 3).map(sid => { const svc = getSvc(sid); return svc ? `<span style="font-size:9px;padding:2px 6px;background:${C.surface2};border:1px solid ${C.border};border-radius:8px;color:${C.text2}">${svc.label}</span>` : ''; }).join('')}
+                ${pkg.services.length > 3 ? `<span style="font-size:9px;padding:2px 6px;background:${C.surface2};border:1px solid ${C.border};border-radius:8px;color:${C.text3}">+${pkg.services.length - 3} more</span>` : ''}
+              </div>
+              <div style="display:flex;align-items:baseline;justify-content:space-between">
+                <span style="font-size:14px;font-weight:700;color:${C.primary}">\u20B9${pkg.price}</span>
+                <span style="font-size:10px;color:${C.text3}">${pkg.duration}</span>
+              </div>
+            </div>
+          `).join('');
+        })()}
+      </div>
+    </div>
+
     <!-- All Services -->
     <div style="padding:8px 20px 100px">
       <div style="font-size:11px;font-weight:600;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">All Services</div>
@@ -901,12 +1014,14 @@ function renderSearchResults() {
       <div style="font-size:12px;color:${C.text3}">
         ${results.length} salon${results.length !== 1 ? 's' : ''} found${selSvcs.length > 0 ? ` \u2022 showing prices for your services` : ''}
       </div>
-      <div style="display:flex;border:1px solid ${C.border};border-radius:8px;overflow:hidden">
-        <div data-action="search-view-list" style="padding:6px 12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:500;line-height:1;${viewMode === 'list' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
-          <span style="display:flex;align-items:center">${Icons.filter(11, viewMode === 'list' ? '#fff' : C.text3)}</span><span>List</span>
+      <div style="display:flex;border:1px solid ${C.border};border-radius:8px;overflow:hidden;flex-shrink:0">
+        <div data-action="search-view-list" style="height:28px;min-width:54px;box-sizing:border-box;padding:0 10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:500;${viewMode === 'list' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="${viewMode === 'list' ? '#fff' : C.text3}" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <span>List</span>
         </div>
-        <div data-action="search-view-map" style="padding:6px 12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:500;line-height:1;${viewMode === 'map' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
-          <span style="display:flex;align-items:center">${Icons.mapPin(11, viewMode === 'map' ? '#fff' : C.text3)}</span><span>Map</span>
+        <div data-action="search-view-map" style="height:28px;min-width:54px;box-sizing:border-box;padding:0 10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:500;${viewMode === 'map' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="${viewMode === 'map' ? '#fff' : C.text3}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Map</span>
         </div>
       </div>
     </div>
@@ -1037,6 +1152,10 @@ function renderSalonProfile() {
   // SERVICES panel
   const servicesPanel = `
     <div class="tab-panel" data-panel="Services" style="${activeTab === 'Services' ? '' : 'display:none'}">
+      <!-- Suggested packages — re-rendered in-place on service toggle -->
+      <div data-suggested-pkgs style="padding:12px 20px 0">
+        ${SuggestedPackagesHtml(s, selSvcs)}
+      </div>
       <div style="padding:0 20px 4px">
         ${isStarter ? '' : `<div style="font-size:11px;color:${C.text3};margin-bottom:10px">Tap a service to select it for booking</div>`}
         ${Object.entries(s.services).map(([k, v], i, arr) => {
@@ -2296,9 +2415,9 @@ const screens = [
   { id: 'map',                 label: 'Map',                 group: 'Customer',   render: renderMap },
   { id: 'search-input',        label: 'Search',              group: 'Customer',   render: renderSearchInput },
   { id: 'search-results',      label: 'Results',             group: 'Customer',   render: renderSearchResults },
-  { id: 'salon-starter',       label: 'Salon (Starter)',     group: 'Customer',   render: () => { AppState.selectedSalon = salons[2]; AppState.salonServices = []; AppState.salonPackages = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
-  { id: 'salon-growth',        label: 'Salon (Growth)',      group: 'Customer',   render: () => { AppState.selectedSalon = salons[1]; AppState.salonServices = []; AppState.salonPackages = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
-  { id: 'salon-premium',       label: 'Salon (Premium)',     group: 'Customer',   render: () => { AppState.selectedSalon = salons[0]; AppState.salonServices = []; AppState.salonPackages = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
+  { id: 'salon-starter',       label: 'Salon (Starter)',     group: 'Customer',   render: renderSalonProfile },
+  { id: 'salon-growth',        label: 'Salon (Growth)',      group: 'Customer',   render: renderSalonProfile },
+  { id: 'salon-premium',       label: 'Salon (Premium)',     group: 'Customer',   render: renderSalonProfile },
   { id: 'booking',             label: 'Booking',             group: 'Customer',   render: renderBooking },
   { id: 'booking-confirmed',   label: 'Confirmed',           group: 'Customer',   render: renderBookingConfirmed },
   { id: 'deals',               label: 'Deals',               group: 'Customer',   render: renderDeals },
@@ -2359,15 +2478,15 @@ function goBack() {
 }
 
 /* ── Go To Salon ── */
-function goToSalon(salonId, preSelected = []) {
+function goToSalon(salonId, preSelected = [], tab = 'Services', preSelectedPkgs = []) {
   const salon = salons.find(s => s.id === salonId);
   if (!salon) return;
   const screenId = salon.tier === 'starter' ? 'salon-starter' : salon.tier === 'growth' ? 'salon-growth' : 'salon-premium';
   navigate(screenId, {
     selectedSalon: salon,
     salonServices: preSelected.filter(sid => salon.services[sid]),
-    salonPackages: [],
-    salonTab: 'Services',
+    salonPackages: preSelectedPkgs,
+    salonTab: tab,
   });
 }
 
@@ -2392,6 +2511,7 @@ function toggleSalonService(svcId, phoneEl) {
     }
   }
   updateSalonSummaryBar(phoneEl);
+  updateSuggestedPackages(phoneEl);
 }
 
 /* ── Package Toggle (on salon page) ── */
@@ -2422,6 +2542,12 @@ function toggleSalonPackage(pkgId, phoneEl) {
     });
   }
   updateSalonSummaryBar(phoneEl);
+}
+
+function updateSuggestedPackages(phoneEl) {
+  const el = phoneEl.querySelector('[data-suggested-pkgs]');
+  if (!el) return;
+  el.innerHTML = SuggestedPackagesHtml(AppState.selectedSalon, AppState.salonServices);
 }
 
 function updateSalonSummaryBar(phoneEl) {
@@ -2538,6 +2664,19 @@ function initEvents() {
       return;
     }
 
+    // Suggested package tap — pre-select it and jump to Packages tab
+    const suggestPkgEl = e.target.closest('[data-suggest-pkg]');
+    if (suggestPkgEl) {
+      e.stopPropagation();
+      const pkgId = suggestPkgEl.dataset.suggestPkg;
+      const phoneEl = suggestPkgEl.closest('.phone-shell');
+      if (!AppState.salonPackages.includes(pkgId)) {
+        toggleSalonPackage(pkgId, phoneEl);
+      }
+      switchTab('Packages', phoneEl);
+      return;
+    }
+
     // Favorite toggle
     const favEl = e.target.closest('.fav-btn[data-fav]');
     if (favEl) {
@@ -2561,6 +2700,23 @@ function initEvents() {
           navigate('map');
         }
       }
+      return;
+    }
+
+    // Go to salon Packages tab (from Popular Packages cards in search)
+    const pkgSalonEl = e.target.closest('[data-goto-package-salon]');
+    if (pkgSalonEl) {
+      e.stopPropagation();
+      goToSalon(parseInt(pkgSalonEl.dataset.gotoPackageSalon), [], 'Packages');
+      return;
+    }
+
+    // Go to a specific package pre-selected on salon profile (from package match callout on results card)
+    const gotoPackageEl = e.target.closest('[data-goto-package]');
+    if (gotoPackageEl) {
+      e.stopPropagation();
+      const parts = gotoPackageEl.dataset.gotoPackage.split(':');
+      goToSalon(parseInt(parts[0]), [], 'Packages', [parts[1]]);
       return;
     }
 
@@ -2660,7 +2816,12 @@ function initEvents() {
 
 /* ── Show screen without re-render (top nav pill click) ── */
 function showScreenFromNav(screenId) {
-  navigate(screenId);
+  const salonDefaults = {
+    'salon-starter': { selectedSalon: salons[2], salonServices: [], salonPackages: [], salonTab: 'Services' },
+    'salon-growth':  { selectedSalon: salons[1], salonServices: [], salonPackages: [], salonTab: 'Services' },
+    'salon-premium': { selectedSalon: salons[0], salonServices: [], salonPackages: [], salonTab: 'Services' },
+  };
+  navigate(screenId, salonDefaults[screenId] || {});
 }
 
 /* ── Initialise ── */

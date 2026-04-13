@@ -32,12 +32,14 @@ function renderSearchResults() {
       <div style="font-size:12px;color:${C.text3}">
         ${results.length} salon${results.length !== 1 ? 's' : ''} found${selSvcs.length > 0 ? ` \u2022 showing prices for your services` : ''}
       </div>
-      <div style="display:flex;border:1px solid ${C.border};border-radius:8px;overflow:hidden">
-        <div data-action="search-view-list" style="padding:6px 12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:500;line-height:1;${viewMode === 'list' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
-          <span style="display:flex;align-items:center">${Icons.filter(11, viewMode === 'list' ? '#fff' : C.text3)}</span><span>List</span>
+      <div style="display:flex;border:1px solid ${C.border};border-radius:8px;overflow:hidden;flex-shrink:0">
+        <div data-action="search-view-list" style="height:28px;min-width:54px;box-sizing:border-box;padding:0 10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:500;${viewMode === 'list' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="${viewMode === 'list' ? '#fff' : C.text3}" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <span>List</span>
         </div>
-        <div data-action="search-view-map" style="padding:6px 12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:500;line-height:1;${viewMode === 'map' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
-          <span style="display:flex;align-items:center">${Icons.mapPin(11, viewMode === 'map' ? '#fff' : C.text3)}</span><span>Map</span>
+        <div data-action="search-view-map" style="height:28px;min-width:54px;box-sizing:border-box;padding:0 10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:500;${viewMode === 'map' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="${viewMode === 'map' ? '#fff' : C.text3}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Map</span>
         </div>
       </div>
     </div>

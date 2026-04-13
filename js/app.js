@@ -31,9 +31,9 @@ const screens = [
   { id: 'map',                 label: 'Map',                 group: 'Customer',   render: renderMap },
   { id: 'search-input',        label: 'Search',              group: 'Customer',   render: renderSearchInput },
   { id: 'search-results',      label: 'Results',             group: 'Customer',   render: renderSearchResults },
-  { id: 'salon-starter',       label: 'Salon (Starter)',     group: 'Customer',   render: () => { AppState.selectedSalon = salons[2]; AppState.salonServices = []; AppState.salonPackages = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
-  { id: 'salon-growth',        label: 'Salon (Growth)',      group: 'Customer',   render: () => { AppState.selectedSalon = salons[1]; AppState.salonServices = []; AppState.salonPackages = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
-  { id: 'salon-premium',       label: 'Salon (Premium)',     group: 'Customer',   render: () => { AppState.selectedSalon = salons[0]; AppState.salonServices = []; AppState.salonPackages = []; AppState.salonTab = 'Services'; return renderSalonProfile(); } },
+  { id: 'salon-starter',       label: 'Salon (Starter)',     group: 'Customer',   render: renderSalonProfile },
+  { id: 'salon-growth',        label: 'Salon (Growth)',      group: 'Customer',   render: renderSalonProfile },
+  { id: 'salon-premium',       label: 'Salon (Premium)',     group: 'Customer',   render: renderSalonProfile },
   { id: 'booking',             label: 'Booking',             group: 'Customer',   render: renderBooking },
   { id: 'booking-confirmed',   label: 'Confirmed',           group: 'Customer',   render: renderBookingConfirmed },
   { id: 'deals',               label: 'Deals',               group: 'Customer',   render: renderDeals },
@@ -94,15 +94,15 @@ function goBack() {
 }
 
 /* ── Go To Salon ── */
-function goToSalon(salonId, preSelected = []) {
+function goToSalon(salonId, preSelected = [], tab = 'Services', preSelectedPkgs = []) {
   const salon = salons.find(s => s.id === salonId);
   if (!salon) return;
   const screenId = salon.tier === 'starter' ? 'salon-starter' : salon.tier === 'growth' ? 'salon-growth' : 'salon-premium';
   navigate(screenId, {
     selectedSalon: salon,
     salonServices: preSelected.filter(sid => salon.services[sid]),
-    salonPackages: [],
-    salonTab: 'Services',
+    salonPackages: preSelectedPkgs,
+    salonTab: tab,
   });
 }
 
@@ -127,6 +127,7 @@ function toggleSalonService(svcId, phoneEl) {
     }
   }
   updateSalonSummaryBar(phoneEl);
+  updateSuggestedPackages(phoneEl);
 }
 
 /* ── Package Toggle (on salon page) ── */
@@ -157,6 +158,12 @@ function toggleSalonPackage(pkgId, phoneEl) {
     });
   }
   updateSalonSummaryBar(phoneEl);
+}
+
+function updateSuggestedPackages(phoneEl) {
+  const el = phoneEl.querySelector('[data-suggested-pkgs]');
+  if (!el) return;
+  el.innerHTML = SuggestedPackagesHtml(AppState.selectedSalon, AppState.salonServices);
 }
 
 function updateSalonSummaryBar(phoneEl) {
@@ -273,6 +280,19 @@ function initEvents() {
       return;
     }
 
+    // Suggested package tap — pre-select it and jump to Packages tab
+    const suggestPkgEl = e.target.closest('[data-suggest-pkg]');
+    if (suggestPkgEl) {
+      e.stopPropagation();
+      const pkgId = suggestPkgEl.dataset.suggestPkg;
+      const phoneEl = suggestPkgEl.closest('.phone-shell');
+      if (!AppState.salonPackages.includes(pkgId)) {
+        toggleSalonPackage(pkgId, phoneEl);
+      }
+      switchTab('Packages', phoneEl);
+      return;
+    }
+
     // Favorite toggle
     const favEl = e.target.closest('.fav-btn[data-fav]');
     if (favEl) {
@@ -296,6 +316,23 @@ function initEvents() {
           navigate('map');
         }
       }
+      return;
+    }
+
+    // Go to salon Packages tab (from Popular Packages cards in search)
+    const pkgSalonEl = e.target.closest('[data-goto-package-salon]');
+    if (pkgSalonEl) {
+      e.stopPropagation();
+      goToSalon(parseInt(pkgSalonEl.dataset.gotoPackageSalon), [], 'Packages');
+      return;
+    }
+
+    // Go to a specific package pre-selected on salon profile (from package match callout on results card)
+    const gotoPackageEl = e.target.closest('[data-goto-package]');
+    if (gotoPackageEl) {
+      e.stopPropagation();
+      const parts = gotoPackageEl.dataset.gotoPackage.split(':');
+      goToSalon(parseInt(parts[0]), [], 'Packages', [parts[1]]);
       return;
     }
 
@@ -395,7 +432,12 @@ function initEvents() {
 
 /* ── Show screen without re-render (top nav pill click) ── */
 function showScreenFromNav(screenId) {
-  navigate(screenId);
+  const salonDefaults = {
+    'salon-starter': { selectedSalon: salons[2], salonServices: [], salonPackages: [], salonTab: 'Services' },
+    'salon-growth':  { selectedSalon: salons[1], salonServices: [], salonPackages: [], salonTab: 'Services' },
+    'salon-premium': { selectedSalon: salons[0], salonServices: [], salonPackages: [], salonTab: 'Services' },
+  };
+  navigate(screenId, salonDefaults[screenId] || {});
 }
 
 /* ── Initialise ── */

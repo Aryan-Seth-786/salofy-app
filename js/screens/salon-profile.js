@@ -17,13 +17,16 @@ function renderSalonProfile() {
   const heroColor = isPremium ? 'rgba(255,255,255,0.35)' : C.text3;
   const backColor = isPremium ? '#fff' : C.text;
 
-  const svcTotal = selSvcs.filter(sid => s.services[sid]).reduce((a, sid) => a + s.services[sid], 0);
+  const svcTotal = selSvcs.filter(sid => s.services[sid]).reduce((a, sid) => a + ((s.serviceDiscounts && s.serviceDiscounts[sid]) || s.services[sid]), 0);
   const pkgTotal = selPkgs.reduce((a, pkgId) => { const p = (s.packages||[]).find(pk => pk.id === pkgId); return a + (p ? p.price : 0); }, 0);
   const subtotal = svcTotal + pkgTotal;
   const dp       = s.deal ? parseInt(s.deal) || 0 : 0;
   const discount = (!isStarter && dp > 0) ? Math.round(subtotal * dp / 100) : 0;
   const totalItems = selSvcs.length + selPkgs.length;
   const isFav    = AppState.favorites.has(s.id);
+
+  const pastVisits = bookings.filter(b => b.salonId === s.id && b.status === 'completed');
+  const lastVisit  = pastVisits[0];
 
   /* ── Tab Panels ── */
 
@@ -40,6 +43,7 @@ function renderSalonProfile() {
           const svc = getSvc(k);
           if (!svc) return '';
           const sel = selSvcs.includes(k);
+          const discPrice = s.serviceDiscounts && s.serviceDiscounts[k];
           return `
             <div class="service-select${sel ? ' service-select--active' : ''}" data-svc-toggle="${k}">
               <div style="display:flex;align-items:center;gap:10px">
@@ -51,10 +55,19 @@ function renderSalonProfile() {
                 </div>
                 <div>
                   <div style="font-size:13px;font-weight:500;color:${C.text}">${svc.label}</div>
-                  <div style="font-size:11px;color:${C.text3}">${svc.time}</div>
+                  <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:1px">
+                    <span style="font-size:11px;color:${C.text3}">${svc.time}</span>
+                    ${discPrice ? `<span style="font-size:9px;padding:1px 6px;background:${C.successS};border:1px solid rgba(45,139,85,0.25);border-radius:6px;color:${C.success};font-weight:600;line-height:1.6">Online Booking Discount</span>` : ''}
+                  </div>
                 </div>
               </div>
-              <div style="font-size:14px;font-weight:600;color:${C.primary}">\u20B9${v}</div>
+              ${discPrice
+                ? `<div style="text-align:right">
+                     <div style="font-size:11px;color:${C.text3};text-decoration:line-through">\u20B9${v}</div>
+                     <div style="font-size:14px;font-weight:700;color:${C.success}">\u20B9${discPrice}</div>
+                   </div>`
+                : `<div style="font-size:14px;font-weight:600;color:${C.primary}">\u20B9${v}</div>`
+              }
             </div>`;
         }).join('')}
       </div>
@@ -102,6 +115,9 @@ function renderSalonProfile() {
                   <span style="font-size:11px;color:${C.success};font-weight:500;margin-left:6px">Save \u20B9${pkg.savings}</span>
                 </div>
                 <div style="font-size:10px;color:${C.text3}">vs \u20B9${pkg.price + pkg.savings} separately</div>
+              </div>
+              <div style="margin-top:7px">
+                <span style="font-size:9px;padding:2px 8px;background:${C.successS};border:1px solid rgba(45,139,85,0.25);border-radius:6px;color:${C.success};font-weight:600">Online Booking Discount</span>
               </div>
             </div>`;
         }).join('')}
@@ -233,6 +249,13 @@ function renderSalonProfile() {
         <span style="font-size:13px;color:${C.text3}">${s.reviews} reviews</span>
         <span style="font-size:11px;color:${C.text3}">&bull; ${s.dist}</span>
       </div>
+      ${lastVisit ? `
+      <div style="display:flex;align-items:center;gap:6px;margin-top:8px">
+        ${Icons.calendar(11, C.success)}
+        <span style="font-size:11px;color:${C.success};font-weight:500">You've visited ${pastVisits.length} time${pastVisits.length > 1 ? 's' : ''} &bull; Last: ${lastVisit.date}</span>
+        <span onclick="AppState.bookingsTab='Completed';navigate('my-bookings')"
+          style="font-size:11px;color:${C.primary};font-weight:600;cursor:pointer;margin-left:2px">See history</span>
+      </div>` : ''}
     </div>
 
     <!-- Action buttons -->

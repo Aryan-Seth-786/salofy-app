@@ -40,6 +40,7 @@ const salons = [
       { n: "Ravi", r: "Skin Expert", gender: "m" }
     ],
     services: { haircut: 400, headwash: 100, beard: 200, color: 1200, facial: 1000, waxing: 800, spa: 1500, bridal: 8000, manicure: 500, threading: 100, shave: 150, massage: 300 },
+    serviceDiscounts: { facial: 799, color: 999, spa: 1199 },
     packages: [
       { id: "pkg1", name: "Groom & Go", desc: "Quick all-in-one groom", services: ["haircut", "headwash", "beard"], price: 550, savings: 150, duration: "65 min" },
       { id: "pkg2", name: "Skin Glow", desc: "Refresh your skin and hair", services: ["facial", "headwash"], price: 899, savings: 201, duration: "60 min" },
@@ -84,6 +85,7 @@ const salons = [
       { n: "Jaspreet", r: "Beard Expert", gender: "m" }
     ],
     services: { haircut: 350, headwash: 80, beard: 180, color: 1000, shave: 130, massage: 250, spa: 1200 },
+    serviceDiscounts: { color: 799, spa: 999 },
     packages: [
       { id: "pkg1", name: "Royal Groom", desc: "Haircut, beard & wash", services: ["haircut", "beard", "headwash"], price: 499, savings: 111, duration: "65 min" },
       { id: "pkg2", name: "King's Treat", desc: "Haircut, shave & massage", services: ["haircut", "shave", "massage"], price: 599, savings: 131, duration: "1.25 hrs" },
@@ -119,3 +121,12 @@ const salons = [
 function getSvc(id) {
   return allServices.find(s => s.id === id);
 }
+
+const bookings = [
+  { idx: 0, salonId: 2, date: 'Sun, Mar 29', time: '10:30 AM', services: "Men's Haircut, Beard Styling", status: 'upcoming' },
+  { idx: 1, salonId: 1, date: 'Wed, Mar 26', time: '11:00 AM', pkgId: 'pkg3',                             status: 'upcoming' },
+  { idx: 5, salonId: 4, date: 'Tue, Apr 1',  time: '4:00 PM',  services: 'Clean Shave, Head Massage',     status: 'upcoming' },
+  { idx: 2, salonId: 1, date: 'Sat, Mar 22', time: '2:00 PM',  services: 'Gold Facial',                   status: 'completed' },
+  { idx: 3, salonId: 3, date: 'Mon, Mar 15', time: '11:00 AM', services: 'Basic Facial, Waxing',           status: 'completed' },
+  { idx: 4, salonId: 4, date: 'Fri, Mar 7',  time: '3:00 PM',  services: 'Beard Trim, Head Massage',       status: 'completed' },
+];

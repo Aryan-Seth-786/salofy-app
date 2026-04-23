@@ -12,6 +12,7 @@ const AppState = {
   salonServices: [],                 // services selected on salon profile page
   salonPackages: [],                 // packages selected on salon profile page
   salonTab: 'Services',
+  bookingsTab: null,               // null = overview (all), 'Upcoming', or 'Completed'
   favorites: new Set([1, 4]),
   searchQuery: '',
   booking: { dateIdx: 1, time: '10:30' },

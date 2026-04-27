@@ -4,16 +4,19 @@
 
 /* ── Phone Frame ── */
 .phone-shell {
-  width: var(--phone-w);
-  height: var(--phone-h);
+  width: 100%;
+  max-width: 100%;
+  height: 100dvh;
   background: var(--bg);
-  border-radius: var(--phone-radius);
-  border: 3px solid var(--border);
+  border-radius: 0;
+  border: none;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04);
+  box-shadow: none;
   font-family: var(--font-body);
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .phone-shell--dark {
@@ -22,41 +25,19 @@
 }
 
 /* ── Notch ── */
-.phone-notch {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 150px;
-  height: 30px;
-  background: var(--ink-150);
-  border-radius: 0 0 20px 20px;
-  z-index: 10;
-}
-.phone-notch--dark { background: var(--ink-900); }
+.phone-notch { display: none; }
+.phone-notch--dark { display: none; }
 
-/* ── Status Bar ── */
-.phone-status {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 24px 0;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text);
-  position: relative;
-  z-index: 5;
-}
-.phone-status--dark { color: var(--fg-inverse); }
-.phone-status__icons {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
+/* ── Status Bar (hidden — real device has its own) ── */
+.phone-status { display: none; }
+.phone-status--dark { display: none; }
+.phone-status__icons { display: none; }
 
-/* ── Phone Content (no internal scroll) ── */
+/* ── Phone Content ── */
 .phone-content {
-  overflow: hidden;
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding-bottom: 85px;
 }
 
@@ -119,85 +100,31 @@
 
 /* ── Page Wrapper ── */
 .demo-wrapper {
-  min-height: 100vh;
-  background: var(--grad-warm);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 20px 60px;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--bg);
+  display: block;
+  padding: 0;
 }
 
-.demo-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-.demo-header__logo {
-  font-family: var(--font-heading);
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--primary);
-}
-.demo-header__sub {
-  font-size: 12px;
-  color: var(--text-3);
-  margin-top: 4px;
-}
+.demo-header { display: none; }
+.demo-header__logo { display: none; }
+.demo-header__sub { display: none; }
 
-/* ── Screen Navigation Pills ── */
-.screen-nav {
-  display: flex;
-  gap: 6px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
-  max-width: 900px;
-}
-.screen-nav__group {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.screen-nav__group::after {
-  content: '';
-  width: 1px;
-  height: 24px;
-  background: var(--border);
-  align-self: center;
-  margin: 0 6px;
-}
-.screen-nav__group:last-child::after { display: none; }
-
-.screen-nav__btn {
-  padding: 6px 14px;
-  background: var(--surface);
-  color: var(--text-2);
-  border: 1px solid var(--border);
-  border-radius: var(--r-pill);
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 400;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s;
-}
-.screen-nav__btn:hover {
-  border-color: var(--primary);
-  color: var(--text);
-}
-.screen-nav__btn--active {
-  background: var(--primary);
-  color: #fff;
-  border-color: var(--primary);
-  font-weight: 600;
-}
+/* ── Screen Navigation Pills (hidden in normal view) ── */
+.screen-nav { display: none; }
 
 /* ── Screen Container ── */
 .screen-container {
   display: none;
   animation: slideUpFade 0.28s var(--ease-smooth) both;
 }
-.screen-container--active { display: block; }
+.screen-container--active {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 
 /* ── Staggered Content Reveals ── */
 .phone-content > * {
@@ -209,18 +136,5 @@
 .phone-content > *:nth-child(5) { animation-delay: 0.16s; }
 .phone-content > *:nth-child(6) { animation-delay: 0.20s; }
 
-/* ── Screen Label ── */
-.screen-label {
-  text-align: center;
-  margin-top: 12px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-2);
-}
-.screen-label span {
-  display: block;
-  font-size: 11px;
-  color: var(--text-3);
-  font-weight: 400;
-  margin-top: 2px;
-}
+/* ── Screen Label (hidden in normal view) ── */
+.screen-label { display: none; }

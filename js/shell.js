@@ -16,7 +16,7 @@ function Shell(innerHTML, opts = {}) {
           <svg width="25" height="12" viewBox="0 0 25 12" fill="none" stroke="${statusDark?'#fff':C.text}" stroke-width="1"><rect x="0.5" y="0.5" width="21" height="11" rx="2.5"/><rect x="22" y="3.5" width="2.5" height="5" rx="1" fill="${statusDark?'#fff':C.text}"/><rect x="2" y="2" width="16" height="8" rx="1" fill="${statusDark?'#fff':C.text}"/></svg>
         </span>
       </div>
-      <div class="phone-content${noNav ? ' phone-content--no-nav' : ''} hide-sb">
+      <div class="phone-content${noNav ? ' phone-content--no-nav' : ''} hide-sb" style="overflow-y:auto">
         ${innerHTML}
       </div>
       ${noNav ? '' : (navType === 'dashboard' ? DashboardNav(activeTab) : BottomNav(activeTab))}

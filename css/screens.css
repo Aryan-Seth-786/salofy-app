@@ -15,10 +15,8 @@
 /* ── Responsive ── */
 @media (max-width: 480px) {
   .phone-shell {
-    width: 340px;
-    height: 740px;
-    border-radius: 36px;
+    width: 100%;
+    height: 100dvh;
+    border-radius: 0;
   }
-  .demo-header__logo { font-size: 24px; }
-  .screen-nav { padding: 0 12px; }
 }

@@ -1,6 +1,6 @@
 function renderSplash() {
   return Shell(`
-    <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg, #1A1A2E 0%, #2a2040 50%, #1A1A2E 100%);margin-top:-40px;padding-bottom:60px">
+    <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg, var(--ink-900) 0%, var(--ink-800) 50%, var(--ink-900) 100%);margin-top:-40px;padding-bottom:60px">
       <div style="width:90px;height:90px;border-radius:24px;background:linear-gradient(135deg, #B8860B, #D4A017);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 40px rgba(184,134,11,0.4);margin-bottom:24px">
         ${Icons.scissors(40, '#fff')}
       </div>

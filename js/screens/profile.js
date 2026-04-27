@@ -10,12 +10,12 @@ function renderProfile() {
 
   return Shell(`
     <div style="padding:44px 20px 20px">
-      <div style="font-size:20px;font-weight:700;color:${C.text};margin-bottom:20px">My Profile</div>
+      <div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:${C.text};margin-bottom:20px;letter-spacing:-0.4px">My Profile</div>
 
       <!-- Avatar Row -->
       <div style="display:flex;gap:14px;align-items:center;margin-bottom:20px">
         <div style="position:relative">
-          <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#B8860B,#D4A017);display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;font-weight:700">A</div>
+          <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,${C.primaryD},${C.primary});display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;font-weight:700;box-shadow:var(--shadow-gold)">A</div>
         </div>
         <div>
           <div style="font-size:17px;font-weight:600;color:${C.text}">Aryan</div>

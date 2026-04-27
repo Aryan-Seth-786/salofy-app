@@ -4,11 +4,11 @@
    ═══════════════════════════════════════════════════ */
 
 function TopBadge() {
-  return `<span class="badge badge--top">${Icons.starFilled(8, '#fff')} Top Salon</span>`;
+  return `<span class="badge badge--top" style="letter-spacing:0.06em">✦ TOP SALON</span>`;
 }
 
 function VerifiedBadge() {
-  return `<span class="badge badge--verified">${Icons.check(8, '#fff')} Verified</span>`;
+  return `<span class="badge badge--verified" style="letter-spacing:0.06em">${Icons.check(8, '#fff')} VERIFIED</span>`;
 }
 
 function DealTag(text) {
@@ -16,15 +16,28 @@ function DealTag(text) {
 }
 
 function TopDot() {
-  return `<span class="dot-badge dot-badge--top">${Icons.starFilled(8, '#fff')}</span>`;
+  return `<span class="dot-badge dot-badge--top" style="font-size:8px;color:#fff;display:inline-flex;align-items:center;justify-content:center">✦</span>`;
 }
 
 function VerifiedDot() {
   return `<span class="dot-badge dot-badge--verified">${Icons.check(8, '#fff')}</span>`;
 }
 
-function StarRow(rating) {
-  return `<span class="star-row">${Icons.starFilled(12, C.primaryL)} ${rating}</span>`;
+function StarRow(rating, reviews) {
+  const reviewsPart = reviews != null
+    ? `<span style="color:${C.ink400};font-weight:400"> (${reviews})</span>`
+    : '';
+  return `<span class="star-row" style="font-variant-numeric:tabular-nums">${rating} <span style="color:${C.saffron}">★</span>${reviewsPart}</span>`;
+}
+
+function BookingStatusPill(status) {
+  if (status === 'upcoming') {
+    return `<span style="display:inline-flex;align-items:center;gap:4px;background:var(--rose-50);color:var(--rose-700);padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;font-family:var(--font-heading);font-style:italic;letter-spacing:-0.01em">✓ Confirmed</span>`;
+  }
+  if (status === 'completed') {
+    return `<span style="display:inline-flex;align-items:center;gap:4px;background:var(--success-50);color:var(--success-600);padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600">✓ Completed</span>`;
+  }
+  return `<span style="display:inline-flex;align-items:center;gap:4px;background:var(--plum-50);color:var(--plum-600);padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600">Pending</span>`;
 }
 
 function PayAtSalon() {
@@ -82,9 +95,9 @@ function SalonResultCard(s, selectedSvcs = [], isFav = false) {
   }
 
   return `
-    <div class="salon-card${s.tier === 'premium' ? ' salon-card--premium' : ''}" data-goto-salon="${s.id}" style="cursor:pointer">
+    <div class="salon-card${s.tier === 'premium' ? ' salon-card--premium' : s.tier === 'growth' ? ' salon-card--growth' : ''}" data-goto-salon="${s.id}" style="cursor:pointer">
       <div class="salon-card__hero">
-        <div class="salon-card__hero-icon">${Icons.scissors(28, C.text3)}</div>
+        ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(18,15,13,.25) 0%,transparent 60%)"></div>` : `<div class="salon-card__hero-icon">${Icons.scissors(28, C.text3)}</div>`}
         <div class="salon-card__badges">
           ${s.tier === 'premium' ? TopBadge() : ''}
           ${(s.tier === 'growth' || s.tier === 'premium') ? VerifiedBadge() : ''}
@@ -99,7 +112,7 @@ function SalonResultCard(s, selectedSvcs = [], isFav = false) {
             ${s.tier === 'premium' ? TopDot() : ''}
             ${s.tier === 'growth' ? VerifiedDot() : ''}
           </div>
-          ${StarRow(s.rating)}
+          ${StarRow(s.rating, s.reviews)}
         </div>
         <div class="salon-card__meta">${s.loc} &bull; ${s.dist}</div>
         ${servicesHtml}
@@ -126,7 +139,7 @@ function ServiceListItem(svc, price, showBorder) {
         <div style="font-size:13px;font-weight:500;color:${C.text};display:flex;align-items:center;gap:6px">${svcIcon(svc.icon, 16, C.text2)} ${svc.label}</div>
         <div style="font-size:11px;color:${C.text3};margin-top:2px">${svc.time}</div>
       </div>
-      <div style="font-size:14px;font-weight:600;color:${C.primary}">\u20B9${price}</div>
+      <div style="font-size:14px;font-weight:700;color:${C.ink900};font-variant-numeric:tabular-nums">\u20B9${price}</div>
     </div>`;
 }
 
@@ -135,7 +148,7 @@ function ReviewCard(name, stars, text) {
     <div style="background:${C.surface2};border-radius:8px;padding:12px;margin-bottom:8px;border:1px solid ${C.borderS}">
       <div style="display:flex;justify-content:space-between;margin-bottom:6px">
         <span style="font-size:12px;font-weight:600;color:${C.text}">${name}</span>
-        <span style="font-size:11px;color:${C.primaryL};display:flex;gap:1px">${Array(stars).fill(Icons.starFilled(11, C.primaryL)).join('')}${Array(5 - stars).fill(Icons.star(11, C.border)).join('')}</span>
+        <span style="font-size:11px;color:${C.saffron};display:flex;gap:1px">${Array(stars).fill(Icons.starFilled(11, C.saffron)).join('')}${Array(5 - stars).fill(Icons.star(11, C.ink200)).join('')}</span>
       </div>
       <div style="font-size:12px;color:${C.text2};line-height:1.5">${text}</div>
     </div>`;

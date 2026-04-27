@@ -3,8 +3,11 @@ function renderFavorites() {
 
   return Shell(`
     <div style="padding:44px 20px 14px">
-      <div style="font-size:20px;font-weight:700;color:${C.text};display:flex;align-items:center;gap:8px">${Icons.heart(20, C.error, true)} Saved Salons</div>
-      <div style="font-size:12px;color:${C.text3};margin-top:4px">${favSalons.length} salons saved</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:${C.text};letter-spacing:-0.4px">Saved Salons</span>
+        ${Icons.heart(18, C.error, true)}
+      </div>
+      <div style="font-size:12px;color:${C.text3};margin-top:4px">${favSalons.length} salon${favSalons.length !== 1 ? 's' : ''} saved</div>
     </div>
 
     <div style="padding:8px 20px;display:flex;flex-direction:column;gap:12px">

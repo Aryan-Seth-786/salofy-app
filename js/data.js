@@ -4,12 +4,33 @@
    ═══════════════════════════════════════════════════ */
 
 const C = {
-  bg: "#FAFAF7", surface: "#FFFFFF", surface2: "#F5F0E8", surface3: "#EDE6D8",
-  border: "#E2D9C8", borderS: "#EDE6D8", text: "#1A1A2E", text2: "#4A4A5A",
-  text3: "#8A8A96", primary: "#B8860B", primaryL: "#D4A017", primaryD: "#8B6508",
-  primaryS: "rgba(184, 134, 11, 0.08)", success: "#2D8B55", successS: "rgba(45, 139, 85, 0.08)",
-  error: "#C0392B", errorS: "rgba(192, 57, 43, 0.08)", info: "#5B7FA5",
-  rose: "#C4756E", verified: "#7B68AE",
+  /* surfaces */
+  bg: "#fbf9f8", surface: "#ffffff", surface2: "#f5f2f0", surface3: "#ede8e5",
+  /* borders */
+  border: "#e2dcd8", borderS: "#ede8e5",
+  /* text */
+  text: "#120f0d", text2: "#4d4540", text3: "#6f6661",
+  /* brand */
+  primary: "#f43f5e", primaryL: "#ff6b7e", primaryD: "#b5123b",
+  primaryS: "rgba(244, 63, 94, 0.09)",
+  rose: "#f43f5e",
+  plum: "#6d2db0", topSalon: "#6d2db0",
+  saffron: "#f59e0b", saffronLite: "#ffbe4d",
+  /* semantic */
+  success: "#10b981", successS: "rgba(16, 185, 129, 0.10)",
+  error: "#ef4444", errorS: "rgba(239, 68, 68, 0.08)",
+  info: "#3b82f6",
+  verified: "#1d9bf0",
+  warning: "#f59e0b",
+  /* ink scale */
+  ink50: "#fbf9f8", ink100: "#f5f2f0", ink150: "#ede8e5",
+  ink200: "#e2dcd8", ink300: "#c9c1bc", ink400: "#9a918c",
+  ink500: "#6f6661", ink600: "#4d4540", ink700: "#332c28",
+  ink800: "#1f1a17", ink900: "#120f0d",
+  /* shadows */
+  shadowSm: "0 2px 6px rgba(35,20,17,.06), 0 1px 2px rgba(35,20,17,.04)",
+  shadowMd: "0 8px 20px -4px rgba(35,20,17,.08), 0 3px 6px -2px rgba(35,20,17,.05)",
+  shadowRose: "0 8px 20px -6px rgba(244,63,94,.35)",
 };
 
 const allServices = [
@@ -31,6 +52,15 @@ const salons = [
   {
     id: 1, name: "Luxe Hair Studio", loc: "Sector 17, Chandigarh", dist: "1.2 km", mapX: 55, mapY: 25,
     rating: 4.8, reviews: 312, tier: "premium", photos: 32,
+    cover: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=450&fit=crop&crop=center',
+    gallery: [
+      'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&h=400&fit=crop&crop=center',
+    ],
     hours: "10 AM - 10 PM", deal: "30% Off First Visit",
     flash: { title: "50% Off All Facials", sub: "Today Only", hrs: "02", min: "34", sec: "11" },
     staff: [
@@ -52,6 +82,13 @@ const salons = [
   {
     id: 2, name: "Urban Style", loc: "Kharar Main Road", dist: "3.8 km", mapX: 78, mapY: 72,
     rating: 4.5, reviews: 124, tier: "growth", photos: 15,
+    cover: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=800&h=450&fit=crop&crop=center',
+    gallery: [
+      'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=600&h=400&fit=crop&crop=center',
+    ],
     hours: "9 AM - 9 PM", deal: "20% Off First Visit",
     staff: [
       { n: "Rajesh", r: "Senior Stylist", gender: "m" },
@@ -68,6 +105,12 @@ const salons = [
   {
     id: 3, name: "Glow Beauty Parlour", loc: "Phase 3B2, Mohali", dist: "5.1 km", mapX: 42, mapY: 68,
     rating: 4.1, reviews: 38, tier: "starter", photos: 5,
+    cover: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&h=450&fit=crop&crop=center',
+    gallery: [
+      'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600&h=400&fit=crop&crop=center',
+    ],
     hours: "10 AM - 8 PM",
     staff: [],
     services: { haircut: 200, headwash: 30, facial: 400, waxing: 350, manicure: 250, threading: 50 },
@@ -79,6 +122,14 @@ const salons = [
   {
     id: 4, name: "Royal Cuts", loc: "Phase 5, Mohali", dist: "2.4 km", mapX: 35, mapY: 52,
     rating: 4.7, reviews: 198, tier: "premium", photos: 28,
+    cover: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&h=450&fit=crop&crop=center',
+    gallery: [
+      'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=600&h=400&fit=crop&crop=center',
+    ],
     hours: "9 AM - 9 PM", deal: "15% Off Combo",
     staff: [
       { n: "Harpreet", r: "Owner & Stylist", gender: "m" },
@@ -95,6 +146,11 @@ const salons = [
   {
     id: 5, name: "Neha's Salon", loc: "Patiala Gate", dist: "6.3 km", mapX: 18, mapY: 82,
     rating: 3.9, reviews: 22, tier: "starter", photos: 4,
+    cover: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=450&fit=crop&crop=center',
+    gallery: [
+      'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&h=400&fit=crop&crop=center',
+    ],
     hours: "10 AM - 7 PM",
     staff: [],
     services: { haircut: 180, facial: 350, threading: 40, waxing: 300, manicure: 200 },
@@ -106,6 +162,12 @@ const salons = [
   {
     id: 6, name: "Blade & Co.", loc: "Sector 22, Chandigarh", dist: "2.1 km", mapX: 62, mapY: 35,
     rating: 4.6, reviews: 87, tier: "growth", photos: 12,
+    cover: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&h=450&fit=crop&crop=center',
+    gallery: [
+      'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&h=400&fit=crop&crop=center',
+    ],
     hours: "10 AM - 9 PM", deal: "\u20B999 Head Wash",
     staff: [
       { n: "Karan", r: "Master Barber", gender: "m" }

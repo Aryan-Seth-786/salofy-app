@@ -12,10 +12,12 @@ function renderSalonProfile() {
     : ['Services', 'Packages', 'Staff', 'Reviews', 'Photos', 'Video'];
 
   const heroGrad  = isPremium
-    ? 'linear-gradient(135deg, #3a2058, #1e3a4f)'
-    : `linear-gradient(135deg, ${C.surface2}, ${C.surface3})`;
-  const heroColor = isPremium ? 'rgba(255,255,255,0.35)' : C.text3;
-  const backColor = isPremium ? '#fff' : C.text;
+    ? 'linear-gradient(135deg, #ff6b7e, #f43f5e, #d91f48)'
+    : isGrowth
+      ? 'linear-gradient(135deg, var(--rose-100), var(--plum-200))'
+      : `linear-gradient(135deg, ${C.rose50 || '#fff1f2'}, ${C.ink200 || '#e2dcd8'})`;
+  const heroColor = (isPremium || isGrowth) ? 'rgba(255,255,255,0.25)' : C.ink400;
+  const backColor = (isPremium || isGrowth) ? '#fff' : C.ink900;
 
   const svcTotal = selSvcs.filter(sid => s.services[sid]).reduce((a, sid) => a + ((s.serviceDiscounts && s.serviceDiscounts[sid]) || s.services[sid]), 0);
   const pkgTotal = selPkgs.reduce((a, pkgId) => { const p = (s.packages||[]).find(pk => pk.id === pkgId); return a + (p ? p.price : 0); }, 0);
@@ -66,7 +68,7 @@ function renderSalonProfile() {
                      <div style="font-size:11px;color:${C.text3};text-decoration:line-through">\u20B9${v}</div>
                      <div style="font-size:14px;font-weight:700;color:${C.success}">\u20B9${discPrice}</div>
                    </div>`
-                : `<div style="font-size:14px;font-weight:600;color:${C.primary}">\u20B9${v}</div>`
+                : `<div style="font-size:14px;font-weight:700;color:${C.ink900};font-variant-numeric:tabular-nums">\u20B9${v}</div>`
               }
             </div>`;
         }).join('')}
@@ -132,7 +134,7 @@ function renderSalonProfile() {
         <div style="display:flex;gap:14px;overflow-x:auto;padding-bottom:8px" class="hide-sb">
           ${s.staff.map(st => `
             <div style="min-width:96px;text-align:center;flex-shrink:0;padding:14px 10px;background:${C.surface2};border-radius:12px;border:1px solid ${C.border}">
-              <div style="width:56px;height:56px;border-radius:50%;background:${C.surface3};margin:0 auto 8px;display:flex;align-items:center;justify-content:center;border:${isPremium ? `2px solid ${C.primaryL}` : `1px solid ${C.border}`}">
+              <div style="width:56px;height:56px;border-radius:50%;background:${C.surface3};margin:0 auto 8px;display:flex;align-items:center;justify-content:center;border:${isPremium ? `2px solid ${C.saffron}` : `1px solid ${C.border}`}">
                 ${Icons.person(26, C.text3)}
               </div>
               <div style="font-size:12px;font-weight:600;color:${C.text}">${st.n}</div>
@@ -157,7 +159,7 @@ function renderSalonProfile() {
         <div style="display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid ${C.border};margin-bottom:12px">
           <div style="text-align:center">
             <div style="font-size:36px;font-weight:800;color:${C.text}">${s.rating}</div>
-            <div style="display:flex;gap:2px;justify-content:center;margin:4px 0">${Array(5).fill(0).map((_,i) => Icons.starFilled(12, i < Math.round(s.rating) ? C.primaryL : C.border)).join('')}</div>
+            <div style="display:flex;gap:2px;justify-content:center;margin:4px 0">${Array(5).fill(0).map((_,i) => Icons.starFilled(12, i < Math.round(s.rating) ? C.saffron : C.border)).join('')}</div>
             <div style="font-size:11px;color:${C.text3}">${s.reviews} reviews</div>
           </div>
           <div style="flex:1">
@@ -165,9 +167,9 @@ function renderSalonProfile() {
               const pct = star === 5 ? 72 : star === 4 ? 18 : star === 3 ? 7 : star === 2 ? 2 : 1;
               return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
                 <span style="font-size:10px;color:${C.text3};width:8px">${star}</span>
-                ${Icons.starFilled(9, C.primaryL)}
+                ${Icons.starFilled(9, C.saffron)}
                 <div style="flex:1;height:5px;background:${C.surface3};border-radius:3px">
-                  <div style="width:${pct}%;height:100%;background:${C.primaryL};border-radius:3px"></div>
+                  <div style="width:${pct}%;height:100%;background:${C.saffron};border-radius:3px"></div>
                 </div>
               </div>`;
             }).join('')}
@@ -188,10 +190,9 @@ function renderSalonProfile() {
       <div style="padding:0 20px">
         <div style="font-size:12px;color:${C.text3};margin-bottom:10px">${s.photos} photos</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          ${Array.from({ length: Math.min(s.photos, 6) }).map((_, i) => `
-            <div style="height:${i === 0 ? '160' : '100'}px;${i === 0 ? 'grid-column:span 2;' : ''}background:linear-gradient(135deg,${C.surface2},${C.surface3});border-radius:10px;border:1px solid ${C.borderS};display:flex;align-items:center;justify-content:center;position:relative">
-              ${Icons.camera(i === 0 ? 32 : 22, C.text3)}
-              ${i === 0 ? `<div style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.5);color:#fff;font-size:10px;padding:3px 8px;border-radius:8px">Salon Interior</div>` : ''}
+          ${(s.gallery || []).slice(0, 6).map((url, i) => `
+            <div style="height:${i === 0 ? '160' : '100'}px;${i === 0 ? 'grid-column:span 2;' : ''}border-radius:10px;overflow:hidden;position:relative">
+              <img src="${url}" alt="Salon photo ${i + 1}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">
             </div>
           `).join('')}
         </div>
@@ -219,58 +220,70 @@ function renderSalonProfile() {
     </div>` : '';
 
   return Shell(`
-    <!-- Hero -->
-    <div style="height:200px;background:${heroGrad};position:relative;display:flex;align-items:center;justify-content:center">
-      <div style="opacity:0.3">${Icons.scissors(42, heroColor)}</div>
-      <!-- Back -->
-      <div data-nav="back" style="position:absolute;top:48px;left:12px;width:34px;height:34px;background:rgba(255,255,255,${isPremium ? '0.18' : '0.6'});backdrop-filter:blur(8px);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(255,255,255,0.2)">
-        ${Icons.back(18, backColor)}
+    <!-- Hero cover: 240px tall, warm gradient, protection gradients -->
+    <div style="height:240px;background:${heroGrad};position:relative;overflow:hidden">
+      ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">` : `<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.15">${Icons.scissors(56, heroColor)}</div>`}
+      <!-- top protection -->
+      <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(18,15,13,.2) 0%,transparent 35%,transparent 55%,rgba(18,15,13,.55) 100%)"></div>
+      <!-- Back button -->
+      <div data-nav="back" style="position:absolute;top:48px;left:16px;width:40px;height:40px;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-radius:999px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow-sm)">
+        ${Icons.back(20, C.ink900)}
       </div>
-      <!-- Badges -->
-      <div style="position:absolute;top:48px;right:12px;display:flex;flex-direction:column;gap:4px;align-items:flex-end">
-        ${isPremium ? TopBadge() : ''}
-        ${(isGrowth || isPremium) ? VerifiedBadge() : ''}
-      </div>
-      <div style="position:absolute;bottom:10px;right:12px;background:rgba(0,0,0,0.5);color:#fff;font-size:11px;padding:3px 10px;border-radius:12px">1/${s.photos} photos</div>
+      <!-- Heart / fav button -->
+      <button class="fav-btn" data-fav="${s.id}" style="position:absolute;top:48px;right:16px;width:40px;height:40px;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-radius:999px;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow-sm)">
+        ${Icons.heart(20, isFav ? C.error : C.ink700, isFav)}
+      </button>
+      <!-- Photo count pill -->
+      <div style="position:absolute;bottom:54px;right:16px;background:rgba(18,15,13,.55);color:#fff;font-size:11px;padding:4px 10px;border-radius:999px;backdrop-filter:blur(4px)">1/${s.photos} photos</div>
     </div>
 
-    <!-- Info -->
-    <div style="padding:16px 20px 8px">
-      <div style="display:flex;align-items:center;gap:6px">
-        <span style="font-size:20px;font-weight:700;color:${C.text}">${s.name}</span>
-        ${isPremium ? TopDot() : ''}${(isGrowth || isPremium) ? VerifiedDot() : ''}
+    <!-- Floating info card — lifts over cover -->
+    <div style="padding:0 16px;margin-top:-40px;position:relative;z-index:2">
+      <div style="background:#fff;border-radius:18px;padding:18px;box-shadow:var(--shadow-md)">
+        <!-- Badges row -->
+        <div style="display:flex;gap:6px;margin-bottom:10px">
+          ${isPremium ? TopBadge() : ''}
+          ${(isGrowth || isPremium) ? VerifiedBadge() : ''}
+        </div>
+        <!-- Name in Fraunces -->
+        <div style="font-family:var(--font-heading);font-size:24px;font-weight:600;letter-spacing:-0.02em;color:${C.ink900};line-height:1.15">${s.name}</div>
+        <div style="font-size:13px;color:${C.text3};margin-top:4px">${isStarter ? 'Salon' : isPremium ? 'Premium salon' : 'Verified salon'} · ${s.loc}</div>
+        <!-- Stat row: rating · distance · hours -->
+        <div style="display:flex;align-items:center;gap:0;margin-top:14px;padding-top:14px;border-top:1px solid ${C.borderS}">
+          <div style="display:flex;align-items:center;gap:5px;flex:1">
+            ${StarRow(s.rating, s.reviews)}
+          </div>
+          <div style="width:1px;height:14px;background:${C.border};margin:0 10px"></div>
+          <div style="display:flex;align-items:center;gap:5px;flex:1">
+            ${Icons.mapPin(13, C.ink500)}
+            <span style="font-size:13px;color:${C.ink700}">${s.dist}</span>
+          </div>
+          <div style="width:1px;height:14px;background:${C.border};margin:0 10px"></div>
+          <div style="display:flex;align-items:center;gap:5px;flex:1">
+            ${Icons.clock(13, C.success)}
+            <span style="font-size:12px;color:${C.success};font-weight:600">${s.hours.split(' - ')[1] ? 'Till ' + s.hours.split(' - ')[1] : s.hours}</span>
+          </div>
+        </div>
+        ${lastVisit ? `
+        <div style="display:flex;align-items:center;gap:6px;margin-top:10px">
+          ${Icons.calendar(11, C.success)}
+          <span style="font-size:11px;color:${C.success};font-weight:500">Visited ${pastVisits.length} time${pastVisits.length > 1 ? 's' : ''} · Last: ${lastVisit.date}</span>
+          <span onclick="AppState.bookingsTab='Completed';navigate('my-bookings')"
+            style="font-size:11px;color:${C.primary};font-weight:600;cursor:pointer;margin-left:2px">History</span>
+        </div>` : ''}
       </div>
-      <div style="font-size:12px;color:${C.text3};margin-top:4px;display:flex;align-items:center;gap:6px">
-        ${Icons.mapPin(12, C.text3)} ${s.loc} &bull;
-        ${Icons.clock(12, C.text3)} ${s.hours}
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;margin-top:8px">
-        ${StarRow(s.rating)}
-        <span style="font-size:13px;color:${C.text3}">${s.reviews} reviews</span>
-        <span style="font-size:11px;color:${C.text3}">&bull; ${s.dist}</span>
-      </div>
-      ${lastVisit ? `
-      <div style="display:flex;align-items:center;gap:6px;margin-top:8px">
-        ${Icons.calendar(11, C.success)}
-        <span style="font-size:11px;color:${C.success};font-weight:500">You've visited ${pastVisits.length} time${pastVisits.length > 1 ? 's' : ''} &bull; Last: ${lastVisit.date}</span>
-        <span onclick="AppState.bookingsTab='Completed';navigate('my-bookings')"
-          style="font-size:11px;color:${C.primary};font-weight:600;cursor:pointer;margin-left:2px">See history</span>
-      </div>` : ''}
     </div>
 
     <!-- Action buttons -->
-    <div style="display:flex;gap:10px;padding:8px 20px 12px">
-      <button data-action="book-now" style="flex:1;padding:12px;background:${C.primary};color:#fff;border:none;border-radius:12px;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer">
-        ${selSvcs.length > 0 ? `Book ${selSvcs.length} Service${selSvcs.length > 1 ? 's' : ''}` : 'Book Now'}
+    <div style="display:flex;gap:10px;padding:14px 16px 8px">
+      <button data-action="book-now" style="flex:1;padding:13px;background:${C.primary};color:#fff;border:none;border-radius:14px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;box-shadow:${C.shadowRose};transition:transform 120ms">
+        ${selSvcs.length > 0 ? `Book ${selSvcs.length} service${selSvcs.length > 1 ? 's' : ''}` : 'Book now'}
       </button>
       <button class="btn btn--ghost" onclick="navigator.clipboard && navigator.clipboard.writeText('${s.name}')">
-        ${Icons.phone(18, C.text2)}
+        ${Icons.phone(18, C.ink600)}
       </button>
       <button class="btn btn--ghost">
-        ${Icons.mapPin(18, C.text2)}
-      </button>
-      <button class="fav-btn btn btn--ghost" data-fav="${s.id}" style="${isFav ? `background:${C.errorS};border-color:rgba(192,57,43,0.3)` : ''}">
-        ${Icons.heart(18, isFav ? C.error : C.text2, isFav)}
+        ${Icons.mapPin(18, C.ink600)}
       </button>
     </div>
 

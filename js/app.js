@@ -13,6 +13,7 @@ const AppState = {
   salonPackages: [],                 // packages selected on salon profile page
   salonTab: 'Services',
   bookingsTab: null,               // null = overview (all), 'Upcoming', or 'Completed'
+  user: { name: 'Aryan' },
   favorites: new Set([1, 4]),
   searchQuery: '',
   booking: { dateIdx: 1, time: '10:30' },

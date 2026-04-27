@@ -17,8 +17,8 @@
 }
 
 .phone-shell--dark {
-  background: #1A1A2E;
-  border-color: #363648;
+  background: var(--ink-900);
+  border-color: var(--ink-700);
 }
 
 /* ── Notch ── */
@@ -29,11 +29,11 @@
   transform: translateX(-50%);
   width: 150px;
   height: 30px;
-  background: #e8e3da;
+  background: var(--ink-150);
   border-radius: 0 0 20px 20px;
   z-index: 10;
 }
-.phone-notch--dark { background: #1A1A2E; }
+.phone-notch--dark { background: var(--ink-900); }
 
 /* ── Status Bar ── */
 .phone-status {
@@ -47,7 +47,7 @@
   position: relative;
   z-index: 5;
 }
-.phone-status--dark { color: #fff; }
+.phone-status--dark { color: var(--fg-inverse); }
 .phone-status__icons {
   display: flex;
   align-items: center;
@@ -69,7 +69,10 @@
   left: 0;
   right: 0;
   height: 78px;
-  background: linear-gradient(to top, var(--surface) 85%, transparent);
+  background: rgba(251, 249, 248, 0.88);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border-top: 1px solid var(--ink-150);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -89,28 +92,35 @@
   background: none;
   border: none;
   font-family: inherit;
-  padding: 4px 8px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  transition: background 0.15s, color 0.15s;
 }
 .bottom-nav__item--active {
   color: var(--primary);
   font-weight: 600;
+  background: var(--primary-surface);
 }
 
 /* ── Salon Dashboard Bottom Nav ── */
 .bottom-nav--dashboard {
-  background: linear-gradient(to top, #1A1A28 85%, transparent);
+  background: rgba(31, 26, 23, 0.92);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border-top: 1px solid var(--ink-700);
 }
 .bottom-nav--dashboard .bottom-nav__item {
-  color: #6E6E7A;
+  color: var(--ink-500);
 }
 .bottom-nav--dashboard .bottom-nav__item--active {
-  color: var(--primary-light);
+  color: var(--rose-400);
+  background: rgba(244, 63, 94, 0.12);
 }
 
 /* ── Page Wrapper ── */
 .demo-wrapper {
   min-height: 100vh;
-  background: #F0EDE6;
+  background: var(--grad-warm);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -185,9 +195,19 @@
 /* ── Screen Container ── */
 .screen-container {
   display: none;
-  animation: fadeIn 0.2s ease;
+  animation: slideUpFade 0.28s var(--ease-smooth) both;
 }
 .screen-container--active { display: block; }
+
+/* ── Staggered Content Reveals ── */
+.phone-content > * {
+  animation: slideUpFade 0.32s var(--ease-smooth) both;
+}
+.phone-content > *:nth-child(2) { animation-delay: 0.04s; }
+.phone-content > *:nth-child(3) { animation-delay: 0.08s; }
+.phone-content > *:nth-child(4) { animation-delay: 0.12s; }
+.phone-content > *:nth-child(5) { animation-delay: 0.16s; }
+.phone-content > *:nth-child(6) { animation-delay: 0.20s; }
 
 /* ── Screen Label ── */
 .screen-label {

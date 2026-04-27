@@ -17,7 +17,7 @@ function renderDashboardGrowth() {
 
   return Shell(`
     <div style="padding:44px 20px 14px;background:#0F0F17;min-height:100%">
-      <div style="font-size:18px;font-weight:700;color:#F0EDE6">Salon Dashboard</div>
+      <div style="font-size:18px;font-weight:700;color:var(--ink-50)">Salon Dashboard</div>
       <div style="display:inline-flex;align-items:center;gap:4px;margin-top:4px;font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(123,104,174,0.15);color:${C.verified}">
         ${Icons.check(10, C.verified)} Growth Plan
       </div>
@@ -37,7 +37,7 @@ function renderDashboardGrowth() {
 
       <!-- Bookings Chart -->
       <div style="margin-top:16px">
-        <div style="font-size:14px;font-weight:600;color:#F0EDE6;margin-bottom:12px">Bookings This Month</div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink-50);margin-bottom:12px">Bookings This Month</div>
         <div style="height:150px;background:#1A1A28;border:1px solid #363648;border-radius:10px;display:flex;align-items:flex-end;padding:16px;gap:8px">
           ${barHeights.map((h, i) => `
             <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
@@ -50,12 +50,12 @@ function renderDashboardGrowth() {
 
       <!-- Top Services -->
       <div style="margin-top:16px">
-        <div style="font-size:14px;font-weight:600;color:#F0EDE6;margin-bottom:12px">Most Viewed Services</div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink-50);margin-bottom:12px">Most Viewed Services</div>
         ${topServices.map((s, i) => `
           <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#1A1A28;border:1px solid #363648;border-radius:8px;margin-bottom:8px">
             <div style="display:flex;align-items:center;gap:10px">
               <div style="font-size:14px;font-weight:700;color:#6E6E7A;width:20px">${i + 1}</div>
-              <span style="font-size:13px;color:#F0EDE6">${s.name}</span>
+              <span style="font-size:13px;color:var(--ink-50)">${s.name}</span>
             </div>
             <span style="font-size:12px;color:#B0AEAD;display:flex;align-items:center;gap:4px">${Icons.eye(14, '#6E6E7A')} ${s.views}</span>
           </div>

@@ -20,6 +20,7 @@ const AppState = {
   rescheduleBooking: null,           // booking being rescheduled
   mapActiveSalon: null,              // selected salon on map screen
   searchViewMode: 'list',            // 'list' or 'map' on search results
+  genderFilter: 'all',               // 'all' | 'men' | 'women' — home screen toggle
 };
 
 /* ── Screen Registry ── */
@@ -138,8 +139,25 @@ function toggleSalonPackage(pkgId, phoneEl) {
   const pkg = (s.packages || []).find(p => p.id === pkgId);
   if (!pkg) return;
   const idx = AppState.salonPackages.indexOf(pkgId);
-  if (idx > -1) AppState.salonPackages.splice(idx, 1);
-  else AppState.salonPackages.push(pkgId);
+  if (idx > -1) {
+    AppState.salonPackages.splice(idx, 1);
+  } else {
+    AppState.salonPackages.push(pkgId);
+    // Deselect any individually-selected services that are covered by this package
+    (pkg.services || []).forEach(svcId => {
+      const svcIdx = AppState.salonServices.indexOf(svcId);
+      if (svcIdx > -1) {
+        AppState.salonServices.splice(svcIdx, 1);
+        const row = phoneEl.querySelector(`[data-svc-toggle="${svcId}"]`);
+        if (row) {
+          row.classList.remove('service-select--active');
+          const chk = row.querySelector('.svc-chk');
+          if (chk) { chk.style.background = 'transparent'; chk.style.borderColor = C.border; chk.innerHTML = ''; }
+        }
+      }
+    });
+    updateSuggestedPackages(phoneEl);
+  }
 
   // Update card appearance
   const card = phoneEl.querySelector(`[data-pkg-toggle="${pkgId}"]`);

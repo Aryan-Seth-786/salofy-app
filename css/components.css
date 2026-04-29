@@ -687,3 +687,115 @@
   background: var(--border);
   margin: 12px 0;
 }
+
+/* ── Service Select — state-driven sub-elements ── */
+.service-select__icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-2);
+  border-radius: 9px;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.service-select--active .service-select__icon { background: var(--primary-surface); }
+
+.service-select__disc-badge {
+  font-size: 9px;
+  padding: 1px 6px;
+  background: var(--success-surface);
+  border: 1px solid var(--success-border);
+  border-radius: 6px;
+  color: var(--success);
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+/* ── Package Card variants ── */
+.pkg-card--summary {
+  background: var(--primary-surface);
+  border: 1px solid var(--primary-border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+}
+.pkg-card--suggestion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--success-surface);
+  border: 1px solid var(--success-border);
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 6px;
+}
+
+/* ── Package component sub-elements ── */
+.pkg-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #fff;
+  background: var(--primary);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+.pkg-svc-chip {
+  font-size: 10px;
+  padding: 2px 7px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  color: var(--text-2);
+}
+.pkg-svc-chip--matched {
+  background: var(--primary-surface);
+  border: 1px solid var(--primary-border);
+  color: var(--primary);
+  font-weight: 600;
+}
+.pkg-svc-chip--bonus {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+}
+.pkg-save-badge {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--success);
+  background: rgba(16, 185, 129, 0.14);
+  padding: 2px 6px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+/* ── Success Circle (booking confirmed) ── */
+.success-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 24px var(--success-border);
+}
+
+/* ── Danger solid button ── */
+.btn--danger-solid {
+  flex: 1;
+  padding: 10px;
+  background: var(--error);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}

@@ -73,7 +73,7 @@ function SalonResultCard(s, selectedSvcs = [], isFav = false) {
         <span style="font-size:10px;color:${C.text3}">for ${matched.length} service${matched.length > 1 ? 's' : ''}</span>
       </div>
       ${matchingPkg ? `
-      <div data-goto-package="${s.id}:${matchingPkg.id}" style="display:flex;align-items:center;gap:8px;margin-top:8px;padding:8px 10px;background:${C.successS};border:1px solid rgba(45,139,85,0.25);border-radius:8px;cursor:pointer">
+      <div data-goto-package="${s.id}:${matchingPkg.id}" style="display:flex;align-items:center;gap:8px;margin-top:8px;padding:8px 10px;background:${C.successS};border:1px solid var(--success-border);border-radius:8px;cursor:pointer">
         ${Icons.gift(14, C.success)}
         <div style="flex:1;min-width:0;font-size:12px">
           <span style="font-weight:600;color:${C.success}">${matchingPkg.name}</span>
@@ -264,32 +264,8 @@ function SuggestedPackagesHtml(s, selSvcs) {
           <div style="font-size:11px;color:${C.text3};margin-top:1px">${subheading}</div>
         </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        ${suggested.map(pkg => {
-          const matchedSvcs  = selSvcs.filter(sid => pkg.services.includes(sid));
-          const bonusSvcs    = pkg.services.filter(sid => !selSvcs.includes(sid));
-          const showBonus    = bonusSvcs.slice(0, selSvcs.length >= 1 ? 2 : 3);
-          const hiddenCount  = bonusSvcs.length - showBonus.length;
-          return `
-            <div data-suggest-pkg="${pkg.id}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:${C.successS};border:1px solid rgba(45,139,85,0.22);border-radius:10px;cursor:pointer">
-              <div style="flex:1;min-width:0">
-                <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
-                  <span style="font-size:13px;font-weight:600;color:${C.text}">${pkg.name}</span>
-                  <span style="font-size:10px;font-weight:700;color:${C.success};background:rgba(45,139,85,0.14);padding:2px 6px;border-radius:6px;white-space:nowrap">Save \u20B9${pkg.savings}</span>
-                </div>
-                <div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center">
-                  ${matchedSvcs.map(sid => { const svc = getSvc(sid); return svc ? `<span style="font-size:9px;padding:2px 6px;background:rgba(184,134,11,0.12);border:1px solid rgba(184,134,11,0.3);border-radius:6px;color:${C.primary};font-weight:600">${svc.label}</span>` : ''; }).join('')}
-                  ${showBonus.map(sid => { const svc = getSvc(sid); return svc ? `<span style="font-size:9px;padding:2px 6px;background:${C.surface};border:1px solid ${C.border};border-radius:6px;color:${C.text2}">${svc.label}</span>` : ''; }).join('')}
-                  ${hiddenCount > 0 ? `<span style="font-size:9px;color:${C.text3}">+${hiddenCount} more</span>` : ''}
-                </div>
-              </div>
-              <div style="text-align:right;flex-shrink:0">
-                <div style="font-size:14px;font-weight:700;color:${C.primary}">\u20B9${pkg.price}</div>
-                <div style="font-size:10px;color:${C.text3};white-space:nowrap">${pkg.duration}</div>
-              </div>
-              ${Icons.forward(14, C.success)}
-            </div>`;
-        }).join('')}
+      <div style="display:flex;flex-direction:column;gap:0">
+        ${suggested.map(pkg => PackageCard.suggestion(pkg, selSvcs)).join('')}
       </div>
       <div style="height:1px;background:${C.border};margin:14px 0 4px"></div>
     </div>`;

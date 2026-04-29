@@ -57,24 +57,12 @@ function renderBooking() {
       ${selPkgs.map(pkgId => {
         const pkg = (s.packages||[]).find(p => p.id === pkgId);
         if (!pkg) return '';
-        return `<div style="background:${C.primaryS};border:1px solid rgba(212,160,23,0.3);border-radius:12px;padding:10px 12px;margin-bottom:6px">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-            <div style="display:flex;align-items:center;gap:6px">
-              <span style="font-size:9px;font-weight:700;letter-spacing:0.5px;color:#fff;background:${C.primary};padding:2px 6px;border-radius:6px">PACKAGE</span>
-              <span style="font-size:13px;font-weight:600;color:${C.text}">${pkg.name}</span>
-            </div>
-            <span style="font-size:13px;font-weight:700;color:${C.primary}">\u20B9${pkg.price}</span>
-          </div>
-          <div style="display:flex;flex-wrap:wrap;gap:4px">
-            ${pkg.services.map(sid => { const svc = getSvc(sid); return svc ? `<span style="font-size:10px;padding:2px 7px;background:rgba(255,255,255,0.6);border-radius:8px;color:${C.text2}">${svc.label}</span>` : ''; }).join('')}
-            <span style="font-size:10px;padding:2px 7px;background:${C.successS};color:${C.success};border-radius:8px">Save \u20B9${pkg.savings}</span>
-          </div>
-        </div>`;
+        return PackageCard(pkg, true, 'summary');
       }).join('')}
       ${selSvcs.length > 0 ? `<div style="display:flex;gap:6px;flex-wrap:wrap">
         ${selSvcs.map(sid => {
           const svc = getSvc(sid);
-          return `<span style="font-size:11px;padding:4px 10px;background:${C.primaryS};border:1px solid rgba(212,160,23,0.25);border-radius:16px;color:${C.primary};font-weight:500;display:inline-flex;align-items:center;gap:4px">
+          return `<span class="service-tag service-tag--matched" style="font-size:11px;padding:4px 10px;border-radius:16px;font-weight:500">
             ${svcIcon(svc.icon, 12, C.primary)} ${svc.label} \u20B9${s.services[sid]}
           </span>`;
         }).join('')}
@@ -136,7 +124,7 @@ function renderBooking() {
     <div style="padding:0 20px 8px">${PayAtSalon()}</div>
 
     <div style="padding:0 20px 20px">
-      <button data-action="confirm-booking" style="width:100%;padding:14px;background:${C.primary};color:#fff;border:none;border-radius:12px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer">
+      <button data-action="confirm-booking" class="btn btn--primary" style="border-radius:12px">
         Confirm Booking
       </button>
     </div>

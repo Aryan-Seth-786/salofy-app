@@ -59,7 +59,7 @@ function renderReschedule() {
       </div>
 
       <!-- Free cancellation notice -->
-      <div style="background:${C.successS};border:1px solid rgba(45,139,85,0.25);border-radius:10px;padding:12px 14px;display:flex;gap:8px;align-items:flex-start;margin-bottom:16px">
+      <div style="background:${C.successS};border:1px solid var(--success-border);border-radius:10px;padding:12px 14px;display:flex;gap:8px;align-items:flex-start;margin-bottom:16px">
         ${Icons.shield(16, C.success)}
         <div style="font-size:12px;color:${C.text2};line-height:1.5">
           <strong style="color:${C.success}">Free rescheduling</strong> &mdash; you can reschedule up to 2 hours before your appointment at no charge.

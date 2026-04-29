@@ -20,7 +20,7 @@ function renderSearchResults() {
     <div style="display:flex;gap:6px;padding:4px 20px 8px;overflow-x:auto;align-items:center" class="hide-sb">
       ${selSvcs.map(sid => {
         const svc = getSvc(sid);
-        return `<span style="font-size:11px;padding:5px 10px;background:${C.primaryS};border:1px solid rgba(212,160,23,0.25);border-radius:16px;color:${C.primary};font-weight:500;white-space:nowrap;display:inline-flex;align-items:center;gap:4px">
+        return `<span style="font-size:11px;padding:5px 10px;background:${C.primaryS};border:1px solid var(--primary-border);border-radius:16px;color:${C.primary};font-weight:500;white-space:nowrap;display:inline-flex;align-items:center;gap:4px">
           ${svcIcon(svc.icon, 12, C.primary)} ${svc.label}
         </span>`;
       }).join('')}

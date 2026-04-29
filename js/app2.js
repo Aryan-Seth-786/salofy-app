@@ -154,7 +154,7 @@ function confirmCancelBooking(idx) {
       <div style="font-size:13px;font-weight:600;color:${C.error};margin-bottom:10px">Cancel this booking?</div>
       <div style="display:flex;gap:8px">
         <button onclick="this.closest('[data-booking-idx]').outerHTML=''" style="flex:1;padding:10px;background:${C.surface2};border:1px solid ${C.border};border-radius:8px;font-family:inherit;font-size:12px;cursor:pointer;color:${C.text}">Keep Booking</button>
-        <button onclick="navigate('home')" style="flex:1;padding:10px;background:${C.error};color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer">Yes, Cancel</button>
+        <button onclick="navigate('home')" class="btn--danger-solid">Yes, Cancel</button>
       </div>
     </div>`;
 }

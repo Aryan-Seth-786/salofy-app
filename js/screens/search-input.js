@@ -51,7 +51,7 @@ function renderSearchInput() {
           const allPkgs = salons.flatMap(s => (s.packages || []).map(p => ({ ...p, salon: s })));
           return allPkgs.sort((a, b) => b.savings - a.savings).slice(0, 8).map(pkg => `
             <div data-goto-package-salon="${pkg.salon.id}" style="min-width:155px;max-width:155px;flex-shrink:0;background:${C.surface};border:1px solid ${C.border};border-radius:12px;padding:12px;cursor:pointer">
-              <div style="background:${C.successS};border:1px solid rgba(45,139,85,0.2);border-radius:8px;padding:3px 8px;display:inline-flex;align-items:center;gap:4px;margin-bottom:8px">
+              <div style="background:${C.successS};border:1px solid var(--success-border);border-radius:8px;padding:3px 8px;display:inline-flex;align-items:center;gap:4px;margin-bottom:8px">
                 ${Icons.gift(10, C.success)}
                 <span style="font-size:10px;font-weight:700;color:${C.success}">Save \u20B9${pkg.savings}</span>
               </div>

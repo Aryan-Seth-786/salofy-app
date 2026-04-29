@@ -16,7 +16,7 @@ function renderBookingConfirmed() {
   return Shell(`
     <div style="display:flex;flex-direction:column;align-items:center;padding:80px 24px 24px;text-align:center">
       <!-- Success Icon -->
-      <div style="width:72px;height:72px;border-radius:50%;background:${C.success};display:flex;align-items:center;justify-content:center;margin-bottom:24px;box-shadow:0 8px 24px rgba(45,139,85,0.25)">
+      <div class="success-circle">
         ${Icons.check(32, '#fff')}
       </div>
       <div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:${C.text};margin-bottom:8px">Booking Confirmed!</div>
@@ -49,16 +49,7 @@ function renderBookingConfirmed() {
         ${selPkgs.map(pkgId => {
           const pkg = (s.packages||[]).find(p => p.id === pkgId);
           if (!pkg) return '';
-          return `<div style="background:${C.primaryS};border:1px solid rgba(212,160,23,0.3);border-radius:10px;padding:8px 10px;margin-bottom:6px">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-              <div style="display:flex;align-items:center;gap:5px">
-                <span style="font-size:9px;font-weight:700;letter-spacing:0.5px;color:#fff;background:${C.primary};padding:2px 5px;border-radius:5px">PACKAGE</span>
-                <span style="font-size:12px;font-weight:600;color:${C.text}">${pkg.name}</span>
-              </div>
-              <span style="font-size:12px;font-weight:700;color:${C.primary}">\u20B9${pkg.price}</span>
-            </div>
-            <div style="font-size:11px;color:${C.text2}">${pkg.services.map(sid => getSvc(sid)?.label).filter(Boolean).join(' · ')}</div>
-          </div>`;
+          return PackageCard(pkg, true, 'summary');
         }).join('')}
         ${selSvcs.length > 0 ? `<div style="font-size:12px;color:${C.text2};margin-bottom:12px">${selSvcs.map(sid => getSvc(sid)?.label || sid).join(', ')}</div>` : ''}
         <div style="padding-top:10px;border-top:1px solid ${C.border}">${PayAtSalon()}</div>
@@ -73,7 +64,7 @@ function renderBookingConfirmed() {
         <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:${C.text3};cursor:pointer">${Icons.copy(14, C.text3)} Copy</div>
       </div>
 
-      <button data-action="go-home" style="margin-top:24px;width:100%;padding:14px;background:${C.primary};color:#fff;border:none;border-radius:12px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer">
+      <button data-action="go-home" class="btn btn--primary" style="margin-top:24px;border-radius:12px">
         Back to Home
       </button>
       <button data-action="view-bookings" style="margin-top:10px;width:100%;padding:14px;background:${C.surface2};color:${C.primary};border:1.5px solid ${C.primary};border-radius:12px;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer">

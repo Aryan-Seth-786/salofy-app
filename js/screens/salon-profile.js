@@ -12,10 +12,10 @@ function renderSalonProfile() {
     : ['Services', 'Packages', 'Staff', 'Reviews', 'Photos', 'Video'];
 
   const heroGrad  = isPremium
-    ? 'linear-gradient(135deg, #ff6b7e, #f43f5e, #d91f48)'
+    ? 'var(--grad-rose)'
     : isGrowth
       ? 'linear-gradient(135deg, var(--rose-100), var(--plum-200))'
-      : `linear-gradient(135deg, ${C.rose50 || '#fff1f2'}, ${C.ink200 || '#e2dcd8'})`;
+      : 'linear-gradient(135deg, var(--rose-50), var(--ink-200))';
   const heroColor = (isPremium || isGrowth) ? 'rgba(255,255,255,0.25)' : C.ink400;
   const backColor = (isPremium || isGrowth) ? '#fff' : C.ink900;
 
@@ -41,36 +41,10 @@ function renderSalonProfile() {
       </div>
       <div style="padding:0 20px 4px">
         ${isStarter ? '' : `<div style="font-size:11px;color:${C.text3};margin-bottom:10px">Tap a service to select it for booking</div>`}
-        ${Object.entries(s.services).map(([k, v], i, arr) => {
-          const svc = getSvc(k);
-          if (!svc) return '';
-          const sel = selSvcs.includes(k);
+        ${Object.entries(s.services).map(([k, v]) => {
+          const sel       = selSvcs.includes(k);
           const discPrice = s.serviceDiscounts && s.serviceDiscounts[k];
-          return `
-            <div class="service-select${sel ? ' service-select--active' : ''}" data-svc-toggle="${k}">
-              <div style="display:flex;align-items:center;gap:10px">
-                <div class="svc-chk service-select__check" style="background:${sel ? C.primary : 'transparent'};border-color:${sel ? C.primary : C.border}">
-                  ${sel ? Icons.check(14, '#fff') : ''}
-                </div>
-                <div style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:${sel ? C.primaryS : C.surface2};border-radius:9px">
-                  ${svcIcon(svc.icon, 18, sel ? C.primary : C.text2)}
-                </div>
-                <div>
-                  <div style="font-size:13px;font-weight:500;color:${C.text}">${svc.label}</div>
-                  <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:1px">
-                    <span style="font-size:11px;color:${C.text3}">${svc.time}</span>
-                    ${discPrice ? `<span style="font-size:9px;padding:1px 6px;background:${C.successS};border:1px solid rgba(45,139,85,0.25);border-radius:6px;color:${C.success};font-weight:600;line-height:1.6">Online Booking Discount</span>` : ''}
-                  </div>
-                </div>
-              </div>
-              ${discPrice
-                ? `<div style="text-align:right">
-                     <div style="font-size:11px;color:${C.text3};text-decoration:line-through">\u20B9${v}</div>
-                     <div style="font-size:14px;font-weight:700;color:${C.success}">\u20B9${discPrice}</div>
-                   </div>`
-                : `<div style="font-size:14px;font-weight:700;color:${C.ink900};font-variant-numeric:tabular-nums">\u20B9${v}</div>`
-              }
-            </div>`;
+          return ServiceCard(k, v, sel, discPrice, 'select');
         }).join('')}
       </div>
     </div>`;
@@ -82,46 +56,7 @@ function renderSalonProfile() {
         <div style="font-size:11px;color:${C.text3};margin-bottom:12px">Pre-bundled services at a special price</div>
         ${(s.packages || []).map(pkg => {
           const sel = selPkgs.includes(pkg.id);
-          return `
-            <div class="pkg-card${sel ? ' pkg-card--active' : ''}" data-pkg-toggle="${pkg.id}">
-              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
-                <div style="flex:1">
-                  <div style="font-size:14px;font-weight:600;color:${C.text}">${pkg.name}</div>
-                  <div style="font-size:11px;color:${C.text3};margin-top:2px">${pkg.desc}</div>
-                </div>
-                <div class="pkg-card__check" style="width:22px;height:22px;border-radius:6px;border:2px solid ${sel ? C.primary : C.border};background:${sel ? C.primary : 'transparent'};display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                  ${sel ? Icons.check(13, '#fff') : ''}
-                </div>
-              </div>
-              <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px">
-                ${(() => {
-                  const limit = 4;
-                  const shown = pkg.services.slice(0, limit);
-                  const hidden = pkg.services.slice(limit);
-                  const extra = hidden.length;
-                  const hiddenId = `pkg-extra-${s.id}-${pkg.id}`;
-                  const chipStyle = (active) => `font-size:10px;padding:3px 8px;background:${active ? C.primaryS : C.surface2};border:1px solid ${active ? C.primary+'44' : C.border};border-radius:10px;color:${active ? C.primary : C.text2}`;
-                  return shown.map(sid => { const svc = getSvc(sid); return svc ? `<span style="${chipStyle(sel)}">${svc.label}</span>` : ''; }).join('')
-                    + (extra > 0 ? `
-                      <span id="${hiddenId}" style="display:none;flex-wrap:wrap;gap:5px;">
-                        ${hidden.map(sid => { const svc = getSvc(sid); return svc ? `<span style="${chipStyle(sel)}">${svc.label}</span>` : ''; }).join('')}
-                      </span>
-                      <span onclick="event.stopPropagation();const el=document.getElementById('${hiddenId}');const isOpen=el.style.display!=='none';el.style.display=isOpen?'none':'inline-flex';this.textContent=isOpen?'+${extra} more':'Show less';"
-                        style="font-size:10px;padding:3px 8px;background:${C.surface3};border:1px solid ${C.border};border-radius:10px;color:${C.primary};font-weight:600;cursor:pointer">+${extra} more</span>` : '');
-                })()}
-                <span style="font-size:10px;padding:3px 8px;background:${C.surface2};border:1px solid ${C.border};border-radius:10px;color:${C.text3}">${pkg.duration}</span>
-              </div>
-              <div style="display:flex;align-items:center;justify-content:space-between">
-                <div>
-                  <span style="font-size:17px;font-weight:700;color:${C.primary}">\u20B9${pkg.price}</span>
-                  <span style="font-size:11px;color:${C.success};font-weight:500;margin-left:6px">Save \u20B9${pkg.savings}</span>
-                </div>
-                <div style="font-size:10px;color:${C.text3}">vs \u20B9${pkg.price + pkg.savings} separately</div>
-              </div>
-              <div style="margin-top:7px">
-                <span style="font-size:9px;padding:2px 8px;background:${C.successS};border:1px solid rgba(45,139,85,0.25);border-radius:6px;color:${C.success};font-weight:600">Online Booking Discount</span>
-              </div>
-            </div>`;
+          return PackageCard(pkg, sel, 'select');
         }).join('')}
       </div>
     </div>`;
@@ -144,7 +79,7 @@ function renderSalonProfile() {
         </div>
         <div style="margin-top:16px">
           <div style="font-size:13px;font-weight:600;color:${C.text};margin-bottom:10px">Prefer a specific stylist?</div>
-          <div style="background:${C.primaryS};border:1px solid ${C.primary}33;border-radius:10px;padding:12px;font-size:12px;color:${C.text2}">
+          <div style="background:${C.primaryS};border:1px solid var(--primary-border);border-radius:10px;padding:12px;font-size:12px;color:${C.text2}">
             You can request your preferred staff member when you book. Just add a note in the booking.
           </div>
         </div>
@@ -208,7 +143,7 @@ function renderSalonProfile() {
           <div style="display:flex;gap:10px;overflow-x:auto;margin-bottom:12px" class="hide-sb">
             ${['Salon Tour', 'Hair Color Demo'].map(title => `
               <div style="min-width:200px;height:120px;flex-shrink:0;background:linear-gradient(135deg,#2a2040,#1e3a4f);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;position:relative">
-                <div style="width:40px;height:40px;background:rgba(184,134,11,0.8);border-radius:50%;display:flex;align-items:center;justify-content:center">${Icons.play(16, '#fff')}</div>
+                <div style="width:40px;height:40px;background:var(--saffron-400);border-radius:50%;opacity:0.9;display:flex;align-items:center;justify-content:center">${Icons.play(16, '#fff')}</div>
                 <div style="font-size:11px;color:rgba(255,255,255,0.7)">${title}</div>
               </div>`).join('')}
           </div>` : `
@@ -291,7 +226,7 @@ function renderSalonProfile() {
 
     <!-- Deal banner -->
     ${s.deal && !isStarter ? `
-      <div style="margin:0 20px 10px;background:${C.successS};border:1px solid rgba(45,139,85,0.3);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:8px">
+      <div style="margin:0 20px 10px;background:${C.successS};border:1px solid var(--success-border);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:8px">
         ${Icons.gift(16, C.success)}
         <div>
           <div style="font-size:13px;font-weight:600;color:${C.success}">${s.deal}</div>

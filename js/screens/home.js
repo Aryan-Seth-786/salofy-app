@@ -92,7 +92,7 @@ function renderHome() {
         </div>
         <div style="display:flex;align-items:center;gap:6px">
           <!-- Salofy+ loyalty chip -->
-          <div style="display:flex;align-items:center;gap:3px;background:linear-gradient(135deg,#ffbe4d,#f59e0b);border-radius:10px;padding:5px 9px;cursor:pointer;box-shadow:0 2px 6px rgba(245,158,11,0.3)">
+          <div style="display:flex;align-items:center;gap:3px;background:var(--grad-saffron);border-radius:10px;padding:5px 9px;cursor:pointer;box-shadow:0 2px 6px rgba(245,158,11,0.3)">
             <span style="font-size:10px;font-weight:800;color:#fff;letter-spacing:0.02em">✦</span>
             <span style="font-size:10px;font-weight:800;color:#fff;letter-spacing:0.02em">PRO</span>
             <span style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.85);margin-left:2px">₹1</span>
@@ -348,7 +348,7 @@ function renderHome() {
     <!-- ─── §11. Flash sale banner #1 — saffron strip ─── -->
     ${flashSalon ? `
       <div style="padding:0 16px 24px">
-        <div data-nav="deals" style="background:linear-gradient(135deg,#ffbe4d 0%,#f59e0b 100%);border-radius:16px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;box-shadow:0 4px 16px rgba(245,158,11,0.28)">
+        <div data-nav="deals" style="background:var(--grad-saffron);border-radius:16px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;box-shadow:0 4px 16px rgba(245,158,11,0.28)">
           <div style="flex:1;min-width:0">
             <div style="font-size:10px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:rgba(18,15,13,0.55);margin-bottom:4px">Flash sale</div>
             <div style="font-size:15px;font-weight:700;color:${C.ink900};line-height:1.25">⚡ ${flashSalon.flash.title}</div>

@@ -3,34 +3,51 @@
    Color constants, services, and salon sample data
    ═══════════════════════════════════════════════════ */
 
+/* Color token mirror — all values map 1:1 to css/tokens.css :root vars.
+   Use C.x in JS template literals; CSS handles theming. */
 const C = {
   /* surfaces */
-  bg: "#fbf9f8", surface: "#ffffff", surface2: "#f5f2f0", surface3: "#ede8e5",
+  bg:        'var(--bg)',
+  surface:   'var(--surface)',
+  surface2:  'var(--surface-2)',
+  surface3:  'var(--surface-3)',
   /* borders */
-  border: "#e2dcd8", borderS: "#ede8e5",
+  border:    'var(--border)',
+  borderS:   'var(--border-subtle)',
   /* text */
-  text: "#120f0d", text2: "#4d4540", text3: "#6f6661",
+  text:      'var(--text)',
+  text2:     'var(--text-2)',
+  text3:     'var(--text-3)',
   /* brand */
-  primary: "#f43f5e", primaryL: "#ff6b7e", primaryD: "#b5123b",
-  primaryS: "rgba(244, 63, 94, 0.09)",
-  rose: "#f43f5e",
-  plum: "#6d2db0", topSalon: "#6d2db0",
-  saffron: "#f59e0b", saffronLite: "#ffbe4d",
+  primary:   'var(--primary)',
+  primaryL:  'var(--primary-light)',
+  primaryD:  'var(--primary-dark)',
+  primaryS:  'var(--primary-surface)',
+  rose:      'var(--rose-500)',
+  rose50:    'var(--rose-50)',
+  plum:      'var(--plum-600)',
+  topSalon:  'var(--plum-600)',
+  saffron:   'var(--saffron-400)',
+  saffronLite: 'var(--saffron-300)',
   /* semantic */
-  success: "#10b981", successS: "rgba(16, 185, 129, 0.10)",
-  error: "#ef4444", errorS: "rgba(239, 68, 68, 0.08)",
-  info: "#3b82f6",
-  verified: "#1d9bf0",
-  warning: "#f59e0b",
+  success:   'var(--success)',
+  successS:  'var(--success-surface)',
+  successB:  'var(--success-border)',
+  error:     'var(--error)',
+  errorS:    'var(--error-surface)',
+  errorB:    'var(--error-border)',
+  info:      'var(--info)',
+  verified:  'var(--verified)',
+  warning:   'var(--warning)',
   /* ink scale */
-  ink50: "#fbf9f8", ink100: "#f5f2f0", ink150: "#ede8e5",
-  ink200: "#e2dcd8", ink300: "#c9c1bc", ink400: "#9a918c",
-  ink500: "#6f6661", ink600: "#4d4540", ink700: "#332c28",
-  ink800: "#1f1a17", ink900: "#120f0d",
+  ink50:  'var(--ink-50)',  ink100: 'var(--ink-100)', ink150: 'var(--ink-150)',
+  ink200: 'var(--ink-200)', ink300: 'var(--ink-300)', ink400: 'var(--ink-400)',
+  ink500: 'var(--ink-500)', ink600: 'var(--ink-600)', ink700: 'var(--ink-700)',
+  ink800: 'var(--ink-800)', ink900: 'var(--ink-900)',
   /* shadows */
-  shadowSm: "0 2px 6px rgba(35,20,17,.06), 0 1px 2px rgba(35,20,17,.04)",
-  shadowMd: "0 8px 20px -4px rgba(35,20,17,.08), 0 3px 6px -2px rgba(35,20,17,.05)",
-  shadowRose: "0 8px 20px -6px rgba(244,63,94,.35)",
+  shadowSm:   'var(--shadow-sm)',
+  shadowMd:   'var(--shadow-md)',
+  shadowRose: 'var(--shadow-rose)',
 };
 
 const allServices = [

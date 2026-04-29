@@ -50,7 +50,7 @@ function renderHelpSupport() {
       </div>
 
       <div style="background:${C.surface};border:1px solid ${C.border};border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer">
-        <div style="width:40px;height:40px;background:rgba(45,139,85,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center">${Icons.message(18, C.success)}</div>
+        <div style="width:40px;height:40px;background:var(--success-surface);border-radius:10px;display:flex;align-items:center;justify-content:center">${Icons.message(18, C.success)}</div>
         <div style="flex:1">
           <div style="font-size:13px;font-weight:600;color:${C.text}">Live Chat</div>
           <div style="font-size:11px;color:${C.text3}">Usually replies within 5 min</div>

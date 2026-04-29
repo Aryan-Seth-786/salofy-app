@@ -26,7 +26,7 @@ function renderMyBookings() {
         <div style="display:flex;align-items:center;gap:4px">${Icons.clock(12, C.text3)}<span style="color:${C.text3}"> ${b.time}</span></div>
       </div>
       ${b.pkg ? `
-        <div style="background:${C.primaryS};border:1px solid rgba(212,160,23,0.3);border-radius:10px;padding:8px 10px;margin-top:6px">
+        <div style="background:${C.primaryS};border:1px solid var(--primary-border);border-radius:10px;padding:8px 10px;margin-top:6px">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
             <div style="display:flex;align-items:center;gap:5px">
               <span style="font-size:9px;font-weight:700;letter-spacing:0.5px;color:#fff;background:${C.primary};padding:2px 5px;border-radius:5px">PACKAGE</span>

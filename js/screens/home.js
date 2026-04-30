@@ -91,12 +91,13 @@ function renderHome() {
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:6px">
-          <!-- Salofy+ loyalty chip -->
+          <!-- Salofy+ loyalty chip — commented out
           <div style="display:flex;align-items:center;gap:3px;background:var(--grad-saffron);border-radius:10px;padding:5px 9px;cursor:pointer;box-shadow:0 2px 6px rgba(245,158,11,0.3)">
             <span style="font-size:10px;font-weight:800;color:#fff;letter-spacing:0.02em">✦</span>
             <span style="font-size:10px;font-weight:800;color:#fff;letter-spacing:0.02em">PRO</span>
             <span style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.85);margin-left:2px">₹1</span>
           </div>
+          -->
           <!-- Saved heart -->
           <div data-nav="favorites" style="width:36px;height:36px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);border:1px solid ${C.borderS};cursor:pointer">
             ${Icons.heart(16, C.ink600, false)}

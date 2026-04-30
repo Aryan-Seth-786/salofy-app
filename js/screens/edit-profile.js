@@ -8,7 +8,7 @@ function renderEditProfile() {
     <div style="padding:0 20px">
       <!-- Avatar -->
       <div style="display:flex;flex-direction:column;align-items:center;margin:16px 0 28px">
-        <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg, #B8860B, #D4A017);display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff;font-weight:700;position:relative">
+        <div style="width:80px;height:80px;border-radius:50%;background:var(--grad-rose);display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff;font-weight:700;position:relative">
           A
           <div style="position:absolute;bottom:0;right:0;width:28px;height:28px;background:${C.surface};border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid ${C.border}">${Icons.camera(14, C.primary)}</div>
         </div>

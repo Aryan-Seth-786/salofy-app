@@ -45,7 +45,7 @@ function renderMyBookings() {
             Reschedule
           </button>
           <button onclick="confirmCancelBooking(${b.idx})"
-            style="flex:1;padding:10px;background:${C.errorS};color:${C.error};border:1px solid rgba(192,57,43,0.3);border-radius:8px;font-family:inherit;font-weight:600;font-size:12px;cursor:pointer">
+            style="flex:1;padding:10px;background:${C.errorS};color:${C.error};border:1px solid ${C.errorB};border-radius:8px;font-family:inherit;font-weight:600;font-size:12px;cursor:pointer">
             Cancel
           </button>
         </div>

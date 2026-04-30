@@ -166,7 +166,7 @@
   padding: 14px;
   background: var(--error-surface);
   color: var(--error);
-  border: 1px solid rgba(192, 57, 43, 0.2);
+  border: 1px solid var(--error-border);
   border-radius: 12px;
   font-weight: 600;
   font-size: 14px;
@@ -524,7 +524,7 @@
   align-items: flex-start;
   margin-bottom: 8px;
 }
-.notif-item--alert { border-color: rgba(192, 57, 43, 0.2); }
+.notif-item--alert { border-color: var(--error-border); }
 .notif-item__icon {
   width: 36px;
   height: 36px;

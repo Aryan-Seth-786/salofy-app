@@ -142,7 +142,7 @@ function renderSalonProfile() {
         ${isPremium ? `
           <div style="display:flex;gap:10px;overflow-x:auto;margin-bottom:12px" class="hide-sb">
             ${['Salon Tour', 'Hair Color Demo'].map(title => `
-              <div style="min-width:200px;height:120px;flex-shrink:0;background:linear-gradient(135deg,#2a2040,#1e3a4f);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;position:relative">
+              <div style="min-width:200px;height:120px;flex-shrink:0;background:linear-gradient(135deg,${C.ink800},${C.ink900});border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;position:relative">
                 <div style="width:40px;height:40px;background:var(--saffron-400);border-radius:50%;opacity:0.9;display:flex;align-items:center;justify-content:center">${Icons.play(16, '#fff')}</div>
                 <div style="font-size:11px;color:rgba(255,255,255,0.7)">${title}</div>
               </div>`).join('')}

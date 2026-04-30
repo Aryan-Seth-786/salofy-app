@@ -37,6 +37,7 @@ const C = {
   errorS:    'var(--error-surface)',
   errorB:    'var(--error-border)',
   info:      'var(--info)',
+  infoS:     'var(--info-surface)',
   verified:  'var(--verified)',
   warning:   'var(--warning)',
   /* ink scale */

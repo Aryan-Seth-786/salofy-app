@@ -116,6 +116,7 @@
   --primary-surface:  rgba(244, 63, 94, 0.09);
   --success-surface:  rgba(16, 185, 129, 0.10);
   --error-surface:    rgba(239, 68, 68, 0.08);
+  --info-surface:     rgba(59, 130, 246, 0.10);
   --verified-surface: rgba(29, 155, 240, 0.10);
   --primary-border:   rgba(244, 63, 94, 0.25);
   --success-border:   rgba(16, 185, 129, 0.25);

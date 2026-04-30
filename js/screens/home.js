@@ -27,6 +27,7 @@ function renderHome() {
   const rebookSalons = completedSalonIds.map(id => salons.find(s => s.id === id)).filter(Boolean).slice(0, 5);
 
   // Discovery data
+  const featuredSalons = salons.filter(s => s.tier === 'premium');
   const dealSalons = salons.filter(s => s.flash || s.deal);
   const topRated = [...salons].sort((a, b) => b.rating - a.rating).slice(0, 3);
   const trendingSalons = [...salons].sort((a, b) => b.reviews - a.reviews).slice(0, 4);
@@ -225,6 +226,31 @@ function renderHome() {
         <span style="font-size:12px;color:${C.ink700};font-weight:600">Near me</span>
       </div>
     </div>
+
+    <!-- ─── §5b. Featured — horizontal wide-card rail (sponsored) ─── -->
+    ${featuredSalons.length > 0 ? `
+      <div style="padding:0 0 22px">
+        <div style="padding:0 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:15px;font-weight:700;color:${C.ink900}">Featured</span>
+            <span style="font-size:10px;color:${C.text3};font-weight:600;background:${C.surface2};padding:2px 8px;border-radius:999px;border:1px solid ${C.borderS}">Sponsored</span>
+          </div>
+          <span data-nav="search" style="font-size:13px;color:${C.primary};font-weight:600;cursor:pointer">See all</span>
+        </div>
+        <div style="display:flex;gap:12px;padding:0 16px;overflow-x:auto" class="hide-sb">
+          ${featuredSalons.map(s => `
+            <div data-goto-salon="${s.id}" style="min-width:240px;height:136px;border-radius:16px;overflow:hidden;position:relative;flex-shrink:0;cursor:pointer;background:var(--grad-rose)">
+              ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">` : ''}
+              <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(18,15,13,.72) 30%,transparent 70%);padding:14px;display:flex;flex-direction:column;justify-content:flex-end">
+                <div style="display:flex;gap:6px;margin-bottom:6px">${TopBadge()}${s.deal ? DealTag(s.deal) : ''}</div>
+                <div style="font-family:var(--font-heading);font-size:15px;font-weight:600;color:#fff;letter-spacing:-0.01em">${s.name}</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px;display:flex;align-items:center;gap:4px">${Icons.mapPin(10,'rgba(255,255,255,0.7)')} ${s.loc}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
 
     <!-- ─── §6. RECOMMENDED WITH DEALS — 2-column grid ─── -->
     ${dealSalons.length > 0 ? `

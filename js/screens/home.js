@@ -1,4 +1,131 @@
+/* ─── Hero carousel controller ─────────────────────────────────────
+   Lives at module scope so it can be invoked AFTER innerHTML insertion.
+   (Inline <script> tags inside innerHTML do NOT execute.)
+   ────────────────────────────────────────────────────────────────── */
+function initHomeHeroCarousel() {
+  const zone = document.getElementById('hero-zone');
+  if (!zone || zone.dataset.carouselInit === '1') return;
+  zone.dataset.carouselInit = '1';
+
+  const slides = Array.from(zone.querySelectorAll('.hero-slide'));
+  const segs = Array.from(zone.querySelectorAll('.hero-seg-fill'));
+  if (slides.length === 0) return;
+
+  const SLIDE_DURATION_MS = 5500;
+  let current = 0;
+  let rafId = null;
+  let slideStart = 0;
+  let activeVideo = null;
+
+  function setTint(idx) {
+    const grad = slides[idx].getAttribute('data-tint-grad');
+    if (grad) zone.style.background = grad;
+  }
+
+  function resetSegs(activeIdx) {
+    segs.forEach((seg, i) => {
+      seg.style.transition = 'none';
+      seg.style.width = i < activeIdx ? '100%' : '0%';
+    });
+    void zone.offsetWidth;
+    segs.forEach(seg => { seg.style.transition = 'width 80ms linear'; });
+  }
+
+  function pauseAllVideos() {
+    slides.forEach(slide => {
+      const v = slide.querySelector('video');
+      if (v) { try { v.pause(); v.currentTime = 0; } catch(e){} }
+    });
+    activeVideo = null;
+  }
+
+  function showSlide(idx) {
+    if (rafId) cancelAnimationFrame(rafId);
+    pauseAllVideos();
+    current = ((idx % slides.length) + slides.length) % slides.length;
+
+    slides.forEach((s, i) => {
+      const active = i === current;
+      s.style.opacity = active ? '1' : '0';
+      s.style.pointerEvents = active ? 'auto' : 'none';
+    });
+
+    setTint(current);
+    resetSegs(current);
+
+    const slide = slides[current];
+    const v = slide.querySelector('video');
+    if (v) {
+      activeVideo = v;
+      try {
+        const p = v.play();
+        if (p && p.catch) p.catch(() => {});
+      } catch(e) {}
+    }
+
+    slideStart = performance.now();
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function tick(now) {
+    if (!document.body.contains(zone)) return; // screen unmounted
+    const elapsed = now - slideStart;
+    let pct;
+    if (activeVideo && activeVideo.duration && !isNaN(activeVideo.duration) && activeVideo.duration > 0.5) {
+      const vidPct = activeVideo.currentTime / activeVideo.duration;
+      const timePct = elapsed / SLIDE_DURATION_MS;
+      pct = Math.min(1, Math.max(vidPct, timePct));
+      if (activeVideo.ended) pct = 1;
+    } else {
+      pct = Math.min(1, elapsed / SLIDE_DURATION_MS);
+    }
+
+    if (segs[current]) segs[current].style.width = (pct * 100) + '%';
+
+    if (pct >= 1) {
+      showSlide(current + 1);
+      return;
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  // Pointer-based swipe (works for touch and mouse)
+  let pointerStartX = null;
+  let pointerStartY = null;
+  let pointerActive = false;
+
+  zone.addEventListener('pointerdown', (e) => {
+    pointerStartX = e.clientX;
+    pointerStartY = e.clientY;
+    pointerActive = true;
+  });
+  zone.addEventListener('pointerup', (e) => {
+    if (!pointerActive || pointerStartX == null) return;
+    pointerActive = false;
+    const dx = e.clientX - pointerStartX;
+    const dy = e.clientY - pointerStartY;
+    const startX = pointerStartX;
+    pointerStartX = null;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+      showSlide(current + (dx < 0 ? 1 : -1));
+      return;
+    }
+    if (Math.abs(dx) < 10 && Math.abs(dy) < 10) {
+      const interactive = e.target.closest('[data-nav],[onclick],button,a,input,video');
+      if (interactive) return;
+      const rect = zone.getBoundingClientRect();
+      const relX = startX - rect.left;
+      showSlide(current + (relX < rect.width / 2 ? -1 : 1));
+    }
+  });
+  zone.addEventListener('pointercancel', () => { pointerActive = false; pointerStartX = null; });
+
+  showSlide(0);
+}
+
 function renderHome() {
+  // Schedule carousel init after this render's innerHTML is inserted by app.js.
+  setTimeout(initHomeHeroCarousel, 0);
   const popularSvcs = [
     { id: 'haircut', label: 'Haircut',  photo: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=200&h=200&fit=crop&crop=faces,center' },
     { id: 'facial',  label: 'Facial',   photo: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=200&h=200&fit=crop&crop=faces,center' },
@@ -78,120 +205,190 @@ function renderHome() {
   const tagline = nextBooking ? `You're booked for ${nextBooking.date}.` : 'Your next fresh look starts here.';
   const isNewUser = typeof localStorage !== 'undefined' && !localStorage.getItem('salofy_htw_seen');
 
+  // ─── Hero carousel slide deck ───
+  // Each slide: { kind, tint (hex), video?, poster, kicker, title, subtitle?, caption?, ctaLabel, ctaNav, ctaOnclick?, customHTML? }
+  const promoSlides = [
+    {
+      kind: 'video',
+      tint: '#d91f48',
+      tintGrad: 'linear-gradient(160deg,#ff6b7e 0%,#d91f48 70%,#8f0d30 100%)',
+      video: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      poster: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=450&fit=crop&crop=center',
+      kicker: '✦ SALOFY FLASH',
+      kickerColor: '#ffd788',
+      title: '30% OFF',
+      subtitle: 'Your first salon visit',
+      caption: 'Limited time — book today',
+      ctaLabel: 'Book now',
+      ctaNav: 'deals',
+    },
+    {
+      kind: 'video',
+      tint: '#b45309',
+      tintGrad: 'linear-gradient(160deg,#ffd788 0%,#f59e0b 60%,#b45309 100%)',
+      video: 'https://www.w3schools.com/html/movie.mp4',
+      poster: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=450&fit=crop&crop=center',
+      kicker: '✦ SALOFY+',
+      kickerColor: '#fff',
+      title: '₹1 for 3 months',
+      subtitle: 'Unlock exclusive deals',
+      caption: 'Join Salofy+ today',
+      ctaLabel: 'Join now',
+      ctaNav: 'deals',
+    },
+    {
+      kind: 'video',
+      tint: '#561f8c',
+      tintGrad: 'linear-gradient(160deg,#a86ae0 0%,#6d2db0 60%,#2e1147 100%)',
+      video: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      poster: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=450&fit=crop&crop=faces,center',
+      kicker: 'OCCASION',
+      kickerColor: '#ffd788',
+      title: 'Wedding Season Ready',
+      subtitle: 'Bridal packages from ₹4,999',
+      caption: 'Glow up for the big day',
+      ctaLabel: 'Browse bridal',
+      ctaNav: 'search',
+      ctaOnclick: "AppState.selectedServices=['bridal']",
+    },
+  ];
+
+  // If there's an upcoming booking, prepend it as a static slide
+  const slides = (nextBooking && nextSalon) ? [
+    {
+      kind: 'booking',
+      tint: '#b5123b',
+      tintGrad: 'linear-gradient(160deg,#ff9aa6 0%,#f43f5e 60%,#8f0d30 100%)',
+      poster: nextSalon.cover || '',
+      bookingIdx: nextBooking.idx,
+      bookingSalon: nextSalon,
+      bookingDate: nextBooking.date,
+      bookingTime: nextBooking.time,
+      bookingLabel: nextBookingLabel,
+    },
+    ...promoSlides,
+  ] : promoSlides;
+
+  // Slide HTML builder — slides are FULL hero-zone backgrounds (sit behind header + search)
+  // Overlay text content sits in the lower portion of the zone, below the search bar.
+  const slideHTML = (s, i) => {
+    if (s.kind === 'booking') {
+      return `
+        <div class="hero-slide" data-slide-index="${i}" data-slide-kind="booking" data-tint="${s.tint}" data-tint-grad="${s.tintGrad}" style="position:absolute;inset:0;opacity:${i === 0 ? 1 : 0};transition:opacity 320ms var(--ease-out);pointer-events:${i === 0 ? 'auto' : 'none'}">
+          <!-- Artwork layer: fills entire hero zone (behind header + search) -->
+          <div style="position:absolute;inset:0;background:${s.tintGrad}"></div>
+          ${s.poster ? `<img src="${s.poster}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0.38">` : ''}
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(244,63,94,0.55) 0%,rgba(244,63,94,0.35) 35%,rgba(18,15,13,0.55) 100%)"></div>
+          <!-- Overlay text/CTAs: lower portion, below search bar -->
+          <div class="hero-slide-overlay" style="position:absolute;left:0;right:0;bottom:0;padding:14px 20px 32px;display:flex;flex-direction:column">
+            <div style="font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#ffd788;margin-bottom:4px">✦ UPCOMING</div>
+            <div style="font-family:var(--font-heading);font-size:22px;font-weight:700;color:#fff;line-height:1.05;letter-spacing:-0.02em">${s.bookingSalon.name}</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.9);margin-top:3px">${s.bookingDate} · ${s.bookingTime}</div>
+            ${s.bookingLabel ? `<div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.bookingLabel}</div>` : ''}
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <div data-nav="reschedule" onclick="event.stopPropagation();AppState.rescheduleBooking=bookings[${s.bookingIdx}]" style="flex:1;padding:8px;background:#fff;border-radius:999px;text-align:center;font-size:11px;font-weight:700;color:${C.primary};cursor:pointer">Reschedule</div>
+              <div data-nav="my-bookings" onclick="event.stopPropagation()" style="flex:1;padding:8px;background:rgba(255,255,255,0.22);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.35);border-radius:999px;text-align:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer">View Booking</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    // Video promo slide
+    return `
+      <div class="hero-slide" data-slide-index="${i}" data-slide-kind="video" data-tint="${s.tint}" data-tint-grad="${s.tintGrad}" style="position:absolute;inset:0;opacity:${i === 0 ? 1 : 0};transition:opacity 320ms var(--ease-out);pointer-events:${i === 0 ? 'auto' : 'none'}">
+        <!-- Artwork: video + tint gradient fills entire hero zone -->
+        <div style="position:absolute;inset:0;background:${s.tintGrad}"></div>
+        <video class="hero-video" muted playsinline preload="auto" poster="${s.poster}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0.55">
+          <source src="${s.video}" type="video/mp4">
+        </video>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.18) 0%,rgba(0,0,0,0.05) 35%,rgba(18,15,13,0.55) 100%)"></div>
+        <!-- Overlay text/CTA: lower portion, below search bar -->
+        <div class="hero-slide-overlay" style="position:absolute;left:0;right:0;bottom:0;padding:14px 20px 32px;display:flex;flex-direction:column">
+          <div style="font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:${s.kickerColor};margin-bottom:4px">${s.kicker}</div>
+          <div style="font-family:var(--font-heading);font-size:26px;font-weight:700;color:#fff;line-height:1;letter-spacing:-0.02em">${s.title}</div>
+          ${s.subtitle ? `<div style="font-family:var(--font-heading);font-size:14px;font-weight:500;color:rgba(255,255,255,0.92);margin-top:2px">${s.subtitle}</div>` : ''}
+          ${s.caption ? `<div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:5px;margin-bottom:10px">${s.caption}</div>` : '<div style="height:10px"></div>'}
+          <div>
+            <div data-nav="${s.ctaNav}" ${s.ctaOnclick ? `onclick="event.stopPropagation();${s.ctaOnclick}"` : 'onclick="event.stopPropagation()"'} style="display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:999px;padding:8px 18px;font-size:12px;font-weight:700;color:${C.primary};cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,0.22)">${s.ctaLabel} ${Icons.forward(11, C.primary)}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  };
+
   return Shell(`
 
-    <!-- ─── §1. Sticky header: location · Salofy+ · Saved · Bell ─── -->
-    <div style="padding:40px 16px 8px;background:rgba(251,249,248,0.94);backdrop-filter:blur(14px);position:sticky;top:0;z-index:10">
-      <div style="display:flex;justify-content:space-between;align-items:center">
+    <!-- ─── §1+§2+§3. Hero zone: slide artwork is the FULL background; header + search float on top ─── -->
+    <div id="hero-zone" style="position:relative;height:340px;background:${slides[0].tintGrad};overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none">
+
+      <!-- Slide stack — FULL hero zone background -->
+      <div id="hero-carousel" style="position:absolute;inset:0;z-index:1">
+        ${slides.map((s, i) => slideHTML(s, i)).join('')}
+      </div>
+
+      <!-- Header row (floats on top of slide artwork) -->
+      <div style="padding:40px 16px 8px;position:relative;z-index:5;display:flex;justify-content:space-between;align-items:center">
         <div style="display:flex;align-items:flex-start;gap:5px;cursor:pointer">
-          <div style="margin-top:3px;flex-shrink:0">${Icons.mapPin(13, C.primary)}</div>
+          <div style="margin-top:3px;flex-shrink:0">${Icons.mapPin(13, '#fff')}</div>
           <div>
-            <div style="font-size:10px;color:${C.text3};font-weight:600;letter-spacing:0.06em;text-transform:uppercase;line-height:1.2">Your area</div>
-            <div style="font-size:14px;font-weight:700;color:${C.ink900};display:flex;align-items:center;gap:3px;line-height:1.25">Sector 17, Chandigarh <span style="font-size:10px;color:${C.primary}">▾</span></div>
-            <div style="font-size:10px;color:${C.ink400};line-height:1.2;margin-top:1px">flat no. - 403, Tower n…</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.78);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;line-height:1.2;text-shadow:0 1px 2px rgba(0,0,0,0.25)">Your area</div>
+            <div style="font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;gap:3px;line-height:1.25;text-shadow:0 1px 2px rgba(0,0,0,0.25)">Sector 17, Chandigarh <span style="font-size:10px;color:rgba(255,255,255,0.9)">▾</span></div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.72);line-height:1.2;margin-top:1px;text-shadow:0 1px 2px rgba(0,0,0,0.25)">flat no. - 403, Tower n…</div>
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:6px">
-          <!-- Salofy+ loyalty chip — commented out
-          <div style="display:flex;align-items:center;gap:3px;background:var(--grad-saffron);border-radius:10px;padding:5px 9px;cursor:pointer;box-shadow:0 2px 6px rgba(245,158,11,0.3)">
-            <span style="font-size:10px;font-weight:800;color:#fff;letter-spacing:0.02em">✦</span>
-            <span style="font-size:10px;font-weight:800;color:#fff;letter-spacing:0.02em">PRO</span>
-            <span style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.85);margin-left:2px">₹1</span>
-          </div>
-          -->
-          <!-- Saved heart -->
-          <div data-nav="favorites" style="width:36px;height:36px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);border:1px solid ${C.borderS};cursor:pointer">
+          <div data-nav="favorites" style="width:36px;height:36px;background:rgba(255,255,255,0.96);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.18);cursor:pointer">
             ${Icons.heart(16, C.ink600, false)}
           </div>
-          <!-- Bell -->
-          <div data-nav="notifications" style="position:relative;width:36px;height:36px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);border:1px solid ${C.borderS};cursor:pointer">
+          <div data-nav="notifications" style="position:relative;width:36px;height:36px;background:rgba(255,255,255,0.96);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.18);cursor:pointer">
             ${Icons.bell(16, C.ink700)}
             <div style="position:absolute;top:7px;right:7px;width:7px;height:7px;background:${C.error};border-radius:50%;border:2px solid #fff"></div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- ─── §2. Search bar + M / W gender toggle ─── -->
-    <div style="padding:10px 16px 12px;display:flex;align-items:center;gap:8px">
-      <!-- Search pill -->
-      <div data-nav="search" style="flex:1;min-width:0;background:#fff;border-radius:14px;padding:0 14px;height:48px;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow-sm);cursor:pointer;border:1px solid ${C.borderS}">
-        ${Icons.search(16, C.ink400)}
-        <div style="flex:1;min-width:0;color:${C.ink400};font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Search "haircut", "facial", or salon</div>
-        <div style="display:flex;align-items:center;gap:7px;flex-shrink:0">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${C.ink400}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-          <div style="width:1px;height:16px;background:${C.border}"></div>
-          ${Icons.filter(14, C.ink700)}
-        </div>
-      </div>
-      <!-- M / W gender toggle pill -->
-      <div style="background:#fff;border-radius:14px;border:1px solid ${C.borderS};box-shadow:var(--shadow-sm);height:48px;display:flex;align-items:center;overflow:hidden;flex-shrink:0">
-        <div onclick="AppState.genderFilter=(AppState.genderFilter==='men'?'all':'men');navigate('home')" style="width:34px;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;background:${genderFilter === 'men' ? C.primary : 'transparent'}">
-          <span style="font-size:11px;font-weight:800;color:${genderFilter === 'men' ? '#fff' : C.ink500};line-height:1">M</span>
-          <span style="font-size:8px;font-weight:600;color:${genderFilter === 'men' ? 'rgba(255,255,255,0.75)' : C.ink400};line-height:1">Men</span>
-        </div>
-        <div style="width:1px;height:26px;background:${C.borderS}"></div>
-        <div onclick="AppState.genderFilter=(AppState.genderFilter==='women'?'all':'women');navigate('home')" style="width:34px;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;background:${genderFilter === 'women' ? C.primary : 'transparent'}">
-          <span style="font-size:11px;font-weight:800;color:${genderFilter === 'women' ? '#fff' : C.ink500};line-height:1">W</span>
-          <span style="font-size:8px;font-weight:600;color:${genderFilter === 'women' ? 'rgba(255,255,255,0.75)' : C.ink400};line-height:1">Women</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ─── §3. Hero: Video promo OR Upcoming booking ─── -->
-    ${nextBooking && nextSalon ? `
-      <div style="padding:0 16px 14px">
-        <div style="background:#fff;border-radius:20px;padding:16px;border:1px solid ${C.borderS};box-shadow:var(--shadow-sm)">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
-            <div style="flex:1;min-width:0">
-              <div style="font-size:10px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:${C.primary};margin-bottom:4px">Upcoming</div>
-              <div style="font-size:16px;font-weight:700;color:${C.ink900}">${nextSalon.name}</div>
-              <div style="font-size:12px;color:${C.text3};margin-top:2px">${nextBooking.date} · ${nextBooking.time}</div>
-              ${nextBookingLabel ? `<div style="font-size:12px;color:${C.text2};margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${nextBookingLabel}</div>` : ''}
-            </div>
-            ${nextSalon.cover ? `
-              <div style="width:56px;height:56px;border-radius:14px;overflow:hidden;flex-shrink:0;border:1px solid ${C.borderS}">
-                <img src="${nextSalon.cover}" alt="${nextSalon.name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">
-              </div>
-            ` : ''}
+      <!-- Search row (floats on top of slide artwork) -->
+      <div style="padding:10px 16px 14px;display:flex;align-items:center;gap:8px;position:relative;z-index:5">
+        <div data-nav="search" style="flex:1;min-width:0;background:#fff;border-radius:14px;padding:0 14px;height:48px;display:flex;align-items:center;gap:8px;box-shadow:0 6px 18px rgba(0,0,0,0.18);cursor:pointer">
+          ${Icons.search(16, C.ink400)}
+          <div style="flex:1;min-width:0;color:${C.ink400};font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Search "haircut", "facial", or salon</div>
+          <div style="display:flex;align-items:center;gap:7px;flex-shrink:0">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${C.ink400}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            <div style="width:1px;height:16px;background:${C.border}"></div>
+            ${Icons.filter(14, C.ink700)}
           </div>
-          <div style="display:flex;gap:8px;margin-top:12px">
-            <div data-nav="reschedule" onclick="AppState.rescheduleBooking=bookings[${nextBooking.idx}]" style="flex:1;padding:9px;background:${C.primaryS};border-radius:999px;text-align:center;font-size:12px;font-weight:700;color:${C.primary};cursor:pointer">Reschedule</div>
-            <div data-nav="my-bookings" style="flex:1;padding:9px;background:${C.ink100};border-radius:999px;text-align:center;font-size:12px;font-weight:700;color:${C.ink700};cursor:pointer">View Booking</div>
+        </div>
+        <div style="background:#fff;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,0.18);height:48px;display:flex;align-items:center;overflow:hidden;flex-shrink:0">
+          <div onclick="AppState.genderFilter=(AppState.genderFilter==='men'?'all':'men');navigate('home')" style="width:34px;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;background:${genderFilter === 'men' ? C.primary : 'transparent'}">
+            <span style="font-size:11px;font-weight:800;color:${genderFilter === 'men' ? '#fff' : C.ink500};line-height:1">M</span>
+            <span style="font-size:8px;font-weight:600;color:${genderFilter === 'men' ? 'rgba(255,255,255,0.75)' : C.ink400};line-height:1">Men</span>
+          </div>
+          <div style="width:1px;height:26px;background:${C.borderS}"></div>
+          <div onclick="AppState.genderFilter=(AppState.genderFilter==='women'?'all':'women');navigate('home')" style="width:34px;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;background:${genderFilter === 'women' ? C.primary : 'transparent'}">
+            <span style="font-size:11px;font-weight:800;color:${genderFilter === 'women' ? '#fff' : C.ink500};line-height:1">W</span>
+            <span style="font-size:8px;font-weight:600;color:${genderFilter === 'women' ? 'rgba(255,255,255,0.75)' : C.ink400};line-height:1">Women</span>
           </div>
         </div>
       </div>
-    ` : `
-      <div style="padding:0 16px 14px">
-        <div style="position:relative;height:200px;border-radius:20px;overflow:hidden;background:var(--grad-rose)">
-          <!-- Autoplaying ambient video — replace src with production asset -->
-          <video autoplay muted loop playsinline preload="auto"
-            poster="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=450&fit=crop&crop=center"
-            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
-            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-          </video>
-          <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(244,63,94,0.72) 0%,rgba(18,15,13,0.58) 100%)"></div>
-          <div style="position:absolute;inset:0;padding:22px 20px;display:flex;flex-direction:column;justify-content:flex-end">
-            <div style="font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:${C.saffron};margin-bottom:6px">✦ SALOFY FLASH</div>
-            <div style="font-family:var(--font-heading);font-size:32px;font-weight:700;color:#fff;line-height:1;letter-spacing:-0.02em">30% OFF</div>
-            <div style="font-family:var(--font-heading);font-size:16px;font-weight:500;color:rgba(255,255,255,0.88);margin-bottom:5px">Your first salon visit</div>
-            <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:16px">Limited time — book today</div>
-            <div>
-              <div data-nav="deals" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:999px;padding:9px 20px;font-size:13px;font-weight:700;color:${C.primary};cursor:pointer">Book now ${Icons.forward(12, C.primary)}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    `}
 
-    <!-- Greeting line -->
-    <div style="padding:0 16px 16px">
-      <span style="font-size:13px;color:${C.text3}">${greeting}, <span style="font-weight:600;color:${C.ink800}">${userName}</span> 👋 &mdash; ${tagline}</span>
+      <!-- Segmented progress bar (sits at bottom of hero zone, above slide overlay text) -->
+      <div id="hero-progress" style="position:absolute;left:20px;right:20px;bottom:14px;display:flex;gap:6px;z-index:8;pointer-events:none">
+        ${slides.map((_, i) => `
+          <div class="hero-seg" data-seg-index="${i}" style="flex:1;height:4px;background:rgba(255,255,255,0.32);border-radius:999px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.25)">
+            <div class="hero-seg-fill" style="height:100%;background:#fff;border-radius:999px;width:0%"></div>
+          </div>
+        `).join('')}
+      </div>
     </div>
+
+
 
     <!-- ─── §4. Round photo category rail ─── -->
-    <div style="padding:0 0 18px">
-      <div style="font-size:10px;font-weight:700;color:${C.text3};letter-spacing:0.08em;text-transform:uppercase;padding:0 16px;margin-bottom:12px">Browse by service</div>
+    <div style="padding:18px 0 18px">
+      <div style="padding:0 16px;margin-bottom:14px">
+        <div style="font-family:var(--font-heading);font-size:22px;font-weight:600;color:${C.ink900};line-height:1.2;letter-spacing:-0.01em">${greeting}, ${userName} <span style="font-family:var(--font-body)">👋</span></div>
+        <div style="font-size:13px;color:${C.text3};margin-top:3px">${tagline}</div>
+      </div>
       <div style="display:flex;gap:16px;padding:0 16px;overflow-x:auto" class="hide-sb">
         <!-- All tile -->
         <div data-nav="search" style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;cursor:pointer">

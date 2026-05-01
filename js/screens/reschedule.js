@@ -15,12 +15,12 @@ function renderReschedule() {
   return Shell(`
     <div style="padding:44px 20px 12px;display:flex;align-items:center;gap:10px">
       <div data-nav="back" class="back-btn">${Icons.back(18, C.text)}</div>
-      <span style="font-size:18px;font-weight:700;color:${C.text}">Reschedule</span>
+      <span style="font-family:var(--font-heading);font-size:20px;font-weight:700;color:${C.text};letter-spacing:-0.3px">Reschedule</span>
     </div>
 
     <!-- Current booking info -->
     <div style="margin:0 20px 16px;background:${C.surface2};border:1px solid ${C.border};border-radius:12px;padding:14px">
-      <div style="font-size:10px;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">Current Appointment</div>
+      <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">Current Appointment</div>
       <div style="display:flex;gap:10px;align-items:center">
         <div style="width:40px;height:40px;background:${C.surface3};border-radius:8px;display:flex;align-items:center;justify-content:center">${Icons.scissors(18, C.text3)}</div>
         <div>

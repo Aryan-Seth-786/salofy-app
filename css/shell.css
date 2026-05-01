@@ -55,27 +55,30 @@
   -webkit-backdrop-filter: blur(18px) saturate(180%);
   border-top: 1px solid var(--ink-150);
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  padding: 0 10px 14px;
+  padding: 0 8px 14px;
+  gap: 4px;
   z-index: 20;
 }
 
 .bottom-nav__item {
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  justify-content: center;
+  gap: 4px;
   font-size: 10px;
   color: var(--text-3);
   cursor: pointer;
-  font-weight: 400;
+  font-weight: 500;
   background: none;
   border: none;
   font-family: inherit;
-  padding: 5px 10px;
-  border-radius: 10px;
-  transition: background 0.15s, color 0.15s;
+  padding: 7px 4px;
+  border-radius: 12px;
+  transition: background 0.18s var(--ease-out), color 0.18s var(--ease-out);
 }
 .bottom-nav__item--active {
   color: var(--primary);

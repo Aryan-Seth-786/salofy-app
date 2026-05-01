@@ -9,7 +9,7 @@ function renderDeals() {
 
   return Shell(`
     <div style="padding:44px 20px 10px">
-      <div style="font-size:20px;font-weight:700;color:${C.text};display:flex;align-items:center;gap:8px">${Icons.fire(20, C.error)} Deals & Offers</div>
+      <div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:${C.text};letter-spacing:-0.4px;display:flex;align-items:center;gap:8px"><span style="font-family:var(--font-body);display:inline-flex">${Icons.fire(22, C.error)}</span> Deals & Offers</div>
       <div style="font-size:12px;color:${C.text3};margin-top:4px">Best deals from salons near you</div>
     </div>
 
@@ -29,7 +29,7 @@ function renderDeals() {
 
     <!-- Deal Cards -->
     <div style="padding:0 20px">
-      <div style="font-size:13px;font-weight:600;color:${C.text2};margin-bottom:10px">Salon Deals</div>
+      <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px">Salon Deals</div>
       ${deals.map(d => `
         <div style="background:${C.surface};border:1px solid ${C.border};border-radius:10px;overflow:hidden;margin-bottom:12px">
           <div style="height:90px;background:linear-gradient(135deg, ${C.surface2}, ${C.surface3});display:flex;align-items:center;justify-content:center;position:relative">

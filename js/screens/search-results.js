@@ -68,7 +68,7 @@ function renderSearchResults() {
     <!-- List View -->
     <!-- Pinned -->
     ${results.some(s => s.tier === 'premium') ? `
-    <div style="padding:4px 20px;font-size:10px;font-weight:700;color:${C.primary};text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center;gap:4px">
+    <div style="padding:4px 20px;font-size:10px;font-weight:800;color:${C.primary};text-transform:uppercase;letter-spacing:0.1em;display:flex;align-items:center;gap:5px">
       ${Icons.mapPin(12, C.primary)} Top Salons in Your Area
     </div>` : ''}
 

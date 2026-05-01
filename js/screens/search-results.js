@@ -1,9 +1,15 @@
 function renderSearchResults() {
   const selSvcs = AppState.selectedServices || [];
   const viewMode = AppState.searchViewMode || 'list';
-  const results = salons
-    .filter(s => selSvcs.length === 0 || selSvcs.some(sid => s.services[sid]))
-    .sort((a, b) => ({ premium: 0, growth: 1, starter: 2 })[a.tier] - ({ premium: 0, growth: 1, starter: 2 })[b.tier]);
+  const activeFilters = AppState.activeFilters || new Set();
+
+  let results = salons.filter(s => selSvcs.length === 0 || selSvcs.some(sid => s.services[sid]));
+  if (activeFilters.has('open-now'))  results = results.filter(s => isSalonOpen(s));
+  if (activeFilters.has('under-500')) results = results.filter(s => Math.min(...Object.values(s.services)) <= 499);
+  if (activeFilters.has('near-me'))   results = results.filter(s => parseFloat(s.dist) <= 3);
+  results.sort((a, b) => ({ premium: 0, growth: 1, starter: 2 })[a.tier] - ({ premium: 0, growth: 1, starter: 2 })[b.tier]);
+
+  const filterLabels = { 'open-now': '⚡ Open now', 'under-500': 'Under ₹500', 'near-me': 'Near me' };
 
   return Shell(`
     <!-- Search Bar (tap to edit) -->
@@ -16,7 +22,7 @@ function renderSearchResults() {
     </div>
 
     <!-- Selected pills -->
-    ${selSvcs.length > 0 ? `
+    ${selSvcs.length > 0 || activeFilters.size > 0 ? `
     <div style="display:flex;gap:6px;padding:4px 20px 8px;overflow-x:auto;align-items:center" class="hide-sb">
       ${selSvcs.map(sid => {
         const svc = getSvc(sid);
@@ -24,7 +30,11 @@ function renderSearchResults() {
           ${svcIcon(svc.icon, 12, C.primary)} ${svc.label}
         </span>`;
       }).join('')}
-      <span data-nav="search" style="font-size:11px;color:${C.primary};font-weight:600;white-space:nowrap;cursor:pointer">${Icons.plus(12, C.primary)} Edit</span>
+      ${[...activeFilters].map(f => `
+        <span data-action="clear-filter" data-filter="${f}" style="font-size:11px;padding:5px 10px;background:${C.primaryS};border:1px solid var(--primary-border);border-radius:16px;color:${C.primary};font-weight:600;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;cursor:pointer">
+          ${filterLabels[f]} <span style="font-size:14px;line-height:1;opacity:0.7">×</span>
+        </span>`).join('')}
+      ${selSvcs.length > 0 ? `<span data-nav="search" style="font-size:11px;color:${C.primary};font-weight:600;white-space:nowrap;cursor:pointer">${Icons.plus(12, C.primary)} Edit</span>` : ''}
     </div>` : ''}
 
     <!-- Count + View Toggle -->

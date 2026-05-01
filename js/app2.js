@@ -15,7 +15,21 @@ const AppState = {
   searchQuery: '',
   booking: { dateIdx: 1, time: '10:30' },
   rescheduleBooking: null,
+  activeFilters: new Set(),
 };
+
+function isSalonOpen(salon) {
+  if (!salon.hours) return false;
+  const m = salon.hours.match(/(\d+)\s*(AM|PM)\s*-\s*(\d+)\s*(AM|PM)/i);
+  if (!m) return false;
+  let oh = parseInt(m[1]), op = m[2].toUpperCase(), ch = parseInt(m[3]), cp = m[4].toUpperCase();
+  if (op === 'PM' && oh !== 12) oh += 12;
+  if (op === 'AM' && oh === 12) oh = 0;
+  if (cp === 'PM' && ch !== 12) ch += 12;
+  if (cp === 'AM' && ch === 12) ch = 0;
+  const cur = new Date().getHours() * 60 + new Date().getMinutes();
+  return cur >= oh * 60 && cur < ch * 60;
+}
 
 /* ── Screen Registry ── */
 const screens = [
@@ -168,7 +182,7 @@ function initEvents() {
       const nav = navEl.dataset.nav;
       switch (nav) {
         case 'home':          navigate('home'); break;
-        case 'search':        navigate('search-input'); break;
+        case 'search':        AppState.activeFilters = new Set(); navigate('search-input'); break;
         case 'favorites':     navigate('favorites'); break;
         case 'bookings':      navigate('my-bookings'); break;
         case 'profile':       navigate('profile'); break;
@@ -221,6 +235,10 @@ function initEvents() {
         case 'open-deals':
         case 'go-deals':         navigate('deals'); break;
         case 'go-notifications': navigate('notifications'); break;
+        case 'filter-open-now':  AppState.activeFilters = new Set(['open-now']);  navigate('search-results'); break;
+        case 'filter-under-500': AppState.activeFilters = new Set(['under-500']); navigate('search-results'); break;
+        case 'filter-near-me':   AppState.activeFilters = new Set(['near-me']);   navigate('search-results'); break;
+        case 'clear-filter':     AppState.activeFilters.delete(actionEl.dataset.filter); navigate('search-results'); break;
       }
       return;
     }

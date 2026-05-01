@@ -413,13 +413,13 @@ function renderHome() {
       <div data-nav="search" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;box-shadow:var(--shadow-sm);cursor:pointer;flex-shrink:0">
         <span style="font-size:12px;color:${C.ink700};font-weight:600">⇅ Filters</span>
       </div>
-      <div data-nav="search" style="display:inline-flex;align-items:center;gap:5px;background:${C.primaryS};border:1px solid rgba(244,63,94,0.25);border-radius:999px;padding:7px 14px;box-shadow:var(--shadow-sm);cursor:pointer;flex-shrink:0">
-        <span style="font-size:12px;color:${C.primary};font-weight:700">⚡ Open now</span>
+      <div data-action="filter-open-now" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;box-shadow:var(--shadow-sm);cursor:pointer;flex-shrink:0">
+        <span style="font-size:12px;color:${C.ink700};font-weight:600">⚡ Open now</span>
       </div>
-      <div data-nav="search" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;box-shadow:var(--shadow-sm);cursor:pointer;flex-shrink:0">
+      <div data-action="filter-under-500" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;box-shadow:var(--shadow-sm);cursor:pointer;flex-shrink:0">
         <span style="font-size:12px;color:${C.ink700};font-weight:600">Under ₹500</span>
       </div>
-      <div data-nav="search" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;box-shadow:var(--shadow-sm);cursor:pointer;flex-shrink:0">
+      <div data-action="filter-near-me" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;box-shadow:var(--shadow-sm);cursor:pointer;flex-shrink:0">
         <span style="font-size:12px;color:${C.ink700};font-weight:600">Near me</span>
       </div>
     </div>

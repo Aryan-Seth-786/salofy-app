@@ -21,7 +21,21 @@ const AppState = {
   mapActiveSalon: null,              // selected salon on map screen
   searchViewMode: 'list',            // 'list' or 'map' on search results
   genderFilter: 'all',               // 'all' | 'men' | 'women' — home screen toggle
+  activeFilters: new Set(),          // active quick-filter chips
 };
+
+function isSalonOpen(salon) {
+  if (!salon.hours) return false;
+  const m = salon.hours.match(/(\d+)\s*(AM|PM)\s*-\s*(\d+)\s*(AM|PM)/i);
+  if (!m) return false;
+  let oh = parseInt(m[1]), op = m[2].toUpperCase(), ch = parseInt(m[3]), cp = m[4].toUpperCase();
+  if (op === 'PM' && oh !== 12) oh += 12;
+  if (op === 'AM' && oh === 12) oh = 0;
+  if (cp === 'PM' && ch !== 12) ch += 12;
+  if (cp === 'AM' && ch === 12) ch = 0;
+  const cur = new Date().getHours() * 60 + new Date().getMinutes();
+  return cur >= oh * 60 && cur < ch * 60;
+}
 
 /* ── Screen Registry ── */
 const screens = [
@@ -267,7 +281,7 @@ function initEvents() {
       switch (nav) {
         case 'home':         navigate('home'); break;
         case 'map':          navigate('map'); break;
-        case 'search':       navigate('search-input'); break;
+        case 'search':       AppState.activeFilters = new Set(); navigate('search-input'); break;
         case 'favorites':    navigate('favorites'); break;
         case 'bookings':     navigate('my-bookings'); break;
         case 'profile':      navigate('profile'); break;
@@ -372,6 +386,7 @@ function initEvents() {
         case 'go-home':     navigate('home'); break;
         case 'go-search':   navigate('search-input', { selectedServices: [] }); break;
         case 'show-results':
+          AppState.activeFilters = new Set();
           navigate('search-results', { selectedServices: [...AppState.selectedServices] });
           break;
         case 'book-now':
@@ -391,11 +406,11 @@ function initEvents() {
           break;
         case 'search-view-list':
           AppState.searchViewMode = 'list';
-          navigate('search-results', { selectedServices: [...AppState.selectedServices] });
+          navigate('search-results');
           break;
         case 'search-view-map':
           AppState.searchViewMode = 'map';
-          navigate('search-results', { selectedServices: [...AppState.selectedServices] });
+          navigate('search-results');
           break;
         case 'open-deals':
         case 'go-deals':
@@ -409,6 +424,22 @@ function initEvents() {
           break;
         case 'go-home':
           navigate('home');
+          break;
+        case 'filter-open-now':
+          AppState.activeFilters = new Set(['open-now']);
+          navigate('search-results');
+          break;
+        case 'filter-under-500':
+          AppState.activeFilters = new Set(['under-500']);
+          navigate('search-results');
+          break;
+        case 'filter-near-me':
+          AppState.activeFilters = new Set(['near-me']);
+          navigate('search-results');
+          break;
+        case 'clear-filter':
+          AppState.activeFilters.delete(actionEl.dataset.filter);
+          navigate('search-results');
           break;
       }
       return;

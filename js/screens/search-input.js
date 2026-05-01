@@ -15,7 +15,7 @@ function renderSearchInput() {
     <!-- Selected Services Pills -->
     ${selSvcs.length > 0 ? `
     <div style="padding:12px 20px 0">
-      <div style="font-size:11px;font-weight:600;color:${C.text2};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">Selected (${selSvcs.length})</div>
+      <div style="font-size:10px;font-weight:800;color:${C.primary};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">Selected (${selSvcs.length})</div>
       <div style="display:flex;gap:6px;flex-wrap:wrap">
         ${selSvcs.map(sid => {
           const svc = getSvc(sid);
@@ -30,7 +30,7 @@ function renderSearchInput() {
 
     <!-- Recent Searches -->
     <div style="padding:16px 20px 8px">
-      <div style="font-size:11px;font-weight:600;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">Recent Searches</div>
+      <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px">Recent Searches</div>
       ${recent.map(r => `
         <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid ${C.borderS};cursor:pointer">
           ${Icons.clock(16, C.text3)}
@@ -43,7 +43,7 @@ function renderSearchInput() {
     <!-- Popular Packages -->
     <div style="padding:4px 0 8px">
       <div style="padding:0 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-        <div style="font-size:11px;font-weight:600;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px">Popular Packages</div>
+        <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em">Popular Packages</div>
         <div style="font-size:11px;color:${C.primary};font-weight:600">Bundle &amp; save</div>
       </div>
       <div style="display:flex;gap:10px;overflow-x:auto;padding:0 20px 4px" class="hide-sb">
@@ -76,7 +76,7 @@ function renderSearchInput() {
 
     <!-- All Services -->
     <div style="padding:8px 20px 100px">
-      <div style="font-size:11px;font-weight:600;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">All Services</div>
+      <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px">All Services</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         ${allServices.map(svc => {
           const sel = selSvcs.includes(svc.id);

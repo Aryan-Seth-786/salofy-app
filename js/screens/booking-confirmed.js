@@ -33,19 +33,19 @@ function renderBookingConfirmed() {
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
           <div>
-            <div style="font-size:10px;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px">Date</div>
+            <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em">Date</div>
             <div style="font-size:13px;font-weight:600;color:${C.text};margin-top:2px">${dateStr}</div>
           </div>
           <div>
-            <div style="font-size:10px;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px">Time</div>
+            <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em">Time</div>
             <div style="font-size:13px;font-weight:600;color:${C.text};margin-top:2px">${timeStr}</div>
           </div>
           <div>
-            <div style="font-size:10px;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px">Total</div>
+            <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em">Total</div>
             <div style="font-size:13px;font-weight:600;color:${C.primary};margin-top:2px">\u20B9${subtotal - discount}</div>
           </div>
         </div>
-        <div style="font-size:10px;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">Booked</div>
+        <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">Booked</div>
         ${selPkgs.map(pkgId => {
           const pkg = (s.packages||[]).find(p => p.id === pkgId);
           if (!pkg) return '';
@@ -58,7 +58,7 @@ function renderBookingConfirmed() {
       <!-- Booking Reference -->
       <div style="background:${C.primaryS};border:1px solid ${C.primary}33;border-radius:10px;padding:12px 16px;width:100%;margin-top:12px;display:flex;justify-content:space-between;align-items:center">
         <div>
-          <div style="font-size:10px;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px">Booking Ref</div>
+          <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em">Booking Ref</div>
           <div style="font-size:14px;font-weight:700;color:${C.primary};letter-spacing:2px">SF2930</div>
         </div>
         <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:${C.text3};cursor:pointer">${Icons.copy(14, C.text3)} Copy</div>

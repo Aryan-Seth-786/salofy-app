@@ -1,15 +1,55 @@
+/* js/data.js */
 /* ═══════════════════════════════════════════════════
    SALOFY DATA
    Color constants, services, and salon sample data
    ═══════════════════════════════════════════════════ */
 
+/* Color token mirror — all values map 1:1 to css/tokens.css :root vars.
+   Use C.x in JS template literals; CSS handles theming. */
 const C = {
-  bg: "#FAFAF7", surface: "#FFFFFF", surface2: "#F5F0E8", surface3: "#EDE6D8",
-  border: "#E2D9C8", borderS: "#EDE6D8", text: "#1A1A2E", text2: "#4A4A5A",
-  text3: "#8A8A96", primary: "#B8860B", primaryL: "#D4A017", primaryD: "#8B6508",
-  primaryS: "rgba(184, 134, 11, 0.08)", success: "#2D8B55", successS: "rgba(45, 139, 85, 0.08)",
-  error: "#C0392B", errorS: "rgba(192, 57, 43, 0.08)", info: "#5B7FA5",
-  rose: "#C4756E", verified: "#7B68AE",
+  /* surfaces */
+  bg:        'var(--bg)',
+  surface:   'var(--surface)',
+  surface2:  'var(--surface-2)',
+  surface3:  'var(--surface-3)',
+  /* borders */
+  border:    'var(--border)',
+  borderS:   'var(--border-subtle)',
+  /* text */
+  text:      'var(--text)',
+  text2:     'var(--text-2)',
+  text3:     'var(--text-3)',
+  /* brand */
+  primary:   'var(--primary)',
+  primaryL:  'var(--primary-light)',
+  primaryD:  'var(--primary-dark)',
+  primaryS:  'var(--primary-surface)',
+  rose:      'var(--rose-500)',
+  rose50:    'var(--rose-50)',
+  plum:      'var(--plum-600)',
+  topSalon:  'var(--plum-600)',
+  saffron:   'var(--saffron-400)',
+  saffronLite: 'var(--saffron-300)',
+  /* semantic */
+  success:   'var(--success)',
+  successS:  'var(--success-surface)',
+  successB:  'var(--success-border)',
+  error:     'var(--error)',
+  errorS:    'var(--error-surface)',
+  errorB:    'var(--error-border)',
+  info:      'var(--info)',
+  infoS:     'var(--info-surface)',
+  verified:  'var(--verified)',
+  warning:   'var(--warning)',
+  /* ink scale */
+  ink50:  'var(--ink-50)',  ink100: 'var(--ink-100)', ink150: 'var(--ink-150)',
+  ink200: 'var(--ink-200)', ink300: 'var(--ink-300)', ink400: 'var(--ink-400)',
+  ink500: 'var(--ink-500)', ink600: 'var(--ink-600)', ink700: 'var(--ink-700)',
+  ink800: 'var(--ink-800)', ink900: 'var(--ink-900)',
+  /* shadows */
+  shadowSm:   'var(--shadow-sm)',
+  shadowMd:   'var(--shadow-md)',
+  shadowRose: 'var(--shadow-rose)',
 };
 
 const allServices = [
@@ -31,6 +71,15 @@ const salons = [
   {
     id: 1, name: "Luxe Hair Studio", loc: "Sector 17, Chandigarh", dist: "1.2 km", mapX: 55, mapY: 25,
     rating: 4.8, reviews: 312, tier: "premium", photos: 32,
+    cover: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=450&fit=crop&crop=center',
+    gallery: [
+      'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&h=400&fit=crop&crop=center',
+    ],
     hours: "10 AM - 10 PM", deal: "30% Off First Visit",
     flash: { title: "50% Off All Facials", sub: "Today Only", hrs: "02", min: "34", sec: "11" },
     staff: [
@@ -40,6 +89,7 @@ const salons = [
       { n: "Ravi", r: "Skin Expert", gender: "m" }
     ],
     services: { haircut: 400, headwash: 100, beard: 200, color: 1200, facial: 1000, waxing: 800, spa: 1500, bridal: 8000, manicure: 500, threading: 100, shave: 150, massage: 300 },
+    serviceDiscounts: { facial: 799, color: 999, spa: 1199 },
     packages: [
       { id: "pkg1", name: "Groom & Go", desc: "Quick all-in-one groom", services: ["haircut", "headwash", "beard"], price: 550, savings: 150, duration: "65 min" },
       { id: "pkg2", name: "Skin Glow", desc: "Refresh your skin and hair", services: ["facial", "headwash"], price: 899, savings: 201, duration: "60 min" },
@@ -51,6 +101,13 @@ const salons = [
   {
     id: 2, name: "Urban Style", loc: "Kharar Main Road", dist: "3.8 km", mapX: 78, mapY: 72,
     rating: 4.5, reviews: 124, tier: "growth", photos: 15,
+    cover: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=800&h=450&fit=crop&crop=center',
+    gallery: [
+      'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=600&h=400&fit=crop&crop=center',
+    ],
     hours: "9 AM - 9 PM", deal: "20% Off First Visit",
     staff: [
       { n: "Rajesh", r: "Senior Stylist", gender: "m" },
@@ -67,6 +124,12 @@ const salons = [
   {
     id: 3, name: "Glow Beauty Parlour", loc: "Phase 3B2, Mohali", dist: "5.1 km", mapX: 42, mapY: 68,
     rating: 4.1, reviews: 38, tier: "starter", photos: 5,
+    cover: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&h=450&fit=crop&crop=center',
+    gallery: [
+      'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600&h=400&fit=crop&crop=center',
+    ],
     hours: "10 AM - 8 PM",
     staff: [],
     services: { haircut: 200, headwash: 30, facial: 400, waxing: 350, manicure: 250, threading: 50 },
@@ -78,12 +141,21 @@ const salons = [
   {
     id: 4, name: "Royal Cuts", loc: "Phase 5, Mohali", dist: "2.4 km", mapX: 35, mapY: 52,
     rating: 4.7, reviews: 198, tier: "premium", photos: 28,
+    cover: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&h=450&fit=crop&crop=center',
+    gallery: [
+      'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=600&h=400&fit=crop&crop=center',
+    ],
     hours: "9 AM - 9 PM", deal: "15% Off Combo",
     staff: [
       { n: "Harpreet", r: "Owner & Stylist", gender: "m" },
       { n: "Jaspreet", r: "Beard Expert", gender: "m" }
     ],
     services: { haircut: 350, headwash: 80, beard: 180, color: 1000, shave: 130, massage: 250, spa: 1200 },
+    serviceDiscounts: { color: 799, spa: 999 },
     packages: [
       { id: "pkg1", name: "Royal Groom", desc: "Haircut, beard & wash", services: ["haircut", "beard", "headwash"], price: 499, savings: 111, duration: "65 min" },
       { id: "pkg2", name: "King's Treat", desc: "Haircut, shave & massage", services: ["haircut", "shave", "massage"], price: 599, savings: 131, duration: "1.25 hrs" },
@@ -93,6 +165,11 @@ const salons = [
   {
     id: 5, name: "Neha's Salon", loc: "Patiala Gate", dist: "6.3 km", mapX: 18, mapY: 82,
     rating: 3.9, reviews: 22, tier: "starter", photos: 4,
+    cover: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=450&fit=crop&crop=center',
+    gallery: [
+      'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&h=400&fit=crop&crop=center',
+    ],
     hours: "10 AM - 7 PM",
     staff: [],
     services: { haircut: 180, facial: 350, threading: 40, waxing: 300, manicure: 200 },
@@ -104,6 +181,12 @@ const salons = [
   {
     id: 6, name: "Blade & Co.", loc: "Sector 22, Chandigarh", dist: "2.1 km", mapX: 62, mapY: 35,
     rating: 4.6, reviews: 87, tier: "growth", photos: 12,
+    cover: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&h=450&fit=crop&crop=center',
+    gallery: [
+      'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=600&h=400&fit=crop&crop=center',
+      'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&h=400&fit=crop&crop=center',
+    ],
     hours: "10 AM - 9 PM", deal: "\u20B999 Head Wash",
     staff: [
       { n: "Karan", r: "Master Barber", gender: "m" }
@@ -119,6 +202,18 @@ const salons = [
 function getSvc(id) {
   return allServices.find(s => s.id === id);
 }
+
+const bookings = [
+  { idx: 0, salonId: 2, date: 'Sun, Mar 29', time: '10:30 AM', services: "Men's Haircut, Beard Styling", status: 'upcoming' },
+  { idx: 1, salonId: 1, date: 'Wed, Mar 26', time: '11:00 AM', pkgId: 'pkg3',                             status: 'upcoming' },
+  { idx: 5, salonId: 4, date: 'Tue, Apr 1',  time: '4:00 PM',  services: 'Clean Shave, Head Massage',     status: 'upcoming' },
+  { idx: 2, salonId: 1, date: 'Sat, Mar 22', time: '2:00 PM',  services: 'Gold Facial',                   status: 'completed' },
+  { idx: 3, salonId: 3, date: 'Mon, Mar 15', time: '11:00 AM', services: 'Basic Facial, Waxing',           status: 'completed' },
+  { idx: 4, salonId: 4, date: 'Fri, Mar 7',  time: '3:00 PM',  services: 'Beard Trim, Head Massage',       status: 'completed' },
+];
+
+
+/* js/icons.js */
 /* ═══════════════════════════════════════════════════
    SALOFY SVG ICON SYSTEM
    All icons return raw SVG strings.
@@ -302,6 +397,9 @@ const Icons = {
 function svcIcon(iconName, size, color) {
   return Icons[iconName] ? Icons[iconName](size, color) : Icons.sparkle(size, color);
 }
+
+
+/* js/shell.js */
 /* ═══════════════════════════════════════════════════
    SHELL & NAVIGATION
    Phone frame wrapper and bottom navigation
@@ -320,7 +418,7 @@ function Shell(innerHTML, opts = {}) {
           <svg width="25" height="12" viewBox="0 0 25 12" fill="none" stroke="${statusDark?'#fff':C.text}" stroke-width="1"><rect x="0.5" y="0.5" width="21" height="11" rx="2.5"/><rect x="22" y="3.5" width="2.5" height="5" rx="1" fill="${statusDark?'#fff':C.text}"/><rect x="2" y="2" width="16" height="8" rx="1" fill="${statusDark?'#fff':C.text}"/></svg>
         </span>
       </div>
-      <div class="phone-content${noNav ? ' phone-content--no-nav' : ''} hide-sb">
+      <div class="phone-content${noNav ? ' phone-content--no-nav' : ''} hide-sb" style="overflow-y:auto">
         ${innerHTML}
       </div>
       ${noNav ? '' : (navType === 'dashboard' ? DashboardNav(activeTab) : BottomNav(activeTab))}
@@ -374,17 +472,20 @@ function DashboardNav(active) {
 function BackBtn(color) {
   return `<div class="back-btn" data-action="back">${Icons.back(18, color || C.text)}</div>`;
 }
+
+
+/* js/components.js */
 /* ═══════════════════════════════════════════════════
    SHARED COMPONENTS
    HTML string generators for reusable UI pieces
    ═══════════════════════════════════════════════════ */
 
 function TopBadge() {
-  return `<span class="badge badge--top">${Icons.starFilled(8, '#fff')} Top Salon</span>`;
+  return `<span class="badge badge--top" style="letter-spacing:0.06em">✦ TOP SALON</span>`;
 }
 
 function VerifiedBadge() {
-  return `<span class="badge badge--verified">${Icons.check(8, '#fff')} Verified</span>`;
+  return `<span class="badge badge--verified" style="letter-spacing:0.06em">${Icons.check(8, '#fff')} VERIFIED</span>`;
 }
 
 function DealTag(text) {
@@ -392,15 +493,28 @@ function DealTag(text) {
 }
 
 function TopDot() {
-  return `<span class="dot-badge dot-badge--top">${Icons.starFilled(8, '#fff')}</span>`;
+  return `<span class="dot-badge dot-badge--top" style="font-size:8px;color:#fff;display:inline-flex;align-items:center;justify-content:center">✦</span>`;
 }
 
 function VerifiedDot() {
   return `<span class="dot-badge dot-badge--verified">${Icons.check(8, '#fff')}</span>`;
 }
 
-function StarRow(rating) {
-  return `<span class="star-row">${Icons.starFilled(12, C.primaryL)} ${rating}</span>`;
+function StarRow(rating, reviews) {
+  const reviewsPart = reviews != null
+    ? `<span style="color:${C.ink400};font-weight:400"> (${reviews})</span>`
+    : '';
+  return `<span class="star-row" style="font-variant-numeric:tabular-nums">${rating} <span style="color:${C.saffron}">★</span>${reviewsPart}</span>`;
+}
+
+function BookingStatusPill(status) {
+  if (status === 'upcoming') {
+    return `<span style="display:inline-flex;align-items:center;gap:4px;background:var(--rose-50);color:var(--rose-700);padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;font-family:var(--font-heading);font-style:italic;letter-spacing:-0.01em">✓ Confirmed</span>`;
+  }
+  if (status === 'completed') {
+    return `<span style="display:inline-flex;align-items:center;gap:4px;background:var(--success-50);color:var(--success-600);padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600">✓ Completed</span>`;
+  }
+  return `<span style="display:inline-flex;align-items:center;gap:4px;background:var(--plum-50);color:var(--plum-600);padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600">Pending</span>`;
 }
 
 function PayAtSalon() {
@@ -436,7 +550,7 @@ function SalonResultCard(s, selectedSvcs = [], isFav = false) {
         <span style="font-size:10px;color:${C.text3}">for ${matched.length} service${matched.length > 1 ? 's' : ''}</span>
       </div>
       ${matchingPkg ? `
-      <div data-goto-package="${s.id}:${matchingPkg.id}" style="display:flex;align-items:center;gap:8px;margin-top:8px;padding:8px 10px;background:${C.successS};border:1px solid rgba(45,139,85,0.25);border-radius:8px;cursor:pointer">
+      <div data-goto-package="${s.id}:${matchingPkg.id}" style="display:flex;align-items:center;gap:8px;margin-top:8px;padding:8px 10px;background:${C.successS};border:1px solid var(--success-border);border-radius:8px;cursor:pointer">
         ${Icons.gift(14, C.success)}
         <div style="flex:1;min-width:0;font-size:12px">
           <span style="font-weight:600;color:${C.success}">${matchingPkg.name}</span>
@@ -458,9 +572,9 @@ function SalonResultCard(s, selectedSvcs = [], isFav = false) {
   }
 
   return `
-    <div class="salon-card${s.tier === 'premium' ? ' salon-card--premium' : ''}" data-goto-salon="${s.id}" style="cursor:pointer">
+    <div class="salon-card${s.tier === 'premium' ? ' salon-card--premium' : s.tier === 'growth' ? ' salon-card--growth' : ''}" data-goto-salon="${s.id}" style="cursor:pointer">
       <div class="salon-card__hero">
-        <div class="salon-card__hero-icon">${Icons.scissors(28, C.text3)}</div>
+        ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block"><div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(18,15,13,.25) 0%,transparent 60%)"></div>` : `<div class="salon-card__hero-icon">${Icons.scissors(28, C.text3)}</div>`}
         <div class="salon-card__badges">
           ${s.tier === 'premium' ? TopBadge() : ''}
           ${(s.tier === 'growth' || s.tier === 'premium') ? VerifiedBadge() : ''}
@@ -475,7 +589,7 @@ function SalonResultCard(s, selectedSvcs = [], isFav = false) {
             ${s.tier === 'premium' ? TopDot() : ''}
             ${s.tier === 'growth' ? VerifiedDot() : ''}
           </div>
-          ${StarRow(s.rating)}
+          ${StarRow(s.rating, s.reviews)}
         </div>
         <div class="salon-card__meta">${s.loc} &bull; ${s.dist}</div>
         ${servicesHtml}
@@ -502,7 +616,7 @@ function ServiceListItem(svc, price, showBorder) {
         <div style="font-size:13px;font-weight:500;color:${C.text};display:flex;align-items:center;gap:6px">${svcIcon(svc.icon, 16, C.text2)} ${svc.label}</div>
         <div style="font-size:11px;color:${C.text3};margin-top:2px">${svc.time}</div>
       </div>
-      <div style="font-size:14px;font-weight:600;color:${C.primary}">\u20B9${price}</div>
+      <div style="font-size:14px;font-weight:700;color:${C.ink900};font-variant-numeric:tabular-nums">\u20B9${price}</div>
     </div>`;
 }
 
@@ -511,7 +625,7 @@ function ReviewCard(name, stars, text) {
     <div style="background:${C.surface2};border-radius:8px;padding:12px;margin-bottom:8px;border:1px solid ${C.borderS}">
       <div style="display:flex;justify-content:space-between;margin-bottom:6px">
         <span style="font-size:12px;font-weight:600;color:${C.text}">${name}</span>
-        <span style="font-size:11px;color:${C.primaryL};display:flex;gap:1px">${Array(stars).fill(Icons.starFilled(11, C.primaryL)).join('')}${Array(5 - stars).fill(Icons.star(11, C.border)).join('')}</span>
+        <span style="font-size:11px;color:${C.saffron};display:flex;gap:1px">${Array(stars).fill(Icons.starFilled(11, C.saffron)).join('')}${Array(5 - stars).fill(Icons.star(11, C.ink200)).join('')}</span>
       </div>
       <div style="font-size:12px;color:${C.text2};line-height:1.5">${text}</div>
     </div>`;
@@ -627,32 +741,8 @@ function SuggestedPackagesHtml(s, selSvcs) {
           <div style="font-size:11px;color:${C.text3};margin-top:1px">${subheading}</div>
         </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        ${suggested.map(pkg => {
-          const matchedSvcs  = selSvcs.filter(sid => pkg.services.includes(sid));
-          const bonusSvcs    = pkg.services.filter(sid => !selSvcs.includes(sid));
-          const showBonus    = bonusSvcs.slice(0, selSvcs.length >= 1 ? 2 : 3);
-          const hiddenCount  = bonusSvcs.length - showBonus.length;
-          return `
-            <div data-suggest-pkg="${pkg.id}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:${C.successS};border:1px solid rgba(45,139,85,0.22);border-radius:10px;cursor:pointer">
-              <div style="flex:1;min-width:0">
-                <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
-                  <span style="font-size:13px;font-weight:600;color:${C.text}">${pkg.name}</span>
-                  <span style="font-size:10px;font-weight:700;color:${C.success};background:rgba(45,139,85,0.14);padding:2px 6px;border-radius:6px;white-space:nowrap">Save \u20B9${pkg.savings}</span>
-                </div>
-                <div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center">
-                  ${matchedSvcs.map(sid => { const svc = getSvc(sid); return svc ? `<span style="font-size:9px;padding:2px 6px;background:rgba(184,134,11,0.12);border:1px solid rgba(184,134,11,0.3);border-radius:6px;color:${C.primary};font-weight:600">${svc.label}</span>` : ''; }).join('')}
-                  ${showBonus.map(sid => { const svc = getSvc(sid); return svc ? `<span style="font-size:9px;padding:2px 6px;background:${C.surface};border:1px solid ${C.border};border-radius:6px;color:${C.text2}">${svc.label}</span>` : ''; }).join('')}
-                  ${hiddenCount > 0 ? `<span style="font-size:9px;color:${C.text3}">+${hiddenCount} more</span>` : ''}
-                </div>
-              </div>
-              <div style="text-align:right;flex-shrink:0">
-                <div style="font-size:14px;font-weight:700;color:${C.primary}">\u20B9${pkg.price}</div>
-                <div style="font-size:10px;color:${C.text3};white-space:nowrap">${pkg.duration}</div>
-              </div>
-              ${Icons.forward(14, C.success)}
-            </div>`;
-        }).join('')}
+      <div style="display:flex;flex-direction:column;gap:0">
+        ${suggested.map(pkg => PackageCard.suggestion(pkg, selSvcs)).join('')}
       </div>
       <div style="height:1px;background:${C.border};margin:14px 0 4px"></div>
     </div>`;
@@ -669,31 +759,39 @@ function SectionHeader(text, seeAll, iconHtml) {
       ${seeAll ? `<span class="section-header__see-all">See all</span>` : ''}
     </div>`;
 }
+
+
+/* js/screens/splash.js */
 function renderSplash() {
   return Shell(`
-    <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg, #1A1A2E 0%, #2a2040 50%, #1A1A2E 100%);margin-top:-40px;padding-bottom:60px">
-      <div style="width:90px;height:90px;border-radius:24px;background:linear-gradient(135deg, #B8860B, #D4A017);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 40px rgba(184,134,11,0.4);margin-bottom:24px">
+    <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg, var(--ink-900) 0%, var(--ink-800) 50%, var(--ink-900) 100%);margin-top:-40px;padding-bottom:60px">
+      <div style="width:90px;height:90px;border-radius:24px;background:var(--grad-rose);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-rose);margin-bottom:24px">
         ${Icons.scissors(40, '#fff')}
       </div>
-      <div style="font-family:var(--font-heading);font-size:38px;font-weight:700;color:#D4A017;margin-bottom:4px">Salofy</div>
+      <div style="font-family:var(--font-heading);font-size:38px;font-weight:700;color:var(--primary);margin-bottom:4px">Salofy</div>
       <div style="font-size:12px;color:rgba(255,255,255,0.5);letter-spacing:4px;text-transform:uppercase">Discover &bull; Book &bull; Glow</div>
-      <div style="margin-top:40px;width:32px;height:32px;border:3px solid rgba(212,160,23,0.3);border-top-color:#D4A017;border-radius:50%;animation:spin 1s linear infinite"></div>
+      <div style="margin-top:40px;width:32px;height:32px;border:3px solid var(--primary-border);border-top-color:var(--primary);border-radius:50%;animation:spin 1s linear infinite"></div>
     </div>
   `, { noNav: true, statusDark: true });
 }
+
+
+/* js/screens/login.js */
 function renderLogin() {
   return Shell(`
     <div style="padding:60px 24px 24px">
-      <div style="font-family:var(--font-heading);font-size:28px;font-weight:700;color:${C.primary};margin-bottom:4px">Salofy</div>
-      <div style="font-size:13px;color:${C.text3};margin-bottom:40px">Your salon, simplified.</div>
+      <div style="font-family:var(--font-heading);font-size:30px;font-weight:700;color:${C.primary};margin-bottom:4px;letter-spacing:-0.5px">Salofy</div>
+      <div style="font-size:13px;color:${C.text3};margin-bottom:40px;font-style:italic">Your salon, simplified.</div>
 
-      <div style="font-family:var(--font-heading);font-size:22px;font-weight:600;color:${C.text};margin-bottom:6px">Welcome back</div>
-      <div style="font-size:13px;color:${C.text2};margin-bottom:28px">Enter your phone number to continue</div>
+      <div style="font-family:var(--font-heading);font-size:24px;font-weight:600;color:${C.text};margin-bottom:6px;letter-spacing:-0.3px">Welcome back</div>
+      <div style="font-size:13px;color:${C.text2};margin-bottom:28px;line-height:1.5">Enter your phone number to continue</div>
 
       <div class="input-label">Phone Number</div>
       <div style="display:flex;gap:10px;margin-bottom:24px">
-        <div style="padding:14px 12px;background:${C.surface2};border:1px solid ${C.border};border-radius:12px;font-size:14px;font-weight:600;color:${C.text}">+91</div>
-        <input class="input" value="98765 43210" style="flex:1" readonly>
+        <div style="display:flex;align-items:center;gap:6px;padding:14px 14px;background:${C.surface2};border:1px solid ${C.border};border-radius:12px;font-size:14px;font-weight:600;color:${C.text};white-space:nowrap;flex-shrink:0">
+          <span style="font-size:16px">🇮🇳</span>+91
+        </div>
+        <input class="input" value="98765 43210" style="flex:1;background:${C.surface};border:1.5px solid ${C.border}" readonly>
       </div>
 
       <button data-action="go-otp" class="btn btn--primary">Get OTP</button>
@@ -714,173 +812,788 @@ function renderLogin() {
     </div>
   `, { noNav: true });
 }
+
+
+/* js/screens/otp.js */
 function renderOTP() {
   const digits = ['4', '7', '2', '9', '', ''];
   return Shell(`
     <div style="padding:60px 24px 24px">
       ${BackBtn()}
-      <div style="font-family:var(--font-heading);font-size:22px;font-weight:600;color:${C.text};margin-bottom:6px;margin-top:28px">Verify your number</div>
-      <div style="font-size:13px;color:${C.text2};margin-bottom:32px">We sent a 6-digit code to <span style="font-weight:600;color:${C.text}">+91 98765 43210</span></div>
+      <div style="font-family:var(--font-body);font-size:24px;font-weight:600;color:${C.text};margin-bottom:6px;margin-top:28px;letter-spacing:-0.3px">Verify your number</div>
+      <div style="font-size:13px;color:${C.text2};margin-bottom:36px;line-height:1.5">We sent a 6-digit code to <span style="font-weight:600;color:${C.text}">+91 98765 43210</span></div>
 
-      <div style="display:flex;gap:10px;justify-content:center;margin-bottom:32px">
-        ${digits.map(d => `
-          <div style="width:48px;height:56px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;background:${d ? C.primaryS : C.surface2};border:2px solid ${d ? C.primary : C.border};border-radius:12px;color:${C.text}">${d}</div>
+      <div style="display:flex;gap:10px;justify-content:center;margin-bottom:36px">
+        ${digits.map((d, i) => `
+          <div style="width:46px;height:58px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:24px;font-weight:700;background:${d ? C.primaryS : C.surface};border:none;border-bottom:3px solid ${d ? C.primary : C.border};color:${d ? C.primary : C.text3};border-radius:0;transition:border-color 0.2s">${d}</div>
         `).join('')}
       </div>
 
       <button data-action="go-home" class="btn btn--primary">Verify & Continue</button>
 
       <div style="text-align:center;margin-top:20px;font-size:13px;color:${C.text3}">
-        Resend code in <span style="font-weight:600">24s</span>
+        Resend code in <span style="font-weight:600;color:${C.text}">24s</span>
       </div>
     </div>
   `, { noNav: true });
 }
+
+
+/* js/screens/home.js */
+/* ─── Hero carousel controller ─────────────────────────────────────
+   Lives at module scope so it can be invoked AFTER innerHTML insertion.
+   (Inline <script> tags inside innerHTML do NOT execute.)
+   ────────────────────────────────────────────────────────────────── */
+function initHomeHeroCarousel() {
+  const zone = document.getElementById('hero-zone');
+  if (!zone || zone.dataset.carouselInit === '1') return;
+  zone.dataset.carouselInit = '1';
+
+  const slides = Array.from(zone.querySelectorAll('.hero-slide'));
+  const segs = Array.from(zone.querySelectorAll('.hero-seg-fill'));
+  if (slides.length === 0) return;
+
+  const SLIDE_DURATION_MS = 5500;
+  let current = 0;
+  let rafId = null;
+  let slideStart = 0;
+  let activeVideo = null;
+
+  function setTint(idx) {
+    const grad = slides[idx].getAttribute('data-tint-grad');
+    if (grad) zone.style.background = grad;
+  }
+
+  function resetSegs(activeIdx) {
+    segs.forEach((seg, i) => {
+      seg.style.transition = 'none';
+      seg.style.width = i < activeIdx ? '100%' : '0%';
+    });
+    void zone.offsetWidth;
+    segs.forEach(seg => { seg.style.transition = 'width 80ms linear'; });
+  }
+
+  function pauseAllVideos() {
+    slides.forEach(slide => {
+      const v = slide.querySelector('video');
+      if (v) { try { v.pause(); v.currentTime = 0; } catch(e){} }
+    });
+    activeVideo = null;
+  }
+
+  function showSlide(idx) {
+    if (rafId) cancelAnimationFrame(rafId);
+    pauseAllVideos();
+    current = ((idx % slides.length) + slides.length) % slides.length;
+
+    slides.forEach((s, i) => {
+      const active = i === current;
+      s.style.opacity = active ? '1' : '0';
+      s.style.pointerEvents = active ? 'auto' : 'none';
+    });
+
+    setTint(current);
+    resetSegs(current);
+
+    const slide = slides[current];
+    const v = slide.querySelector('video');
+    if (v) {
+      activeVideo = v;
+      try {
+        const p = v.play();
+        if (p && p.catch) p.catch(() => {});
+      } catch(e) {}
+    }
+
+    slideStart = performance.now();
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function tick(now) {
+    if (!document.body.contains(zone)) return; // screen unmounted
+    const elapsed = now - slideStart;
+    let pct;
+    if (activeVideo && activeVideo.duration && !isNaN(activeVideo.duration) && activeVideo.duration > 0.5) {
+      const vidPct = activeVideo.currentTime / activeVideo.duration;
+      const timePct = elapsed / SLIDE_DURATION_MS;
+      pct = Math.min(1, Math.max(vidPct, timePct));
+      if (activeVideo.ended) pct = 1;
+    } else {
+      pct = Math.min(1, elapsed / SLIDE_DURATION_MS);
+    }
+
+    if (segs[current]) segs[current].style.width = (pct * 100) + '%';
+
+    if (pct >= 1) {
+      showSlide(current + 1);
+      return;
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  // Pointer-based swipe (works for touch and mouse)
+  let pointerStartX = null;
+  let pointerStartY = null;
+  let pointerActive = false;
+
+  zone.addEventListener('pointerdown', (e) => {
+    pointerStartX = e.clientX;
+    pointerStartY = e.clientY;
+    pointerActive = true;
+  });
+  zone.addEventListener('pointerup', (e) => {
+    if (!pointerActive || pointerStartX == null) return;
+    pointerActive = false;
+    const dx = e.clientX - pointerStartX;
+    const dy = e.clientY - pointerStartY;
+    const startX = pointerStartX;
+    pointerStartX = null;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+      showSlide(current + (dx < 0 ? 1 : -1));
+      return;
+    }
+    if (Math.abs(dx) < 10 && Math.abs(dy) < 10) {
+      const interactive = e.target.closest('[data-nav],[onclick],button,a,input,video');
+      if (interactive) return;
+      const rect = zone.getBoundingClientRect();
+      const relX = startX - rect.left;
+      showSlide(current + (relX < rect.width / 2 ? -1 : 1));
+    }
+  });
+  zone.addEventListener('pointercancel', () => { pointerActive = false; pointerStartX = null; });
+
+  showSlide(0);
+}
+
 function renderHome() {
+  // Schedule carousel init after this render's innerHTML is inserted by app.js.
+  setTimeout(initHomeHeroCarousel, 0);
   const popularSvcs = [
-    { id: 'haircut', icon: 'scissors', label: 'Haircut' },
-    { id: 'facial',  icon: 'sparkle',  label: 'Facial'  },
-    { id: 'color',   icon: 'palette',  label: 'Color'   },
-    { id: 'beard',   icon: 'beard',    label: 'Beard'   },
-    { id: 'spa',     icon: 'spa',      label: 'Spa'     },
-    { id: 'bridal',  icon: 'crown',    label: 'Bridal'  },
-    { id: 'waxing',  icon: 'flower',   label: 'Waxing'  },
-    { id: 'manicure',icon: 'nails',    label: 'Nails'   },
+    { id: 'haircut', label: 'Haircut',  photo: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=200&h=200&fit=crop&crop=faces,center' },
+    { id: 'facial',  label: 'Facial',   photo: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=200&h=200&fit=crop&crop=faces,center' },
+    { id: 'color',   label: 'Color',    photo: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=200&h=200&fit=crop&crop=center' },
+    { id: 'beard',   label: 'Beard',    photo: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=200&h=200&fit=crop&crop=faces,center' },
+    { id: 'spa',     label: 'Spa',      photo: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=200&h=200&fit=crop&crop=center' },
+    { id: 'bridal',  label: 'Bridal',   photo: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=200&h=200&fit=crop&crop=faces,center' },
+    { id: 'waxing',  label: 'Waxing',   photo: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=200&h=200&fit=crop&crop=center' },
+    { id: 'manicure',label: 'Nails',    photo: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=200&h=200&fit=crop&crop=center' },
   ];
 
-  const trending = [
-    { t: 'Bridal Season',   sub: '12 salons with bridal packages', icon: 'crown',   svcId: 'bridal'  },
-    { t: 'Beard Grooming',  sub: '8 salons \u2022 Starting \u20B999', icon: 'beard', svcId: 'beard'  },
-    { t: 'Summer Facials',  sub: 'Trending near you',              icon: 'sparkle', svcId: 'facial'  },
+  // User + time
+  const userName = (AppState && AppState.user && AppState.user.name)
+    ? AppState.user.name.split(' ')[0] : 'there';
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+  const genderFilter = AppState.genderFilter || 'all';
+
+  // Personal zone
+  const nextBooking = bookings.find(b => b.status === 'upcoming');
+  const nextSalon = nextBooking ? salons.find(s => s.id === nextBooking.salonId) : null;
+  const nextBookingLabel = nextBooking
+    ? (nextBooking.services || (nextSalon && (nextSalon.packages.find(p => p.id === nextBooking.pkgId) || {}).name) || '')
+    : '';
+  const completedSalonIds = [...new Set(bookings.filter(b => b.status === 'completed').map(b => b.salonId))];
+  const rebookSalons = completedSalonIds.map(id => salons.find(s => s.id === id)).filter(Boolean).slice(0, 5);
+
+  // Discovery data
+  const featuredSalons = salons.filter(s => s.tier === 'premium');
+  const dealSalons = salons.filter(s => s.flash || s.deal);
+  const topRated = [...salons].sort((a, b) => b.rating - a.rating).slice(0, 3);
+  const trendingSalons = [...salons].sort((a, b) => b.reviews - a.reviews).slice(0, 4);
+  const budgetSalons = salons.filter(s => Math.min(...Object.values(s.services)) <= 499);
+  const flashSalon = salons.find(s => s.flash);
+
+  // Personalization: "Because you booked" or fallback to popular
+  const lastCompleted = bookings.find(b => b.status === 'completed');
+  const lastCompletedSalon = lastCompleted ? salons.find(s => s.id === lastCompleted.salonId) : null;
+  let personalSalons, personalHeader;
+  if (lastCompletedSalon) {
+    const lastSvcKeys = Object.keys(lastCompletedSalon.services);
+    personalSalons = salons
+      .filter(s => s.id !== lastCompletedSalon.id && lastSvcKeys.some(sid => s.services[sid]))
+      .slice(0, 4);
+    const shortName = lastCompletedSalon.name.split(' ').slice(0, 2).join(' ');
+    personalHeader = `Because you booked ${shortName}`;
+  } else {
+    personalSalons = [...salons].sort((a, b) => b.rating - a.rating).slice(0, 4);
+    personalHeader = 'Popular in your area';
+  }
+
+  // Salon Stories stub — first staff member from top salon
+  const storySalon = salons[0];
+  const storyStylist = storySalon.staff && storySalon.staff.length > 0 ? storySalon.staff[0] : null;
+
+  // Time-of-day contextual banner
+  const dayOfWeek = new Date().getDay();
+  const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+  let todayMsg, todaySub;
+  if (isWeekend) {
+    todayMsg = 'Weekend self-care ✨';
+    todaySub = 'Deep conditioning & spa under ₹599';
+  } else if (hour >= 12 && hour < 14) {
+    todayMsg = 'Quick lunch-hour trims ⚡';
+    todaySub = 'Slots open near you right now';
+  } else if (hour >= 17) {
+    todayMsg = 'Evening glow-up 🌙';
+    todaySub = 'Post-work facials & blow-dries';
+  } else {
+    todayMsg = 'Make time for yourself 🌿';
+    todaySub = 'Discover salons near you';
+  }
+
+  // Directory — all salons by rating
+  const directorySalons = [...salons].sort((a, b) => b.rating - a.rating);
+
+  const tagline = nextBooking ? `You're booked for ${nextBooking.date}.` : 'Your next fresh look starts here.';
+  const isNewUser = typeof localStorage !== 'undefined' && !localStorage.getItem('salofy_htw_seen');
+
+  // ─── Hero carousel slide deck ───
+  // Each slide: { kind, tint (hex), video?, poster, kicker, title, subtitle?, caption?, ctaLabel, ctaNav, ctaOnclick?, customHTML? }
+  const promoSlides = [
+    {
+      kind: 'video',
+      tint: '#d91f48',
+      tintGrad: 'linear-gradient(160deg,#ff6b7e 0%,#d91f48 70%,#8f0d30 100%)',
+      video: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      poster: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=450&fit=crop&crop=center',
+      kicker: '✦ SALOFY FLASH',
+      kickerColor: '#ffd788',
+      title: '30% OFF',
+      subtitle: 'Your first salon visit',
+      caption: 'Limited time — book today',
+      ctaLabel: 'Book now',
+      ctaNav: 'deals',
+    },
+    {
+      kind: 'video',
+      tint: '#b45309',
+      tintGrad: 'linear-gradient(160deg,#ffd788 0%,#f59e0b 60%,#b45309 100%)',
+      video: 'https://www.w3schools.com/html/movie.mp4',
+      poster: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=450&fit=crop&crop=center',
+      kicker: '✦ SALOFY+',
+      kickerColor: '#fff',
+      title: '₹1 for 3 months',
+      subtitle: 'Unlock exclusive deals',
+      caption: 'Join Salofy+ today',
+      ctaLabel: 'Join now',
+      ctaNav: 'deals',
+    },
+    {
+      kind: 'video',
+      tint: '#561f8c',
+      tintGrad: 'linear-gradient(160deg,#a86ae0 0%,#6d2db0 60%,#2e1147 100%)',
+      video: 'https://www.w3schools.com/html/mov_bbb.mp4',
+      poster: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=450&fit=crop&crop=faces,center',
+      kicker: 'OCCASION',
+      kickerColor: '#ffd788',
+      title: 'Wedding Season Ready',
+      subtitle: 'Bridal packages from ₹4,999',
+      caption: 'Glow up for the big day',
+      ctaLabel: 'Browse bridal',
+      ctaNav: 'search',
+      ctaOnclick: "AppState.selectedServices=['bridal']",
+    },
   ];
+
+  // If there's an upcoming booking, prepend it as a static slide
+  const slides = (nextBooking && nextSalon) ? [
+    {
+      kind: 'booking',
+      tint: '#b5123b',
+      tintGrad: 'linear-gradient(160deg,#ff9aa6 0%,#f43f5e 60%,#8f0d30 100%)',
+      poster: nextSalon.cover || '',
+      bookingIdx: nextBooking.idx,
+      bookingSalon: nextSalon,
+      bookingDate: nextBooking.date,
+      bookingTime: nextBooking.time,
+      bookingLabel: nextBookingLabel,
+    },
+    ...promoSlides,
+  ] : promoSlides;
+
+  // Slide HTML builder — slides are FULL hero-zone backgrounds (sit behind header + search)
+  // Overlay text content sits in the lower portion of the zone, below the search bar.
+  const slideHTML = (s, i) => {
+    if (s.kind === 'booking') {
+      return `
+        <div class="hero-slide" data-slide-index="${i}" data-slide-kind="booking" data-tint="${s.tint}" data-tint-grad="${s.tintGrad}" style="position:absolute;inset:0;opacity:${i === 0 ? 1 : 0};transition:opacity 320ms var(--ease-out);pointer-events:${i === 0 ? 'auto' : 'none'}">
+          <!-- Artwork layer: fills entire hero zone (behind header + search) -->
+          <div style="position:absolute;inset:0;background:${s.tintGrad}"></div>
+          ${s.poster ? `<img src="${s.poster}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0.38">` : ''}
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(244,63,94,0.55) 0%,rgba(244,63,94,0.35) 35%,rgba(18,15,13,0.55) 100%)"></div>
+          <!-- Overlay text/CTAs: lower portion, below search bar -->
+          <div class="hero-slide-overlay" style="position:absolute;left:0;right:0;bottom:0;padding:14px 20px 32px;display:flex;flex-direction:column">
+            <div style="font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#ffd788;margin-bottom:4px">✦ UPCOMING</div>
+            <div style="font-family:var(--font-heading);font-size:22px;font-weight:700;color:#fff;line-height:1.05;letter-spacing:-0.02em">${s.bookingSalon.name}</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.9);margin-top:3px">${s.bookingDate} · ${s.bookingTime}</div>
+            ${s.bookingLabel ? `<div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.bookingLabel}</div>` : ''}
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <div data-nav="reschedule" onclick="event.stopPropagation();AppState.rescheduleBooking=bookings[${s.bookingIdx}]" style="flex:1;padding:8px;background:#fff;border-radius:999px;text-align:center;font-size:11px;font-weight:700;color:${C.primary};cursor:pointer">Reschedule</div>
+              <div data-nav="my-bookings" onclick="event.stopPropagation()" style="flex:1;padding:8px;background:rgba(255,255,255,0.22);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.35);border-radius:999px;text-align:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer">View Booking</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    // Video promo slide
+    return `
+      <div class="hero-slide" data-slide-index="${i}" data-slide-kind="video" data-tint="${s.tint}" data-tint-grad="${s.tintGrad}" style="position:absolute;inset:0;opacity:${i === 0 ? 1 : 0};transition:opacity 320ms var(--ease-out);pointer-events:${i === 0 ? 'auto' : 'none'}">
+        <!-- Artwork: video + tint gradient fills entire hero zone -->
+        <div style="position:absolute;inset:0;background:${s.tintGrad}"></div>
+        <video class="hero-video" muted playsinline preload="auto" poster="${s.poster}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0.55">
+          <source src="${s.video}" type="video/mp4">
+        </video>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.18) 0%,rgba(0,0,0,0.05) 35%,rgba(18,15,13,0.55) 100%)"></div>
+        <!-- Overlay text/CTA: lower portion, below search bar -->
+        <div class="hero-slide-overlay" style="position:absolute;left:0;right:0;bottom:0;padding:14px 20px 32px;display:flex;flex-direction:column">
+          <div style="font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:${s.kickerColor};margin-bottom:4px">${s.kicker}</div>
+          <div style="font-family:var(--font-heading);font-size:26px;font-weight:700;color:#fff;line-height:1;letter-spacing:-0.02em">${s.title}</div>
+          ${s.subtitle ? `<div style="font-family:var(--font-heading);font-size:14px;font-weight:500;color:rgba(255,255,255,0.92);margin-top:2px">${s.subtitle}</div>` : ''}
+          ${s.caption ? `<div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:5px;margin-bottom:10px">${s.caption}</div>` : '<div style="height:10px"></div>'}
+          <div>
+            <div data-nav="${s.ctaNav}" ${s.ctaOnclick ? `onclick="event.stopPropagation();${s.ctaOnclick}"` : 'onclick="event.stopPropagation()"'} style="display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:999px;padding:8px 18px;font-size:12px;font-weight:700;color:${C.primary};cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,0.22)">${s.ctaLabel} ${Icons.forward(11, C.primary)}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  };
 
   return Shell(`
-    <!-- Header -->
-    <div style="padding:44px 20px 14px;display:flex;justify-content:space-between;align-items:center">
-      <div>
-        <div style="font-family:var(--font-heading);font-size:22px;font-weight:700;color:${C.primary}">Salofy</div>
-        <div style="font-size:12px;color:${C.text3};margin-top:2px">Hey Aryan, find your next salon</div>
+
+    <!-- ─── §1+§2+§3. Hero zone: slide artwork is the FULL background; header + search float on top ─── -->
+    <div id="hero-zone" style="position:relative;height:340px;background:${slides[0].tintGrad};overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none">
+
+      <!-- Slide stack — FULL hero zone background -->
+      <div id="hero-carousel" style="position:absolute;inset:0;z-index:1">
+        ${slides.map((s, i) => slideHTML(s, i)).join('')}
       </div>
-      <div data-nav="notifications" style="position:relative;cursor:pointer;width:36px;height:36px;background:${C.surface2};border-radius:10px;display:flex;align-items:center;justify-content:center;border:1px solid ${C.border}">
-        ${Icons.bell(22, C.text2)}
-        <div style="position:absolute;top:6px;right:6px;width:8px;height:8px;background:${C.error};border-radius:50%;border:2px solid ${C.surface}"></div>
+
+      <!-- Header row (floats on top of slide artwork) -->
+      <div style="padding:40px 16px 8px;position:relative;z-index:5;display:flex;justify-content:space-between;align-items:center">
+        <div style="display:flex;align-items:flex-start;gap:5px;cursor:pointer">
+          <div style="margin-top:3px;flex-shrink:0">${Icons.mapPin(13, '#fff')}</div>
+          <div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.78);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;line-height:1.2;text-shadow:0 1px 2px rgba(0,0,0,0.25)">Your area</div>
+            <div style="font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;gap:3px;line-height:1.25;text-shadow:0 1px 2px rgba(0,0,0,0.25)">Sector 17, Chandigarh <span style="font-size:10px;color:rgba(255,255,255,0.9)">▾</span></div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.72);line-height:1.2;margin-top:1px;text-shadow:0 1px 2px rgba(0,0,0,0.25)">flat no. - 403, Tower n…</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div data-nav="favorites" style="width:36px;height:36px;background:rgba(255,255,255,0.96);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.18);cursor:pointer">
+            ${Icons.heart(16, C.ink600, false)}
+          </div>
+          <div data-nav="notifications" style="position:relative;width:36px;height:36px;background:rgba(255,255,255,0.96);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.18);cursor:pointer">
+            ${Icons.bell(16, C.ink700)}
+            <div style="position:absolute;top:7px;right:7px;width:7px;height:7px;background:${C.error};border-radius:50%;border:2px solid #fff"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search row (floats on top of slide artwork) -->
+      <div style="padding:10px 16px 14px;display:flex;align-items:center;gap:8px;position:relative;z-index:5">
+        <div data-nav="search" style="flex:1;min-width:0;background:#fff;border-radius:14px;padding:0 14px;height:48px;display:flex;align-items:center;gap:8px;box-shadow:0 6px 18px rgba(0,0,0,0.18);cursor:pointer">
+          ${Icons.search(16, C.ink400)}
+          <div style="flex:1;min-width:0;color:${C.ink400};font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Search "haircut", "facial", or salon</div>
+          <div style="display:flex;align-items:center;gap:7px;flex-shrink:0">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${C.ink400}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            <div style="width:1px;height:16px;background:${C.border}"></div>
+            ${Icons.filter(14, C.ink700)}
+          </div>
+        </div>
+        <div style="background:#fff;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,0.18);height:48px;display:flex;align-items:center;overflow:hidden;flex-shrink:0">
+          <div onclick="AppState.genderFilter=(AppState.genderFilter==='men'?'all':'men');navigate('home')" style="width:34px;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;background:${genderFilter === 'men' ? C.primary : 'transparent'}">
+            <span style="font-size:11px;font-weight:800;color:${genderFilter === 'men' ? '#fff' : C.ink500};line-height:1">M</span>
+            <span style="font-size:8px;font-weight:600;color:${genderFilter === 'men' ? 'rgba(255,255,255,0.75)' : C.ink400};line-height:1">Men</span>
+          </div>
+          <div style="width:1px;height:26px;background:${C.borderS}"></div>
+          <div onclick="AppState.genderFilter=(AppState.genderFilter==='women'?'all':'women');navigate('home')" style="width:34px;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;background:${genderFilter === 'women' ? C.primary : 'transparent'}">
+            <span style="font-size:11px;font-weight:800;color:${genderFilter === 'women' ? '#fff' : C.ink500};line-height:1">W</span>
+            <span style="font-size:8px;font-weight:600;color:${genderFilter === 'women' ? 'rgba(255,255,255,0.75)' : C.ink400};line-height:1">Women</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Segmented progress bar (sits at bottom of hero zone, above slide overlay text) -->
+      <div id="hero-progress" style="position:absolute;left:20px;right:20px;bottom:14px;display:flex;gap:6px;z-index:8;pointer-events:none">
+        ${slides.map((_, i) => `
+          <div class="hero-seg" data-seg-index="${i}" style="flex:1;height:4px;background:rgba(255,255,255,0.32);border-radius:999px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.25)">
+            <div class="hero-seg-fill" style="height:100%;background:#fff;border-radius:999px;width:0%"></div>
+          </div>
+        `).join('')}
       </div>
     </div>
 
-    <!-- Search Bar (tap to open search) -->
-    <div data-nav="search" style="margin:0 20px 4px;background:${C.surface2};border-radius:12px;padding:13px 16px;display:flex;align-items:center;gap:10px;color:${C.text3};font-size:13px;border:1px solid ${C.border};cursor:pointer">
-      ${Icons.search(16, C.text3)} Search salons, services, areas...
-    </div>
 
-    <!-- Popular Services -->
-    <div style="padding:12px 0 4px">
-      <div style="padding:0 20px;font-size:15px;font-weight:600;color:${C.text};margin-bottom:12px">Popular Services</div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 20px">
+
+    <!-- ─── §4. Round photo category rail ─── -->
+    <div style="padding:18px 0 18px">
+      <div style="padding:0 16px;margin-bottom:14px">
+        <div style="font-family:var(--font-heading);font-size:22px;font-weight:600;color:${C.ink900};line-height:1.2;letter-spacing:-0.01em">${greeting}, ${userName} <span style="font-family:var(--font-body)">👋</span></div>
+        <div style="font-size:13px;color:${C.text3};margin-top:3px">${tagline}</div>
+      </div>
+      <div style="display:flex;gap:16px;padding:0 16px;overflow-x:auto" class="hide-sb">
+        <!-- All tile -->
+        <div data-nav="search" style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;cursor:pointer">
+          <div style="width:64px;height:64px;border-radius:50%;background:${C.primaryS};display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);border:1.5px solid rgba(244,63,94,0.2)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="${C.primary}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+          </div>
+          <span style="font-size:11px;color:${C.ink700};font-weight:600;text-align:center">All</span>
+        </div>
         ${popularSvcs.map(s => `
-          <div data-nav="search" onclick="AppState.selectedServices=['${s.id}']" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;background:${C.surface};border-radius:12px;border:1px solid ${C.border};cursor:pointer">
-            <div style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:${C.primaryS};border-radius:10px">
-              ${svcIcon(s.icon, 20, C.primary)}
+          <div data-nav="search" onclick="AppState.selectedServices=['${s.id}']" style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;cursor:pointer">
+            <div style="width:64px;height:64px;border-radius:50%;overflow:hidden;box-shadow:var(--shadow-sm)">
+              <img src="${s.photo}" alt="${s.label}" loading="lazy" width="64" height="64" style="width:100%;height:100%;object-fit:cover;display:block">
             </div>
-            <span style="font-size:11px;color:${C.text2};font-weight:500">${s.label}</span>
+            <span style="font-size:11px;color:${C.ink700};font-weight:600;text-align:center;white-space:nowrap">${s.label}</span>
           </div>
         `).join('')}
       </div>
     </div>
 
-    <!-- Top Salons Carousel -->
-    <div style="padding:16px 0 8px">
-      ${SectionHeader('Top Salons', true, Icons.starFilled(14, C.primaryL) + ' ')}
-      <div style="display:flex;gap:12px;padding:0 20px;overflow-x:auto" class="hide-sb">
-        ${salons.filter(s => s.tier === 'premium').map(s => `
-          <div data-goto-salon="${s.id}" style="min-width:250px;height:130px;border-radius:12px;overflow:hidden;position:relative;flex-shrink:0;cursor:pointer;background:linear-gradient(135deg,#2a2040,#1e3a4f)">
-            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.8) 30%,transparent 70%);padding:14px;display:flex;flex-direction:column;justify-content:flex-end">
-              <div style="display:flex;gap:6px;margin-bottom:6px">${TopBadge()}${s.deal ? DealTag(s.deal) : ''}</div>
-              <div style="font-size:14px;font-weight:600;color:#fff">${s.name}</div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:2px">${s.loc}</div>
-            </div>
-          </div>
-        `).join('')}
-        ${salons.filter(s => s.tier === 'growth').slice(0,1).map(s => `
-          <div data-goto-salon="${s.id}" style="min-width:250px;height:130px;border-radius:12px;overflow:hidden;position:relative;flex-shrink:0;cursor:pointer;background:linear-gradient(135deg,#1a2d3e,#2d1a3e)">
-            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.8) 30%,transparent 70%);padding:14px;display:flex;flex-direction:column;justify-content:flex-end">
-              <div style="display:flex;gap:6px;margin-bottom:6px">${VerifiedBadge()}</div>
-              <div style="font-size:14px;font-weight:600;color:#fff">${s.name}</div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:2px">${s.loc}</div>
-            </div>
-          </div>
-        `).join('')}
+    <!-- ─── §5. Filter chip row ─── -->
+    <div style="padding:0 16px 20px;display:flex;gap:8px;overflow-x:auto" class="hide-sb">
+      <div data-nav="search" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;box-shadow:var(--shadow-sm);cursor:pointer;flex-shrink:0">
+        <span style="font-size:12px;color:${C.ink700};font-weight:600">⇅ Filters</span>
+      </div>
+      <div data-action="filter-open-now" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;box-shadow:var(--shadow-sm);cursor:pointer;flex-shrink:0">
+        <span style="font-size:12px;color:${C.ink700};font-weight:600">⚡ Open now</span>
+      </div>
+      <div data-action="filter-under-500" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;box-shadow:var(--shadow-sm);cursor:pointer;flex-shrink:0">
+        <span style="font-size:12px;color:${C.ink700};font-weight:600">Under ₹500</span>
+      </div>
+      <div data-action="filter-near-me" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;box-shadow:var(--shadow-sm);cursor:pointer;flex-shrink:0">
+        <span style="font-size:12px;color:${C.ink700};font-weight:600">Near me</span>
       </div>
     </div>
 
-    <!-- Flash Deal -->
-    <div style="padding:8px 20px" data-action="open-deals" style="cursor:pointer">
-      ${FlashDealCard('50% Off All Facials', 'Today Only', 'Luxe Hair Studio \u2022 Sector 17', '02', '34', '11')}
-    </div>
-
-    <!-- Trending -->
-    <div style="padding:12px 0 4px">
-      ${SectionHeader('Trending This Week', false, Icons.fire(14, C.error) + ' ')}
-      <div style="display:flex;gap:10px;padding:0 20px;overflow-x:auto" class="hide-sb">
-        ${trending.map(c => `
-          <div data-nav="search" onclick="AppState.selectedServices=['${c.svcId}']" style="min-width:160px;padding:14px;background:${C.surface};border-radius:12px;border:1px solid ${C.border};flex-shrink:0;cursor:pointer">
-            <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:${C.primaryS};border-radius:10px;margin-bottom:8px">
-              ${svcIcon(c.icon, 22, C.primary)}
-            </div>
-            <div style="font-size:13px;font-weight:600;color:${C.text}">${c.t}</div>
-            <div style="font-size:11px;color:${C.text3};margin-top:2px">${c.sub}</div>
+    <!-- ─── §5b. Featured — horizontal wide-card rail (sponsored) ─── -->
+    ${featuredSalons.length > 0 ? `
+      <div style="padding:0 0 22px">
+        <div style="padding:0 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:15px;font-weight:700;color:${C.ink900}">Featured</span>
+            <span style="font-size:10px;color:${C.text3};font-weight:600;background:${C.surface2};padding:2px 8px;border-radius:999px;border:1px solid ${C.borderS}">Sponsored</span>
           </div>
-        `).join('')}
+          <span data-nav="search" style="font-size:13px;color:${C.primary};font-weight:600;cursor:pointer">See all</span>
+        </div>
+        <div style="display:flex;gap:12px;padding:0 16px;overflow-x:auto" class="hide-sb">
+          ${featuredSalons.map(s => `
+            <div data-goto-salon="${s.id}" style="min-width:240px;height:136px;border-radius:16px;overflow:hidden;position:relative;flex-shrink:0;cursor:pointer;background:var(--grad-rose)">
+              ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">` : ''}
+              <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(18,15,13,.72) 30%,transparent 70%);padding:14px;display:flex;flex-direction:column;justify-content:flex-end">
+                <div style="display:flex;gap:6px;margin-bottom:6px">${TopBadge()}${s.deal ? DealTag(s.deal) : ''}</div>
+                <div style="font-family:var(--font-heading);font-size:15px;font-weight:600;color:#fff;letter-spacing:-0.01em">${s.name}</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px;display:flex;align-items:center;gap:4px">${Icons.mapPin(10,'rgba(255,255,255,0.7)')} ${s.loc}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- ─── §6. RECOMMENDED WITH DEALS — 2-column grid ─── -->
+    ${dealSalons.length > 0 ? `
+      <div style="padding:0 16px 24px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px">
+          <div style="font-size:10px;font-weight:700;color:${C.text3};letter-spacing:0.08em;text-transform:uppercase">Recommended with deals</div>
+          <span data-nav="deals" style="font-size:12px;color:${C.primary};font-weight:600;cursor:pointer">See all</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          ${dealSalons.map(s => `
+            <div data-goto-salon="${s.id}" style="cursor:pointer;background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);border:1px solid ${C.borderS}">
+              <div style="position:relative;padding-top:100%">
+                ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">` : `<div style="position:absolute;inset:0;background:${C.surface2}"></div>`}
+                <!-- Deal badge top-left -->
+                <div style="position:absolute;top:8px;left:8px;background:rgba(18,15,13,0.82);border-radius:7px;padding:3px 7px;backdrop-filter:blur(4px)">
+                  <span style="font-size:10px;font-weight:700;color:#fff">${s.flash ? '50% OFF' : s.deal}</span>
+                </div>
+                <!-- Rating pill bottom-left -->
+                <div style="position:absolute;bottom:8px;left:8px;background:rgba(18,15,13,0.72);border-radius:7px;padding:3px 7px;display:flex;align-items:center;gap:3px;backdrop-filter:blur(4px)">
+                  <span style="font-size:10px;color:${C.saffron}">★</span>
+                  <span style="font-size:10px;font-weight:700;color:#fff">${s.rating}</span>
+                </div>
+              </div>
+              <div style="padding:9px 10px 11px">
+                <div style="font-size:13px;font-weight:600;color:${C.ink900};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.name}</div>
+                <div style="font-size:11px;color:${C.text3};margin-top:3px;display:flex;align-items:center;gap:3px">${Icons.mapPin(9, C.text3)} ${s.dist} · Open</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- ─── §7. Book again rail ─── -->
+    ${rebookSalons.length > 0 ? `
+      <div style="padding:0 16px 24px">
+        <div style="font-size:14px;font-weight:700;color:${C.ink800};margin-bottom:12px">Book again <span style="color:${C.primary}">→</span></div>
+        <div style="display:flex;gap:14px;overflow-x:auto" class="hide-sb">
+          ${rebookSalons.map(s => `
+            <div data-goto-salon="${s.id}" style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;flex-shrink:0">
+              <div style="width:58px;height:58px;border-radius:16px;overflow:hidden;border:2px solid ${C.borderS};box-shadow:var(--shadow-sm)">
+                ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">` : `<div style="width:100%;height:100%;background:${C.surface2};display:flex;align-items:center;justify-content:center">${Icons.scissors(20, C.text3)}</div>`}
+              </div>
+              <span style="font-size:10px;color:${C.ink700};font-weight:500;text-align:center;max-width:64px;line-height:1.2">${s.name.split(' ').slice(0,2).join(' ')}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- ─── §8. Wedding Season Ready — editorial card ─── -->
+    <div style="padding:0 16px 24px">
+      <div style="background:${C.primaryS};border:1px solid rgba(244,63,94,0.18);border-radius:18px;padding:18px 16px;display:flex;align-items:center;gap:14px;overflow:hidden">
+        <div style="flex:1;min-width:0">
+          <div style="font-size:9px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:${C.primary};margin-bottom:7px">Occasion</div>
+          <div style="font-family:var(--font-heading);font-size:20px;font-weight:700;color:${C.ink900};letter-spacing:-0.01em;line-height:1.1;margin-bottom:5px">Wedding Season<br>Ready</div>
+          <div style="font-size:12px;color:${C.text2};margin-bottom:12px">Bridal packages from ₹4,999</div>
+          <div data-nav="search" onclick="AppState.selectedServices=['bridal']" style="display:inline-flex;align-items:center;gap:4px;background:${C.primary};color:#fff;font-size:11px;font-weight:700;padding:7px 14px;border-radius:999px;cursor:pointer">Browse bridal ${Icons.forward(10, '#fff')}</div>
+        </div>
+        <div style="width:88px;height:88px;border-radius:14px;overflow:hidden;flex-shrink:0;border:2px solid rgba(244,63,94,0.2)">
+          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=200&h=200&fit=crop&crop=faces,center" alt="Bridal" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">
+        </div>
       </div>
     </div>
 
-    <!-- Near You -->
-    <div style="padding:16px 20px 4px;display:flex;justify-content:space-between;align-items:center">
-      <span style="font-size:15px;font-weight:600;color:${C.text};display:flex;align-items:center;gap:6px">${Icons.mapPin(14, C.primary)} Near You</span>
-      <span data-nav="search" style="font-size:12px;color:${C.primary};font-weight:500;cursor:pointer">See all</span>
+    <!-- ─── §9. Top rated near you ─── -->
+    <div style="padding:0 16px 8px;display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:16px;font-weight:700;color:${C.ink900}">Top rated near you</span>
+      <span data-nav="search" style="font-size:12px;color:${C.primary};font-weight:600;cursor:pointer">See all</span>
     </div>
-    <div style="padding:4px 20px;display:flex;flex-direction:column;gap:12px">
-      ${salons.slice(0, 3).map(s => `
+    <div style="padding:8px 16px 24px;display:flex;flex-direction:column;gap:14px">
+      ${topRated.map(s => `
         <div data-goto-salon="${s.id}">
           ${SalonResultCard(s, [], AppState.favorites.has(s.id))}
         </div>
       `).join('')}
     </div>
 
-    <!-- Recently Viewed -->
-    <div style="padding:16px 0 4px">
-      ${SectionHeader('Recently Viewed', false, Icons.clock(14, C.text3) + ' ')}
-      <div style="display:flex;gap:10px;padding:0 20px;overflow-x:auto" class="hide-sb">
-        ${salons.slice(0, 3).map(s => `
-          <div data-goto-salon="${s.id}" style="min-width:140px;background:${C.surface};border-radius:12px;border:1px solid ${C.border};overflow:hidden;flex-shrink:0;cursor:pointer">
-            <div style="height:60px;background:${C.surface2};display:flex;align-items:center;justify-content:center">${Icons.scissors(22, C.text3)}</div>
-            <div style="padding:8px 10px">
-              <div style="font-size:12px;font-weight:600;color:${C.text}">${s.name}</div>
-              <div style="font-size:10px;color:${C.text3}">${s.dist}</div>
+    <!-- ─── §10. Trending in [Area] — 2-col compact grid ─── -->
+    <div style="padding:0 16px 24px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px">
+        <div>
+          <div style="font-size:10px;font-weight:700;color:${C.text3};letter-spacing:0.08em;text-transform:uppercase">Trending in</div>
+          <span style="font-size:16px;font-weight:700;color:${C.ink900}">Sector 17</span>
+        </div>
+        <span data-nav="search" style="font-size:12px;color:${C.primary};font-weight:600;cursor:pointer">See all</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        ${trendingSalons.map((s, i) => i < 2 ? `
+          <div data-goto-salon="${s.id}" style="cursor:pointer;background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);border:1px solid ${C.borderS}">
+            <div style="position:relative;padding-top:100%">
+              ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">` : `<div style="position:absolute;inset:0;background:${C.surface2}"></div>`}
+              <div style="position:absolute;bottom:8px;left:8px;background:rgba(18,15,13,0.78);border-radius:7px;padding:3px 7px;display:inline-flex;align-items:center;gap:3px;backdrop-filter:blur(4px)">
+                <span style="font-size:10px">🔥</span>
+                <span style="font-size:10px;font-weight:700;color:#fff">${s.reviews} booked</span>
+              </div>
             </div>
+            <div style="padding:9px 10px 11px">
+              <div style="font-size:13px;font-weight:600;color:${C.ink900};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.name}</div>
+              <div style="font-size:11px;color:${C.text3};margin-top:3px">★ ${s.rating} · ${s.dist}</div>
+            </div>
+          </div>
+        ` : i === 2 ? `
+          <div data-goto-salon="${s.id}" style="grid-column:1/-1;cursor:pointer;background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);border:1px solid ${C.borderS};display:flex;align-items:center;gap:12px;padding:12px">
+            <div style="width:68px;height:68px;border-radius:12px;overflow:hidden;flex-shrink:0">
+              ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">` : `<div style="width:100%;height:100%;background:${C.surface2}"></div>`}
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:14px;font-weight:600;color:${C.ink900};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.name}</div>
+              <div style="font-size:11px;color:${C.text3};margin-top:3px">★ ${s.rating} · ${s.dist}</div>
+              <div style="display:inline-flex;align-items:center;gap:3px;margin-top:6px;background:${C.primaryS};border-radius:7px;padding:3px 8px">
+                <span style="font-size:10px">🔥</span>
+                <span style="font-size:10px;font-weight:700;color:${C.primary}">${s.reviews} booked today</span>
+              </div>
+            </div>
+            ${Icons.forward(14, C.text3)}
+          </div>
+        ` : '').join('')}
+      </div>
+    </div>
+
+    <!-- ─── §11. Flash sale banner #1 — saffron strip ─── -->
+    ${flashSalon ? `
+      <div style="padding:0 16px 24px">
+        <div data-nav="deals" style="background:var(--grad-saffron);border-radius:16px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;box-shadow:0 4px 16px rgba(245,158,11,0.28)">
+          <div style="flex:1;min-width:0">
+            <div style="font-size:10px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:rgba(18,15,13,0.55);margin-bottom:4px">Flash sale</div>
+            <div style="font-size:15px;font-weight:700;color:${C.ink900};line-height:1.25">⚡ ${flashSalon.flash.title}</div>
+            <div style="font-size:12px;color:${C.ink700};margin-top:3px">Ends in ${flashSalon.flash.hrs}h ${flashSalon.flash.min}m &bull; ${flashSalon.name}</div>
+          </div>
+          <div style="background:rgba(18,15,13,0.12);border-radius:10px;padding:8px 12px;flex-shrink:0">
+            <div style="font-size:11px;font-weight:700;color:${C.ink900}">Book now →</div>
+          </div>
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- ─── §12. Because you booked / Popular in area — horizontal rail ─── -->
+    ${personalSalons.length > 0 ? `
+      <div style="padding:0 0 24px">
+        <div style="padding:0 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <span style="font-size:15px;font-weight:700;color:${C.ink900}">${personalHeader}</span>
+          <span data-nav="search" style="font-size:12px;color:${C.primary};font-weight:600;cursor:pointer">See all</span>
+        </div>
+        <div style="display:flex;gap:12px;padding:0 16px;overflow-x:auto" class="hide-sb">
+          ${personalSalons.map(s => `
+            <div data-goto-salon="${s.id}" style="min-width:172px;flex-shrink:0;background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);border:1px solid ${C.borderS};cursor:pointer">
+              <div style="position:relative;height:108px">
+                ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">` : `<div style="width:100%;height:100%;background:${C.surface2}"></div>`}
+                ${s.deal ? `<div style="position:absolute;top:8px;left:8px;background:rgba(18,15,13,0.82);border-radius:7px;padding:3px 7px;backdrop-filter:blur(4px)"><span style="font-size:10px;font-weight:700;color:#fff">${s.deal}</span></div>` : ''}
+              </div>
+              <div style="padding:9px 10px 11px">
+                <div style="font-size:13px;font-weight:600;color:${C.ink900};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.name}</div>
+                <div style="font-size:11px;color:${C.text3};margin-top:3px">★ ${s.rating} · ${s.dist}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- ─── §13. Salon Stories — editorial card ─── -->
+    ${storyStylist ? `
+      <div style="padding:0 16px 24px">
+        <div style="position:relative;height:140px;border-radius:18px;overflow:hidden;background:${C.ink900}">
+          <img src="${storySalon.cover}" alt="${storySalon.name}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0.38">
+          <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(18,15,13,0.94) 40%,rgba(18,15,13,0.25) 100%);padding:18px 20px;display:flex;flex-direction:column;justify-content:center">
+            <div style="font-size:9px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:${C.saffron};margin-bottom:6px">Meet the stylist</div>
+            <div style="font-family:var(--font-heading);font-size:19px;font-weight:700;color:#fff;line-height:1.1;margin-bottom:4px">${storyStylist.n}</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:12px">${storyStylist.r} &bull; ${storySalon.name}</div>
+            <div style="display:inline-flex;align-items:center;gap:4px;cursor:pointer">
+              <span style="font-size:11px;font-weight:700;color:#fff">Read story</span>
+              ${Icons.forward(10, '#fff')}
+            </div>
+          </div>
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- ─── §14. Try something new — round-icon carousel ─── -->
+    <div style="padding:0 0 24px">
+      <div style="padding:0 16px;font-size:15px;font-weight:700;color:${C.ink900};margin-bottom:12px">Try something new</div>
+      <div style="display:flex;gap:16px;padding:0 16px;overflow-x:auto" class="hide-sb">
+        ${[
+          { label: 'Keratin',     id: 'color',   photo: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=120&h=120&fit=crop&crop=center' },
+          { label: 'Hydrafacial', id: 'facial',  photo: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=120&h=120&fit=crop&crop=center' },
+          { label: 'Nail Art',    id: 'manicure',photo: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=120&h=120&fit=crop&crop=center' },
+          { label: 'Hair Spa',    id: 'spa',     photo: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=120&h=120&fit=crop&crop=center' },
+          { label: 'Beard Color', id: 'beard',   photo: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=120&h=120&fit=crop&crop=center' },
+          { label: 'Bridal',      id: 'bridal',  photo: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=120&h=120&fit=crop&crop=center' },
+        ].map(sv => `
+          <div data-nav="search" onclick="AppState.selectedServices=['${sv.id}']" style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;cursor:pointer">
+            <div style="width:64px;height:64px;border-radius:50%;overflow:hidden;box-shadow:var(--shadow-sm)">
+              <img src="${sv.photo}" alt="${sv.label}" loading="lazy" width="64" height="64" style="width:100%;height:100%;object-fit:cover;display:block">
+            </div>
+            <span style="font-size:11px;color:${C.ink700};font-weight:600;text-align:center;white-space:nowrap">${sv.label}</span>
           </div>
         `).join('')}
       </div>
     </div>
 
-    <!-- How It Works -->
-    <div style="padding:16px 20px 8px">
-      <div style="font-size:15px;font-weight:600;color:${C.text};margin-bottom:12px">How Salofy Works</div>
-      ${[
-        { n:'1', t:'Choose Services',  d:'Select what you need \u2014 haircut, facial, combo' },
-        { n:'2', t:'Compare & Pick',   d:'See prices across salons, find the best fit' },
-        { n:'3', t:'Book & Walk In',   d:'Confirm your slot. Pay at the salon. Done.' },
-      ].map(s => `
-        <div style="display:flex;gap:12px;margin-bottom:14px;align-items:flex-start">
-          <div style="width:32px;height:32px;border-radius:50%;background:${C.primaryS};border:1.5px solid rgba(212,160,23,0.25);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:${C.primary};flex-shrink:0">${s.n}</div>
-          <div>
-            <div style="font-size:13px;font-weight:600;color:${C.text}">${s.t}</div>
-            <div style="font-size:12px;color:${C.text3};margin-top:2px">${s.d}</div>
-          </div>
+    <!-- ─── §15. Under ₹499 — value-grid block ─── -->
+    ${budgetSalons.length > 0 ? `
+      <div style="padding:0 16px 24px">
+        <div style="margin-bottom:14px">
+          <div style="font-size:10px;font-weight:700;color:${C.text3};letter-spacing:0.08em;text-transform:uppercase">Budget picks</div>
+          <div style="font-size:16px;font-weight:700;color:${C.ink900}">Great cuts under ₹499</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          ${budgetSalons.slice(0, 4).map(s => {
+            const minPrice = Math.min(...Object.values(s.services));
+            return `
+            <div data-goto-salon="${s.id}" style="cursor:pointer;background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);border:1px solid ${C.borderS}">
+              <div style="position:relative;padding-top:100%">
+                ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">` : `<div style="position:absolute;inset:0;background:${C.surface2}"></div>`}
+                <div style="position:absolute;top:8px;left:8px;background:${C.saffron};border-radius:7px;padding:3px 7px">
+                  <span style="font-size:10px;font-weight:800;color:#fff">from ₹${minPrice}</span>
+                </div>
+              </div>
+              <div style="padding:9px 10px 11px">
+                <div style="font-size:13px;font-weight:600;color:${C.ink900};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.name}</div>
+                <div style="font-size:11px;color:${C.text3};margin-top:3px">★ ${s.rating} · ${s.dist}</div>
+              </div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- ─── §16. Time-of-day contextual banner ─── -->
+    <div style="padding:0 16px 24px">
+      <div data-nav="search" style="background:${C.primaryS};border:1px solid rgba(244,63,94,0.18);border-radius:16px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer">
+        <div style="flex:1;min-width:0">
+          <div style="font-size:15px;font-weight:700;color:${C.ink900};margin-bottom:3px">${todayMsg}</div>
+          <div style="font-size:12px;color:${C.text2}">${todaySub}</div>
+        </div>
+        <div style="width:38px;height:38px;border-radius:50%;background:${C.primary};display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--shadow-rose)">
+          ${Icons.forward(14, '#fff')}
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── §17. All salons near you — directory anchor + sort tabs ─── -->
+    <div style="margin:0 16px;height:1px;background:${C.border}"></div>
+    <div style="padding:20px 16px 12px">
+      <div style="font-size:16px;font-weight:700;color:${C.ink900};margin-bottom:12px">All salons near you</div>
+      <div style="display:flex;gap:7px;overflow-x:auto" class="hide-sb">
+        <div data-nav="search" style="background:${C.primary};border-radius:999px;padding:7px 14px;cursor:pointer;flex-shrink:0">
+          <span style="font-size:12px;font-weight:700;color:#fff">📍 Near me</span>
+        </div>
+        <div data-nav="search" style="background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;cursor:pointer;flex-shrink:0;box-shadow:var(--shadow-sm)">
+          <span style="font-size:12px;font-weight:600;color:${C.ink700}">★ Top rated</span>
+        </div>
+        <div data-nav="search" style="background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;cursor:pointer;flex-shrink:0;box-shadow:var(--shadow-sm)">
+          <span style="font-size:12px;font-weight:600;color:${C.ink700}">₹ Price ↑</span>
+        </div>
+        <div data-nav="search" style="background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;cursor:pointer;flex-shrink:0;box-shadow:var(--shadow-sm)">
+          <span style="font-size:12px;font-weight:600;color:${C.ink700}">🟢 Open now</span>
+        </div>
+      </div>
+    </div>
+    <div style="padding:0 16px;display:flex;flex-direction:column;gap:14px">
+      ${directorySalons.map(s => `
+        <div data-goto-salon="${s.id}">
+          ${SalonResultCard(s, [], AppState.favorites.has(s.id))}
         </div>
       `).join('')}
     </div>
+    <div data-nav="search" style="margin:18px 16px 0;padding:14px;background:#fff;border:1px solid ${C.borderS};border-radius:14px;text-align:center;cursor:pointer;box-shadow:var(--shadow-sm)">
+      <span style="font-size:13px;font-weight:700;color:${C.primary}">Continue browsing all salons →</span>
+    </div>
+
+    <!-- ─── §18. How Salofy works — new users only, bottom of feed ─── -->
+    ${isNewUser ? `
+      <div id="htw-card" style="margin:18px 16px 0;background:${C.primaryS};border-radius:16px;border:1px solid rgba(244,63,94,0.18);padding:14px 16px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+          <div>
+            <div style="font-size:13px;font-weight:700;color:${C.ink900}">How Salofy works</div>
+            <div style="font-size:11px;color:${C.text3};margin-top:2px">Get started in 3 simple steps</div>
+          </div>
+          <div onclick="localStorage.setItem('salofy_htw_seen','1');document.getElementById('htw-card').style.display='none'" style="width:26px;height:26px;border-radius:50%;background:rgba(18,15,13,0.07);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:12px;color:${C.text3};margin-left:8px">✕</div>
+        </div>
+        ${[
+          { n:'1', t:'Choose services',  d:'Haircut, facial, combo — whatever you need' },
+          { n:'2', t:'Compare & pick',   d:'Browse salons, compare prices, find your fit' },
+          { n:'3', t:'Book & walk in',   d:'Confirm your slot. Pay at the salon. Done.' },
+        ].map((s, i, arr) => `
+          <div style="display:flex;gap:12px;align-items:flex-start${i < arr.length - 1 ? ';margin-bottom:10px' : ''}">
+            <div style="width:24px;height:24px;border-radius:50%;background:${C.primary};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">${s.n}</div>
+            <div style="padding-top:3px">
+              <div style="font-size:12px;font-weight:600;color:${C.ink900}">${s.t}</div>
+              <div style="font-size:11px;color:${C.text3};margin-top:1px">${s.d}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
+
+    <div style="height:28px"></div>
   `, { activeTab: 'home' });
 }
+
+
+/* js/screens/search-input.js */
 function renderSearchInput() {
   const selSvcs = AppState.selectedServices || [];
   const recent  = ['Haircut + Head Wash', 'Facial', 'Beard Trim', 'Bridal Package'];
@@ -898,7 +1611,7 @@ function renderSearchInput() {
     <!-- Selected Services Pills -->
     ${selSvcs.length > 0 ? `
     <div style="padding:12px 20px 0">
-      <div style="font-size:11px;font-weight:600;color:${C.text2};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">Selected (${selSvcs.length})</div>
+      <div style="font-size:10px;font-weight:800;color:${C.primary};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">Selected (${selSvcs.length})</div>
       <div style="display:flex;gap:6px;flex-wrap:wrap">
         ${selSvcs.map(sid => {
           const svc = getSvc(sid);
@@ -913,7 +1626,7 @@ function renderSearchInput() {
 
     <!-- Recent Searches -->
     <div style="padding:16px 20px 8px">
-      <div style="font-size:11px;font-weight:600;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">Recent Searches</div>
+      <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px">Recent Searches</div>
       ${recent.map(r => `
         <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid ${C.borderS};cursor:pointer">
           ${Icons.clock(16, C.text3)}
@@ -926,7 +1639,7 @@ function renderSearchInput() {
     <!-- Popular Packages -->
     <div style="padding:4px 0 8px">
       <div style="padding:0 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-        <div style="font-size:11px;font-weight:600;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px">Popular Packages</div>
+        <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em">Popular Packages</div>
         <div style="font-size:11px;color:${C.primary};font-weight:600">Bundle &amp; save</div>
       </div>
       <div style="display:flex;gap:10px;overflow-x:auto;padding:0 20px 4px" class="hide-sb">
@@ -934,7 +1647,7 @@ function renderSearchInput() {
           const allPkgs = salons.flatMap(s => (s.packages || []).map(p => ({ ...p, salon: s })));
           return allPkgs.sort((a, b) => b.savings - a.savings).slice(0, 8).map(pkg => `
             <div data-goto-package-salon="${pkg.salon.id}" style="min-width:155px;max-width:155px;flex-shrink:0;background:${C.surface};border:1px solid ${C.border};border-radius:12px;padding:12px;cursor:pointer">
-              <div style="background:${C.successS};border:1px solid rgba(45,139,85,0.2);border-radius:8px;padding:3px 8px;display:inline-flex;align-items:center;gap:4px;margin-bottom:8px">
+              <div style="background:${C.successS};border:1px solid var(--success-border);border-radius:8px;padding:3px 8px;display:inline-flex;align-items:center;gap:4px;margin-bottom:8px">
                 ${Icons.gift(10, C.success)}
                 <span style="font-size:10px;font-weight:700;color:${C.success}">Save \u20B9${pkg.savings}</span>
               </div>
@@ -959,7 +1672,7 @@ function renderSearchInput() {
 
     <!-- All Services -->
     <div style="padding:8px 20px 100px">
-      <div style="font-size:11px;font-weight:600;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">All Services</div>
+      <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px">All Services</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         ${allServices.map(svc => {
           const sel = selSvcs.includes(svc.id);
@@ -980,12 +1693,21 @@ function renderSearchInput() {
     </div>
   `, { noNav: true });
 }
+
+
+/* js/screens/search-results.js */
 function renderSearchResults() {
   const selSvcs = AppState.selectedServices || [];
   const viewMode = AppState.searchViewMode || 'list';
-  const results = salons
-    .filter(s => selSvcs.length === 0 || selSvcs.some(sid => s.services[sid]))
-    .sort((a, b) => ({ premium: 0, growth: 1, starter: 2 })[a.tier] - ({ premium: 0, growth: 1, starter: 2 })[b.tier]);
+  const activeFilters = AppState.activeFilters || new Set();
+
+  let results = salons.filter(s => selSvcs.length === 0 || selSvcs.some(sid => s.services[sid]));
+  if (activeFilters.has('open-now'))  results = results.filter(s => isSalonOpen(s));
+  if (activeFilters.has('under-500')) results = results.filter(s => Math.min(...Object.values(s.services)) <= 499);
+  if (activeFilters.has('near-me'))   results = results.filter(s => parseFloat(s.dist) <= 3);
+  results.sort((a, b) => ({ premium: 0, growth: 1, starter: 2 })[a.tier] - ({ premium: 0, growth: 1, starter: 2 })[b.tier]);
+
+  const filterLabels = { 'open-now': '⚡ Open now', 'under-500': 'Under ₹500', 'near-me': 'Near me' };
 
   return Shell(`
     <!-- Search Bar (tap to edit) -->
@@ -998,15 +1720,19 @@ function renderSearchResults() {
     </div>
 
     <!-- Selected pills -->
-    ${selSvcs.length > 0 ? `
+    ${selSvcs.length > 0 || activeFilters.size > 0 ? `
     <div style="display:flex;gap:6px;padding:4px 20px 8px;overflow-x:auto;align-items:center" class="hide-sb">
       ${selSvcs.map(sid => {
         const svc = getSvc(sid);
-        return `<span style="font-size:11px;padding:5px 10px;background:${C.primaryS};border:1px solid rgba(212,160,23,0.25);border-radius:16px;color:${C.primary};font-weight:500;white-space:nowrap;display:inline-flex;align-items:center;gap:4px">
+        return `<span style="font-size:11px;padding:5px 10px;background:${C.primaryS};border:1px solid var(--primary-border);border-radius:16px;color:${C.primary};font-weight:500;white-space:nowrap;display:inline-flex;align-items:center;gap:4px">
           ${svcIcon(svc.icon, 12, C.primary)} ${svc.label}
         </span>`;
       }).join('')}
-      <span data-nav="search" style="font-size:11px;color:${C.primary};font-weight:600;white-space:nowrap;cursor:pointer">${Icons.plus(12, C.primary)} Edit</span>
+      ${[...activeFilters].map(f => `
+        <span data-action="clear-filter" data-filter="${f}" style="font-size:11px;padding:5px 10px;background:${C.primaryS};border:1px solid var(--primary-border);border-radius:16px;color:${C.primary};font-weight:600;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;cursor:pointer">
+          ${filterLabels[f]} <span style="font-size:14px;line-height:1;opacity:0.7">×</span>
+        </span>`).join('')}
+      ${selSvcs.length > 0 ? `<span data-nav="search" style="font-size:11px;color:${C.primary};font-weight:600;white-space:nowrap;cursor:pointer">${Icons.plus(12, C.primary)} Edit</span>` : ''}
     </div>` : ''}
 
     <!-- Count + View Toggle -->
@@ -1050,7 +1776,7 @@ function renderSearchResults() {
     <!-- List View -->
     <!-- Pinned -->
     ${results.some(s => s.tier === 'premium') ? `
-    <div style="padding:4px 20px;font-size:10px;font-weight:700;color:${C.primary};text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center;gap:4px">
+    <div style="padding:4px 20px;font-size:10px;font-weight:800;color:${C.primary};text-transform:uppercase;letter-spacing:0.1em;display:flex;align-items:center;gap:5px">
       ${Icons.mapPin(12, C.primary)} Top Salons in Your Area
     </div>` : ''}
 
@@ -1065,61 +1791,9 @@ function renderSearchResults() {
     `}
   `, { activeTab: 'home' });
 }
-function renderMap() {
-  const active = AppState.mapActiveSalon;
 
-  return Shell(`
-    <!-- Header -->
-    <div style="padding:44px 20px 10px;display:flex;align-items:center;gap:12px">
-      <div style="font-family:var(--font-heading);font-size:18px;font-weight:700;color:${C.text};flex:1">Explore</div>
-      <div style="font-size:12px;color:${C.text3};display:flex;align-items:center;gap:4px">${Icons.mapPin(12, C.primary)} Chandigarh / Mohali</div>
-    </div>
 
-    <!-- Map -->
-    <div style="padding:0 0 8px">
-      ${AreaMap(active ? active.id : null, null)}
-    </div>
-
-    <!-- Legend -->
-    <div style="display:flex;gap:12px;padding:0 20px 12px;justify-content:center">
-      <span style="display:flex;align-items:center;gap:4px;font-size:9px;color:${C.text3}"><span style="width:8px;height:8px;border-radius:50%;background:${C.primary};display:inline-block"></span> Top Salon</span>
-      <span style="display:flex;align-items:center;gap:4px;font-size:9px;color:${C.text3}"><span style="width:8px;height:8px;border-radius:50%;background:${C.verified};display:inline-block"></span> Verified</span>
-      <span style="display:flex;align-items:center;gap:4px;font-size:9px;color:${C.text3}"><span style="width:8px;height:8px;border-radius:50%;background:${C.text3};display:inline-block"></span> Salon</span>
-      <span style="display:flex;align-items:center;gap:4px;font-size:9px;color:${C.text3}"><span style="width:8px;height:8px;border-radius:50%;background:${C.info};display:inline-block"></span> You</span>
-    </div>
-
-    <!-- Active salon card OR hint -->
-    ${active ? `
-    <div style="padding:0 16px 8px" data-goto-salon="${active.id}">
-      ${SalonResultCard(active, [], AppState.favorites.has(active.id))}
-    </div>
-    ` : `
-    <div style="padding:12px 20px;text-align:center;font-size:12px;color:${C.text3}">Tap a pin to see salon details</div>
-    `}
-
-    <!-- All Locations list -->
-    <div style="padding:8px 20px 4px;font-size:14px;font-weight:600;color:${C.text}">All Locations</div>
-    <div style="padding:4px 16px 16px;display:flex;flex-direction:column;gap:8px">
-      ${salons.map(s => {
-        const isActive = active && active.id === s.id;
-        return `
-        <div data-map-pin="${s.id}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:${isActive ? C.primaryS : C.surface};border:1px solid ${isActive ? C.primary+'44' : C.border};border-radius:10px;cursor:pointer">
-          <div style="width:32px;height:32px;background:${isActive ? C.primary+'18' : C.surface2};border-radius:8px;display:flex;align-items:center;justify-content:center">
-            ${Icons.mapPin(16, isActive ? C.primary : C.text3)}
-          </div>
-          <div style="flex:1;min-width:0">
-            <div style="font-size:13px;font-weight:600;color:${C.text};display:flex;align-items:center;gap:4px">
-              ${s.name}
-              ${s.tier === 'premium' ? TopDot() : s.tier === 'growth' ? VerifiedDot() : ''}
-            </div>
-            <div style="font-size:11px;color:${C.text3}">${s.loc} &bull; ${s.dist}</div>
-          </div>
-          ${Icons.forward(14, C.text3)}
-        </div>`;
-      }).join('')}
-    </div>
-  `, { activeTab: 'map' });
-}
+/* js/screens/salon-profile.js */
 function renderSalonProfile() {
   const s = AppState.selectedSalon;
   const isPremium = s.tier === 'premium';
@@ -1134,18 +1808,23 @@ function renderSalonProfile() {
     : ['Services', 'Packages', 'Staff', 'Reviews', 'Photos', 'Video'];
 
   const heroGrad  = isPremium
-    ? 'linear-gradient(135deg, #3a2058, #1e3a4f)'
-    : `linear-gradient(135deg, ${C.surface2}, ${C.surface3})`;
-  const heroColor = isPremium ? 'rgba(255,255,255,0.35)' : C.text3;
-  const backColor = isPremium ? '#fff' : C.text;
+    ? 'var(--grad-rose)'
+    : isGrowth
+      ? 'linear-gradient(135deg, var(--rose-100), var(--plum-200))'
+      : 'linear-gradient(135deg, var(--rose-50), var(--ink-200))';
+  const heroColor = (isPremium || isGrowth) ? 'rgba(255,255,255,0.25)' : C.ink400;
+  const backColor = (isPremium || isGrowth) ? '#fff' : C.ink900;
 
-  const svcTotal = selSvcs.filter(sid => s.services[sid]).reduce((a, sid) => a + s.services[sid], 0);
+  const svcTotal = selSvcs.filter(sid => s.services[sid]).reduce((a, sid) => a + ((s.serviceDiscounts && s.serviceDiscounts[sid]) || s.services[sid]), 0);
   const pkgTotal = selPkgs.reduce((a, pkgId) => { const p = (s.packages||[]).find(pk => pk.id === pkgId); return a + (p ? p.price : 0); }, 0);
   const subtotal = svcTotal + pkgTotal;
   const dp       = s.deal ? parseInt(s.deal) || 0 : 0;
   const discount = (!isStarter && dp > 0) ? Math.round(subtotal * dp / 100) : 0;
   const totalItems = selSvcs.length + selPkgs.length;
   const isFav    = AppState.favorites.has(s.id);
+
+  const pastVisits = bookings.filter(b => b.salonId === s.id && b.status === 'completed');
+  const lastVisit  = pastVisits[0];
 
   /* ── Tab Panels ── */
 
@@ -1158,26 +1837,10 @@ function renderSalonProfile() {
       </div>
       <div style="padding:0 20px 4px">
         ${isStarter ? '' : `<div style="font-size:11px;color:${C.text3};margin-bottom:10px">Tap a service to select it for booking</div>`}
-        ${Object.entries(s.services).map(([k, v], i, arr) => {
-          const svc = getSvc(k);
-          if (!svc) return '';
-          const sel = selSvcs.includes(k);
-          return `
-            <div class="service-select${sel ? ' service-select--active' : ''}" data-svc-toggle="${k}">
-              <div style="display:flex;align-items:center;gap:10px">
-                <div class="svc-chk service-select__check" style="background:${sel ? C.primary : 'transparent'};border-color:${sel ? C.primary : C.border}">
-                  ${sel ? Icons.check(14, '#fff') : ''}
-                </div>
-                <div style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:${sel ? C.primaryS : C.surface2};border-radius:9px">
-                  ${svcIcon(svc.icon, 18, sel ? C.primary : C.text2)}
-                </div>
-                <div>
-                  <div style="font-size:13px;font-weight:500;color:${C.text}">${svc.label}</div>
-                  <div style="font-size:11px;color:${C.text3}">${svc.time}</div>
-                </div>
-              </div>
-              <div style="font-size:14px;font-weight:600;color:${C.primary}">\u20B9${v}</div>
-            </div>`;
+        ${Object.entries(s.services).map(([k, v]) => {
+          const sel       = selSvcs.includes(k);
+          const discPrice = s.serviceDiscounts && s.serviceDiscounts[k];
+          return ServiceCard(k, v, sel, discPrice, 'select');
         }).join('')}
       </div>
     </div>`;
@@ -1189,43 +1852,7 @@ function renderSalonProfile() {
         <div style="font-size:11px;color:${C.text3};margin-bottom:12px">Pre-bundled services at a special price</div>
         ${(s.packages || []).map(pkg => {
           const sel = selPkgs.includes(pkg.id);
-          return `
-            <div class="pkg-card${sel ? ' pkg-card--active' : ''}" data-pkg-toggle="${pkg.id}">
-              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
-                <div style="flex:1">
-                  <div style="font-size:14px;font-weight:600;color:${C.text}">${pkg.name}</div>
-                  <div style="font-size:11px;color:${C.text3};margin-top:2px">${pkg.desc}</div>
-                </div>
-                <div class="pkg-card__check" style="width:22px;height:22px;border-radius:6px;border:2px solid ${sel ? C.primary : C.border};background:${sel ? C.primary : 'transparent'};display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                  ${sel ? Icons.check(13, '#fff') : ''}
-                </div>
-              </div>
-              <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px">
-                ${(() => {
-                  const limit = 4;
-                  const shown = pkg.services.slice(0, limit);
-                  const hidden = pkg.services.slice(limit);
-                  const extra = hidden.length;
-                  const hiddenId = `pkg-extra-${s.id}-${pkg.id}`;
-                  const chipStyle = (active) => `font-size:10px;padding:3px 8px;background:${active ? C.primaryS : C.surface2};border:1px solid ${active ? C.primary+'44' : C.border};border-radius:10px;color:${active ? C.primary : C.text2}`;
-                  return shown.map(sid => { const svc = getSvc(sid); return svc ? `<span style="${chipStyle(sel)}">${svc.label}</span>` : ''; }).join('')
-                    + (extra > 0 ? `
-                      <span id="${hiddenId}" style="display:none;flex-wrap:wrap;gap:5px;">
-                        ${hidden.map(sid => { const svc = getSvc(sid); return svc ? `<span style="${chipStyle(sel)}">${svc.label}</span>` : ''; }).join('')}
-                      </span>
-                      <span onclick="event.stopPropagation();const el=document.getElementById('${hiddenId}');const isOpen=el.style.display!=='none';el.style.display=isOpen?'none':'inline-flex';this.textContent=isOpen?'+${extra} more':'Show less';"
-                        style="font-size:10px;padding:3px 8px;background:${C.surface3};border:1px solid ${C.border};border-radius:10px;color:${C.primary};font-weight:600;cursor:pointer">+${extra} more</span>` : '');
-                })()}
-                <span style="font-size:10px;padding:3px 8px;background:${C.surface2};border:1px solid ${C.border};border-radius:10px;color:${C.text3}">${pkg.duration}</span>
-              </div>
-              <div style="display:flex;align-items:center;justify-content:space-between">
-                <div>
-                  <span style="font-size:17px;font-weight:700;color:${C.primary}">\u20B9${pkg.price}</span>
-                  <span style="font-size:11px;color:${C.success};font-weight:500;margin-left:6px">Save \u20B9${pkg.savings}</span>
-                </div>
-                <div style="font-size:10px;color:${C.text3}">vs \u20B9${pkg.price + pkg.savings} separately</div>
-              </div>
-            </div>`;
+          return PackageCard(pkg, sel, 'select');
         }).join('')}
       </div>
     </div>`;
@@ -1238,7 +1865,7 @@ function renderSalonProfile() {
         <div style="display:flex;gap:14px;overflow-x:auto;padding-bottom:8px" class="hide-sb">
           ${s.staff.map(st => `
             <div style="min-width:96px;text-align:center;flex-shrink:0;padding:14px 10px;background:${C.surface2};border-radius:12px;border:1px solid ${C.border}">
-              <div style="width:56px;height:56px;border-radius:50%;background:${C.surface3};margin:0 auto 8px;display:flex;align-items:center;justify-content:center;border:${isPremium ? `2px solid ${C.primaryL}` : `1px solid ${C.border}`}">
+              <div style="width:56px;height:56px;border-radius:50%;background:${C.surface3};margin:0 auto 8px;display:flex;align-items:center;justify-content:center;border:${isPremium ? `2px solid ${C.saffron}` : `1px solid ${C.border}`}">
                 ${Icons.person(26, C.text3)}
               </div>
               <div style="font-size:12px;font-weight:600;color:${C.text}">${st.n}</div>
@@ -1248,7 +1875,7 @@ function renderSalonProfile() {
         </div>
         <div style="margin-top:16px">
           <div style="font-size:13px;font-weight:600;color:${C.text};margin-bottom:10px">Prefer a specific stylist?</div>
-          <div style="background:${C.primaryS};border:1px solid ${C.primary}33;border-radius:10px;padding:12px;font-size:12px;color:${C.text2}">
+          <div style="background:${C.primaryS};border:1px solid var(--primary-border);border-radius:10px;padding:12px;font-size:12px;color:${C.text2}">
             You can request your preferred staff member when you book. Just add a note in the booking.
           </div>
         </div>
@@ -1263,7 +1890,7 @@ function renderSalonProfile() {
         <div style="display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid ${C.border};margin-bottom:12px">
           <div style="text-align:center">
             <div style="font-size:36px;font-weight:800;color:${C.text}">${s.rating}</div>
-            <div style="display:flex;gap:2px;justify-content:center;margin:4px 0">${Array(5).fill(0).map((_,i) => Icons.starFilled(12, i < Math.round(s.rating) ? C.primaryL : C.border)).join('')}</div>
+            <div style="display:flex;gap:2px;justify-content:center;margin:4px 0">${Array(5).fill(0).map((_,i) => Icons.starFilled(12, i < Math.round(s.rating) ? C.saffron : C.border)).join('')}</div>
             <div style="font-size:11px;color:${C.text3}">${s.reviews} reviews</div>
           </div>
           <div style="flex:1">
@@ -1271,9 +1898,9 @@ function renderSalonProfile() {
               const pct = star === 5 ? 72 : star === 4 ? 18 : star === 3 ? 7 : star === 2 ? 2 : 1;
               return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
                 <span style="font-size:10px;color:${C.text3};width:8px">${star}</span>
-                ${Icons.starFilled(9, C.primaryL)}
+                ${Icons.starFilled(9, C.saffron)}
                 <div style="flex:1;height:5px;background:${C.surface3};border-radius:3px">
-                  <div style="width:${pct}%;height:100%;background:${C.primaryL};border-radius:3px"></div>
+                  <div style="width:${pct}%;height:100%;background:${C.saffron};border-radius:3px"></div>
                 </div>
               </div>`;
             }).join('')}
@@ -1294,10 +1921,9 @@ function renderSalonProfile() {
       <div style="padding:0 20px">
         <div style="font-size:12px;color:${C.text3};margin-bottom:10px">${s.photos} photos</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          ${Array.from({ length: Math.min(s.photos, 6) }).map((_, i) => `
-            <div style="height:${i === 0 ? '160' : '100'}px;${i === 0 ? 'grid-column:span 2;' : ''}background:linear-gradient(135deg,${C.surface2},${C.surface3});border-radius:10px;border:1px solid ${C.borderS};display:flex;align-items:center;justify-content:center;position:relative">
-              ${Icons.camera(i === 0 ? 32 : 22, C.text3)}
-              ${i === 0 ? `<div style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.5);color:#fff;font-size:10px;padding:3px 8px;border-radius:8px">Salon Interior</div>` : ''}
+          ${(s.gallery || []).slice(0, 6).map((url, i) => `
+            <div style="height:${i === 0 ? '160' : '100'}px;${i === 0 ? 'grid-column:span 2;' : ''}border-radius:10px;overflow:hidden;position:relative">
+              <img src="${url}" alt="Salon photo ${i + 1}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">
             </div>
           `).join('')}
         </div>
@@ -1312,8 +1938,8 @@ function renderSalonProfile() {
         ${isPremium ? `
           <div style="display:flex;gap:10px;overflow-x:auto;margin-bottom:12px" class="hide-sb">
             ${['Salon Tour', 'Hair Color Demo'].map(title => `
-              <div style="min-width:200px;height:120px;flex-shrink:0;background:linear-gradient(135deg,#2a2040,#1e3a4f);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;position:relative">
-                <div style="width:40px;height:40px;background:rgba(184,134,11,0.8);border-radius:50%;display:flex;align-items:center;justify-content:center">${Icons.play(16, '#fff')}</div>
+              <div style="min-width:200px;height:120px;flex-shrink:0;background:linear-gradient(135deg,${C.ink800},${C.ink900});border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;position:relative">
+                <div style="width:40px;height:40px;background:var(--saffron-400);border-radius:50%;opacity:0.9;display:flex;align-items:center;justify-content:center">${Icons.play(16, '#fff')}</div>
                 <div style="font-size:11px;color:rgba(255,255,255,0.7)">${title}</div>
               </div>`).join('')}
           </div>` : `
@@ -1325,51 +1951,70 @@ function renderSalonProfile() {
     </div>` : '';
 
   return Shell(`
-    <!-- Hero -->
-    <div style="height:200px;background:${heroGrad};position:relative;display:flex;align-items:center;justify-content:center">
-      <div style="opacity:0.3">${Icons.scissors(42, heroColor)}</div>
-      <!-- Back -->
-      <div data-nav="back" style="position:absolute;top:48px;left:12px;width:34px;height:34px;background:rgba(255,255,255,${isPremium ? '0.18' : '0.6'});backdrop-filter:blur(8px);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(255,255,255,0.2)">
-        ${Icons.back(18, backColor)}
+    <!-- Hero cover: 240px tall, warm gradient, protection gradients -->
+    <div style="height:240px;background:${heroGrad};position:relative;overflow:hidden">
+      ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">` : `<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.15">${Icons.scissors(56, heroColor)}</div>`}
+      <!-- top protection -->
+      <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(18,15,13,.2) 0%,transparent 35%,transparent 55%,rgba(18,15,13,.55) 100%)"></div>
+      <!-- Back button -->
+      <div data-nav="back" style="position:absolute;top:48px;left:16px;width:40px;height:40px;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-radius:999px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow-sm)">
+        ${Icons.back(20, C.ink900)}
       </div>
-      <!-- Badges -->
-      <div style="position:absolute;top:48px;right:12px;display:flex;flex-direction:column;gap:4px;align-items:flex-end">
-        ${isPremium ? TopBadge() : ''}
-        ${(isGrowth || isPremium) ? VerifiedBadge() : ''}
-      </div>
-      <div style="position:absolute;bottom:10px;right:12px;background:rgba(0,0,0,0.5);color:#fff;font-size:11px;padding:3px 10px;border-radius:12px">1/${s.photos} photos</div>
+      <!-- Heart / fav button -->
+      <button class="fav-btn" data-fav="${s.id}" style="position:absolute;top:48px;right:16px;width:40px;height:40px;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-radius:999px;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow-sm)">
+        ${Icons.heart(20, isFav ? C.error : C.ink700, isFav)}
+      </button>
+      <!-- Photo count pill -->
+      <div style="position:absolute;bottom:54px;right:16px;background:rgba(18,15,13,.55);color:#fff;font-size:11px;padding:4px 10px;border-radius:999px;backdrop-filter:blur(4px)">1/${s.photos} photos</div>
     </div>
 
-    <!-- Info -->
-    <div style="padding:16px 20px 8px">
-      <div style="display:flex;align-items:center;gap:6px">
-        <span style="font-size:20px;font-weight:700;color:${C.text}">${s.name}</span>
-        ${isPremium ? TopDot() : ''}${(isGrowth || isPremium) ? VerifiedDot() : ''}
-      </div>
-      <div style="font-size:12px;color:${C.text3};margin-top:4px;display:flex;align-items:center;gap:6px">
-        ${Icons.mapPin(12, C.text3)} ${s.loc} &bull;
-        ${Icons.clock(12, C.text3)} ${s.hours}
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;margin-top:8px">
-        ${StarRow(s.rating)}
-        <span style="font-size:13px;color:${C.text3}">${s.reviews} reviews</span>
-        <span style="font-size:11px;color:${C.text3}">&bull; ${s.dist}</span>
+    <!-- Floating info card — lifts over cover -->
+    <div style="padding:0 16px;margin-top:-40px;position:relative;z-index:2">
+      <div style="background:#fff;border-radius:18px;padding:18px;box-shadow:var(--shadow-md)">
+        <!-- Badges row -->
+        <div style="display:flex;gap:6px;margin-bottom:10px">
+          ${isPremium ? TopBadge() : ''}
+          ${(isGrowth || isPremium) ? VerifiedBadge() : ''}
+        </div>
+        <!-- Name in Fraunces -->
+        <div style="font-family:var(--font-heading);font-size:24px;font-weight:600;letter-spacing:-0.02em;color:${C.ink900};line-height:1.15">${s.name}</div>
+        <div style="font-size:13px;color:${C.text3};margin-top:4px">${isStarter ? 'Salon' : isPremium ? 'Premium salon' : 'Verified salon'} · ${s.loc}</div>
+        <!-- Stat row: rating · distance · hours -->
+        <div style="display:flex;align-items:center;gap:0;margin-top:14px;padding-top:14px;border-top:1px solid ${C.borderS}">
+          <div style="display:flex;align-items:center;gap:5px;flex:1">
+            ${StarRow(s.rating, s.reviews)}
+          </div>
+          <div style="width:1px;height:14px;background:${C.border};margin:0 10px"></div>
+          <div style="display:flex;align-items:center;gap:5px;flex:1">
+            ${Icons.mapPin(13, C.ink500)}
+            <span style="font-size:13px;color:${C.ink700}">${s.dist}</span>
+          </div>
+          <div style="width:1px;height:14px;background:${C.border};margin:0 10px"></div>
+          <div style="display:flex;align-items:center;gap:5px;flex:1">
+            ${Icons.clock(13, C.success)}
+            <span style="font-size:12px;color:${C.success};font-weight:600">${s.hours.split(' - ')[1] ? 'Till ' + s.hours.split(' - ')[1] : s.hours}</span>
+          </div>
+        </div>
+        ${lastVisit ? `
+        <div style="display:flex;align-items:center;gap:6px;margin-top:10px">
+          ${Icons.calendar(11, C.success)}
+          <span style="font-size:11px;color:${C.success};font-weight:500">Visited ${pastVisits.length} time${pastVisits.length > 1 ? 's' : ''} · Last: ${lastVisit.date}</span>
+          <span onclick="AppState.bookingsTab='Completed';navigate('my-bookings')"
+            style="font-size:11px;color:${C.primary};font-weight:600;cursor:pointer;margin-left:2px">History</span>
+        </div>` : ''}
       </div>
     </div>
 
     <!-- Action buttons -->
-    <div style="display:flex;gap:10px;padding:8px 20px 12px">
-      <button data-action="book-now" style="flex:1;padding:12px;background:${C.primary};color:#fff;border:none;border-radius:12px;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer">
-        ${selSvcs.length > 0 ? `Book ${selSvcs.length} Service${selSvcs.length > 1 ? 's' : ''}` : 'Book Now'}
+    <div style="display:flex;gap:10px;padding:14px 16px 8px">
+      <button data-action="book-now" style="flex:1;padding:13px;background:${C.primary};color:#fff;border:none;border-radius:14px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;box-shadow:${C.shadowRose};transition:transform 120ms">
+        ${selSvcs.length > 0 ? `Book ${selSvcs.length} service${selSvcs.length > 1 ? 's' : ''}` : 'Book now'}
       </button>
       <button class="btn btn--ghost" onclick="navigator.clipboard && navigator.clipboard.writeText('${s.name}')">
-        ${Icons.phone(18, C.text2)}
+        ${Icons.phone(18, C.ink600)}
       </button>
       <button class="btn btn--ghost">
-        ${Icons.mapPin(18, C.text2)}
-      </button>
-      <button class="fav-btn btn btn--ghost" data-fav="${s.id}" style="${isFav ? `background:${C.errorS};border-color:rgba(192,57,43,0.3)` : ''}">
-        ${Icons.heart(18, isFav ? C.error : C.text2, isFav)}
+        ${Icons.mapPin(18, C.ink600)}
       </button>
     </div>
 
@@ -1377,7 +2022,7 @@ function renderSalonProfile() {
 
     <!-- Deal banner -->
     ${s.deal && !isStarter ? `
-      <div style="margin:0 20px 10px;background:${C.successS};border:1px solid rgba(45,139,85,0.3);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:8px">
+      <div style="margin:0 20px 10px;background:${C.successS};border:1px solid var(--success-border);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:8px">
         ${Icons.gift(16, C.success)}
         <div>
           <div style="font-size:13px;font-weight:600;color:${C.success}">${s.deal}</div>
@@ -1414,6 +2059,9 @@ function renderSalonProfile() {
     </div>
   `, { activeTab: 'search' });
 }
+
+
+/* js/screens/booking.js */
 function renderBooking() {
   const s       = AppState.selectedSalon || salons[1];
   const selPkgs = (AppState.salonPackages || []).filter(pkgId => (s.packages||[]).some(p => p.id === pkgId));
@@ -1436,7 +2084,7 @@ function renderBooking() {
   return Shell(`
     <div style="padding:44px 20px 12px;display:flex;align-items:center;gap:10px">
       <div data-nav="back" class="back-btn">${Icons.back(18, C.text)}</div>
-      <span style="font-size:18px;font-weight:700;color:${C.text}">Book Appointment</span>
+      <span style="font-family:var(--font-body);font-size:22px;font-weight:700;color:${C.text};letter-spacing:-0.3px">Book Appointment</span>
     </div>
 
     <!-- Salon info -->
@@ -1473,24 +2121,12 @@ function renderBooking() {
       ${selPkgs.map(pkgId => {
         const pkg = (s.packages||[]).find(p => p.id === pkgId);
         if (!pkg) return '';
-        return `<div style="background:${C.primaryS};border:1px solid rgba(212,160,23,0.3);border-radius:12px;padding:10px 12px;margin-bottom:6px">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-            <div style="display:flex;align-items:center;gap:6px">
-              <span style="font-size:9px;font-weight:700;letter-spacing:0.5px;color:#fff;background:${C.primary};padding:2px 6px;border-radius:6px">PACKAGE</span>
-              <span style="font-size:13px;font-weight:600;color:${C.text}">${pkg.name}</span>
-            </div>
-            <span style="font-size:13px;font-weight:700;color:${C.primary}">\u20B9${pkg.price}</span>
-          </div>
-          <div style="display:flex;flex-wrap:wrap;gap:4px">
-            ${pkg.services.map(sid => { const svc = getSvc(sid); return svc ? `<span style="font-size:10px;padding:2px 7px;background:rgba(255,255,255,0.6);border-radius:8px;color:${C.text2}">${svc.label}</span>` : ''; }).join('')}
-            <span style="font-size:10px;padding:2px 7px;background:${C.successS};color:${C.success};border-radius:8px">Save \u20B9${pkg.savings}</span>
-          </div>
-        </div>`;
+        return PackageCard(pkg, true, 'summary');
       }).join('')}
       ${selSvcs.length > 0 ? `<div style="display:flex;gap:6px;flex-wrap:wrap">
         ${selSvcs.map(sid => {
           const svc = getSvc(sid);
-          return `<span style="font-size:11px;padding:4px 10px;background:${C.primaryS};border:1px solid rgba(212,160,23,0.25);border-radius:16px;color:${C.primary};font-weight:500;display:inline-flex;align-items:center;gap:4px">
+          return `<span class="service-tag service-tag--matched" style="font-size:11px;padding:4px 10px;border-radius:16px;font-weight:500">
             ${svcIcon(svc.icon, 12, C.primary)} ${svc.label} \u20B9${s.services[sid]}
           </span>`;
         }).join('')}
@@ -1552,12 +2188,15 @@ function renderBooking() {
     <div style="padding:0 20px 8px">${PayAtSalon()}</div>
 
     <div style="padding:0 20px 20px">
-      <button data-action="confirm-booking" style="width:100%;padding:14px;background:${C.primary};color:#fff;border:none;border-radius:12px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer">
+      <button data-action="confirm-booking" class="btn btn--primary" style="border-radius:12px">
         Confirm Booking
       </button>
     </div>
   `, { activeTab: 'bookings' });
 }
+
+
+/* js/screens/booking-confirmed.js */
 function renderBookingConfirmed() {
   const s = AppState.selectedSalon || salons[1];
   const selPkgs = (AppState.salonPackages || []).filter(pkgId => (s.packages||[]).some(p => p.id === pkgId));
@@ -1576,7 +2215,7 @@ function renderBookingConfirmed() {
   return Shell(`
     <div style="display:flex;flex-direction:column;align-items:center;padding:80px 24px 24px;text-align:center">
       <!-- Success Icon -->
-      <div style="width:72px;height:72px;border-radius:50%;background:${C.success};display:flex;align-items:center;justify-content:center;margin-bottom:24px;box-shadow:0 8px 24px rgba(45,139,85,0.25)">
+      <div class="success-circle">
         ${Icons.check(32, '#fff')}
       </div>
       <div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:${C.text};margin-bottom:8px">Booking Confirmed!</div>
@@ -1593,32 +2232,23 @@ function renderBookingConfirmed() {
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
           <div>
-            <div style="font-size:10px;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px">Date</div>
+            <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em">Date</div>
             <div style="font-size:13px;font-weight:600;color:${C.text};margin-top:2px">${dateStr}</div>
           </div>
           <div>
-            <div style="font-size:10px;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px">Time</div>
+            <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em">Time</div>
             <div style="font-size:13px;font-weight:600;color:${C.text};margin-top:2px">${timeStr}</div>
           </div>
           <div>
-            <div style="font-size:10px;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px">Total</div>
+            <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em">Total</div>
             <div style="font-size:13px;font-weight:600;color:${C.primary};margin-top:2px">\u20B9${subtotal - discount}</div>
           </div>
         </div>
-        <div style="font-size:10px;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">Booked</div>
+        <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">Booked</div>
         ${selPkgs.map(pkgId => {
           const pkg = (s.packages||[]).find(p => p.id === pkgId);
           if (!pkg) return '';
-          return `<div style="background:${C.primaryS};border:1px solid rgba(212,160,23,0.3);border-radius:10px;padding:8px 10px;margin-bottom:6px">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-              <div style="display:flex;align-items:center;gap:5px">
-                <span style="font-size:9px;font-weight:700;letter-spacing:0.5px;color:#fff;background:${C.primary};padding:2px 5px;border-radius:5px">PACKAGE</span>
-                <span style="font-size:12px;font-weight:600;color:${C.text}">${pkg.name}</span>
-              </div>
-              <span style="font-size:12px;font-weight:700;color:${C.primary}">\u20B9${pkg.price}</span>
-            </div>
-            <div style="font-size:11px;color:${C.text2}">${pkg.services.map(sid => getSvc(sid)?.label).filter(Boolean).join(' · ')}</div>
-          </div>`;
+          return PackageCard(pkg, true, 'summary');
         }).join('')}
         ${selSvcs.length > 0 ? `<div style="font-size:12px;color:${C.text2};margin-bottom:12px">${selSvcs.map(sid => getSvc(sid)?.label || sid).join(', ')}</div>` : ''}
         <div style="padding-top:10px;border-top:1px solid ${C.border}">${PayAtSalon()}</div>
@@ -1627,13 +2257,13 @@ function renderBookingConfirmed() {
       <!-- Booking Reference -->
       <div style="background:${C.primaryS};border:1px solid ${C.primary}33;border-radius:10px;padding:12px 16px;width:100%;margin-top:12px;display:flex;justify-content:space-between;align-items:center">
         <div>
-          <div style="font-size:10px;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px">Booking Ref</div>
+          <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em">Booking Ref</div>
           <div style="font-size:14px;font-weight:700;color:${C.primary};letter-spacing:2px">SF2930</div>
         </div>
         <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:${C.text3};cursor:pointer">${Icons.copy(14, C.text3)} Copy</div>
       </div>
 
-      <button data-action="go-home" style="margin-top:24px;width:100%;padding:14px;background:${C.primary};color:#fff;border:none;border-radius:12px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer">
+      <button data-action="go-home" class="btn btn--primary" style="margin-top:24px;border-radius:12px">
         Back to Home
       </button>
       <button data-action="view-bookings" style="margin-top:10px;width:100%;padding:14px;background:${C.surface2};color:${C.primary};border:1.5px solid ${C.primary};border-radius:12px;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer">
@@ -1642,6 +2272,9 @@ function renderBookingConfirmed() {
     </div>
   `, { activeTab: 'bookings' });
 }
+
+
+/* js/screens/notifications.js */
 function renderNotifications() {
   const ns = [
     { icon: Icons.lightning(16, '#fff'), bg: C.error, title: 'Flash Deal: 50% Off Facials!', body: 'Luxe Hair Studio \u2014 only 2 hrs left.', time: '12 min ago', category: 'flash', action: 'go-deals' },
@@ -1649,18 +2282,18 @@ function renderNotifications() {
     { icon: Icons.gift(16, '#fff'), bg: C.success, title: 'New Salon Alert', body: 'Blade & Co. joined with \u20B999 head wash!', time: 'Yesterday', category: 'foryou', gotoSalon: 3 },
     { icon: Icons.check(16, '#fff'), bg: C.info, title: 'Booking Confirmed', body: 'Urban Style on Sun, Mar 29 at 10:30 AM.', time: '2 days ago', category: 'booking', action: 'view-bookings' },
     { icon: Icons.clock(16, '#fff'), bg: C.surface3, title: 'Appointment Reminder', body: 'Your haircut at Glow Beauty is tomorrow.', time: '3 days ago', category: 'booking', action: 'view-bookings' },
-    { icon: Icons.starFilled(16, '#fff'), bg: C.primaryL, title: 'Rate Your Visit', body: 'How was Glow Beauty?', time: '5 days ago', category: 'booking', gotoSalon: 5 },
+    { icon: Icons.starFilled(16, '#fff'), bg: C.saffron, title: 'Rate Your Visit', body: 'How was Glow Beauty?', time: '5 days ago', category: 'booking', gotoSalon: 5 },
   ];
 
   return Shell(`
     <div style="padding:44px 20px 10px;display:flex;align-items:center;gap:10px">
       ${BackBtn()}
-      <span style="font-size:18px;font-weight:700;color:${C.text};display:flex;align-items:center;gap:6px">${Icons.bell(20, C.text)} Notifications</span>
+      <span style="font-family:var(--font-body);font-size:20px;font-weight:700;color:${C.text};letter-spacing:-0.3px;display:flex;align-items:center;gap:6px">${Icons.bell(20, C.text)} Notifications</span>
     </div>
 
     <div style="padding:8px 20px">
       <!-- Flash Alert -->
-      <div style="font-size:10px;font-weight:700;color:${C.error};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;display:flex;align-items:center;gap:4px">${Icons.lightning(12, C.error)} Flash Alert</div>
+      <div style="font-size:10px;font-weight:800;color:${C.error};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;display:flex;align-items:center;gap:5px">${Icons.lightning(12, C.error)} Flash Alert</div>
       ${ns.filter(n => n.category === 'flash').map(n => `
         <div class="notif-item notif-item--alert" ${n.action ? `data-action="${n.action}"` : ''} ${n.gotoSalon ? `data-goto-salon="${n.gotoSalon}"` : ''} style="cursor:pointer">
           <div class="notif-item__icon" style="background:${n.bg}">${n.icon}</div>
@@ -1673,7 +2306,7 @@ function renderNotifications() {
       `).join('')}
 
       <!-- For You -->
-      <div style="font-size:10px;font-weight:700;color:${C.primary};text-transform:uppercase;letter-spacing:0.5px;margin:12px 0 8px;display:flex;align-items:center;gap:4px">${Icons.mapPin(12, C.primary)} For You</div>
+      <div style="font-size:10px;font-weight:800;color:${C.primary};text-transform:uppercase;letter-spacing:0.1em;margin:16px 0 10px;display:flex;align-items:center;gap:5px">${Icons.mapPin(12, C.primary)} For You</div>
       ${ns.filter(n => n.category === 'foryou').map(n => `
         <div class="notif-item" ${n.action ? `data-action="${n.action}"` : ''} ${n.gotoSalon ? `data-goto-salon="${n.gotoSalon}"` : ''} style="cursor:pointer">
           <div class="notif-item__icon" style="background:${n.bg}">${n.icon}</div>
@@ -1686,7 +2319,7 @@ function renderNotifications() {
       `).join('')}
 
       <!-- Booking Updates -->
-      <div style="font-size:10px;font-weight:700;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px;margin:12px 0 8px">Booking Updates</div>
+      <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em;margin:16px 0 10px">Booking Updates</div>
       ${ns.filter(n => n.category === 'booking').map(n => `
         <div class="notif-item" ${n.action ? `data-action="${n.action}"` : ''} ${n.gotoSalon ? `data-goto-salon="${n.gotoSalon}"` : ''} style="cursor:pointer">
           <div class="notif-item__icon" style="background:${n.bg}">${n.icon}</div>
@@ -1700,87 +2333,166 @@ function renderNotifications() {
     </div>
   `, { activeTab: 'home' });
 }
+
+
+/* js/screens/my-bookings.js */
 function renderMyBookings() {
-  const bks = [
-    { idx: 0, salon: salons[1], date: 'Sun, Mar 29', time: '10:30 AM', services: "Men's Haircut, Beard Styling", status: 'upcoming' },
-    { idx: 1, salon: salons[0], date: 'Wed, Mar 26', time: '11:00 AM', pkg: salons[0].packages[2], status: 'upcoming' },
-    { idx: 2, salon: salons[0], date: 'Sat, Mar 22', time: '2:00 PM',  services: 'Gold Facial',                status: 'completed' },
-    { idx: 3, salon: salons[2], date: 'Mon, Mar 15', time: '11:00 AM', services: 'Basic Facial, Waxing',        status: 'completed' },
-  ];
+  const bks = bookings.map(b => ({
+    ...b,
+    salon: salons.find(s => s.id === b.salonId),
+    pkg:   b.pkgId ? (salons.find(s => s.id === b.salonId)?.packages || []).find(p => p.id === b.pkgId) : null,
+  })).filter(b => b.salon);
+
+  const tab     = AppState.bookingsTab || null;
+  const LIMIT   = 2;
+  const upcoming  = bks.filter(b => b.status === 'upcoming');
+  const completed = bks.filter(b => b.status === 'completed');
+
+  const cardHtml = (b) => `
+    <div class="booking-card${b.status === 'upcoming' ? ' booking-card--upcoming' : ''}" data-booking-idx="${b.idx}">
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+        <div data-goto-salon="${b.salon.id}" style="width:44px;height:44px;background:${C.surface2};border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer">${Icons.scissors(20, C.text3)}</div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:600;color:${C.text}">${b.salon.name}</div>
+          <div style="font-size:11px;color:${C.text3}">${b.salon.loc}</div>
+        </div>
+        ${BookingStatusPill(b.status)}
+      </div>
+
+      <div style="display:flex;gap:16px;font-size:12px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:4px">${Icons.calendar(12, C.text3)}<span style="color:${C.text3}"> ${b.date}</span></div>
+        <div style="display:flex;align-items:center;gap:4px">${Icons.clock(12, C.text3)}<span style="color:${C.text3}"> ${b.time}</span></div>
+      </div>
+      ${b.pkg ? `
+        <div style="background:${C.primaryS};border:1px solid var(--primary-border);border-radius:10px;padding:8px 10px;margin-top:6px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+            <div style="display:flex;align-items:center;gap:5px">
+              <span style="font-size:9px;font-weight:700;letter-spacing:0.5px;color:#fff;background:${C.primary};padding:2px 5px;border-radius:5px">PACKAGE</span>
+              <span style="font-size:12px;font-weight:600;color:${C.text}">${b.pkg.name}</span>
+            </div>
+            <span style="font-size:12px;font-weight:700;color:${C.primary}">₹${b.pkg.price}</span>
+          </div>
+          <div style="font-size:11px;color:${C.text2}">${b.pkg.services.map(sid => getSvc(sid)?.label).filter(Boolean).join(' · ')}</div>
+        </div>` : `<div style="font-size:12px;color:${C.text2};margin-top:6px">${b.services}</div>`}
+
+      ${b.status === 'upcoming' ? `
+        <div style="margin-top:8px">${PayAtSalon()}</div>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button onclick="AppState.rescheduleBooking={salon:salons[${b.salon.id-1}],date:'${b.date}',time:'${b.time}',services:'${b.services}'};navigate('reschedule')"
+            style="flex:1;padding:10px;background:${C.primary};color:#fff;border:none;border-radius:8px;font-family:inherit;font-weight:600;font-size:12px;cursor:pointer">
+            Reschedule
+          </button>
+          <button onclick="confirmCancelBooking(${b.idx})"
+            style="flex:1;padding:10px;background:${C.errorS};color:${C.error};border:1px solid ${C.errorB};border-radius:8px;font-family:inherit;font-weight:600;font-size:12px;cursor:pointer">
+            Cancel
+          </button>
+        </div>
+      ` : `
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button data-goto-salon="${b.salon.id}"
+            style="flex:1;padding:10px;background:${C.surface2};color:${C.text};border:1px solid ${C.border};border-radius:8px;font-family:inherit;font-weight:500;font-size:12px;cursor:pointer">
+            Book Again
+          </button>
+          <button style="flex:1;padding:10px;background:${C.primaryS};color:${C.primary};border:1px solid ${C.primary}33;border-radius:8px;font-family:inherit;font-weight:500;font-size:12px;cursor:pointer">
+            ${Icons.starFilled(11, C.primary)} Rate Visit
+          </button>
+        </div>
+      `}
+    </div>`;
+
+  let content = '';
+
+  const emptyUpcoming = `
+    <div class="empty-state">
+      <div class="empty-state__icon">${Icons.calendar(28, C.primary)}</div>
+      <div class="empty-state__title">No upcoming bookings</div>
+      <div class="empty-state__subtitle">Book a salon visit and it'll show up here — ready to manage.</div>
+      <button data-nav="search" class="btn btn--primary-sm">Explore Salons</button>
+    </div>`;
+
+  const emptyCompleted = `
+    <div class="empty-state">
+      <div class="empty-state__icon">${Icons.starFilled(28, C.primary)}</div>
+      <div class="empty-state__title">No visits yet</div>
+      <div class="empty-state__subtitle">Your completed appointments will appear here once you've had your first visit.</div>
+    </div>`;
+
+  if (tab === 'Upcoming') {
+    content = upcoming.length ? upcoming.map(cardHtml).join('') : emptyUpcoming;
+
+  } else if (tab === 'Completed') {
+    content = completed.length ? completed.map(cardHtml).join('') : emptyCompleted;
+
+  } else {
+    // Overview: both sections, truncated
+    const shownUpcoming  = upcoming.slice(0, LIMIT);
+    const shownCompleted = completed.slice(0, LIMIT);
+    const moreUpcoming   = upcoming.length  - shownUpcoming.length;
+    const moreCompleted  = completed.length - shownCompleted.length;
+
+    content = `
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+        <div style="font-size:13px;font-weight:600;color:${C.text}">Upcoming</div>
+        <span style="font-size:10px;font-weight:600;padding:1px 7px;background:${C.primaryS};color:${C.primary};border-radius:10px">${upcoming.length}</span>
+      </div>
+      ${shownUpcoming.length
+        ? shownUpcoming.map(cardHtml).join('')
+        : `<div style="padding:16px 0 8px;font-size:12px;color:${C.text3};display:flex;align-items:center;gap:6px">${Icons.calendar(14, C.text3)} No upcoming bookings — <span data-nav="search" style="color:${C.primary};font-weight:600;cursor:pointer">Book one now</span></div>`}
+      ${moreUpcoming > 0 ? `
+        <button onclick="AppState.bookingsTab='Upcoming';navigate('my-bookings')"
+          style="width:100%;padding:10px;background:${C.surface2};color:${C.primary};border:1px solid ${C.border};border-radius:8px;font-family:inherit;font-weight:600;font-size:12px;cursor:pointer;margin-top:4px">
+          View ${moreUpcoming} more upcoming →
+        </button>` : ''}
+
+      <div style="height:1px;background:${C.border};margin:18px 0 16px"></div>
+
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+        <div style="font-size:13px;font-weight:600;color:${C.text}">Completed</div>
+        <span style="font-size:10px;font-weight:600;padding:1px 7px;background:${C.successS};color:${C.success};border-radius:10px">${completed.length}</span>
+      </div>
+      ${shownCompleted.map(cardHtml).join('')}
+      ${moreCompleted > 0 ? `
+        <button onclick="AppState.bookingsTab='Completed';navigate('my-bookings')"
+          style="width:100%;padding:10px;background:${C.surface2};color:${C.primary};border:1px solid ${C.border};border-radius:8px;font-family:inherit;font-weight:600;font-size:12px;cursor:pointer;margin-top:8px">
+          View ${moreCompleted} more completed →
+        </button>` : ''}
+    `;
+  }
+
+  const pillTabs = ['All', 'Upcoming', 'Completed'];
 
   return Shell(`
     <div style="padding:44px 20px 14px">
-      <div style="font-size:20px;font-weight:700;color:${C.text}">My Bookings</div>
+      <div style="font-family:var(--font-body);font-size:24px;font-weight:700;color:${C.text};letter-spacing:-0.3px">My Bookings</div>
       <div style="display:flex;gap:8px;margin-top:12px">
-        ${['Upcoming', 'Completed'].map((t, i) => `
-          <div class="pill${i === 0 ? ' pill--primary' : ''}">${t}</div>
-        `).join('')}
+        ${pillTabs.map(t => {
+          const isActive = t === 'All' ? tab === null : tab === t;
+          const clickVal = t === 'All' ? 'null' : `'${t}'`;
+          return `<div class="pill${isActive ? ' pill--primary' : ''}"
+            onclick="AppState.bookingsTab=${clickVal};navigate('my-bookings')"
+            style="cursor:pointer">${t}</div>`;
+        }).join('')}
       </div>
     </div>
 
-    <div style="padding:8px 20px;display:flex;flex-direction:column;gap:12px">
-      ${bks.map(b => `
-        <div class="booking-card${b.status === 'upcoming' ? ' booking-card--upcoming' : ''}" data-booking-idx="${b.idx}">
-          <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
-            <div data-goto-salon="${b.salon.id}" style="width:44px;height:44px;background:${C.surface2};border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer">${Icons.scissors(20, C.text3)}</div>
-            <div style="flex:1">
-              <div style="font-size:14px;font-weight:600;color:${C.text}">${b.salon.name}</div>
-              <div style="font-size:11px;color:${C.text3}">${b.salon.loc}</div>
-            </div>
-            <span style="font-size:10px;font-weight:600;padding:3px 10px;border-radius:6px;background:${b.status === 'upcoming' ? C.primaryS : C.successS};color:${b.status === 'upcoming' ? C.primary : C.success};text-transform:uppercase">${b.status}</span>
-          </div>
-
-          <div style="display:flex;gap:16px;font-size:12px;flex-wrap:wrap">
-            <div style="display:flex;align-items:center;gap:4px">${Icons.calendar(12, C.text3)}<span style="color:${C.text3}"> ${b.date}</span></div>
-            <div style="display:flex;align-items:center;gap:4px">${Icons.clock(12, C.text3)}<span style="color:${C.text3}"> ${b.time}</span></div>
-          </div>
-          ${b.pkg ? `
-            <div style="background:${C.primaryS};border:1px solid rgba(212,160,23,0.3);border-radius:10px;padding:8px 10px;margin-top:6px">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-                <div style="display:flex;align-items:center;gap:5px">
-                  <span style="font-size:9px;font-weight:700;letter-spacing:0.5px;color:#fff;background:${C.primary};padding:2px 5px;border-radius:5px">PACKAGE</span>
-                  <span style="font-size:12px;font-weight:600;color:${C.text}">${b.pkg.name}</span>
-                </div>
-                <span style="font-size:12px;font-weight:700;color:${C.primary}">\u20B9${b.pkg.price}</span>
-              </div>
-              <div style="font-size:11px;color:${C.text2}">${b.pkg.services.map(sid => getSvc(sid)?.label).filter(Boolean).join(' · ')}</div>
-            </div>` : `<div style="font-size:12px;color:${C.text2};margin-top:6px">${b.services}</div>`}
-
-          ${b.status === 'upcoming' ? `
-            <div style="margin-top:8px">${PayAtSalon()}</div>
-            <div style="display:flex;gap:8px;margin-top:10px">
-              <button onclick="AppState.rescheduleBooking={salon:salons[${b.salon.id-1}],date:'${b.date}',time:'${b.time}',services:'${b.services}'};navigate('reschedule')"
-                style="flex:1;padding:10px;background:${C.primary};color:#fff;border:none;border-radius:8px;font-family:inherit;font-weight:600;font-size:12px;cursor:pointer">
-                Reschedule
-              </button>
-              <button onclick="confirmCancelBooking(${b.idx})"
-                style="flex:1;padding:10px;background:${C.errorS};color:${C.error};border:1px solid rgba(192,57,43,0.3);border-radius:8px;font-family:inherit;font-weight:600;font-size:12px;cursor:pointer">
-                Cancel
-              </button>
-            </div>
-          ` : `
-            <div style="display:flex;gap:8px;margin-top:10px">
-              <button data-goto-salon="${b.salon.id}"
-                style="flex:1;padding:10px;background:${C.surface2};color:${C.text};border:1px solid ${C.border};border-radius:8px;font-family:inherit;font-weight:500;font-size:12px;cursor:pointer">
-                Book Again
-              </button>
-              <button style="flex:1;padding:10px;background:${C.primaryS};color:${C.primary};border:1px solid ${C.primary}33;border-radius:8px;font-family:inherit;font-weight:500;font-size:12px;cursor:pointer">
-                ${Icons.starFilled(11, C.primary)} Rate Visit
-              </button>
-            </div>
-          `}
-        </div>
-      `).join('')}
+    <div style="padding:8px 20px 20px;display:flex;flex-direction:column;gap:12px">
+      ${content}
     </div>
   `, { activeTab: 'bookings' });
 }
+
+
+/* js/screens/favorites.js */
 function renderFavorites() {
   const favSalons = [salons[0], salons[3]]; // Luxe and Royal Cuts
 
   return Shell(`
     <div style="padding:44px 20px 14px">
-      <div style="font-size:20px;font-weight:700;color:${C.text};display:flex;align-items:center;gap:8px">${Icons.heart(20, C.error, true)} Saved Salons</div>
-      <div style="font-size:12px;color:${C.text3};margin-top:4px">${favSalons.length} salons saved</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-family:var(--font-body);font-size:24px;font-weight:700;color:${C.text};letter-spacing:-0.3px">Saved Salons</span>
+        ${Icons.heart(18, C.error, true)}
+      </div>
+      <div style="font-size:12px;color:${C.text3};margin-top:4px">${favSalons.length} salon${favSalons.length !== 1 ? 's' : ''} saved</div>
     </div>
 
     <div style="padding:8px 20px;display:flex;flex-direction:column;gap:12px">
@@ -1788,6 +2500,9 @@ function renderFavorites() {
     </div>
   `, { activeTab: 'favorites' });
 }
+
+
+/* js/screens/profile.js */
 function renderProfile() {
   const menuItems = [
     { icon: Icons.user(16, C.text2),     label: 'Edit Profile',          sub: 'Name, email, phone',     nav: 'edit-profile'            },
@@ -1800,12 +2515,12 @@ function renderProfile() {
 
   return Shell(`
     <div style="padding:44px 20px 20px">
-      <div style="font-size:20px;font-weight:700;color:${C.text};margin-bottom:20px">My Profile</div>
+      <div style="font-family:var(--font-body);font-size:24px;font-weight:700;color:${C.text};margin-bottom:20px;letter-spacing:-0.3px">My Profile</div>
 
       <!-- Avatar Row -->
       <div style="display:flex;gap:14px;align-items:center;margin-bottom:20px">
         <div style="position:relative">
-          <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#B8860B,#D4A017);display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;font-weight:700">A</div>
+          <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,${C.primaryD},${C.primary});display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;font-weight:700;box-shadow:var(--shadow-gold)">A</div>
         </div>
         <div>
           <div style="font-size:17px;font-weight:600;color:${C.text}">Aryan</div>
@@ -1850,6 +2565,9 @@ function renderProfile() {
     </div>
   `, { activeTab: 'profile' });
 }
+
+
+/* js/screens/deals.js */
 function renderDeals() {
   const deals = [
     { salon: salons[1], percent: '20%', title: '20% Off Your First Visit', desc: 'Valid on all services for new customers', icon: 'scissors' },
@@ -1861,7 +2579,7 @@ function renderDeals() {
 
   return Shell(`
     <div style="padding:44px 20px 10px">
-      <div style="font-size:20px;font-weight:700;color:${C.text};display:flex;align-items:center;gap:8px">${Icons.fire(20, C.error)} Deals & Offers</div>
+      <div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:${C.text};letter-spacing:-0.4px;display:flex;align-items:center;gap:8px"><span style="font-family:var(--font-body);display:inline-flex">${Icons.fire(22, C.error)}</span> Deals & Offers</div>
       <div style="font-size:12px;color:${C.text3};margin-top:4px">Best deals from salons near you</div>
     </div>
 
@@ -1881,7 +2599,7 @@ function renderDeals() {
 
     <!-- Deal Cards -->
     <div style="padding:0 20px">
-      <div style="font-size:13px;font-weight:600;color:${C.text2};margin-bottom:10px">Salon Deals</div>
+      <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px">Salon Deals</div>
       ${deals.map(d => `
         <div style="background:${C.surface};border:1px solid ${C.border};border-radius:10px;overflow:hidden;margin-bottom:12px">
           <div style="height:90px;background:linear-gradient(135deg, ${C.surface2}, ${C.surface3});display:flex;align-items:center;justify-content:center;position:relative">
@@ -1903,6 +2621,9 @@ function renderDeals() {
     </div>
   `, { activeTab: 'search' });
 }
+
+
+/* js/screens/dashboard-growth.js */
 function renderDashboardGrowth() {
   const stats = [
     { label: 'Profile Views', value: '1,247', change: '+23%', up: true, sub: 'vs last month' },
@@ -1922,7 +2643,7 @@ function renderDashboardGrowth() {
 
   return Shell(`
     <div style="padding:44px 20px 14px;background:#0F0F17;min-height:100%">
-      <div style="font-size:18px;font-weight:700;color:#F0EDE6">Salon Dashboard</div>
+      <div style="font-size:18px;font-weight:700;color:var(--ink-50)">Salon Dashboard</div>
       <div style="display:inline-flex;align-items:center;gap:4px;margin-top:4px;font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(123,104,174,0.15);color:${C.verified}">
         ${Icons.check(10, C.verified)} Growth Plan
       </div>
@@ -1942,7 +2663,7 @@ function renderDashboardGrowth() {
 
       <!-- Bookings Chart -->
       <div style="margin-top:16px">
-        <div style="font-size:14px;font-weight:600;color:#F0EDE6;margin-bottom:12px">Bookings This Month</div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink-50);margin-bottom:12px">Bookings This Month</div>
         <div style="height:150px;background:#1A1A28;border:1px solid #363648;border-radius:10px;display:flex;align-items:flex-end;padding:16px;gap:8px">
           ${barHeights.map((h, i) => `
             <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
@@ -1955,12 +2676,12 @@ function renderDashboardGrowth() {
 
       <!-- Top Services -->
       <div style="margin-top:16px">
-        <div style="font-size:14px;font-weight:600;color:#F0EDE6;margin-bottom:12px">Most Viewed Services</div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink-50);margin-bottom:12px">Most Viewed Services</div>
         ${topServices.map((s, i) => `
           <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#1A1A28;border:1px solid #363648;border-radius:8px;margin-bottom:8px">
             <div style="display:flex;align-items:center;gap:10px">
               <div style="font-size:14px;font-weight:700;color:#6E6E7A;width:20px">${i + 1}</div>
-              <span style="font-size:13px;color:#F0EDE6">${s.name}</span>
+              <span style="font-size:13px;color:var(--ink-50)">${s.name}</span>
             </div>
             <span style="font-size:12px;color:#B0AEAD;display:flex;align-items:center;gap:4px">${Icons.eye(14, '#6E6E7A')} ${s.views}</span>
           </div>
@@ -1969,6 +2690,9 @@ function renderDashboardGrowth() {
     </div>
   `, { activeTab: 'dashboard', statusDark: true, navType: 'dashboard' });
 }
+
+
+/* js/screens/dashboard-premium.js */
 function renderDashboardPremium() {
   const stats = [
     { label: 'Profile Views', value: '3,842', change: '+41%', up: true, sub: 'vs last month' },
@@ -1986,9 +2710,9 @@ function renderDashboardPremium() {
 
   return Shell(`
     <div style="padding:44px 20px 14px;background:#0F0F17;min-height:100%">
-      <div style="font-size:18px;font-weight:700;color:#F0EDE6">Salon Dashboard</div>
-      <div style="display:inline-flex;align-items:center;gap:4px;margin-top:4px;font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(245,200,66,0.15);color:${C.primaryL}">
-        ${Icons.starFilled(10, C.primaryL)} Premium Plan
+      <div style="font-size:18px;font-weight:700;color:var(--ink-50)">Salon Dashboard</div>
+      <div style="display:inline-flex;align-items:center;gap:4px;margin-top:4px;font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(245,200,66,0.15);color:${C.saffron}">
+        ${Icons.starFilled(10, C.saffron)} Premium Plan
       </div>
 
       <!-- Stats Grid -->
@@ -1996,7 +2720,7 @@ function renderDashboardPremium() {
         ${stats.map(s => `
           <div class="stat-card">
             <div class="stat-card__label">${s.label}</div>
-            <div class="stat-card__value" style="color:${C.primaryL}">${s.value}</div>
+            <div class="stat-card__value" style="color:${C.saffron}">${s.value}</div>
             <div class="stat-card__change ${s.up ? 'stat-card__change--up' : 'stat-card__change--down'}">
               ${s.up ? Icons.trendingUp(10, '#4ECB71') : Icons.trendingDown(10, '#FF6B6B')} ${s.change} ${s.sub}
             </div>
@@ -2006,13 +2730,13 @@ function renderDashboardPremium() {
 
       <!-- AI Insight -->
       <div style="margin-top:16px;padding:14px;background:linear-gradient(135deg, rgba(212,160,23,0.08), rgba(196,117,110,0.05));border:1px solid rgba(212,160,23,0.2);border-radius:10px">
-        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:${C.primaryL};font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:4px">${Icons.lightbulb(14, C.primaryL)} Performance Insight</div>
-        <div style="font-size:12px;color:#B0AEAD;line-height:1.5">Your <strong style="color:#F0EDE6">Gold Facial</strong> is getting 3x more views this week. Consider running a <strong style="color:${C.primaryL}">Flash Deal</strong> to convert browsing into bookings.</div>
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:${C.saffron};font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:4px">${Icons.lightbulb(14, C.saffron)} Performance Insight</div>
+        <div style="font-size:12px;color:#B0AEAD;line-height:1.5">Your <strong style="color:var(--ink-50)">Gold Facial</strong> is getting 3x more views this week. Consider running a <strong style="color:${C.saffron}">Flash Deal</strong> to convert browsing into bookings.</div>
       </div>
 
       <!-- Competitor Pricing -->
       <div style="margin-top:16px">
-        <div style="font-size:14px;font-weight:600;color:#F0EDE6;margin-bottom:12px">Competitor Pricing (Your Area)</div>
+        <div style="font-size:14px;font-weight:600;color:var(--ink-50);margin-bottom:12px">Competitor Pricing (Your Area)</div>
         <div style="background:#1A1A28;border:1px solid #363648;border-radius:10px;overflow:hidden">
           <table style="width:100%;border-collapse:collapse">
             <thead>
@@ -2025,7 +2749,7 @@ function renderDashboardPremium() {
             <tbody>
               ${competitors.map(c => `
                 <tr>
-                  <td style="font-size:12px;padding:10px 12px;border-bottom:1px solid #2A2A3C;color:#F0EDE6">${c.service}</td>
+                  <td style="font-size:12px;padding:10px 12px;border-bottom:1px solid #2A2A3C;color:var(--ink-50)">${c.service}</td>
                   <td style="font-size:12px;padding:10px 12px;border-bottom:1px solid #2A2A3C;text-align:right;color:${c.you <= c.avg ? '#4ECB71' : '#FF6B6B'};font-weight:600">\u20B9${c.you.toLocaleString()}</td>
                   <td style="font-size:12px;padding:10px 12px;border-bottom:1px solid #2A2A3C;text-align:right;color:#B0AEAD">\u20B9${c.avg.toLocaleString()}</td>
                 </tr>
@@ -2039,7 +2763,7 @@ function renderDashboardPremium() {
       <div style="margin-top:16px;padding:14px;background:#1A1A28;border:1px solid #363648;border-radius:10px;display:flex;align-items:center;gap:12px">
         <div style="width:40px;height:40px;background:rgba(45,139,85,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center">${Icons.headphones(20, '#4ECB71')}</div>
         <div style="flex:1">
-          <div style="font-size:13px;font-weight:600;color:#F0EDE6">Dedicated Support</div>
+          <div style="font-size:13px;font-weight:600;color:var(--ink-50)">Dedicated Support</div>
           <div style="font-size:11px;color:#6E6E7A;margin-top:2px">Chat with your account manager</div>
         </div>
         <button style="padding:6px 16px;background:#4ECB71;color:#0F0F17;border:none;border-radius:8px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer">Open</button>
@@ -2053,17 +2777,20 @@ function renderDashboardPremium() {
     </div>
   `, { activeTab: 'dashboard', statusDark: true, navType: 'dashboard' });
 }
+
+
+/* js/screens/edit-profile.js */
 function renderEditProfile() {
   return Shell(`
     <div style="padding:44px 20px 12px;display:flex;align-items:center;gap:10px">
       ${BackBtn()}
-      <span style="font-size:18px;font-weight:700;color:${C.text}">Edit Profile</span>
+      <span style="font-family:var(--font-body);font-size:20px;font-weight:700;color:${C.text};letter-spacing:-0.3px">Edit Profile</span>
     </div>
 
     <div style="padding:0 20px">
       <!-- Avatar -->
       <div style="display:flex;flex-direction:column;align-items:center;margin:16px 0 28px">
-        <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg, #B8860B, #D4A017);display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff;font-weight:700;position:relative">
+        <div style="width:80px;height:80px;border-radius:50%;background:var(--grad-rose);display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff;font-weight:700;position:relative">
           A
           <div style="position:absolute;bottom:0;right:0;width:28px;height:28px;background:${C.surface};border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid ${C.border}">${Icons.camera(14, C.primary)}</div>
         </div>
@@ -2097,6 +2824,9 @@ function renderEditProfile() {
     </div>
   `, { activeTab: 'profile' });
 }
+
+
+/* js/screens/saved-addresses.js */
 function renderSavedAddresses() {
   const addresses = [
     { label: 'Home', icon: Icons.address(18, C.primary), address: '123, Phase 3B2, Mohali, Punjab 160059', isDefault: true },
@@ -2106,7 +2836,7 @@ function renderSavedAddresses() {
   return Shell(`
     <div style="padding:44px 20px 12px;display:flex;align-items:center;gap:10px">
       ${BackBtn()}
-      <span style="font-size:18px;font-weight:700;color:${C.text}">Saved Addresses</span>
+      <span style="font-family:var(--font-body);font-size:20px;font-weight:700;color:${C.text};letter-spacing:-0.3px">Saved Addresses</span>
     </div>
 
     <div style="padding:0 20px">
@@ -2136,11 +2866,14 @@ function renderSavedAddresses() {
     </div>
   `, { activeTab: 'profile' });
 }
+
+
+/* js/screens/refer-earn.js */
 function renderReferEarn() {
   return Shell(`
     <div style="padding:44px 20px 12px;display:flex;align-items:center;gap:10px">
       ${BackBtn()}
-      <span style="font-size:18px;font-weight:700;color:${C.text}">Refer & Earn</span>
+      <span style="font-family:var(--font-heading);font-size:20px;font-weight:700;color:${C.text};letter-spacing:-0.3px">Refer & Earn</span>
     </div>
 
     <div style="padding:0 20px">
@@ -2155,7 +2888,7 @@ function renderReferEarn() {
 
       <!-- Referral Code -->
       <div style="background:${C.surface2};border:2px dashed ${C.primary}44;border-radius:14px;padding:16px;text-align:center;margin-bottom:20px">
-        <div style="font-size:10px;color:${C.text3};text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Your Referral Code</div>
+        <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">Your Referral Code</div>
         <div style="font-size:28px;font-weight:800;color:${C.primary};letter-spacing:4px;margin-bottom:10px">ARYAN100</div>
         <button style="padding:8px 20px;background:${C.surface};border:1.5px solid ${C.border};border-radius:10px;font-family:inherit;font-size:12px;font-weight:600;color:${C.text};cursor:pointer;display:inline-flex;align-items:center;gap:6px">
           ${Icons.copy(14, C.text2)} Copy Code
@@ -2213,6 +2946,9 @@ function renderReferEarn() {
     </div>
   `, { activeTab: 'profile' });
 }
+
+
+/* js/screens/notification-settings.js */
 function renderNotificationSettings() {
   const settings = [
     { label: 'Push Notifications', sub: 'Receive alerts on your device', on: true, icon: Icons.bell(16, C.text2) },
@@ -2227,7 +2963,7 @@ function renderNotificationSettings() {
   return Shell(`
     <div style="padding:44px 20px 12px;display:flex;align-items:center;gap:10px">
       ${BackBtn()}
-      <span style="font-size:18px;font-weight:700;color:${C.text}">Notification Settings</span>
+      <span style="font-family:var(--font-body);font-size:20px;font-weight:700;color:${C.text};letter-spacing:-0.3px">Notification Settings</span>
     </div>
 
     <div style="padding:0 20px">
@@ -2246,6 +2982,9 @@ function renderNotificationSettings() {
     </div>
   `, { activeTab: 'profile' });
 }
+
+
+/* js/screens/help-support.js */
 function renderHelpSupport() {
   const faqs = [
     { q: 'How do I book an appointment?', a: 'Search for a salon or service, select the services you want, choose a date & time, and confirm your booking. You pay directly at the salon.' },
@@ -2258,7 +2997,7 @@ function renderHelpSupport() {
   return Shell(`
     <div style="padding:44px 20px 12px;display:flex;align-items:center;gap:10px">
       ${BackBtn()}
-      <span style="font-size:18px;font-weight:700;color:${C.text}">Help & Support</span>
+      <span style="font-family:var(--font-body);font-size:20px;font-weight:700;color:${C.text};letter-spacing:-0.3px">Help & Support</span>
     </div>
 
     <div style="padding:0 20px">
@@ -2289,7 +3028,7 @@ function renderHelpSupport() {
       </div>
 
       <div style="background:${C.surface};border:1px solid ${C.border};border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer">
-        <div style="width:40px;height:40px;background:rgba(91,127,165,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center">${Icons.mail(18, C.info)}</div>
+        <div style="width:40px;height:40px;background:${C.infoS};border-radius:10px;display:flex;align-items:center;justify-content:center">${Icons.mail(18, C.info)}</div>
         <div style="flex:1">
           <div style="font-size:13px;font-weight:600;color:${C.text}">Email Support</div>
           <div style="font-size:11px;color:${C.text3}">help@salofy.in</div>
@@ -2298,7 +3037,7 @@ function renderHelpSupport() {
       </div>
 
       <div style="background:${C.surface};border:1px solid ${C.border};border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer">
-        <div style="width:40px;height:40px;background:rgba(45,139,85,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center">${Icons.message(18, C.success)}</div>
+        <div style="width:40px;height:40px;background:var(--success-surface);border-radius:10px;display:flex;align-items:center;justify-content:center">${Icons.message(18, C.success)}</div>
         <div style="flex:1">
           <div style="font-size:13px;font-weight:600;color:${C.text}">Live Chat</div>
           <div style="font-size:11px;color:${C.text3}">Usually replies within 5 min</div>
@@ -2308,6 +3047,9 @@ function renderHelpSupport() {
     </div>
   `, { activeTab: 'profile' });
 }
+
+
+/* js/screens/reschedule.js */
 function renderReschedule() {
   const bk = AppState.rescheduleBooking || {
     salon: salons[1], date: 'Sun, Mar 29', time: '10:30 AM', services: "Men's Haircut, Beard Styling"
@@ -2325,12 +3067,12 @@ function renderReschedule() {
   return Shell(`
     <div style="padding:44px 20px 12px;display:flex;align-items:center;gap:10px">
       <div data-nav="back" class="back-btn">${Icons.back(18, C.text)}</div>
-      <span style="font-size:18px;font-weight:700;color:${C.text}">Reschedule</span>
+      <span style="font-family:var(--font-body);font-size:20px;font-weight:700;color:${C.text};letter-spacing:-0.3px">Reschedule</span>
     </div>
 
     <!-- Current booking info -->
     <div style="margin:0 20px 16px;background:${C.surface2};border:1px solid ${C.border};border-radius:12px;padding:14px">
-      <div style="font-size:10px;color:${C.text3};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">Current Appointment</div>
+      <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">Current Appointment</div>
       <div style="display:flex;gap:10px;align-items:center">
         <div style="width:40px;height:40px;background:${C.surface3};border-radius:8px;display:flex;align-items:center;justify-content:center">${Icons.scissors(18, C.text3)}</div>
         <div>
@@ -2369,7 +3111,7 @@ function renderReschedule() {
       </div>
 
       <!-- Free cancellation notice -->
-      <div style="background:${C.successS};border:1px solid rgba(45,139,85,0.25);border-radius:10px;padding:12px 14px;display:flex;gap:8px;align-items:flex-start;margin-bottom:16px">
+      <div style="background:${C.successS};border:1px solid var(--success-border);border-radius:10px;padding:12px 14px;display:flex;gap:8px;align-items:flex-start;margin-bottom:16px">
         ${Icons.shield(16, C.success)}
         <div style="font-size:12px;color:${C.text2};line-height:1.5">
           <strong style="color:${C.success}">Free rescheduling</strong> &mdash; you can reschedule up to 2 hours before your appointment at no charge.
@@ -2382,6 +3124,9 @@ function renderReschedule() {
     </div>
   `, { activeTab: 'bookings' });
 }
+
+
+/* js/app.js */
 /* ═══════════════════════════════════════════════════
    SALOFY APP CONTROLLER
    State management, navigation, event delegation
@@ -2396,13 +3141,30 @@ const AppState = {
   salonServices: [],                 // services selected on salon profile page
   salonPackages: [],                 // packages selected on salon profile page
   salonTab: 'Services',
+  bookingsTab: null,               // null = overview (all), 'Upcoming', or 'Completed'
+  user: { name: 'Aryan' },
   favorites: new Set([1, 4]),
   searchQuery: '',
   booking: { dateIdx: 1, time: '10:30' },
   rescheduleBooking: null,           // booking being rescheduled
   mapActiveSalon: null,              // selected salon on map screen
   searchViewMode: 'list',            // 'list' or 'map' on search results
+  genderFilter: 'all',               // 'all' | 'men' | 'women' — home screen toggle
+  activeFilters: new Set(),          // active quick-filter chips
 };
+
+function isSalonOpen(salon) {
+  if (!salon.hours) return false;
+  const m = salon.hours.match(/(\d+)\s*(AM|PM)\s*-\s*(\d+)\s*(AM|PM)/i);
+  if (!m) return false;
+  let oh = parseInt(m[1]), op = m[2].toUpperCase(), ch = parseInt(m[3]), cp = m[4].toUpperCase();
+  if (op === 'PM' && oh !== 12) oh += 12;
+  if (op === 'AM' && oh === 12) oh = 0;
+  if (cp === 'PM' && ch !== 12) ch += 12;
+  if (cp === 'AM' && ch === 12) ch = 0;
+  const cur = new Date().getHours() * 60 + new Date().getMinutes();
+  return cur >= oh * 60 && cur < ch * 60;
+}
 
 /* ── Screen Registry ── */
 const screens = [
@@ -2520,8 +3282,25 @@ function toggleSalonPackage(pkgId, phoneEl) {
   const pkg = (s.packages || []).find(p => p.id === pkgId);
   if (!pkg) return;
   const idx = AppState.salonPackages.indexOf(pkgId);
-  if (idx > -1) AppState.salonPackages.splice(idx, 1);
-  else AppState.salonPackages.push(pkgId);
+  if (idx > -1) {
+    AppState.salonPackages.splice(idx, 1);
+  } else {
+    AppState.salonPackages.push(pkgId);
+    // Deselect any individually-selected services that are covered by this package
+    (pkg.services || []).forEach(svcId => {
+      const svcIdx = AppState.salonServices.indexOf(svcId);
+      if (svcIdx > -1) {
+        AppState.salonServices.splice(svcIdx, 1);
+        const row = phoneEl.querySelector(`[data-svc-toggle="${svcId}"]`);
+        if (row) {
+          row.classList.remove('service-select--active');
+          const chk = row.querySelector('.svc-chk');
+          if (chk) { chk.style.background = 'transparent'; chk.style.borderColor = C.border; chk.innerHTML = ''; }
+        }
+      }
+    });
+    updateSuggestedPackages(phoneEl);
+  }
 
   // Update card appearance
   const card = phoneEl.querySelector(`[data-pkg-toggle="${pkgId}"]`);
@@ -2631,7 +3410,7 @@ function initEvents() {
       switch (nav) {
         case 'home':         navigate('home'); break;
         case 'map':          navigate('map'); break;
-        case 'search':       navigate('search-input'); break;
+        case 'search':       AppState.activeFilters = new Set(); navigate('search-input'); break;
         case 'favorites':    navigate('favorites'); break;
         case 'bookings':     navigate('my-bookings'); break;
         case 'profile':      navigate('profile'); break;
@@ -2736,6 +3515,7 @@ function initEvents() {
         case 'go-home':     navigate('home'); break;
         case 'go-search':   navigate('search-input', { selectedServices: [] }); break;
         case 'show-results':
+          AppState.activeFilters = new Set();
           navigate('search-results', { selectedServices: [...AppState.selectedServices] });
           break;
         case 'book-now':
@@ -2755,11 +3535,11 @@ function initEvents() {
           break;
         case 'search-view-list':
           AppState.searchViewMode = 'list';
-          navigate('search-results', { selectedServices: [...AppState.selectedServices] });
+          navigate('search-results');
           break;
         case 'search-view-map':
           AppState.searchViewMode = 'map';
-          navigate('search-results', { selectedServices: [...AppState.selectedServices] });
+          navigate('search-results');
           break;
         case 'open-deals':
         case 'go-deals':
@@ -2773,6 +3553,22 @@ function initEvents() {
           break;
         case 'go-home':
           navigate('home');
+          break;
+        case 'filter-open-now':
+          AppState.activeFilters = new Set(['open-now']);
+          navigate('search-results');
+          break;
+        case 'filter-under-500':
+          AppState.activeFilters = new Set(['under-500']);
+          navigate('search-results');
+          break;
+        case 'filter-near-me':
+          AppState.activeFilters = new Set(['near-me']);
+          navigate('search-results');
+          break;
+        case 'clear-filter':
+          AppState.activeFilters.delete(actionEl.dataset.filter);
+          navigate('search-results');
           break;
       }
       return;

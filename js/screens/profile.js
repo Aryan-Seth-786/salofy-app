@@ -10,7 +10,7 @@ function renderProfile() {
 
   return Shell(`
     <div style="padding:44px 20px 20px">
-      <div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:${C.text};margin-bottom:20px;letter-spacing:-0.4px">My Profile</div>
+      <div style="font-family:var(--font-body);font-size:24px;font-weight:700;color:${C.text};margin-bottom:20px;letter-spacing:-0.3px">My Profile</div>
 
       <!-- Avatar Row -->
       <div style="display:flex;gap:14px;align-items:center;margin-bottom:20px">

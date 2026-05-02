@@ -411,10 +411,12 @@ function renderHome() {
     <!-- ─── §5. Filter chip row ─── -->
     <div style="padding:0 16px 20px;display:flex;gap:8px;overflow-x:auto" class="hide-sb">
       <div data-nav="search" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;box-shadow:var(--shadow-sm);cursor:pointer;flex-shrink:0">
-        <span style="font-size:12px;color:${C.ink700};font-weight:600">⇅ Filters</span>
+        ${Icons.filter(12, C.ink700)}
+        <span style="font-size:12px;color:${C.ink700};font-weight:600">Filters</span>
       </div>
       <div data-action="filter-open-now" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;box-shadow:var(--shadow-sm);cursor:pointer;flex-shrink:0">
-        <span style="font-size:12px;color:${C.ink700};font-weight:600">⚡ Open now</span>
+        ${Icons.lightning(12, C.ink700)}
+        <span style="font-size:12px;color:${C.ink700};font-weight:600">Open now</span>
       </div>
       <div data-action="filter-under-500" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;box-shadow:var(--shadow-sm);cursor:pointer;flex-shrink:0">
         <span style="font-size:12px;color:${C.ink700};font-weight:600">Under ₹500</span>
@@ -541,8 +543,8 @@ function renderHome() {
             <div style="position:relative;padding-top:100%">
               ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">` : `<div style="position:absolute;inset:0;background:${C.surface2}"></div>`}
               <div style="position:absolute;bottom:8px;left:8px;background:rgba(18,15,13,0.78);border-radius:7px;padding:3px 7px;display:inline-flex;align-items:center;gap:3px;backdrop-filter:blur(4px)">
-                <span style="font-size:9px">🔥</span>
-                <span style="font-size:9px;font-weight:700;color:#fff">${s.reviews} booked</span>
+                ${Icons.fire(10, C.saffron)}
+                <span style="font-size:10px;font-weight:700;color:#fff">${s.reviews} booked</span>
               </div>
             </div>
             <div style="padding:9px 10px 11px">
@@ -575,7 +577,7 @@ function renderHome() {
         <div data-nav="deals" style="background:var(--grad-saffron);border-radius:16px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;box-shadow:0 4px 16px rgba(245,158,11,0.28)">
           <div style="flex:1;min-width:0">
             <div style="font-size:10px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:rgba(18,15,13,0.55);margin-bottom:4px">Flash sale</div>
-            <div style="font-size:15px;font-weight:700;color:${C.ink900};line-height:1.25">⚡ ${flashSalon.flash.title}</div>
+            <div style="font-size:15px;font-weight:700;color:${C.ink900};line-height:1.25;display:flex;align-items:center;gap:5px">${Icons.lightning(14, C.ink900)} ${flashSalon.flash.title}</div>
             <div style="font-size:12px;color:${C.ink700};margin-top:3px">Ends in ${flashSalon.flash.hrs}h ${flashSalon.flash.min}m &bull; ${flashSalon.name}</div>
           </div>
           <div style="background:rgba(18,15,13,0.12);border-radius:10px;padding:8px 12px;flex-shrink:0">
@@ -597,7 +599,7 @@ function renderHome() {
             <div data-goto-salon="${s.id}" style="min-width:172px;flex-shrink:0;background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);border:1px solid ${C.borderS};cursor:pointer">
               <div style="position:relative;height:108px">
                 ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">` : `<div style="width:100%;height:100%;background:${C.surface2}"></div>`}
-                ${s.deal ? `<div style="position:absolute;top:8px;left:8px;background:rgba(18,15,13,0.8);border-radius:6px;padding:2px 7px"><span style="font-size:9px;font-weight:700;color:#fff">${s.deal}</span></div>` : ''}
+                ${s.deal ? `<div style="position:absolute;top:8px;left:8px;background:rgba(18,15,13,0.82);border-radius:7px;padding:3px 7px;backdrop-filter:blur(4px)"><span style="font-size:10px;font-weight:700;color:#fff">${s.deal}</span></div>` : ''}
               </div>
               <div style="padding:9px 10px 11px">
                 <div style="font-size:13px;font-weight:600;color:${C.ink900};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.name}</div>
@@ -695,17 +697,21 @@ function renderHome() {
     <div style="padding:20px 16px 12px">
       <div style="font-size:16px;font-weight:700;color:${C.ink900};margin-bottom:12px">All salons near you</div>
       <div style="display:flex;gap:7px;overflow-x:auto" class="hide-sb">
-        <div data-nav="search" style="background:${C.primary};border-radius:999px;padding:7px 14px;cursor:pointer;flex-shrink:0">
-          <span style="font-size:12px;font-weight:700;color:#fff">📍 Near me</span>
+        <div data-nav="search" style="display:inline-flex;align-items:center;gap:5px;background:${C.primary};border-radius:999px;padding:7px 14px;cursor:pointer;flex-shrink:0">
+          ${Icons.mapPin(12, '#fff')}
+          <span style="font-size:12px;font-weight:700;color:#fff">Near me</span>
         </div>
-        <div data-nav="search" style="background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;cursor:pointer;flex-shrink:0;box-shadow:var(--shadow-sm)">
-          <span style="font-size:12px;font-weight:600;color:${C.ink700}">★ Top rated</span>
+        <div data-nav="search" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;cursor:pointer;flex-shrink:0;box-shadow:var(--shadow-sm)">
+          ${Icons.starFilled(12, C.saffron)}
+          <span style="font-size:12px;font-weight:600;color:${C.ink700}">Top rated</span>
         </div>
-        <div data-nav="search" style="background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;cursor:pointer;flex-shrink:0;box-shadow:var(--shadow-sm)">
-          <span style="font-size:12px;font-weight:600;color:${C.ink700}">₹ Price ↑</span>
+        <div data-nav="search" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;cursor:pointer;flex-shrink:0;box-shadow:var(--shadow-sm)">
+          ${Icons.trendingUp(12, C.ink700)}
+          <span style="font-size:12px;font-weight:600;color:${C.ink700}">Price ↑</span>
         </div>
-        <div data-nav="search" style="background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;cursor:pointer;flex-shrink:0;box-shadow:var(--shadow-sm)">
-          <span style="font-size:12px;font-weight:600;color:${C.ink700}">🟢 Open now</span>
+        <div data-nav="search" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;cursor:pointer;flex-shrink:0;box-shadow:var(--shadow-sm)">
+          ${Icons.clock(12, C.success)}
+          <span style="font-size:12px;font-weight:600;color:${C.ink700}">Open now</span>
         </div>
       </div>
     </div>

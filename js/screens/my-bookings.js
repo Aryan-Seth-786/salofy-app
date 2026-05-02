@@ -125,7 +125,7 @@ function renderMyBookings() {
 
   return Shell(`
     <div style="padding:44px 20px 14px">
-      <div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:${C.text};letter-spacing:-0.4px">My Bookings</div>
+      <div style="font-family:var(--font-body);font-size:24px;font-weight:700;color:${C.text};letter-spacing:-0.3px">My Bookings</div>
       <div style="display:flex;gap:8px;margin-top:12px">
         ${pillTabs.map(t => {
           const isActive = t === 'All' ? tab === null : tab === t;

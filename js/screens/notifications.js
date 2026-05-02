@@ -11,7 +11,7 @@ function renderNotifications() {
   return Shell(`
     <div style="padding:44px 20px 10px;display:flex;align-items:center;gap:10px">
       ${BackBtn()}
-      <span style="font-family:var(--font-heading);font-size:20px;font-weight:700;color:${C.text};letter-spacing:-0.3px;display:flex;align-items:center;gap:6px"><span style="font-family:var(--font-body)">${Icons.bell(20, C.text)}</span> Notifications</span>
+      <span style="font-family:var(--font-body);font-size:20px;font-weight:700;color:${C.text};letter-spacing:-0.3px;display:flex;align-items:center;gap:6px">${Icons.bell(20, C.text)} Notifications</span>
     </div>
 
     <div style="padding:8px 20px">

@@ -4,7 +4,7 @@ function renderMap() {
   return Shell(`
     <!-- Header -->
     <div style="padding:44px 20px 10px;display:flex;align-items:center;gap:12px">
-      <div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:${C.text};letter-spacing:-0.4px;flex:1">Explore</div>
+      <div style="font-family:var(--font-body);font-size:24px;font-weight:700;color:${C.text};letter-spacing:-0.3px;flex:1">Explore</div>
       <div style="font-size:12px;color:${C.text3};display:flex;align-items:center;gap:4px">${Icons.mapPin(12, C.primary)} Chandigarh / Mohali</div>
     </div>
 
@@ -31,7 +31,7 @@ function renderMap() {
     `}
 
     <!-- All Locations list -->
-    <div style="padding:8px 20px 4px;font-family:var(--font-heading);font-size:18px;font-weight:600;color:${C.text};letter-spacing:-0.2px">All Locations</div>
+    <div style="padding:8px 20px 4px;font-family:var(--font-body);font-size:18px;font-weight:600;color:${C.text};letter-spacing:-0.2px">All Locations</div>
     <div style="padding:4px 16px 16px;display:flex;flex-direction:column;gap:8px">
       ${salons.map(s => {
         const isActive = active && active.id === s.id;

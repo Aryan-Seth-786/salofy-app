@@ -283,11 +283,11 @@ function renderHome() {
           <div class="hero-slide-overlay" style="position:absolute;left:0;right:0;bottom:0;padding:14px 20px 32px;display:flex;flex-direction:column">
             <div style="font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#ffd788;margin-bottom:4px">✦ UPCOMING</div>
             <div style="font-family:var(--font-heading);font-size:22px;font-weight:700;color:#fff;line-height:1.05;letter-spacing:-0.02em">${s.bookingSalon.name}</div>
-            <div style="font-size:12px;color:rgba(255,255,255,0.9);margin-top:3px">${s.bookingDate} · ${s.bookingTime}</div>
-            ${s.bookingLabel ? `<div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.bookingLabel}</div>` : ''}
+            <div style="font-size:13px;color:rgba(255,255,255,0.9);margin-top:3px">${s.bookingDate} · ${s.bookingTime}</div>
+            ${s.bookingLabel ? `<div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.bookingLabel}</div>` : ''}
             <div style="display:flex;gap:8px;margin-top:10px">
-              <div data-nav="reschedule" onclick="event.stopPropagation();AppState.rescheduleBooking=bookings[${s.bookingIdx}]" style="flex:1;padding:8px;background:#fff;border-radius:999px;text-align:center;font-size:11px;font-weight:700;color:${C.primary};cursor:pointer">Reschedule</div>
-              <div data-nav="my-bookings" onclick="event.stopPropagation()" style="flex:1;padding:8px;background:rgba(255,255,255,0.22);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.35);border-radius:999px;text-align:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer">View Booking</div>
+              <div data-nav="reschedule" onclick="event.stopPropagation();AppState.rescheduleBooking=bookings[${s.bookingIdx}]" style="flex:1;padding:8px;background:#fff;border-radius:999px;text-align:center;font-size:12px;font-weight:700;color:${C.primary};cursor:pointer">Reschedule</div>
+              <div data-nav="my-bookings" onclick="event.stopPropagation()" style="flex:1;padding:8px;background:rgba(255,255,255,0.22);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.35);border-radius:999px;text-align:center;font-size:12px;font-weight:700;color:#fff;cursor:pointer">View Booking</div>
             </div>
           </div>
         </div>
@@ -306,10 +306,10 @@ function renderHome() {
         <div class="hero-slide-overlay" style="position:absolute;left:0;right:0;bottom:0;padding:14px 20px 32px;display:flex;flex-direction:column">
           <div style="font-size:9px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:${s.kickerColor};margin-bottom:4px">${s.kicker}</div>
           <div style="font-family:var(--font-heading);font-size:26px;font-weight:700;color:#fff;line-height:1;letter-spacing:-0.02em">${s.title}</div>
-          ${s.subtitle ? `<div style="font-family:var(--font-heading);font-size:14px;font-weight:500;color:rgba(255,255,255,0.92);margin-top:2px">${s.subtitle}</div>` : ''}
-          ${s.caption ? `<div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:5px;margin-bottom:10px">${s.caption}</div>` : '<div style="height:10px"></div>'}
+          ${s.subtitle ? `<div style="font-family:var(--font-heading);font-size:15px;font-weight:500;color:rgba(255,255,255,0.92);margin-top:2px">${s.subtitle}</div>` : ''}
+          ${s.caption ? `<div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:5px;margin-bottom:10px">${s.caption}</div>` : '<div style="height:10px"></div>'}
           <div>
-            <div data-nav="${s.ctaNav}" ${s.ctaOnclick ? `onclick="event.stopPropagation();${s.ctaOnclick}"` : 'onclick="event.stopPropagation()"'} style="display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:999px;padding:8px 18px;font-size:12px;font-weight:700;color:${C.primary};cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,0.22)">${s.ctaLabel} ${Icons.forward(11, C.primary)}</div>
+            <div data-nav="${s.ctaNav}" ${s.ctaOnclick ? `onclick="event.stopPropagation();${s.ctaOnclick}"` : 'onclick="event.stopPropagation()"'} style="display:inline-flex;align-items:center;gap:5px;background:#fff;border-radius:999px;padding:8px 18px;font-size:13px;font-weight:700;color:${C.primary};cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,0.22)">${s.ctaLabel} ${Icons.forward(11, C.primary)}</div>
           </div>
         </div>
       </div>
@@ -331,9 +331,9 @@ function renderHome() {
         <div style="display:flex;align-items:flex-start;gap:5px;cursor:pointer">
           <div style="margin-top:3px;flex-shrink:0">${Icons.mapPin(13, '#fff')}</div>
           <div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.78);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;line-height:1.2;text-shadow:0 1px 2px rgba(0,0,0,0.25)">Your area</div>
-            <div style="font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;gap:3px;line-height:1.25;text-shadow:0 1px 2px rgba(0,0,0,0.25)">Sector 17, Chandigarh <span style="font-size:10px;color:rgba(255,255,255,0.9)">▾</span></div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.72);line-height:1.2;margin-top:1px;text-shadow:0 1px 2px rgba(0,0,0,0.25)">flat no. - 403, Tower n…</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.78);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;line-height:1.2;text-shadow:0 1px 2px rgba(0,0,0,0.25)">Your area</div>
+            <div style="font-size:15px;font-weight:700;color:#fff;display:flex;align-items:center;gap:3px;line-height:1.25;text-shadow:0 1px 2px rgba(0,0,0,0.25)">Sector 17, Chandigarh <span style="font-size:11px;color:rgba(255,255,255,0.9)">▾</span></div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.72);line-height:1.2;margin-top:1px;text-shadow:0 1px 2px rgba(0,0,0,0.25)">flat no. - 403, Tower n…</div>
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:6px">
@@ -351,7 +351,7 @@ function renderHome() {
       <div style="padding:10px 16px 14px;display:flex;align-items:center;gap:8px;position:relative;z-index:5">
         <div data-nav="search" style="flex:1;min-width:0;background:#fff;border-radius:14px;padding:0 14px;height:48px;display:flex;align-items:center;gap:8px;box-shadow:0 6px 18px rgba(0,0,0,0.18);cursor:pointer">
           ${Icons.search(16, C.ink400)}
-          <div style="flex:1;min-width:0;color:${C.ink400};font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Search "haircut", "facial", or salon</div>
+          <div style="flex:1;min-width:0;color:${C.ink400};font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Search "haircut", "facial", or salon</div>
           <div style="display:flex;align-items:center;gap:7px;flex-shrink:0">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${C.ink400}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
             <div style="width:1px;height:16px;background:${C.border}"></div>
@@ -360,12 +360,12 @@ function renderHome() {
         </div>
         <div style="background:#fff;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,0.18);height:48px;display:flex;align-items:center;overflow:hidden;flex-shrink:0">
           <div onclick="AppState.genderFilter=(AppState.genderFilter==='men'?'all':'men');navigate('home')" style="width:34px;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;background:${genderFilter === 'men' ? C.primary : 'transparent'}">
-            <span style="font-size:11px;font-weight:800;color:${genderFilter === 'men' ? '#fff' : C.ink500};line-height:1">M</span>
+            <span style="font-size:12px;font-weight:800;color:${genderFilter === 'men' ? '#fff' : C.ink500};line-height:1">M</span>
             <span style="font-size:8px;font-weight:600;color:${genderFilter === 'men' ? 'rgba(255,255,255,0.75)' : C.ink400};line-height:1">Men</span>
           </div>
           <div style="width:1px;height:26px;background:${C.borderS}"></div>
           <div onclick="AppState.genderFilter=(AppState.genderFilter==='women'?'all':'women');navigate('home')" style="width:34px;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;background:${genderFilter === 'women' ? C.primary : 'transparent'}">
-            <span style="font-size:11px;font-weight:800;color:${genderFilter === 'women' ? '#fff' : C.ink500};line-height:1">W</span>
+            <span style="font-size:12px;font-weight:800;color:${genderFilter === 'women' ? '#fff' : C.ink500};line-height:1">W</span>
             <span style="font-size:8px;font-weight:600;color:${genderFilter === 'women' ? 'rgba(255,255,255,0.75)' : C.ink400};line-height:1">Women</span>
           </div>
         </div>
@@ -387,7 +387,7 @@ function renderHome() {
     <div style="padding:18px 0 18px">
       <div style="padding:0 16px;margin-bottom:14px">
         <div style="font-family:var(--font-heading);font-size:22px;font-weight:600;color:${C.ink900};line-height:1.2;letter-spacing:-0.01em">${greeting}, ${userName} <span style="font-family:var(--font-body)">👋</span></div>
-        <div style="font-size:13px;color:${C.text3};margin-top:3px">${tagline}</div>
+        <div style="font-size:15px;color:${C.text3};margin-top:3px">${tagline}</div>
       </div>
       <div style="display:flex;gap:16px;padding:0 16px;overflow-x:auto" class="hide-sb">
         <!-- All tile -->
@@ -395,14 +395,14 @@ function renderHome() {
           <div style="width:64px;height:64px;border-radius:50%;background:${C.primaryS};display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);border:1.5px solid rgba(244,63,94,0.2)">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="${C.primary}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
           </div>
-          <span style="font-size:11px;color:${C.ink700};font-weight:600;text-align:center">All</span>
+          <span style="font-size:12px;color:${C.ink700};font-weight:600;text-align:center">All</span>
         </div>
         ${popularSvcs.map(s => `
           <div data-nav="search" onclick="AppState.selectedServices=['${s.id}']" style="display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;cursor:pointer">
             <div style="width:64px;height:64px;border-radius:50%;overflow:hidden;box-shadow:var(--shadow-sm)">
               <img src="${s.photo}" alt="${s.label}" loading="lazy" width="64" height="64" style="width:100%;height:100%;object-fit:cover;display:block">
             </div>
-            <span style="font-size:11px;color:${C.ink700};font-weight:600;text-align:center;white-space:nowrap">${s.label}</span>
+            <span style="font-size:12px;color:${C.ink700};font-weight:600;text-align:center;white-space:nowrap">${s.label}</span>
           </div>
         `).join('')}
       </div>
@@ -412,17 +412,17 @@ function renderHome() {
     <div style="padding:0 16px 20px;display:flex;gap:8px;overflow-x:auto" class="hide-sb">
       <div data-nav="search" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;box-shadow:var(--shadow-sm);cursor:pointer;flex-shrink:0">
         ${Icons.filter(12, C.ink700)}
-        <span style="font-size:12px;color:${C.ink700};font-weight:600">Filters</span>
+        <span style="font-size:13px;color:${C.ink700};font-weight:600">Filters</span>
       </div>
       <div data-action="filter-open-now" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;box-shadow:var(--shadow-sm);cursor:pointer;flex-shrink:0">
         ${Icons.lightning(12, C.ink700)}
-        <span style="font-size:12px;color:${C.ink700};font-weight:600">Open now</span>
+        <span style="font-size:13px;color:${C.ink700};font-weight:600">Open now</span>
       </div>
       <div data-action="filter-under-500" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;box-shadow:var(--shadow-sm);cursor:pointer;flex-shrink:0">
-        <span style="font-size:12px;color:${C.ink700};font-weight:600">Under ₹500</span>
+        <span style="font-size:13px;color:${C.ink700};font-weight:600">Under ₹500</span>
       </div>
       <div data-action="filter-near-me" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;box-shadow:var(--shadow-sm);cursor:pointer;flex-shrink:0">
-        <span style="font-size:12px;color:${C.ink700};font-weight:600">Near me</span>
+        <span style="font-size:13px;color:${C.ink700};font-weight:600">Near me</span>
       </div>
     </div>
 
@@ -432,9 +432,9 @@ function renderHome() {
         <div style="padding:0 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
           <div style="display:flex;align-items:center;gap:8px">
             <span style="font-size:15px;font-weight:700;color:${C.ink900}">Featured</span>
-            <span style="font-size:10px;color:${C.text3};font-weight:600;background:${C.surface2};padding:2px 8px;border-radius:999px;border:1px solid ${C.borderS}">Sponsored</span>
+            <span style="font-size:11px;color:${C.text3};font-weight:600;background:${C.surface2};padding:2px 8px;border-radius:999px;border:1px solid ${C.borderS}">Sponsored</span>
           </div>
-          <span data-nav="search" style="font-size:13px;color:${C.primary};font-weight:600;cursor:pointer">See all</span>
+          <span data-nav="search" style="font-size:15px;color:${C.primary};font-weight:600;cursor:pointer">See all</span>
         </div>
         <div style="display:flex;gap:12px;padding:0 16px;overflow-x:auto" class="hide-sb">
           ${featuredSalons.map(s => `
@@ -443,7 +443,7 @@ function renderHome() {
               <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(18,15,13,.72) 30%,transparent 70%);padding:14px;display:flex;flex-direction:column;justify-content:flex-end">
                 <div style="display:flex;gap:6px;margin-bottom:6px">${TopBadge()}${s.deal ? DealTag(s.deal) : ''}</div>
                 <div style="font-family:var(--font-heading);font-size:15px;font-weight:600;color:#fff;letter-spacing:-0.01em">${s.name}</div>
-                <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px;display:flex;align-items:center;gap:4px">${Icons.mapPin(10,'rgba(255,255,255,0.7)')} ${s.loc}</div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:2px;display:flex;align-items:center;gap:4px">${Icons.mapPin(10,'rgba(255,255,255,0.7)')} ${s.loc}</div>
               </div>
             </div>
           `).join('')}
@@ -455,8 +455,8 @@ function renderHome() {
     ${dealSalons.length > 0 ? `
       <div style="padding:0 16px 24px">
         <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px">
-          <div style="font-size:10px;font-weight:700;color:${C.text3};letter-spacing:0.08em;text-transform:uppercase">Recommended with deals</div>
-          <span data-nav="deals" style="font-size:12px;color:${C.primary};font-weight:600;cursor:pointer">See all</span>
+          <div style="font-size:11px;font-weight:700;color:${C.text3};letter-spacing:0.08em;text-transform:uppercase">Recommended with deals</div>
+          <span data-nav="deals" style="font-size:13px;color:${C.primary};font-weight:600;cursor:pointer">See all</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
           ${dealSalons.map(s => `
@@ -465,17 +465,17 @@ function renderHome() {
                 ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">` : `<div style="position:absolute;inset:0;background:${C.surface2}"></div>`}
                 <!-- Deal badge top-left -->
                 <div style="position:absolute;top:8px;left:8px;background:rgba(18,15,13,0.82);border-radius:7px;padding:3px 7px;backdrop-filter:blur(4px)">
-                  <span style="font-size:10px;font-weight:700;color:#fff">${s.flash ? '50% OFF' : s.deal}</span>
+                  <span style="font-size:11px;font-weight:700;color:#fff">${s.flash ? '50% OFF' : s.deal}</span>
                 </div>
                 <!-- Rating pill bottom-left -->
                 <div style="position:absolute;bottom:8px;left:8px;background:rgba(18,15,13,0.72);border-radius:7px;padding:3px 7px;display:flex;align-items:center;gap:3px;backdrop-filter:blur(4px)">
-                  <span style="font-size:10px;color:${C.saffron}">★</span>
-                  <span style="font-size:10px;font-weight:700;color:#fff">${s.rating}</span>
+                  <span style="font-size:11px;color:${C.saffron}">★</span>
+                  <span style="font-size:11px;font-weight:700;color:#fff">${s.rating}</span>
                 </div>
               </div>
               <div style="padding:9px 10px 11px">
-                <div style="font-size:13px;font-weight:600;color:${C.ink900};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.name}</div>
-                <div style="font-size:11px;color:${C.text3};margin-top:3px;display:flex;align-items:center;gap:3px">${Icons.mapPin(9, C.text3)} ${s.dist} · Open</div>
+                <div style="font-size:15px;font-weight:600;color:${C.ink900};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.name}</div>
+                <div style="font-size:12px;color:${C.text3};margin-top:3px;display:flex;align-items:center;gap:3px">${Icons.mapPin(9, C.text3)} ${s.dist} · Open</div>
               </div>
             </div>
           `).join('')}
@@ -486,14 +486,14 @@ function renderHome() {
     <!-- ─── §7. Book again rail ─── -->
     ${rebookSalons.length > 0 ? `
       <div style="padding:0 16px 24px">
-        <div style="font-size:14px;font-weight:700;color:${C.ink800};margin-bottom:12px">Book again <span style="color:${C.primary}">→</span></div>
+        <div style="font-size:15px;font-weight:700;color:${C.ink800};margin-bottom:12px">Book again <span style="color:${C.primary}">→</span></div>
         <div style="display:flex;gap:14px;overflow-x:auto" class="hide-sb">
           ${rebookSalons.map(s => `
             <div data-goto-salon="${s.id}" style="display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;flex-shrink:0">
               <div style="width:58px;height:58px;border-radius:16px;overflow:hidden;border:2px solid ${C.borderS};box-shadow:var(--shadow-sm)">
                 ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">` : `<div style="width:100%;height:100%;background:${C.surface2};display:flex;align-items:center;justify-content:center">${Icons.scissors(20, C.text3)}</div>`}
               </div>
-              <span style="font-size:10px;color:${C.ink700};font-weight:500;text-align:center;max-width:64px;line-height:1.2">${s.name.split(' ').slice(0,2).join(' ')}</span>
+              <span style="font-size:11px;color:${C.ink700};font-weight:500;text-align:center;max-width:64px;line-height:1.2">${s.name.split(' ').slice(0,2).join(' ')}</span>
             </div>
           `).join('')}
         </div>
@@ -506,8 +506,8 @@ function renderHome() {
         <div style="flex:1;min-width:0">
           <div style="font-size:9px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:${C.primary};margin-bottom:7px">Occasion</div>
           <div style="font-family:var(--font-heading);font-size:20px;font-weight:700;color:${C.ink900};letter-spacing:-0.01em;line-height:1.1;margin-bottom:5px">Wedding Season<br>Ready</div>
-          <div style="font-size:12px;color:${C.text2};margin-bottom:12px">Bridal packages from ₹4,999</div>
-          <div data-nav="search" onclick="AppState.selectedServices=['bridal']" style="display:inline-flex;align-items:center;gap:4px;background:${C.primary};color:#fff;font-size:11px;font-weight:700;padding:7px 14px;border-radius:999px;cursor:pointer">Browse bridal ${Icons.forward(10, '#fff')}</div>
+          <div style="font-size:13px;color:${C.text2};margin-bottom:12px">Bridal packages from ₹4,999</div>
+          <div data-nav="search" onclick="AppState.selectedServices=['bridal']" style="display:inline-flex;align-items:center;gap:4px;background:${C.primary};color:#fff;font-size:12px;font-weight:700;padding:7px 14px;border-radius:999px;cursor:pointer">Browse bridal ${Icons.forward(10, '#fff')}</div>
         </div>
         <div style="width:88px;height:88px;border-radius:14px;overflow:hidden;flex-shrink:0;border:2px solid rgba(244,63,94,0.2)">
           <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=200&h=200&fit=crop&crop=faces,center" alt="Bridal" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">
@@ -518,7 +518,7 @@ function renderHome() {
     <!-- ─── §9. Top rated near you ─── -->
     <div style="padding:0 16px 8px;display:flex;justify-content:space-between;align-items:center">
       <span style="font-size:16px;font-weight:700;color:${C.ink900}">Top rated near you</span>
-      <span data-nav="search" style="font-size:12px;color:${C.primary};font-weight:600;cursor:pointer">See all</span>
+      <span data-nav="search" style="font-size:13px;color:${C.primary};font-weight:600;cursor:pointer">See all</span>
     </div>
     <div style="padding:8px 16px 24px;display:flex;flex-direction:column;gap:14px">
       ${topRated.map(s => `
@@ -532,10 +532,10 @@ function renderHome() {
     <div style="padding:0 16px 24px">
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px">
         <div>
-          <div style="font-size:10px;font-weight:700;color:${C.text3};letter-spacing:0.08em;text-transform:uppercase">Trending in</div>
+          <div style="font-size:11px;font-weight:700;color:${C.text3};letter-spacing:0.08em;text-transform:uppercase">Trending in</div>
           <span style="font-size:16px;font-weight:700;color:${C.ink900}">Sector 17</span>
         </div>
-        <span data-nav="search" style="font-size:12px;color:${C.primary};font-weight:600;cursor:pointer">See all</span>
+        <span data-nav="search" style="font-size:13px;color:${C.primary};font-weight:600;cursor:pointer">See all</span>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
         ${trendingSalons.map((s, i) => i < 2 ? `
@@ -544,12 +544,12 @@ function renderHome() {
               ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">` : `<div style="position:absolute;inset:0;background:${C.surface2}"></div>`}
               <div style="position:absolute;bottom:8px;left:8px;background:rgba(18,15,13,0.78);border-radius:7px;padding:3px 7px;display:inline-flex;align-items:center;gap:3px;backdrop-filter:blur(4px)">
                 ${Icons.fire(10, C.saffron)}
-                <span style="font-size:10px;font-weight:700;color:#fff">${s.reviews} booked</span>
+                <span style="font-size:11px;font-weight:700;color:#fff">${s.reviews} booked</span>
               </div>
             </div>
             <div style="padding:9px 10px 11px">
-              <div style="font-size:13px;font-weight:600;color:${C.ink900};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.name}</div>
-              <div style="font-size:11px;color:${C.text3};margin-top:3px">★ ${s.rating} · ${s.dist}</div>
+              <div style="font-size:15px;font-weight:600;color:${C.ink900};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.name}</div>
+              <div style="font-size:12px;color:${C.text3};margin-top:3px">★ ${s.rating} · ${s.dist}</div>
             </div>
           </div>
         ` : i === 2 ? `
@@ -558,11 +558,11 @@ function renderHome() {
               ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">` : `<div style="width:100%;height:100%;background:${C.surface2}"></div>`}
             </div>
             <div style="flex:1;min-width:0">
-              <div style="font-size:14px;font-weight:600;color:${C.ink900};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.name}</div>
-              <div style="font-size:11px;color:${C.text3};margin-top:3px">★ ${s.rating} · ${s.dist}</div>
+              <div style="font-size:15px;font-weight:600;color:${C.ink900};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.name}</div>
+              <div style="font-size:12px;color:${C.text3};margin-top:3px">★ ${s.rating} · ${s.dist}</div>
               <div style="display:inline-flex;align-items:center;gap:3px;margin-top:6px;background:${C.primaryS};border-radius:7px;padding:3px 8px">
-                <span style="font-size:10px">🔥</span>
-                <span style="font-size:10px;font-weight:700;color:${C.primary}">${s.reviews} booked today</span>
+                <span style="font-size:11px">🔥</span>
+                <span style="font-size:11px;font-weight:700;color:${C.primary}">${s.reviews} booked today</span>
               </div>
             </div>
             ${Icons.forward(14, C.text3)}
@@ -576,12 +576,12 @@ function renderHome() {
       <div style="padding:0 16px 24px">
         <div data-nav="deals" style="background:var(--grad-saffron);border-radius:16px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;box-shadow:0 4px 16px rgba(245,158,11,0.28)">
           <div style="flex:1;min-width:0">
-            <div style="font-size:10px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:rgba(18,15,13,0.55);margin-bottom:4px">Flash sale</div>
+            <div style="font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:rgba(18,15,13,0.55);margin-bottom:4px">Flash sale</div>
             <div style="font-size:15px;font-weight:700;color:${C.ink900};line-height:1.25;display:flex;align-items:center;gap:5px">${Icons.lightning(14, C.ink900)} ${flashSalon.flash.title}</div>
-            <div style="font-size:12px;color:${C.ink700};margin-top:3px">Ends in ${flashSalon.flash.hrs}h ${flashSalon.flash.min}m &bull; ${flashSalon.name}</div>
+            <div style="font-size:13px;color:${C.ink700};margin-top:3px">Ends in ${flashSalon.flash.hrs}h ${flashSalon.flash.min}m &bull; ${flashSalon.name}</div>
           </div>
           <div style="background:rgba(18,15,13,0.12);border-radius:10px;padding:8px 12px;flex-shrink:0">
-            <div style="font-size:11px;font-weight:700;color:${C.ink900}">Book now →</div>
+            <div style="font-size:12px;font-weight:700;color:${C.ink900}">Book now →</div>
           </div>
         </div>
       </div>
@@ -592,18 +592,18 @@ function renderHome() {
       <div style="padding:0 0 24px">
         <div style="padding:0 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
           <span style="font-size:15px;font-weight:700;color:${C.ink900}">${personalHeader}</span>
-          <span data-nav="search" style="font-size:12px;color:${C.primary};font-weight:600;cursor:pointer">See all</span>
+          <span data-nav="search" style="font-size:13px;color:${C.primary};font-weight:600;cursor:pointer">See all</span>
         </div>
         <div style="display:flex;gap:12px;padding:0 16px;overflow-x:auto" class="hide-sb">
           ${personalSalons.map(s => `
             <div data-goto-salon="${s.id}" style="min-width:172px;flex-shrink:0;background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);border:1px solid ${C.borderS};cursor:pointer">
               <div style="position:relative;height:108px">
                 ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">` : `<div style="width:100%;height:100%;background:${C.surface2}"></div>`}
-                ${s.deal ? `<div style="position:absolute;top:8px;left:8px;background:rgba(18,15,13,0.82);border-radius:7px;padding:3px 7px;backdrop-filter:blur(4px)"><span style="font-size:10px;font-weight:700;color:#fff">${s.deal}</span></div>` : ''}
+                ${s.deal ? `<div style="position:absolute;top:8px;left:8px;background:rgba(18,15,13,0.82);border-radius:7px;padding:3px 7px;backdrop-filter:blur(4px)"><span style="font-size:11px;font-weight:700;color:#fff">${s.deal}</span></div>` : ''}
               </div>
               <div style="padding:9px 10px 11px">
-                <div style="font-size:13px;font-weight:600;color:${C.ink900};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.name}</div>
-                <div style="font-size:11px;color:${C.text3};margin-top:3px">★ ${s.rating} · ${s.dist}</div>
+                <div style="font-size:15px;font-weight:600;color:${C.ink900};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.name}</div>
+                <div style="font-size:12px;color:${C.text3};margin-top:3px">★ ${s.rating} · ${s.dist}</div>
               </div>
             </div>
           `).join('')}
@@ -619,9 +619,9 @@ function renderHome() {
           <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(18,15,13,0.94) 40%,rgba(18,15,13,0.25) 100%);padding:18px 20px;display:flex;flex-direction:column;justify-content:center">
             <div style="font-size:9px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:${C.saffron};margin-bottom:6px">Meet the stylist</div>
             <div style="font-family:var(--font-heading);font-size:19px;font-weight:700;color:#fff;line-height:1.1;margin-bottom:4px">${storyStylist.n}</div>
-            <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:12px">${storyStylist.r} &bull; ${storySalon.name}</div>
+            <div style="font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:12px">${storyStylist.r} &bull; ${storySalon.name}</div>
             <div style="display:inline-flex;align-items:center;gap:4px;cursor:pointer">
-              <span style="font-size:11px;font-weight:700;color:#fff">Read story</span>
+              <span style="font-size:12px;font-weight:700;color:#fff">Read story</span>
               ${Icons.forward(10, '#fff')}
             </div>
           </div>
@@ -645,7 +645,7 @@ function renderHome() {
             <div style="width:64px;height:64px;border-radius:50%;overflow:hidden;box-shadow:var(--shadow-sm)">
               <img src="${sv.photo}" alt="${sv.label}" loading="lazy" width="64" height="64" style="width:100%;height:100%;object-fit:cover;display:block">
             </div>
-            <span style="font-size:11px;color:${C.ink700};font-weight:600;text-align:center;white-space:nowrap">${sv.label}</span>
+            <span style="font-size:12px;color:${C.ink700};font-weight:600;text-align:center;white-space:nowrap">${sv.label}</span>
           </div>
         `).join('')}
       </div>
@@ -655,7 +655,7 @@ function renderHome() {
     ${budgetSalons.length > 0 ? `
       <div style="padding:0 16px 24px">
         <div style="margin-bottom:14px">
-          <div style="font-size:10px;font-weight:700;color:${C.text3};letter-spacing:0.08em;text-transform:uppercase">Budget picks</div>
+          <div style="font-size:11px;font-weight:700;color:${C.text3};letter-spacing:0.08em;text-transform:uppercase">Budget picks</div>
           <div style="font-size:16px;font-weight:700;color:${C.ink900}">Great cuts under ₹499</div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
@@ -666,12 +666,12 @@ function renderHome() {
               <div style="position:relative;padding-top:100%">
                 ${s.cover ? `<img src="${s.cover}" alt="${s.name}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">` : `<div style="position:absolute;inset:0;background:${C.surface2}"></div>`}
                 <div style="position:absolute;top:8px;left:8px;background:${C.saffron};border-radius:7px;padding:3px 7px">
-                  <span style="font-size:10px;font-weight:800;color:#fff">from ₹${minPrice}</span>
+                  <span style="font-size:11px;font-weight:800;color:#fff">from ₹${minPrice}</span>
                 </div>
               </div>
               <div style="padding:9px 10px 11px">
-                <div style="font-size:13px;font-weight:600;color:${C.ink900};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.name}</div>
-                <div style="font-size:11px;color:${C.text3};margin-top:3px">★ ${s.rating} · ${s.dist}</div>
+                <div style="font-size:15px;font-weight:600;color:${C.ink900};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.name}</div>
+                <div style="font-size:12px;color:${C.text3};margin-top:3px">★ ${s.rating} · ${s.dist}</div>
               </div>
             </div>`;
           }).join('')}
@@ -684,7 +684,7 @@ function renderHome() {
       <div data-nav="search" style="background:${C.primaryS};border:1px solid rgba(244,63,94,0.18);border-radius:16px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer">
         <div style="flex:1;min-width:0">
           <div style="font-size:15px;font-weight:700;color:${C.ink900};margin-bottom:3px">${todayMsg}</div>
-          <div style="font-size:12px;color:${C.text2}">${todaySub}</div>
+          <div style="font-size:13px;color:${C.text2}">${todaySub}</div>
         </div>
         <div style="width:38px;height:38px;border-radius:50%;background:${C.primary};display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--shadow-rose)">
           ${Icons.forward(14, '#fff')}
@@ -699,19 +699,19 @@ function renderHome() {
       <div style="display:flex;gap:7px;overflow-x:auto" class="hide-sb">
         <div data-nav="search" style="display:inline-flex;align-items:center;gap:5px;background:${C.primary};border-radius:999px;padding:7px 14px;cursor:pointer;flex-shrink:0">
           ${Icons.mapPin(12, '#fff')}
-          <span style="font-size:12px;font-weight:700;color:#fff">Near me</span>
+          <span style="font-size:13px;font-weight:700;color:#fff">Near me</span>
         </div>
         <div data-nav="search" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;cursor:pointer;flex-shrink:0;box-shadow:var(--shadow-sm)">
           ${Icons.starFilled(12, C.saffron)}
-          <span style="font-size:12px;font-weight:600;color:${C.ink700}">Top rated</span>
+          <span style="font-size:13px;font-weight:600;color:${C.ink700}">Top rated</span>
         </div>
         <div data-nav="search" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;cursor:pointer;flex-shrink:0;box-shadow:var(--shadow-sm)">
           ${Icons.trendingUp(12, C.ink700)}
-          <span style="font-size:12px;font-weight:600;color:${C.ink700}">Price ↑</span>
+          <span style="font-size:13px;font-weight:600;color:${C.ink700}">Price ↑</span>
         </div>
         <div data-nav="search" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid ${C.borderS};border-radius:999px;padding:7px 14px;cursor:pointer;flex-shrink:0;box-shadow:var(--shadow-sm)">
           ${Icons.clock(12, C.success)}
-          <span style="font-size:12px;font-weight:600;color:${C.ink700}">Open now</span>
+          <span style="font-size:13px;font-weight:600;color:${C.ink700}">Open now</span>
         </div>
       </div>
     </div>
@@ -723,7 +723,7 @@ function renderHome() {
       `).join('')}
     </div>
     <div data-nav="search" style="margin:18px 16px 0;padding:14px;background:#fff;border:1px solid ${C.borderS};border-radius:14px;text-align:center;cursor:pointer;box-shadow:var(--shadow-sm)">
-      <span style="font-size:13px;font-weight:700;color:${C.primary}">Continue browsing all salons →</span>
+      <span style="font-size:15px;font-weight:700;color:${C.primary}">Continue browsing all salons →</span>
     </div>
 
     <!-- ─── §18. How Salofy works — new users only, bottom of feed ─── -->
@@ -731,10 +731,10 @@ function renderHome() {
       <div id="htw-card" style="margin:18px 16px 0;background:${C.primaryS};border-radius:16px;border:1px solid rgba(244,63,94,0.18);padding:14px 16px">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
           <div>
-            <div style="font-size:13px;font-weight:700;color:${C.ink900}">How Salofy works</div>
-            <div style="font-size:11px;color:${C.text3};margin-top:2px">Get started in 3 simple steps</div>
+            <div style="font-size:15px;font-weight:700;color:${C.ink900}">How Salofy works</div>
+            <div style="font-size:12px;color:${C.text3};margin-top:2px">Get started in 3 simple steps</div>
           </div>
-          <div onclick="localStorage.setItem('salofy_htw_seen','1');document.getElementById('htw-card').style.display='none'" style="width:26px;height:26px;border-radius:50%;background:rgba(18,15,13,0.07);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:12px;color:${C.text3};margin-left:8px">✕</div>
+          <div onclick="localStorage.setItem('salofy_htw_seen','1');document.getElementById('htw-card').style.display='none'" style="width:26px;height:26px;border-radius:50%;background:rgba(18,15,13,0.07);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:13px;color:${C.text3};margin-left:8px">✕</div>
         </div>
         ${[
           { n:'1', t:'Choose services',  d:'Haircut, facial, combo — whatever you need' },
@@ -742,10 +742,10 @@ function renderHome() {
           { n:'3', t:'Book & walk in',   d:'Confirm your slot. Pay at the salon. Done.' },
         ].map((s, i, arr) => `
           <div style="display:flex;gap:12px;align-items:flex-start${i < arr.length - 1 ? ';margin-bottom:10px' : ''}">
-            <div style="width:24px;height:24px;border-radius:50%;background:${C.primary};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">${s.n}</div>
+            <div style="width:24px;height:24px;border-radius:50%;background:${C.primary};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0">${s.n}</div>
             <div style="padding-top:3px">
-              <div style="font-size:12px;font-weight:600;color:${C.ink900}">${s.t}</div>
-              <div style="font-size:11px;color:${C.text3};margin-top:1px">${s.d}</div>
+              <div style="font-size:13px;font-weight:600;color:${C.ink900}">${s.t}</div>
+              <div style="font-size:12px;color:${C.text3};margin-top:1px">${s.d}</div>
             </div>
           </div>
         `).join('')}

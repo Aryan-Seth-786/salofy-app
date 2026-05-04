@@ -32,12 +32,12 @@ function StarRow(rating, reviews) {
 
 function BookingStatusPill(status) {
   if (status === 'upcoming') {
-    return `<span style="display:inline-flex;align-items:center;gap:4px;background:var(--rose-50);color:var(--rose-700);padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;font-family:var(--font-heading);font-style:italic;letter-spacing:-0.01em">✓ Confirmed</span>`;
+    return `<span style="display:inline-flex;align-items:center;gap:4px;background:var(--rose-50);color:var(--rose-700);padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;font-family:var(--font-heading);font-style:italic;letter-spacing:-0.01em">✓ Confirmed</span>`;
   }
   if (status === 'completed') {
-    return `<span style="display:inline-flex;align-items:center;gap:4px;background:var(--success-50);color:var(--success-600);padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600">✓ Completed</span>`;
+    return `<span style="display:inline-flex;align-items:center;gap:4px;background:var(--success-50);color:var(--success-600);padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600">✓ Completed</span>`;
   }
-  return `<span style="display:inline-flex;align-items:center;gap:4px;background:var(--plum-50);color:var(--plum-600);padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600">Pending</span>`;
+  return `<span style="display:inline-flex;align-items:center;gap:4px;background:var(--plum-50);color:var(--plum-600);padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600">Pending</span>`;
 }
 
 function PayAtSalon() {
@@ -68,14 +68,14 @@ function SalonResultCard(s, selectedSvcs = [], isFav = false) {
         ${selectedSvcs.length > matched.length ? `<span class="service-tag" style="color:${C.error}">+${selectedSvcs.length - matched.length} unavailable</span>` : ''}
       </div>
       <div style="display:flex;align-items:center;gap:8px;margin-top:8px">
-        <span style="font-size:14px;font-weight:700;color:${C.primary}">\u20B9${disc || combo}</span>
-        ${disc ? `<span style="font-size:12px;color:${C.text3};text-decoration:line-through">\u20B9${combo}</span>` : ''}
-        <span style="font-size:10px;color:${C.text3}">for ${matched.length} service${matched.length > 1 ? 's' : ''}</span>
+        <span style="font-size:15px;font-weight:700;color:${C.primary}">\u20B9${disc || combo}</span>
+        ${disc ? `<span style="font-size:13px;color:${C.text3};text-decoration:line-through">\u20B9${combo}</span>` : ''}
+        <span style="font-size:11px;color:${C.text3}">for ${matched.length} service${matched.length > 1 ? 's' : ''}</span>
       </div>
       ${matchingPkg ? `
       <div data-goto-package="${s.id}:${matchingPkg.id}" style="display:flex;align-items:center;gap:8px;margin-top:8px;padding:8px 10px;background:${C.successS};border:1px solid var(--success-border);border-radius:8px;cursor:pointer">
         ${Icons.gift(14, C.success)}
-        <div style="flex:1;min-width:0;font-size:12px">
+        <div style="flex:1;min-width:0;font-size:13px">
           <span style="font-weight:600;color:${C.success}">${matchingPkg.name}</span>
           <span style="color:${C.text3}"> covers all — </span>
           <span style="font-weight:600;color:${C.success}">Save \u20B9${matchingPkg.savings}</span>
@@ -127,8 +127,8 @@ function StaffCard(st, isPremium) {
       <div style="width:60px;height:60px;border-radius:50%;background:${C.surface2};margin:0 auto 6px;display:flex;align-items:center;justify-content:center;border:${isPremium ? `2px solid ${C.primaryL}` : `1px solid ${C.border}`}">
         ${Icons.person(24, C.text3)}
       </div>
-      <div style="font-size:12px;font-weight:600;color:${C.text}">${st.n}</div>
-      <div style="font-size:10px;color:${C.text3}">${st.r}</div>
+      <div style="font-size:13px;font-weight:600;color:${C.text}">${st.n}</div>
+      <div style="font-size:11px;color:${C.text3}">${st.r}</div>
     </div>`;
 }
 
@@ -136,10 +136,10 @@ function ServiceListItem(svc, price, showBorder) {
   return `
     <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;${showBorder ? `border-bottom:1px solid ${C.borderS}` : ''}">
       <div>
-        <div style="font-size:13px;font-weight:500;color:${C.text};display:flex;align-items:center;gap:6px">${svcIcon(svc.icon, 16, C.text2)} ${svc.label}</div>
-        <div style="font-size:11px;color:${C.text3};margin-top:2px">${svc.time}</div>
+        <div style="font-size:15px;font-weight:500;color:${C.text};display:flex;align-items:center;gap:6px">${svcIcon(svc.icon, 16, C.text2)} ${svc.label}</div>
+        <div style="font-size:12px;color:${C.text3};margin-top:2px">${svc.time}</div>
       </div>
-      <div style="font-size:14px;font-weight:700;color:${C.ink900};font-variant-numeric:tabular-nums">\u20B9${price}</div>
+      <div style="font-size:15px;font-weight:700;color:${C.ink900};font-variant-numeric:tabular-nums">\u20B9${price}</div>
     </div>`;
 }
 
@@ -147,10 +147,10 @@ function ReviewCard(name, stars, text) {
   return `
     <div style="background:${C.surface2};border-radius:8px;padding:12px;margin-bottom:8px;border:1px solid ${C.borderS}">
       <div style="display:flex;justify-content:space-between;margin-bottom:6px">
-        <span style="font-size:12px;font-weight:600;color:${C.text}">${name}</span>
-        <span style="font-size:11px;color:${C.saffron};display:flex;gap:1px">${Array(stars).fill(Icons.starFilled(11, C.saffron)).join('')}${Array(5 - stars).fill(Icons.star(11, C.ink200)).join('')}</span>
+        <span style="font-size:13px;font-weight:600;color:${C.text}">${name}</span>
+        <span style="font-size:12px;color:${C.saffron};display:flex;gap:1px">${Array(stars).fill(Icons.starFilled(11, C.saffron)).join('')}${Array(5 - stars).fill(Icons.star(11, C.ink200)).join('')}</span>
       </div>
-      <div style="font-size:12px;color:${C.text2};line-height:1.5">${text}</div>
+      <div style="font-size:13px;color:${C.text2};line-height:1.5">${text}</div>
     </div>`;
 }
 
@@ -259,9 +259,9 @@ function SuggestedPackagesHtml(s, selSvcs) {
         <div>
           <div style="display:flex;align-items:center;gap:5px">
             ${Icons.gift(13, C.success)}
-            <span style="font-size:12px;font-weight:700;color:${C.text}">${heading}</span>
+            <span style="font-size:13px;font-weight:700;color:${C.text}">${heading}</span>
           </div>
-          <div style="font-size:11px;color:${C.text3};margin-top:1px">${subheading}</div>
+          <div style="font-size:12px;color:${C.text3};margin-top:1px">${subheading}</div>
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:0">

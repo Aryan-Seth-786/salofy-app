@@ -5,7 +5,7 @@ function renderMap() {
     <!-- Header -->
     <div style="padding:44px 20px 10px;display:flex;align-items:center;gap:12px">
       <div style="font-family:var(--font-body);font-size:24px;font-weight:700;color:${C.text};letter-spacing:-0.3px;flex:1">Explore</div>
-      <div style="font-size:12px;color:${C.text3};display:flex;align-items:center;gap:4px">${Icons.mapPin(12, C.primary)} Chandigarh / Mohali</div>
+      <div style="font-size:13px;color:${C.text3};display:flex;align-items:center;gap:4px">${Icons.mapPin(12, C.primary)} Chandigarh / Mohali</div>
     </div>
 
     <!-- Map -->
@@ -27,7 +27,7 @@ function renderMap() {
       ${SalonResultCard(active, [], AppState.favorites.has(active.id))}
     </div>
     ` : `
-    <div style="padding:12px 20px;text-align:center;font-size:12px;color:${C.text3}">Tap a pin to see salon details</div>
+    <div style="padding:12px 20px;text-align:center;font-size:13px;color:${C.text3}">Tap a pin to see salon details</div>
     `}
 
     <!-- All Locations list -->
@@ -41,11 +41,11 @@ function renderMap() {
             ${Icons.mapPin(16, isActive ? C.primary : C.text3)}
           </div>
           <div style="flex:1;min-width:0">
-            <div style="font-size:13px;font-weight:600;color:${C.text};display:flex;align-items:center;gap:4px">
+            <div style="font-size:15px;font-weight:600;color:${C.text};display:flex;align-items:center;gap:4px">
               ${s.name}
               ${s.tier === 'premium' ? TopDot() : s.tier === 'growth' ? VerifiedDot() : ''}
             </div>
-            <div style="font-size:11px;color:${C.text3}">${s.loc} &bull; ${s.dist}</div>
+            <div style="font-size:12px;color:${C.text3}">${s.loc} &bull; ${s.dist}</div>
           </div>
           ${Icons.forward(14, C.text3)}
         </div>`;

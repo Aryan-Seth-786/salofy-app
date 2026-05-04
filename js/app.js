@@ -22,6 +22,8 @@ const AppState = {
   searchViewMode: 'list',            // 'list' or 'map' on search results
   genderFilter: 'all',               // 'all' | 'men' | 'women' — home screen toggle
   activeFilters: new Set(),          // active quick-filter chips
+  onboardGender: 'all',              // selected during onboarding
+  onboardCity: null,                 // selected city during onboarding
 };
 
 function isSalonOpen(salon) {
@@ -43,6 +45,7 @@ const screens = [
   { id: 'splash',              label: 'Splash',              group: 'Auth',       render: renderSplash },
   { id: 'login',               label: 'Login',               group: 'Auth',       render: renderLogin },
   { id: 'otp',                 label: 'OTP',                 group: 'Auth',       render: renderOTP },
+  { id: 'onboarding',          label: 'Onboarding',          group: 'Auth',       render: renderOnboarding },
   // Customer
   { id: 'home',                label: 'Home',                group: 'Customer',   render: renderHome },
   { id: 'map',                 label: 'Map',                 group: 'Customer',   render: renderMap },
@@ -382,8 +385,17 @@ function initEvents() {
     if (actionEl) {
       const action = actionEl.dataset.action;
       switch (action) {
-        case 'go-otp':      navigate('otp'); break;
-        case 'go-home':     navigate('home'); break;
+        case 'go-otp':         navigate('otp'); break;
+        case 'go-onboarding':  navigate('onboarding'); break;
+        case 'go-home':        navigate('home'); break;
+        case 'onboard-gender':
+          AppState.onboardGender = actionEl.dataset.value;
+          navigate('onboarding');
+          break;
+        case 'onboard-city':
+          AppState.onboardCity = actionEl.dataset.value;
+          navigate('onboarding');
+          break;
         case 'go-search':   navigate('search-input', { selectedServices: [] }); break;
         case 'show-results':
           AppState.activeFilters = new Set();

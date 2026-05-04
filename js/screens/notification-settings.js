@@ -16,14 +16,14 @@ function renderNotificationSettings() {
     </div>
 
     <div style="padding:0 20px">
-      <div style="font-size:12px;color:${C.text3};margin-bottom:16px;line-height:1.5">Choose which notifications you'd like to receive. You can change these anytime.</div>
+      <div style="font-size:13px;color:${C.text3};margin-bottom:16px;line-height:1.5">Choose which notifications you'd like to receive. You can change these anytime.</div>
 
       ${settings.map((s, i) => `
         <div style="display:flex;align-items:center;gap:12px;padding:14px 0;${i < settings.length - 1 ? `border-bottom:1px solid ${C.borderS}` : ''}">
           <div style="width:36px;height:36px;background:${C.surface2};border-radius:10px;display:flex;align-items:center;justify-content:center">${s.icon}</div>
           <div style="flex:1">
-            <div style="font-size:14px;font-weight:500;color:${C.text}">${s.label}</div>
-            <div style="font-size:11px;color:${C.text3};margin-top:1px">${s.sub}</div>
+            <div style="font-size:15px;font-weight:500;color:${C.text}">${s.label}</div>
+            <div style="font-size:12px;color:${C.text3};margin-top:1px">${s.sub}</div>
           </div>
           ${ToggleSwitch(s.on)}
         </div>

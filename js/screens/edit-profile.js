@@ -12,7 +12,7 @@ function renderEditProfile() {
           A
           <div style="position:absolute;bottom:0;right:0;width:28px;height:28px;background:${C.surface};border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid ${C.border}">${Icons.camera(14, C.primary)}</div>
         </div>
-        <div style="font-size:12px;color:${C.primary};font-weight:500;margin-top:8px;cursor:pointer">Change Photo</div>
+        <div style="font-size:13px;color:${C.primary};font-weight:500;margin-top:8px;cursor:pointer">Change Photo</div>
       </div>
 
       <!-- Name -->
@@ -26,7 +26,7 @@ function renderEditProfile() {
       <!-- Phone -->
       <div class="input-label">Phone Number</div>
       <div style="display:flex;gap:10px;margin-bottom:16px">
-        <div style="padding:14px 12px;background:${C.surface2};border:1px solid ${C.border};border-radius:12px;font-size:14px;font-weight:600;color:${C.text}">+91</div>
+        <div style="padding:14px 12px;background:${C.surface2};border:1px solid ${C.border};border-radius:12px;font-size:15px;font-weight:600;color:${C.text}">+91</div>
         <input class="input" value="98765 43210" style="flex:1" readonly>
       </div>
 

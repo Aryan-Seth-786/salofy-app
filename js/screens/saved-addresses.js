@@ -17,7 +17,7 @@ function renderSavedAddresses() {
             <div style="display:flex;align-items:center;gap:8px">
               <div style="width:36px;height:36px;background:${a.isDefault ? C.primaryS : C.surface2};border-radius:10px;display:flex;align-items:center;justify-content:center">${a.icon}</div>
               <div>
-                <div style="font-size:14px;font-weight:600;color:${C.text}">${a.label}</div>
+                <div style="font-size:15px;font-weight:600;color:${C.text}">${a.label}</div>
                 ${a.isDefault ? `<span style="font-size:9px;font-weight:600;padding:2px 6px;background:${C.primaryS};border:1px solid ${C.primary}33;border-radius:4px;color:${C.primary};text-transform:uppercase">Default</span>` : ''}
               </div>
             </div>
@@ -26,12 +26,12 @@ function renderSavedAddresses() {
               <div style="cursor:pointer">${Icons.trash(16, C.error)}</div>
             </div>
           </div>
-          <div style="font-size:12px;color:${C.text2};line-height:1.5;padding-left:44px">${a.address}</div>
+          <div style="font-size:13px;color:${C.text2};line-height:1.5;padding-left:44px">${a.address}</div>
         </div>
       `).join('')}
 
       <!-- Add New Address -->
-      <button style="width:100%;padding:14px;background:${C.surface};border:2px dashed ${C.border};border-radius:14px;font-family:inherit;font-size:13px;color:${C.primary};font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px">
+      <button style="width:100%;padding:14px;background:${C.surface};border:2px dashed ${C.border};border-radius:14px;font-family:inherit;font-size:15px;color:${C.primary};font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px">
         ${Icons.plus(16, C.primary)} Add New Address
       </button>
     </div>

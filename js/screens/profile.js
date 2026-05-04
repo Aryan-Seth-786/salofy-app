@@ -19,8 +19,8 @@ function renderProfile() {
         </div>
         <div>
           <div style="font-size:17px;font-weight:600;color:${C.text}">Aryan</div>
-          <div style="font-size:12px;color:${C.text3}">+91 98765 43210</div>
-          <div data-nav="edit-profile" style="font-size:11px;color:${C.primary};font-weight:500;margin-top:2px;cursor:pointer;display:inline-flex;align-items:center;gap:3px">
+          <div style="font-size:13px;color:${C.text3}">+91 98765 43210</div>
+          <div data-nav="edit-profile" style="font-size:12px;color:${C.primary};font-weight:500;margin-top:2px;cursor:pointer;display:inline-flex;align-items:center;gap:3px">
             ${Icons.edit(11, C.primary)} Edit profile
           </div>
         </div>
@@ -35,7 +35,7 @@ function renderProfile() {
         ].map(s => `
           <div data-action="${s.action}" style="background:${C.surface2};border:1px solid ${C.border};border-radius:12px;padding:12px 10px;text-align:center;${s.action ? 'cursor:pointer' : ''}">
             <div style="font-size:18px;font-weight:700;color:${C.primary}">${s.v}</div>
-            <div style="font-size:10px;color:${C.text3};margin-top:2px">${s.l}</div>
+            <div style="font-size:11px;color:${C.text3};margin-top:2px">${s.l}</div>
           </div>
         `).join('')}
       </div>
@@ -45,18 +45,18 @@ function renderProfile() {
         <div ${it.nav ? `data-nav="${it.nav}"` : ''} style="display:flex;align-items:center;gap:12px;padding:14px 0;${i < menuItems.length - 1 ? `border-bottom:1px solid ${C.borderS}` : ''};${it.nav ? 'cursor:pointer' : ''}">
           <div style="width:36px;height:36px;background:${C.surface2};border-radius:10px;display:flex;align-items:center;justify-content:center">${it.icon}</div>
           <div style="flex:1">
-            <div style="font-size:14px;font-weight:500;color:${C.text}">${it.label}</div>
-            <div style="font-size:11px;color:${C.text3}">${it.sub}</div>
+            <div style="font-size:15px;font-weight:500;color:${C.text}">${it.label}</div>
+            <div style="font-size:12px;color:${C.text3}">${it.sub}</div>
           </div>
           ${Icons.forward(16, C.text3)}
         </div>
       `).join('')}
 
       <!-- Logout -->
-      <button data-action="go-login" style="width:100%;margin-top:20px;padding:14px;background:${C.errorS};color:${C.error};border:1px solid rgba(192,57,43,0.2);border-radius:12px;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px">
+      <button data-action="go-login" style="width:100%;margin-top:20px;padding:14px;background:${C.errorS};color:${C.error};border:1px solid rgba(192,57,43,0.2);border-radius:12px;font-family:inherit;font-weight:600;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px">
         ${Icons.logout(16, C.error)} Log Out
       </button>
-      <div style="text-align:center;margin-top:16px;font-size:11px;color:${C.text3}">Salofy v1.0</div>
+      <div style="text-align:center;margin-top:16px;font-size:12px;color:${C.text3}">Salofy v1.0</div>
     </div>
   `, { activeTab: 'profile' });
 }

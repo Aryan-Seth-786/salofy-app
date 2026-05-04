@@ -10,7 +10,7 @@ function renderFavorites() {
             <span style="font-family:var(--font-body);font-size:24px;font-weight:700;color:${C.text};letter-spacing:-0.3px">Saved Salons</span>
             ${Icons.heart(18, C.error, true)}
           </div>
-          <div style="font-size:12px;color:${C.text3};margin-top:4px">${favSalons.length} salon${favSalons.length !== 1 ? 's' : ''} saved</div>
+          <div style="font-size:13px;color:${C.text3};margin-top:4px">${favSalons.length} salon${favSalons.length !== 1 ? 's' : ''} saved</div>
         </div>
       </div>
     </div>

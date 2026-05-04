@@ -15,16 +15,16 @@ function PackageCard(pkg, selected, variant, salonId) {
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
           <div style="display:flex;align-items:center;gap:6px">
             <span class="pkg-badge">PACKAGE</span>
-            <span style="font-size:13px;font-weight:600;color:${C.text}">${pkg.name}</span>
+            <span style="font-size:15px;font-weight:600;color:${C.text}">${pkg.name}</span>
           </div>
-          <span style="font-size:13px;font-weight:700;color:${C.primary}">₹${pkg.price}</span>
+          <span style="font-size:15px;font-weight:700;color:${C.primary}">₹${pkg.price}</span>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:4px">
           ${pkg.services.map(sid => {
             const svc = getSvc(sid);
             return svc ? `<span class="pkg-svc-chip">${svc.label}</span>` : '';
           }).join('')}
-          <span style="font-size:10px;padding:2px 7px;background:${C.successS};color:${C.success};border-radius:8px">Save ₹${pkg.savings}</span>
+          <span style="font-size:11px;padding:2px 7px;background:${C.successS};color:${C.success};border-radius:8px">Save ₹${pkg.savings}</span>
         </div>
       </div>`;
   }
@@ -45,8 +45,8 @@ function PackageCard(pkg, selected, variant, salonId) {
     <div class="pkg-card${selected ? ' pkg-card--active' : ''}" data-pkg-toggle="${pkg.id}">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
         <div style="flex:1">
-          <div style="font-size:14px;font-weight:600;color:${C.text}">${pkg.name}</div>
-          <div style="font-size:11px;color:${C.text3};margin-top:2px">${pkg.desc}</div>
+          <div style="font-size:15px;font-weight:600;color:${C.text}">${pkg.name}</div>
+          <div style="font-size:12px;color:${C.text3};margin-top:2px">${pkg.desc}</div>
         </div>
         <div class="service-select__check" style="flex-shrink:0">
           ${selected ? Icons.check(13, '#fff') : ''}
@@ -55,25 +55,25 @@ function PackageCard(pkg, selected, variant, salonId) {
       <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px">
         ${shown.map(sid => {
           const svc = getSvc(sid);
-          return svc ? `<span style="font-size:10px;padding:3px 8px;background:${selected ? C.primaryS : C.surface2};border:1px solid ${selected ? C.primary + '44' : C.border};border-radius:10px;color:${selected ? C.primary : C.text2}">${svc.label}</span>` : '';
+          return svc ? `<span style="font-size:11px;padding:3px 8px;background:${selected ? C.primaryS : C.surface2};border:1px solid ${selected ? C.primary + '44' : C.border};border-radius:10px;color:${selected ? C.primary : C.text2}">${svc.label}</span>` : '';
         }).join('')}
         ${extra > 0 ? `
           <span id="${hiddenId}" style="display:none;flex-wrap:wrap;gap:5px;">
             ${hidden.map(sid => {
               const svc = getSvc(sid);
-              return svc ? `<span style="font-size:10px;padding:3px 8px;background:${selected ? C.primaryS : C.surface2};border:1px solid ${selected ? C.primary + '44' : C.border};border-radius:10px;color:${selected ? C.primary : C.text2}">${svc.label}</span>` : '';
+              return svc ? `<span style="font-size:11px;padding:3px 8px;background:${selected ? C.primaryS : C.surface2};border:1px solid ${selected ? C.primary + '44' : C.border};border-radius:10px;color:${selected ? C.primary : C.text2}">${svc.label}</span>` : '';
             }).join('')}
           </span>
           <span onclick="event.stopPropagation();const el=document.getElementById('${hiddenId}');const isOpen=el.style.display!=='none';el.style.display=isOpen?'none':'inline-flex';this.textContent=isOpen?'+${extra} more':'Show less';"
-            style="font-size:10px;padding:3px 8px;background:${C.surface3};border:1px solid ${C.border};border-radius:10px;color:${C.primary};font-weight:600;cursor:pointer">+${extra} more</span>` : ''}
-        <span style="font-size:10px;padding:3px 8px;background:${C.surface2};border:1px solid ${C.border};border-radius:10px;color:${C.text3}">${pkg.duration}</span>
+            style="font-size:11px;padding:3px 8px;background:${C.surface3};border:1px solid ${C.border};border-radius:10px;color:${C.primary};font-weight:600;cursor:pointer">+${extra} more</span>` : ''}
+        <span style="font-size:11px;padding:3px 8px;background:${C.surface2};border:1px solid ${C.border};border-radius:10px;color:${C.text3}">${pkg.duration}</span>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between">
         <div>
           <span style="font-size:17px;font-weight:700;color:${C.primary}">₹${pkg.price}</span>
-          <span style="font-size:11px;color:${C.success};font-weight:500;margin-left:6px">Save ₹${pkg.savings}</span>
+          <span style="font-size:12px;color:${C.success};font-weight:500;margin-left:6px">Save ₹${pkg.savings}</span>
         </div>
-        <div style="font-size:10px;color:${C.text3}">vs ₹${pkg.price + pkg.savings} separately</div>
+        <div style="font-size:11px;color:${C.text3}">vs ₹${pkg.price + pkg.savings} separately</div>
       </div>
       <div style="margin-top:7px">
         <span class="service-select__disc-badge">Online Booking Discount</span>
@@ -93,7 +93,7 @@ PackageCard.suggestion = function(pkg, selSvcs) {
     <div data-suggest-pkg="${pkg.id}" class="pkg-card--suggestion">
       <div style="flex:1;min-width:0">
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
-          <span style="font-size:13px;font-weight:600;color:${C.text}">${pkg.name}</span>
+          <span style="font-size:15px;font-weight:600;color:${C.text}">${pkg.name}</span>
           <span class="pkg-save-badge">Save ₹${pkg.savings}</span>
         </div>
         <div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center">
@@ -103,8 +103,8 @@ PackageCard.suggestion = function(pkg, selSvcs) {
         </div>
       </div>
       <div style="text-align:right;flex-shrink:0">
-        <div style="font-size:14px;font-weight:700;color:${C.primary}">₹${pkg.price}</div>
-        <div style="font-size:10px;color:${C.text3};white-space:nowrap">${pkg.duration}</div>
+        <div style="font-size:15px;font-weight:700;color:${C.primary}">₹${pkg.price}</div>
+        <div style="font-size:11px;color:${C.text3};white-space:nowrap">${pkg.duration}</div>
       </div>
       ${Icons.forward(14, C.success)}
     </div>`;

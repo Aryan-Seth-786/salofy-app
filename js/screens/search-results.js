@@ -15,7 +15,7 @@ function renderSearchResults() {
     <!-- Search Bar (tap to edit) -->
     <div style="padding:44px 20px 10px;display:flex;align-items:center;gap:10px">
       <div data-nav="back" class="back-btn">${Icons.back(18, C.text)}</div>
-      <div data-nav="search" style="flex:1;background:${C.surface2};border:1px solid ${C.border};border-radius:10px;padding:11px 14px;color:${selSvcs.length > 0 ? C.text : C.text3};font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px">
+      <div data-nav="search" style="flex:1;background:${C.surface2};border:1px solid ${C.border};border-radius:10px;padding:11px 14px;color:${selSvcs.length > 0 ? C.text : C.text3};font-size:15px;cursor:pointer;display:flex;align-items:center;gap:8px">
         ${Icons.search(16, C.text3)}
         ${selSvcs.length > 0 ? `${selSvcs.length} service${selSvcs.length > 1 ? 's' : ''} selected` : 'Search salons, services...'}
       </div>
@@ -26,28 +26,28 @@ function renderSearchResults() {
     <div style="display:flex;gap:6px;padding:4px 20px 8px;overflow-x:auto;align-items:center" class="hide-sb">
       ${selSvcs.map(sid => {
         const svc = getSvc(sid);
-        return `<span style="font-size:11px;padding:5px 10px;background:${C.primaryS};border:1px solid var(--primary-border);border-radius:16px;color:${C.primary};font-weight:500;white-space:nowrap;display:inline-flex;align-items:center;gap:4px">
+        return `<span style="font-size:12px;padding:5px 10px;background:${C.primaryS};border:1px solid var(--primary-border);border-radius:16px;color:${C.primary};font-weight:500;white-space:nowrap;display:inline-flex;align-items:center;gap:4px">
           ${svcIcon(svc.icon, 12, C.primary)} ${svc.label}
         </span>`;
       }).join('')}
       ${[...activeFilters].map(f => `
-        <span data-action="clear-filter" data-filter="${f}" style="font-size:11px;padding:5px 10px;background:${C.primaryS};border:1px solid var(--primary-border);border-radius:16px;color:${C.primary};font-weight:600;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;cursor:pointer">
-          ${filterLabels[f]} <span style="font-size:14px;line-height:1;opacity:0.7">×</span>
+        <span data-action="clear-filter" data-filter="${f}" style="font-size:12px;padding:5px 10px;background:${C.primaryS};border:1px solid var(--primary-border);border-radius:16px;color:${C.primary};font-weight:600;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;cursor:pointer">
+          ${filterLabels[f]} <span style="font-size:15px;line-height:1;opacity:0.7">×</span>
         </span>`).join('')}
-      ${selSvcs.length > 0 ? `<span data-nav="search" style="font-size:11px;color:${C.primary};font-weight:600;white-space:nowrap;cursor:pointer">${Icons.plus(12, C.primary)} Edit</span>` : ''}
+      ${selSvcs.length > 0 ? `<span data-nav="search" style="font-size:12px;color:${C.primary};font-weight:600;white-space:nowrap;cursor:pointer">${Icons.plus(12, C.primary)} Edit</span>` : ''}
     </div>` : ''}
 
     <!-- Count + View Toggle -->
     <div style="padding:4px 20px 8px;display:flex;justify-content:space-between;align-items:center">
-      <div style="font-size:12px;color:${C.text3}">
+      <div style="font-size:13px;color:${C.text3}">
         ${results.length} salon${results.length !== 1 ? 's' : ''} found${selSvcs.length > 0 ? ` \u2022 showing prices for your services` : ''}
       </div>
       <div style="display:flex;border:1px solid ${C.border};border-radius:8px;overflow:hidden;flex-shrink:0">
-        <div data-action="search-view-list" style="height:28px;min-width:54px;box-sizing:border-box;padding:0 10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:500;${viewMode === 'list' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
+        <div data-action="search-view-list" style="height:28px;min-width:54px;box-sizing:border-box;padding:0 10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:500;${viewMode === 'list' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="${viewMode === 'list' ? '#fff' : C.text3}" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
           <span>List</span>
         </div>
-        <div data-action="search-view-map" style="height:28px;min-width:54px;box-sizing:border-box;padding:0 10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;font-size:11px;font-weight:500;${viewMode === 'map' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
+        <div data-action="search-view-map" style="height:28px;min-width:54px;box-sizing:border-box;padding:0 10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;font-size:12px;font-weight:500;${viewMode === 'map' ? `background:${C.primary};color:#fff` : `background:${C.surface};color:${C.text3}`}">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="${viewMode === 'map' ? '#fff' : C.text3}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
           <span>Map</span>
         </div>
@@ -64,11 +64,11 @@ function renderSearchResults() {
             ${Icons.mapPin(16, s.tier === 'premium' ? C.primary : s.tier === 'growth' ? C.verified : C.text3)}
           </div>
           <div style="flex:1;min-width:0">
-            <div style="font-size:13px;font-weight:600;color:${C.text};display:flex;align-items:center;gap:4px">
+            <div style="font-size:15px;font-weight:600;color:${C.text};display:flex;align-items:center;gap:4px">
               ${s.name}
               ${s.tier === 'premium' ? TopDot() : s.tier === 'growth' ? VerifiedDot() : ''}
             </div>
-            <div style="font-size:11px;color:${C.text3}">${s.loc} &bull; ${s.dist}${s.deal ? ` &bull; <span style="color:${C.primary};font-weight:500">${s.deal}</span>` : ''}</div>
+            <div style="font-size:12px;color:${C.text3}">${s.loc} &bull; ${s.dist}${s.deal ? ` &bull; <span style="color:${C.primary};font-weight:500">${s.deal}</span>` : ''}</div>
           </div>
           ${Icons.forward(14, C.text3)}
         </div>
@@ -78,7 +78,7 @@ function renderSearchResults() {
     <!-- List View -->
     <!-- Pinned -->
     ${results.some(s => s.tier === 'premium') ? `
-    <div style="padding:4px 20px;font-size:10px;font-weight:800;color:${C.primary};text-transform:uppercase;letter-spacing:0.1em;display:flex;align-items:center;gap:5px">
+    <div style="padding:4px 20px;font-size:11px;font-weight:800;color:${C.primary};text-transform:uppercase;letter-spacing:0.1em;display:flex;align-items:center;gap:5px">
       ${Icons.mapPin(12, C.primary)} Top Salons in Your Area
     </div>` : ''}
 

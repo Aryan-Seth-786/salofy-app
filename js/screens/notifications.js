@@ -16,7 +16,7 @@ function renderNotifications() {
 
     <div style="padding:8px 20px">
       <!-- Flash Alert -->
-      <div style="font-size:10px;font-weight:800;color:${C.error};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;display:flex;align-items:center;gap:5px">${Icons.lightning(12, C.error)} Flash Alert</div>
+      <div style="font-size:11px;font-weight:800;color:${C.error};text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;display:flex;align-items:center;gap:5px">${Icons.lightning(12, C.error)} Flash Alert</div>
       ${ns.filter(n => n.category === 'flash').map(n => `
         <div class="notif-item notif-item--alert" ${n.action ? `data-action="${n.action}"` : ''} ${n.gotoSalon ? `data-goto-salon="${n.gotoSalon}"` : ''} style="cursor:pointer">
           <div class="notif-item__icon" style="background:${n.bg}">${n.icon}</div>
@@ -29,7 +29,7 @@ function renderNotifications() {
       `).join('')}
 
       <!-- For You -->
-      <div style="font-size:10px;font-weight:800;color:${C.primary};text-transform:uppercase;letter-spacing:0.1em;margin:16px 0 10px;display:flex;align-items:center;gap:5px">${Icons.mapPin(12, C.primary)} For You</div>
+      <div style="font-size:11px;font-weight:800;color:${C.primary};text-transform:uppercase;letter-spacing:0.1em;margin:16px 0 10px;display:flex;align-items:center;gap:5px">${Icons.mapPin(12, C.primary)} For You</div>
       ${ns.filter(n => n.category === 'foryou').map(n => `
         <div class="notif-item" ${n.action ? `data-action="${n.action}"` : ''} ${n.gotoSalon ? `data-goto-salon="${n.gotoSalon}"` : ''} style="cursor:pointer">
           <div class="notif-item__icon" style="background:${n.bg}">${n.icon}</div>
@@ -42,7 +42,7 @@ function renderNotifications() {
       `).join('')}
 
       <!-- Booking Updates -->
-      <div style="font-size:10px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em;margin:16px 0 10px">Booking Updates</div>
+      <div style="font-size:11px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em;margin:16px 0 10px">Booking Updates</div>
       ${ns.filter(n => n.category === 'booking').map(n => `
         <div class="notif-item" ${n.action ? `data-action="${n.action}"` : ''} ${n.gotoSalon ? `data-goto-salon="${n.gotoSalon}"` : ''} style="cursor:pointer">
           <div class="notif-item__icon" style="background:${n.bg}">${n.icon}</div>

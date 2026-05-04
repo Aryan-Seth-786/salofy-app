@@ -5,7 +5,7 @@
 
 /* ── Global App State ── */
 const AppState = {
-  currentScreen: 'home',
+  currentScreen: 'splash',
   history: [],
   selectedSalon: salons[0],          // salon object
   selectedServices: [],              // services picked in search (pre-fill salon)

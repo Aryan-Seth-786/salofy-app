@@ -125,8 +125,11 @@ function renderMyBookings() {
 
   return Shell(`
     <div style="padding:44px 20px 14px">
-      <div style="font-family:var(--font-body);font-size:24px;font-weight:700;color:${C.text};letter-spacing:-0.3px">My Bookings</div>
-      <div style="display:flex;gap:8px;margin-top:12px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        ${BackBtn()}
+        <div style="font-family:var(--font-body);font-size:24px;font-weight:700;color:${C.text};letter-spacing:-0.3px">My Bookings</div>
+      </div>
+      <div style="display:flex;gap:8px">
         ${pillTabs.map(t => {
           const isActive = t === 'All' ? tab === null : tab === t;
           const clickVal = t === 'All' ? 'null' : `'${t}'`;

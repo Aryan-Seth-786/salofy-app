@@ -5,7 +5,7 @@ function renderSearchInput() {
   return Shell(`
     <!-- Search Header -->
     <div style="padding:44px 20px 0;display:flex;align-items:center;gap:10px">
-      <div data-nav="back" class="back-btn">${Icons.back(18, C.text)}</div>
+      ${BackBtn()}
       <div style="flex:1;position:relative">
         <input class="input" placeholder="Search services, salons..." style="padding-left:36px;${selSvcs.length > 0 ? `border-color:${C.primary}` : ''}" readonly>
         <div style="position:absolute;left:12px;top:50%;transform:translateY(-50%)">${Icons.search(16, selSvcs.length > 0 ? C.primary : C.text3)}</div>

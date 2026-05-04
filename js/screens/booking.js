@@ -19,7 +19,7 @@ function renderBooking() {
 
   return Shell(`
     <div style="padding:44px 20px 12px;display:flex;align-items:center;gap:10px">
-      <div data-nav="back" class="back-btn">${Icons.back(18, C.text)}</div>
+      ${BackBtn()}
       <span style="font-family:var(--font-body);font-size:22px;font-weight:700;color:${C.text};letter-spacing:-0.3px">Book Appointment</span>
     </div>
 

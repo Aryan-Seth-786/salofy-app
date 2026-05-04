@@ -161,7 +161,7 @@ function renderSalonProfile() {
       <!-- top protection -->
       <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(18,15,13,.2) 0%,transparent 35%,transparent 55%,rgba(18,15,13,.55) 100%)"></div>
       <!-- Back button -->
-      <div data-nav="back" style="position:absolute;top:48px;left:16px;width:40px;height:40px;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-radius:999px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow-sm)">
+      <div data-nav="back" style="position:absolute;top:48px;left:16px;width:40px;height:40px;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow-sm)">
         ${Icons.back(20, C.ink900)}
       </div>
       <!-- Heart / fav button -->

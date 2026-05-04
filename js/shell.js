@@ -68,5 +68,5 @@ function DashboardNav(active) {
 }
 
 function BackBtn(color) {
-  return `<div class="back-btn" data-action="back">${Icons.back(18, color || C.text)}</div>`;
+  return `<div class="back-btn" data-nav="back">${Icons.back(18, color || C.text)}</div>`;
 }

@@ -20,10 +20,15 @@ const AppState = {
   rescheduleBooking: null,           // booking being rescheduled
   mapActiveSalon: null,              // selected salon on map screen
   searchViewMode: 'list',            // 'list' or 'map' on search results
-  genderFilter: 'all',               // 'all' | 'men' | 'women' — home screen toggle
+  genderFilter: 'men',               // 'men' | 'women' — home screen binary toggle
   activeFilters: new Set(),          // active quick-filter chips
   onboardGender: 'all',              // selected during onboarding
   onboardCity: null,                 // selected city during onboarding
+  onboardStep: 0,                    // 0..4: intro slides 0-2, gender step 3, city step 4
+  detailSalonId: null,               // service-detail context
+  detailType: null,                  // 'service' | 'package'
+  detailId: null,                    // svcId | pkgId
+  detailReturnTo: null,              // screen id to return to
 };
 
 function isSalonOpen(salon) {
@@ -56,6 +61,7 @@ const screens = [
   { id: 'salon-premium',       label: 'Salon (Premium)',     group: 'Customer',   render: renderSalonProfile },
   { id: 'booking',             label: 'Booking',             group: 'Customer',   render: renderBooking },
   { id: 'booking-confirmed',   label: 'Confirmed',           group: 'Customer',   render: renderBookingConfirmed },
+  { id: 'service-detail',      label: 'Service Detail',      group: 'Customer',   render: renderServiceDetail },
   { id: 'deals',               label: 'Deals',               group: 'Customer',   render: renderDeals },
   // Activity
   { id: 'notifications',       label: 'Alerts',              group: 'Activity',   render: renderNotifications },
@@ -139,10 +145,8 @@ function toggleSalonService(svcId, phoneEl) {
   if (row) {
     const sel = AppState.salonServices.includes(svcId);
     row.classList.toggle('service-select--active', sel);
-    const chk = row.querySelector('.svc-chk');
+    const chk = row.querySelector('.service-select__check');
     if (chk) {
-      chk.style.background = sel ? C.primary : 'transparent';
-      chk.style.borderColor = sel ? C.primary : C.border;
       chk.innerHTML = sel ? Icons.check(14, '#fff') : '';
     }
   }
@@ -168,8 +172,8 @@ function toggleSalonPackage(pkgId, phoneEl) {
         const row = phoneEl.querySelector(`[data-svc-toggle="${svcId}"]`);
         if (row) {
           row.classList.remove('service-select--active');
-          const chk = row.querySelector('.svc-chk');
-          if (chk) { chk.style.background = 'transparent'; chk.style.borderColor = C.border; chk.innerHTML = ''; }
+          const chk = row.querySelector('.service-select__check');
+          if (chk) chk.innerHTML = '';
         }
       }
     });
@@ -181,11 +185,9 @@ function toggleSalonPackage(pkgId, phoneEl) {
   if (card) {
     const sel = AppState.salonPackages.includes(pkgId);
     card.classList.toggle('pkg-card--active', sel);
-    const chk = card.querySelector('.pkg-card__check');
+    const chk = card.querySelector('.service-select__check');
     if (chk) {
-      chk.style.background = sel ? C.primary : 'transparent';
-      chk.style.borderColor = sel ? C.primary : C.border;
-      chk.innerHTML = sel ? Icons.check(13, '#fff') : '';
+      chk.innerHTML = sel ? Icons.check(14, '#fff') : '';
     }
     // Update service chips color
     card.querySelectorAll('[data-pkg-chip]').forEach(chip => {
@@ -303,6 +305,32 @@ function initEvents() {
       return;
     }
 
+    // Inline expand chevron on service / package row (must run before svc-toggle so chevron click doesn't toggle selection)
+    const expandSvcEl = e.target.closest('[data-svc-expand]');
+    if (expandSvcEl) {
+      e.stopPropagation();
+      const row   = expandSvcEl.closest('.service-row');
+      const panel = row && row.querySelector('.svc-expand-panel');
+      if (panel) {
+        const isOpen = panel.style.display !== 'none';
+        panel.style.display = isOpen ? 'none' : 'block';
+        expandSvcEl.classList.toggle('svc-chevron--open', !isOpen);
+      }
+      return;
+    }
+    const expandPkgEl = e.target.closest('[data-pkg-expand]');
+    if (expandPkgEl) {
+      e.stopPropagation();
+      const row   = expandPkgEl.closest('.pkg-row');
+      const panel = row && row.querySelector('.svc-expand-panel');
+      if (panel) {
+        const isOpen = panel.style.display !== 'none';
+        panel.style.display = isOpen ? 'none' : 'block';
+        expandPkgEl.classList.toggle('svc-chevron--open', !isOpen);
+      }
+      return;
+    }
+
     // Service toggle on salon page
     const svcEl = e.target.closest('[data-svc-toggle]');
     if (svcEl) {
@@ -386,8 +414,16 @@ function initEvents() {
       const action = actionEl.dataset.action;
       switch (action) {
         case 'go-otp':         navigate('otp'); break;
-        case 'go-onboarding':  navigate('onboarding'); break;
+        case 'go-onboarding':  AppState.onboardStep = 0; navigate('onboarding'); break;
         case 'go-home':        navigate('home'); break;
+        case 'onboard-next':
+          AppState.onboardStep = Math.min(4, (AppState.onboardStep || 0) + 1);
+          navigate('onboarding');
+          break;
+        case 'onboard-skip-intro':
+          AppState.onboardStep = 3;
+          navigate('onboarding');
+          break;
         case 'onboard-gender':
           AppState.onboardGender = actionEl.dataset.value;
           navigate('onboarding');
@@ -396,6 +432,43 @@ function initEvents() {
           AppState.onboardCity = actionEl.dataset.value;
           navigate('onboarding');
           break;
+        case 'open-service-detail': {
+          const sid = actionEl.dataset.detailSalon ? parseInt(actionEl.dataset.detailSalon) : (AppState.selectedSalon && AppState.selectedSalon.id);
+          navigate('service-detail', {
+            detailSalonId: sid,
+            detailType: actionEl.dataset.detailType || 'service',
+            detailId: actionEl.dataset.detailId,
+            detailReturnTo: AppState.currentScreen,
+          });
+          break;
+        }
+        case 'detail-add-to-booking': {
+          if (AppState.detailType === 'package') {
+            if (!AppState.salonPackages.includes(AppState.detailId)) {
+              AppState.salonPackages.push(AppState.detailId);
+            }
+          } else {
+            if (!AppState.salonServices.includes(AppState.detailId)) {
+              AppState.salonServices.push(AppState.detailId);
+            }
+          }
+          const ret = AppState.detailReturnTo;
+          if (ret && ret !== 'service-detail') {
+            navigate(ret);
+          } else {
+            goBack();
+          }
+          break;
+        }
+        case 'detail-back-to-return': {
+          const ret = AppState.detailReturnTo;
+          if (ret && ret !== 'service-detail') {
+            navigate(ret);
+          } else {
+            goBack();
+          }
+          break;
+        }
         case 'go-search':   navigate('search-input', { selectedServices: [] }); break;
         case 'show-results':
           AppState.activeFilters = new Set();

@@ -44,6 +44,38 @@ function PayAtSalon() {
   return `<div class="pay-at-salon">${Icons.shield(14, C.success)} Pay at Salon &mdash; No online payment needed</div>`;
 }
 
+/* ── Unified Price Display ──
+   Renders: ₹<final>  ̶₹̶<̶o̶r̶i̶g̶>̶  [N% OFF]
+   opts.variant: 'inline' (default) | 'stacked' | 'compact'
+   opts.emphasis: 'primary' (rose, default) | 'ink' (dark grey)
+   When finalPrice >= originalPrice (or originalPrice falsy), only shows the price. */
+function PriceDisplay(originalPrice, finalPrice, opts) {
+  opts = opts || {};
+  const variant = opts.variant || 'inline';
+  const emphasis = opts.emphasis || 'primary';
+  const hasDiscount = originalPrice && finalPrice < originalPrice;
+  const pct = hasDiscount ? Math.round((1 - finalPrice / originalPrice) * 100) : 0;
+  const priceColor = emphasis === 'ink' ? C.ink900 : C.primary;
+
+  const sizes = {
+    inline:  { price: 17, orig: 13, badge: 11 },
+    stacked: { price: 20, orig: 13, badge: 11 },
+    compact: { price: 14, orig: 11, badge: 10 },
+  }[variant];
+
+  const priceEl = `<span style="font-size:${sizes.price}px;font-weight:700;color:${priceColor};font-variant-numeric:tabular-nums">₹${finalPrice}</span>`;
+  const origEl  = hasDiscount ? `<span style="font-size:${sizes.orig}px;color:${C.text3};text-decoration:line-through;font-variant-numeric:tabular-nums">₹${originalPrice}</span>` : '';
+  const badgeEl = hasDiscount ? `<span class="price-badge" style="font-size:${sizes.badge}px">${pct}% OFF</span>` : '';
+
+  if (variant === 'stacked') {
+    return `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
+      ${priceEl}
+      ${hasDiscount ? `<div style="display:flex;align-items:center;gap:6px">${origEl}${badgeEl}</div>` : ''}
+    </div>`;
+  }
+  return `<span style="display:inline-flex;align-items:center;gap:8px">${priceEl}${origEl}${badgeEl}</span>`;
+}
+
 function SalonResultCard(s, selectedSvcs = [], isFav = false) {
   const matched = selectedSvcs.filter(sid => s.services[sid]);
   const combo = matched.reduce((a, sid) => a + s.services[sid], 0);
@@ -63,13 +95,12 @@ function SalonResultCard(s, selectedSvcs = [], isFav = false) {
       <div class="salon-card__services">
         ${matched.map(sid => {
           const svc = getSvc(sid);
-          return `<span class="service-tag service-tag--matched">${svcIcon(svc.icon, 12, C.text2)} ${svc.label} \u20B9${s.services[sid]}</span>`;
+          return `<span class="service-tag service-tag--matched">${svc.label} \u20B9${s.services[sid]}</span>`;
         }).join('')}
         ${selectedSvcs.length > matched.length ? `<span class="service-tag" style="color:${C.error}">+${selectedSvcs.length - matched.length} unavailable</span>` : ''}
       </div>
-      <div style="display:flex;align-items:center;gap:8px;margin-top:8px">
-        <span style="font-size:15px;font-weight:700;color:${C.primary}">\u20B9${disc || combo}</span>
-        ${disc ? `<span style="font-size:13px;color:${C.text3};text-decoration:line-through">\u20B9${combo}</span>` : ''}
+      <div style="display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap">
+        ${PriceDisplay(disc ? combo : null, disc || combo, { variant: 'inline' })}
         <span style="font-size:11px;color:${C.text3}">for ${matched.length} service${matched.length > 1 ? 's' : ''}</span>
       </div>
       ${matchingPkg ? `
@@ -77,9 +108,9 @@ function SalonResultCard(s, selectedSvcs = [], isFav = false) {
         ${Icons.gift(14, C.success)}
         <div style="flex:1;min-width:0;font-size:13px">
           <span style="font-weight:600;color:${C.success}">${matchingPkg.name}</span>
-          <span style="color:${C.text3}"> covers all — </span>
-          <span style="font-weight:600;color:${C.success}">Save \u20B9${matchingPkg.savings}</span>
+          <span style="color:${C.text3}"> covers all</span>
         </div>
+        <span class="price-badge">${Math.round((1 - matchingPkg.price / (matchingPkg.price + matchingPkg.savings)) * 100)}% OFF</span>
         ${Icons.forward(12, C.success)}
       </div>` : ''}`;
   } else {
@@ -136,7 +167,7 @@ function ServiceListItem(svc, price, showBorder) {
   return `
     <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;${showBorder ? `border-bottom:1px solid ${C.borderS}` : ''}">
       <div>
-        <div style="font-size:15px;font-weight:500;color:${C.text};display:flex;align-items:center;gap:6px">${svcIcon(svc.icon, 16, C.text2)} ${svc.label}</div>
+        <div style="font-size:15px;font-weight:500;color:${C.text}">${svc.label}</div>
         <div style="font-size:12px;color:${C.text3};margin-top:2px">${svc.time}</div>
       </div>
       <div style="font-size:15px;font-weight:700;color:${C.ink900};font-variant-numeric:tabular-nums">\u20B9${price}</div>
@@ -265,7 +296,7 @@ function SuggestedPackagesHtml(s, selSvcs) {
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:0">
-        ${suggested.map(pkg => PackageCard.suggestion(pkg, selSvcs)).join('')}
+        ${suggested.map(pkg => PackageCard.suggestion(pkg, selSvcs, s)).join('')}
       </div>
       <div style="height:1px;background:${C.border};margin:14px 0 4px"></div>
     </div>`;

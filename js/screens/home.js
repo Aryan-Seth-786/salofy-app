@@ -142,7 +142,7 @@ function renderHome() {
     ? AppState.user.name.split(' ')[0] : 'there';
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
-  const genderFilter = AppState.genderFilter || 'all';
+  const genderFilter = (AppState.genderFilter === 'women') ? 'women' : 'men';
 
   // Personal zone
   const nextBooking = bookings.find(b => b.status === 'upcoming');
@@ -358,17 +358,30 @@ function renderHome() {
             ${Icons.filter(14, C.ink700)}
           </div>
         </div>
-        <div style="background:#fff;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,0.18);height:48px;display:flex;align-items:center;overflow:hidden;flex-shrink:0">
-          <div onclick="AppState.genderFilter=(AppState.genderFilter==='men'?'all':'men');navigate('home')" style="width:34px;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;background:${genderFilter === 'men' ? C.primary : 'transparent'}">
-            <span style="font-size:12px;font-weight:800;color:${genderFilter === 'men' ? '#fff' : C.ink500};line-height:1">M</span>
-            <span style="font-size:8px;font-weight:600;color:${genderFilter === 'men' ? 'rgba(255,255,255,0.75)' : C.ink400};line-height:1">Men</span>
-          </div>
-          <div style="width:1px;height:26px;background:${C.borderS}"></div>
-          <div onclick="AppState.genderFilter=(AppState.genderFilter==='women'?'all':'women');navigate('home')" style="width:34px;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;background:${genderFilter === 'women' ? C.primary : 'transparent'}">
-            <span style="font-size:12px;font-weight:800;color:${genderFilter === 'women' ? '#fff' : C.ink500};line-height:1">W</span>
-            <span style="font-size:8px;font-weight:600;color:${genderFilter === 'women' ? 'rgba(255,255,255,0.75)' : C.ink400};line-height:1">Women</span>
-          </div>
-        </div>
+        ${(() => {
+          // Binary iOS-style toggle: 'men' (off) | 'women' (on).
+          const isWomen  = genderFilter === 'women';
+          const trackW   = 44;
+          const trackH   = 24;
+          const knobSize = 18;
+          const knobX    = isWomen ? (trackW - knobSize - 3) : 3;
+          const next     = isWomen ? 'men' : 'women';
+          // When OFF (men) — light translucent track. When ON (women) — plum filled track.
+          const trackBg  = isWomen ? C.plum : 'rgba(255,255,255,0.55)';
+          const labelTop = isWomen ? 'FOR'   : 'FOR';
+          const labelBot = isWomen ? 'WOMEN' : 'MEN';
+
+          return `
+          <div onclick="AppState.genderFilter='${next}';navigate('home')" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;flex-shrink:0;cursor:pointer;user-select:none;padding:0 6px;height:48px">
+            <div style="display:flex;flex-direction:column;align-items:center;line-height:1.05">
+              <span style="font-size:9px;font-weight:800;color:#fff;letter-spacing:0.14em;text-shadow:0 1px 2px rgba(0,0,0,0.25)">${labelTop}</span>
+              <span style="font-size:9px;font-weight:800;color:#fff;letter-spacing:0.14em;text-shadow:0 1px 2px rgba(0,0,0,0.25);margin-top:1px">${labelBot}</span>
+            </div>
+            <div style="position:relative;width:${trackW}px;height:${trackH}px;background:${trackBg};border-radius:999px;transition:background 0.24s var(--ease-out);box-shadow:inset 0 1px 2px rgba(0,0,0,0.12)">
+              <div style="position:absolute;top:3px;left:${knobX}px;width:${knobSize}px;height:${knobSize}px;background:#fff;border-radius:50%;box-shadow:0 2px 4px rgba(0,0,0,0.25);transition:left 0.24s var(--ease-spring)"></div>
+            </div>
+          </div>`;
+        })()}
       </div>
 
       <!-- Segmented progress bar (sits at bottom of hero zone, above slide overlay text) -->

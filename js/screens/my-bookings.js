@@ -25,17 +25,34 @@ function renderMyBookings() {
         <div style="display:flex;align-items:center;gap:4px">${Icons.calendar(12, C.text3)}<span style="color:${C.text3}"> ${b.date}</span></div>
         <div style="display:flex;align-items:center;gap:4px">${Icons.clock(12, C.text3)}<span style="color:${C.text3}"> ${b.time}</span></div>
       </div>
-      ${b.pkg ? `
-        <div style="background:${C.primaryS};border:1px solid var(--primary-border);border-radius:10px;padding:8px 10px;margin-top:6px">
+      ${b.pkg ? (() => {
+        const pkgEnriched = !!(b.salon.packageDetails && b.salon.packageDetails[b.pkg.id]);
+        return `
+        <div style="background:${C.primaryS};border:1px solid var(--primary-border);border-radius:10px;padding:8px 10px;margin-top:6px${pkgEnriched ? ';cursor:pointer' : ''}"${pkgEnriched ? ` data-action="open-service-detail" data-detail-type="package" data-detail-id="${b.pkg.id}" data-detail-salon="${b.salon.id}"` : ''}>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
             <div style="display:flex;align-items:center;gap:5px">
               <span style="font-size:9px;font-weight:700;letter-spacing:0.5px;color:#fff;background:${C.primary};padding:2px 5px;border-radius:5px">PACKAGE</span>
               <span style="font-size:13px;font-weight:600;color:${C.text}">${b.pkg.name}</span>
+              ${pkgEnriched ? `<span style="font-size:10px;color:${C.primary};font-weight:600">View ›</span>` : ''}
             </div>
             <span style="font-size:13px;font-weight:700;color:${C.primary}">₹${b.pkg.price}</span>
           </div>
           <div style="font-size:12px;color:${C.text2}">${b.pkg.services.map(sid => getSvc(sid)?.label).filter(Boolean).join(' · ')}</div>
-        </div>` : `<div style="font-size:13px;color:${C.text2};margin-top:6px">${b.services}</div>`}
+        </div>`;
+      })() : (() => {
+        const svcIds = (b.services || '').split(',').map(s => s.trim());
+        const matchedIds = svcIds.map(label => {
+          const m = allServices.find(svc => svc.label.toLowerCase() === label.toLowerCase());
+          return m ? m.id : null;
+        });
+        return `<div style="font-size:13px;color:${C.text2};margin-top:6px;display:flex;flex-wrap:wrap;gap:6px">${svcIds.map((label, i) => {
+          const sid = matchedIds[i];
+          const enriched = sid && b.salon.serviceDetails && b.salon.serviceDetails[sid];
+          return enriched
+            ? `<span class="svc-detail-link" data-action="open-service-detail" data-detail-type="service" data-detail-id="${sid}" data-detail-salon="${b.salon.id}" style="font-size:13px">${label} ›</span>`
+            : `<span>${label}</span>`;
+        }).join('')}</div>`;
+      })()}
 
       ${b.status === 'upcoming' ? `
         <div style="margin-top:8px">${PayAtSalon()}</div>

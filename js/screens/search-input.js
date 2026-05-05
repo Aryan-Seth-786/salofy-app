@@ -20,8 +20,8 @@ function renderSearchInput() {
         ${selSvcs.map(sid => {
           const svc = getSvc(sid);
           return `<span class="pill pill--active" style="font-size:13px;padding:6px 12px" data-search-svc="${sid}">
-            ${svcIcon(svc.icon, 14, C.primary)} ${svc.label}
-            <span style="opacity:0.6;margin-left:2px;pointer-events:none">${Icons.close(12, C.primary)}</span>
+            ${svc.label}
+            <span style="opacity:0.6;margin-left:4px;pointer-events:none">${Icons.close(12, C.primary)}</span>
           </span>`;
         }).join('')}
         <span data-action="go-search" style="font-size:12px;color:${C.error};font-weight:500;padding:6px 8px;cursor:pointer">Clear all</span>
@@ -49,13 +49,13 @@ function renderSearchInput() {
       <div style="display:flex;gap:10px;overflow-x:auto;padding:0 20px 4px" class="hide-sb">
         ${(() => {
           const allPkgs = salons.flatMap(s => (s.packages || []).map(p => ({ ...p, salon: s })));
-          return allPkgs.sort((a, b) => b.savings - a.savings).slice(0, 8).map(pkg => `
-            <div data-goto-package-salon="${pkg.salon.id}" style="min-width:155px;max-width:155px;flex-shrink:0;background:${C.surface};border:1px solid ${C.border};border-radius:12px;padding:12px;cursor:pointer">
-              <div style="background:${C.successS};border:1px solid var(--success-border);border-radius:8px;padding:3px 8px;display:inline-flex;align-items:center;gap:4px;margin-bottom:8px">
-                ${Icons.gift(10, C.success)}
-                <span style="font-size:11px;font-weight:700;color:${C.success}">Save \u20B9${pkg.savings}</span>
-              </div>
-              <div style="font-size:15px;font-weight:700;color:${C.text};margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${pkg.name}</div>
+          return allPkgs.sort((a, b) => b.savings - a.savings).slice(0, 8).map(pkg => {
+            const pOrig = pkg.price + pkg.savings;
+            const pPct  = Math.round((1 - pkg.price / pOrig) * 100);
+            return `
+            <div data-goto-package-salon="${pkg.salon.id}" style="min-width:160px;max-width:160px;flex-shrink:0;background:${C.surface};border:1px solid ${C.border};border-radius:12px;padding:12px;cursor:pointer">
+              <span class="price-badge" style="margin-bottom:8px;display:inline-block">${pPct}% OFF</span>
+              <div style="font-size:15px;font-weight:700;color:${C.text};margin:6px 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${pkg.name}</div>
               <div style="font-size:11px;color:${C.text3};margin-bottom:8px;display:flex;align-items:center;gap:3px;min-width:0">
                 ${pkg.salon.tier === 'premium' ? TopDot() : pkg.salon.tier === 'growth' ? VerifiedDot() : ''}
                 <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${pkg.salon.name}</span>
@@ -64,12 +64,16 @@ function renderSearchInput() {
                 ${pkg.services.slice(0, 3).map(sid => { const svc = getSvc(sid); return svc ? `<span style="font-size:9px;padding:2px 6px;background:${C.surface2};border:1px solid ${C.border};border-radius:8px;color:${C.text2}">${svc.label}</span>` : ''; }).join('')}
                 ${pkg.services.length > 3 ? `<span style="font-size:9px;padding:2px 6px;background:${C.surface2};border:1px solid ${C.border};border-radius:8px;color:${C.text3}">+${pkg.services.length - 3} more</span>` : ''}
               </div>
-              <div style="display:flex;align-items:baseline;justify-content:space-between">
-                <span style="font-size:15px;font-weight:700;color:${C.primary}">\u20B9${pkg.price}</span>
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:6px">
+                <div style="display:flex;align-items:baseline;gap:5px;min-width:0">
+                  <span style="font-size:15px;font-weight:700;color:${C.primary};font-variant-numeric:tabular-nums">\u20B9${pkg.price}</span>
+                  <span style="font-size:11px;color:${C.text3};text-decoration:line-through;font-variant-numeric:tabular-nums">\u20B9${pOrig}</span>
+                </div>
                 <span style="font-size:11px;color:${C.text3}">${pkg.duration}</span>
               </div>
             </div>
-          `).join('');
+          `;
+          }).join('');
         })()}
       </div>
     </div>

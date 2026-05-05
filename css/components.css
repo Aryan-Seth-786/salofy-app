@@ -142,6 +142,21 @@
   transform: scale(0.97);
   box-shadow: none;
 }
+
+.btn--secondary {
+  width: 100%;
+  padding: 16px;
+  background: var(--plum-50);
+  color: var(--plum-600);
+  border: 1.5px solid var(--plum-200);
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 15px;
+  transition: transform 0.12s var(--ease-spring), background 0.12s;
+}
+.btn--secondary:hover { background: #f3e9fb; }
+.btn--secondary:active { transform: scale(0.97); }
+.btn--secondary svg { stroke: var(--plum-600); }
 .btn--primary-sm {
   padding: 12px 20px;
   background: var(--primary);
@@ -584,12 +599,16 @@
   align-items: center;
   justify-content: center;
 }
-.service-select--active .service-select__check {
+.service-select--active .service-select__check,
+.pkg-card--active .service-select__check {
   background: var(--primary);
   border-color: var(--primary);
 }
 
 /* ── Package Card ── */
+.pkg-row { display: block; margin-bottom: 10px; }
+.pkg-row .pkg-card { margin-bottom: 0; }
+
 .pkg-card {
   padding: 14px;
   background: var(--surface);
@@ -695,18 +714,100 @@
 }
 
 /* ── Service Select — state-driven sub-elements ── */
-.service-select__icon {
-  width: 36px;
-  height: 36px;
-  display: flex;
+.service-row { display: block; }
+.service-row .service-select { cursor: pointer; }
+
+.svc-chevron {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--surface-2);
-  border-radius: 9px;
+  cursor: pointer;
   flex-shrink: 0;
-  transition: background 0.15s;
+  padding: 0;
+  transition: transform 0.2s var(--ease-out), background 0.15s;
 }
-.service-select--active .service-select__icon { background: var(--primary-surface); }
+.svc-chevron:hover { background: var(--surface-2); }
+.svc-chevron--open { transform: rotate(180deg); background: var(--primary-surface); border-color: var(--primary); }
+
+.svc-expand-panel {
+  padding: 10px 14px 14px;
+  margin: -2px 0 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  animation: svcExpandIn 0.18s var(--ease-out);
+}
+@keyframes svcExpandIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.svc-include-chip {
+  font-size: 12px;
+  color: var(--text-2);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+.svc-include-chip::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+/* eyebrow label used across service-detail sections */
+.sd-eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+
+.svc-detail-link {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.svc-detail-link:hover { text-decoration: underline; }
+
+/* ── Unified Discount Badge ── */
+.price-badge {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: var(--saffron-400);
+  color: #fff;
+  padding: 2px 7px;
+  border-radius: 5px;
+  line-height: 1.5;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
 
 .service-select__disc-badge {
   font-size: 9px;
@@ -724,8 +825,8 @@
   background: var(--primary-surface);
   border: 1px solid var(--primary-border);
   border-radius: 12px;
-  padding: 10px 12px;
-  margin-bottom: 6px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
 }
 .pkg-card--suggestion {
   display: flex;

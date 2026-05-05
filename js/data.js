@@ -52,18 +52,42 @@ const C = {
 };
 
 const allServices = [
-  { id: "haircut", label: "Haircut", icon: "scissors", time: "30 min" },
-  { id: "headwash", label: "Head Wash", icon: "droplet", time: "15 min" },
-  { id: "beard", label: "Beard Trim", icon: "beard", time: "20 min" },
-  { id: "color", label: "Hair Color", icon: "palette", time: "60 min" },
-  { id: "facial", label: "Facial", icon: "sparkle", time: "45 min" },
-  { id: "waxing", label: "Waxing", icon: "flower", time: "30 min" },
-  { id: "spa", label: "Spa", icon: "spa", time: "60 min" },
-  { id: "bridal", label: "Bridal", icon: "crown", time: "3 hrs" },
-  { id: "manicure", label: "Manicure", icon: "nails", time: "40 min" },
-  { id: "threading", label: "Threading", icon: "needle", time: "15 min" },
-  { id: "shave", label: "Clean Shave", icon: "razor", time: "20 min" },
-  { id: "massage", label: "Head Massage", icon: "massage", time: "20 min" },
+  { id: "haircut",   label: "Haircut",       icon: "scissors", time: "30 min",
+    desc: "Wash, cut and style by a trained stylist.",
+    includes: ["Consultation", "Wash", "Cut", "Style"] },
+  { id: "headwash",  label: "Head Wash",     icon: "droplet",  time: "15 min",
+    desc: "Refreshing wash with shampoo and conditioner.",
+    includes: ["Shampoo", "Conditioner", "Quick dry"] },
+  { id: "beard",     label: "Beard Trim",    icon: "beard",    time: "20 min",
+    desc: "Shape and trim for a clean, defined beard line.",
+    includes: ["Shape & line-up", "Trim", "Aftercare oil"] },
+  { id: "color",     label: "Hair Color",    icon: "palette",  time: "60 min",
+    desc: "Professional colour application with consultation.",
+    includes: ["Consultation", "Application", "Wash & dry"] },
+  { id: "facial",    label: "Facial",        icon: "sparkle",  time: "45 min",
+    desc: "Cleansing facial tailored to your skin type.",
+    includes: ["Cleanse", "Exfoliate", "Mask", "Moisturise"] },
+  { id: "waxing",    label: "Waxing",        icon: "flower",   time: "30 min",
+    desc: "Smooth, gentle hair removal using quality wax.",
+    includes: ["Pre-clean", "Wax", "Soothing finish"] },
+  { id: "spa",       label: "Spa",           icon: "spa",      time: "60 min",
+    desc: "Relaxing spa treatment for hair and scalp.",
+    includes: ["Oil massage", "Steam", "Wash & blow-dry"] },
+  { id: "bridal",    label: "Bridal",        icon: "crown",    time: "3 hrs",
+    desc: "Complete bridal styling for your special day.",
+    includes: ["Hair", "Makeup", "Draping support"] },
+  { id: "manicure",  label: "Manicure",      icon: "nails",    time: "40 min",
+    desc: "Nail care, shaping and finish for your hands.",
+    includes: ["Nail shape", "Cuticle care", "Polish"] },
+  { id: "threading", label: "Threading",     icon: "needle",   time: "15 min",
+    desc: "Precise hair removal using cotton thread.",
+    includes: ["Eyebrow shape", "Upper lip optional"] },
+  { id: "shave",     label: "Clean Shave",   icon: "razor",    time: "20 min",
+    desc: "Hot-towel clean shave with aftercare.",
+    includes: ["Hot towel", "Shave", "Aftercare balm"] },
+  { id: "massage",   label: "Head Massage",  icon: "massage",  time: "20 min",
+    desc: "Stress-relief head and scalp massage.",
+    includes: ["Choice of oil", "Scalp massage", "Neck & shoulder"] },
 ];
 
 const salons = [
@@ -89,6 +113,49 @@ const salons = [
     ],
     services: { haircut: 400, headwash: 100, beard: 200, color: 1200, facial: 1000, waxing: 800, spa: 1500, bridal: 8000, manicure: 500, threading: 100, shave: 150, massage: 300 },
     serviceDiscounts: { facial: 799, color: 999, spa: 1199 },
+    serviceDetails: {
+      bridal: {
+        hero: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=900&h=600&fit=crop',
+        gallery: [
+          'https://images.unsplash.com/photo-1519741497674-611481863552?w=900&h=600&fit=crop',
+          'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=900&h=600&fit=crop',
+          'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=900&h=600&fit=crop',
+        ],
+        longDesc: "Our signature bridal experience. A dedicated stylist works with you on hair, makeup and final draping support so you walk out camera-ready. Includes a pre-event trial run so there are zero surprises on the big day.",
+        includes: ["Pre-event trial", "HD makeup", "Bridal hair styling", "Saree/lehenga draping help", "Touch-up kit"],
+        hygiene: { photo: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=600&h=400&fit=crop', caption: "Sterilised tools, single-use sponges, and freshly laundered linen for every booking." },
+        pastWork: [
+          'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=600&fit=crop',
+          'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&h=600&fit=crop',
+          'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&h=600&fit=crop',
+          'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&h=600&fit=crop',
+        ],
+        stylistIds: [2],
+      },
+      facial: {
+        hero: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=900&h=600&fit=crop',
+        longDesc: "A deep-clean facial customised to your skin type. We start with a consultation, then move through cleanse, exfoliation, a targeted mask, and a finishing moisturiser.",
+        includes: ["Skin consultation", "Deep cleanse", "Exfoliation", "Targeted mask", "Moisturiser & SPF"],
+        hygiene: { photo: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&h=400&fit=crop', caption: "All tools sterilised between clients. Single-use applicators only." },
+        stylistIds: [3],
+      },
+    },
+    packageDetails: {
+      pkg4: {
+        hero: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=900&h=600&fit=crop',
+        gallery: [
+          'https://images.unsplash.com/photo-1519741497674-611481863552?w=900&h=600&fit=crop',
+          'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=900&h=600&fit=crop',
+        ],
+        longDesc: "Our flagship bridal package — bridal styling, a glow-boosting facial, and full-body waxing combined into one streamlined day.",
+        includes: ["Trial run included", "Bridal hair & makeup", "Glow facial", "Full body waxing", "Touch-up kit"],
+        pastWork: [
+          'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=600&fit=crop',
+          'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&h=600&fit=crop',
+        ],
+        stylistIds: [2, 3],
+      },
+    },
     packages: [
       { id: "pkg1", name: "Groom & Go", desc: "Quick all-in-one groom", services: ["haircut", "headwash", "beard"], price: 550, savings: 150, duration: "65 min" },
       { id: "pkg2", name: "Skin Glow", desc: "Refresh your skin and hair", services: ["facial", "headwash"], price: 899, savings: 201, duration: "60 min" },
@@ -114,6 +181,23 @@ const salons = [
       { n: "Neha", r: "Facial Specialist", gender: "f" }
     ],
     services: { haircut: 250, headwash: 50, beard: 150, color: 800, facial: 600, shave: 100, massage: 200, threading: 40 },
+    serviceDetails: {
+      haircut: {
+        hero: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=900&h=600&fit=crop',
+        longDesc: "Our most popular haircut. Includes a consultation, wash, precision cut and a finishing style. Done by a senior stylist with 8+ years of experience.",
+        includes: ["Consultation", "Wash", "Precision cut", "Finishing style"],
+        hygiene: { photo: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=600&h=400&fit=crop', caption: "Tools sanitised between every client. Fresh cape and towel for each booking." },
+        stylistIds: [0],
+      },
+    },
+    packageDetails: {
+      pkg2: {
+        hero: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=900&h=600&fit=crop',
+        longDesc: "The full grooming routine in one sitting — haircut, beard styling and a refreshing wash. Most-booked package by our regulars.",
+        includes: ["Senior stylist", "Wash", "Beard shape & line-up", "Aftercare oil"],
+        stylistIds: [0],
+      },
+    },
     packages: [
       { id: "pkg1", name: "Quick Refresh", desc: "Haircut and wash combo", services: ["haircut", "headwash"], price: 249, savings: 51, duration: "45 min" },
       { id: "pkg2", name: "Gent's Full", desc: "Complete grooming session", services: ["haircut", "beard", "headwash"], price: 369, savings: 81, duration: "65 min" },

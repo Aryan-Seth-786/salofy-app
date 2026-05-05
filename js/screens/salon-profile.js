@@ -44,7 +44,7 @@ function renderSalonProfile() {
         ${Object.entries(s.services).map(([k, v]) => {
           const sel       = selSvcs.includes(k);
           const discPrice = s.serviceDiscounts && s.serviceDiscounts[k];
-          return ServiceCard(k, v, sel, discPrice, 'select');
+          return ServiceCard(k, v, sel, discPrice, 'select', s);
         }).join('')}
       </div>
     </div>`;
@@ -56,7 +56,7 @@ function renderSalonProfile() {
         <div style="font-size:12px;color:${C.text3};margin-bottom:12px">Pre-bundled services at a special price</div>
         ${(s.packages || []).map(pkg => {
           const sel = selPkgs.includes(pkg.id);
-          return PackageCard(pkg, sel, 'select');
+          return PackageCard(pkg, sel, 'select', null, s);
         }).join('')}
       </div>
     </div>`;

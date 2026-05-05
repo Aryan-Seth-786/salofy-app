@@ -51,7 +51,14 @@ function renderBookingConfirmed() {
           if (!pkg) return '';
           return PackageCard(pkg, true, 'summary');
         }).join('')}
-        ${selSvcs.length > 0 ? `<div style="font-size:13px;color:${C.text2};margin-bottom:12px">${selSvcs.map(sid => getSvc(sid)?.label || sid).join(', ')}</div>` : ''}
+        ${selSvcs.length > 0 ? `<div style="font-size:13px;color:${C.text2};margin-bottom:12px;display:flex;flex-wrap:wrap;gap:6px">${selSvcs.map(sid => {
+          const svc = getSvc(sid);
+          if (!svc) return '';
+          const enriched = !!(s.serviceDetails && s.serviceDetails[sid]);
+          return enriched
+            ? `<span class="svc-detail-link" data-action="open-service-detail" data-detail-type="service" data-detail-id="${sid}" data-detail-salon="${s.id}" style="font-size:13px">${svc.label} ›</span>`
+            : `<span>${svc.label}</span>`;
+        }).join('')}</div>` : ''}
         <div style="padding-top:10px;border-top:1px solid ${C.border}">${PayAtSalon()}</div>
       </div>
 

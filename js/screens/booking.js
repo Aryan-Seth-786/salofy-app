@@ -62,8 +62,9 @@ function renderBooking() {
       ${selSvcs.length > 0 ? `<div style="display:flex;gap:6px;flex-wrap:wrap">
         ${selSvcs.map(sid => {
           const svc = getSvc(sid);
-          return `<span class="service-tag service-tag--matched" style="font-size:12px;padding:4px 10px;border-radius:16px;font-weight:500">
-            ${svcIcon(svc.icon, 12, C.primary)} ${svc.label} \u20B9${s.services[sid]}
+          const enriched = !!(s.serviceDetails && s.serviceDetails[sid]);
+          return `<span class="service-tag service-tag--matched${enriched ? ' service-tag--tappable' : ''}" style="font-size:12px;padding:4px 10px;border-radius:16px;font-weight:500"${enriched ? ` data-action="open-service-detail" data-detail-type="service" data-detail-id="${sid}" data-detail-salon="${s.id}"` : ''}>
+            ${svc.label} \u20B9${s.services[sid]}
           </span>`;
         }).join('')}
       </div>` : ''}
@@ -98,16 +99,22 @@ function renderBooking() {
     <div style="margin:0 20px 8px;padding:14px;background:${C.surface2};border-radius:12px;border:1px solid ${C.border}">
       ${selSvcs.map(sid => {
         const svc = getSvc(sid);
-        return `<div style="display:flex;justify-content:space-between;font-size:15px;color:${C.text};margin-bottom:6px">
-          <span style="color:${C.text3};display:flex;align-items:center;gap:5px">${svcIcon(svc.icon, 12, C.text3)} ${svc.label}</span>
+        const enriched = !!(s.serviceDetails && s.serviceDetails[sid]);
+        return `<div style="display:flex;justify-content:space-between;font-size:15px;color:${C.text};margin-bottom:6px${enriched ? ';cursor:pointer' : ''}"${enriched ? ` data-action="open-service-detail" data-detail-type="service" data-detail-id="${sid}" data-detail-salon="${s.id}"` : ''}>
+          <span style="color:${C.text3}">${svc.label}${enriched ? ` <span style="color:${C.primary};font-size:11px;margin-left:4px">View details \u203A</span>` : ''}</span>
           <span>\u20B9${s.services[sid]}</span>
         </div>`;
       }).join('')}
       ${selPkgs.map(pkgId => {
         const pkg = (s.packages||[]).find(p => p.id === pkgId);
         if (!pkg) return '';
-        return `<div style="display:flex;justify-content:space-between;font-size:15px;color:${C.text};margin-bottom:6px">
-          <span style="color:${C.text3};display:flex;align-items:center;gap:5px">${Icons.scissors(12, C.text3)} ${pkg.name} <span style="font-size:11px;background:${C.successS};color:${C.success};padding:1px 5px;border-radius:6px">Save \u20B9${pkg.savings}</span></span>
+        const enriched = !!(s.packageDetails && s.packageDetails[pkgId]);
+        const pOrig = pkg.price + pkg.savings;
+        const pPct  = Math.round((1 - pkg.price / pOrig) * 100);
+        return `<div style="display:flex;justify-content:space-between;font-size:15px;color:${C.text};margin-bottom:6px${enriched ? ';cursor:pointer' : ''}"${enriched ? ` data-action="open-service-detail" data-detail-type="package" data-detail-id="${pkgId}" data-detail-salon="${s.id}"` : ''}>
+          <span style="color:${C.text3};display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+            ${pkg.name} <span class="price-badge" style="font-size:10px">${pPct}% OFF</span>${enriched ? ` <span style="color:${C.primary};font-size:11px">View \u203A</span>` : ''}
+          </span>
           <span>\u20B9${pkg.price}</span>
         </div>`;
       }).join('')}

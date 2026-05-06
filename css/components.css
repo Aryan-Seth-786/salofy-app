@@ -814,6 +814,29 @@
   cursor: pointer;
 }
 
+/* Inline service-info panel inside a package card (shown when a non-enriched service chip is tapped) */
+.pkg-svc-info-panel {
+  margin-top: -2px;
+  padding: 12px 14px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  animation: svcExpandIn 0.18s var(--ease-out);
+}
+.pkg-svc-info-close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.pkg-svc-info-close:hover { background: var(--surface-3); }
+
 .svc-expand-panel {
   padding: 10px 14px 14px;
   margin: -2px 0 8px;

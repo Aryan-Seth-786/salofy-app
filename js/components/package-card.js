@@ -118,6 +118,7 @@ function PackageCard(pkg, selected, variant, salonId, salon) {
         <div id="${expandId}" class="svc-expand-panel" style="display:none">
           ${longDesc ? `<div style="font-size:13px;color:${C.text2};line-height:1.5">${longDesc}</div>` : ''}
         </div>` : ''}
+      <div class="pkg-svc-info-panel" data-pkg-svc-info-for="${pkg.id}" style="display:none"></div>
     </div>`;
 }
 

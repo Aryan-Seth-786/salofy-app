@@ -339,20 +339,61 @@ function initEvents() {
       const salonId = pkgSvcLinkEl.dataset.detailSalon ? parseInt(pkgSvcLinkEl.dataset.detailSalon) : (AppState.selectedSalon && AppState.selectedSalon.id);
       const salon   = salons.find(s => s.id === salonId);
       const enriched = !!(salon && salon.serviceDetails && salon.serviceDetails[sid]);
+
       if (enriched) {
+        // Service has its own detail page → navigate there
         navigate('service-detail', {
           detailSalonId: salonId,
           detailType: 'service',
           detailId: sid,
           detailReturnTo: AppState.currentScreen,
         });
+        return;
+      }
+
+      // Non-enriched: show inline service info inside this package card (no tab change)
+      const svc       = getSvc(sid);
+      const pkgRow    = pkgSvcLinkEl.closest('.pkg-row');
+      const panel     = pkgRow && pkgRow.querySelector('.pkg-svc-info-panel');
+      if (!svc || !panel) return;
+
+      const price     = salon && salon.services[sid];
+      const desc      = svc.desc || '';
+      const includes  = svc.includes || [];
+      const alreadyOpenForSvc = panel.dataset.openSvc === sid && panel.style.display !== 'none';
+
+      if (alreadyOpenForSvc) {
+        panel.style.display = 'none';
+        panel.dataset.openSvc = '';
       } else {
-        // Add to selection and switch to Services tab
-        if (salon && salon.services[sid] && !AppState.salonServices.includes(sid)) {
-          AppState.salonServices.push(sid);
-        }
-        AppState.salonTab = 'Services';
-        navigate(AppState.currentScreen);
+        panel.dataset.openSvc = sid;
+        panel.style.display = 'block';
+        panel.innerHTML = `
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
+            <div style="min-width:0;flex:1">
+              <div style="font-size:14px;font-weight:600;color:var(--text)">${svc.label}</div>
+              <div style="font-size:12px;color:var(--text-3);margin-top:2px">${svc.time}${price ? ' · ₹' + price : ''}</div>
+            </div>
+            <button class="pkg-svc-info-close" aria-label="Close">${Icons.close(14, 'var(--text-3)')}</button>
+          </div>
+          ${desc ? `<div style="font-size:13px;color:var(--text-2);line-height:1.5;margin-bottom:${includes.length ? '8' : '0'}px">${desc}</div>` : ''}
+          ${includes.length ? `<div style="display:flex;flex-wrap:wrap;gap:10px 14px">
+            ${includes.map(i => `<span class="svc-include-chip">${i}</span>`).join('')}
+          </div>` : ''}
+        `;
+      }
+      return;
+    }
+
+    // Close button inside the inline package-service-info panel
+    const pkgSvcCloseEl = e.target.closest('.pkg-svc-info-close');
+    if (pkgSvcCloseEl) {
+      e.stopPropagation();
+      const panel = pkgSvcCloseEl.closest('.pkg-svc-info-panel');
+      if (panel) {
+        panel.style.display = 'none';
+        panel.dataset.openSvc = '';
+        panel.innerHTML = '';
       }
       return;
     }

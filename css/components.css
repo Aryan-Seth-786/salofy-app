@@ -911,14 +911,15 @@
 .pkg-card--suggestion {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
+  gap: 12px;
+  padding: 14px 14px;
   background: var(--success-surface);
   border: 1px solid var(--success-border);
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
+.pkg-card--suggestion > div:first-child > div:last-child { gap: 6px; }
 
 /* ── Package component sub-elements ── */
 .pkg-badge {
@@ -933,11 +934,15 @@
   border-radius: 6px;
 }
 .pkg-svc-chip {
-  font-size: 10px;
-  padding: 2px 7px;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 8px;
+  font-size: 12.5px;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
   color: var(--text-2);
+  font-weight: 500;
+  line-height: 1.25;
+  display: inline-flex;
+  align-items: center;
 }
 .pkg-svc-chip--matched {
   background: var(--primary-surface);

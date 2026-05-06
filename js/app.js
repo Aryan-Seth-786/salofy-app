@@ -331,16 +331,42 @@ function initEvents() {
       return;
     }
 
-    // Service toggle on salon page
+    // Package-card service chip → link to actual service (must run before pkg-toggle so it doesn't toggle the package)
+    const pkgSvcLinkEl = e.target.closest('[data-pkg-svc-link]');
+    if (pkgSvcLinkEl) {
+      e.stopPropagation();
+      const sid     = pkgSvcLinkEl.dataset.pkgSvcLink;
+      const salonId = pkgSvcLinkEl.dataset.detailSalon ? parseInt(pkgSvcLinkEl.dataset.detailSalon) : (AppState.selectedSalon && AppState.selectedSalon.id);
+      const salon   = salons.find(s => s.id === salonId);
+      const enriched = !!(salon && salon.serviceDetails && salon.serviceDetails[sid]);
+      if (enriched) {
+        navigate('service-detail', {
+          detailSalonId: salonId,
+          detailType: 'service',
+          detailId: sid,
+          detailReturnTo: AppState.currentScreen,
+        });
+      } else {
+        // Add to selection and switch to Services tab
+        if (salon && salon.services[sid] && !AppState.salonServices.includes(sid)) {
+          AppState.salonServices.push(sid);
+        }
+        AppState.salonTab = 'Services';
+        navigate(AppState.currentScreen);
+      }
+      return;
+    }
+
+    // Service toggle on salon page — skip if click originated from a detail/action button
     const svcEl = e.target.closest('[data-svc-toggle]');
-    if (svcEl) {
+    if (svcEl && !e.target.closest('[data-action]')) {
       toggleSalonService(svcEl.dataset.svcToggle, svcEl.closest('.phone-shell'));
       return;
     }
 
-    // Package toggle on salon page
+    // Package toggle on salon page — same guard
     const pkgEl = e.target.closest('[data-pkg-toggle]');
-    if (pkgEl) {
+    if (pkgEl && !e.target.closest('[data-action]')) {
       toggleSalonPackage(pkgEl.dataset.pkgToggle, pkgEl.closest('.phone-shell'));
       return;
     }

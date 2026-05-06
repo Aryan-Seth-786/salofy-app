@@ -45,47 +45,70 @@ function PackageCard(pkg, selected, variant, salonId, salon) {
   const original = pkg.price + pkg.savings;
 
   const tier = salon ? salon.tier : null;
-  const expandable = tier === 'growth' || tier === 'premium';
   const enriched = !!(salon && salon.packageDetails && salon.packageDetails[pkg.id]);
+  const expandable = (tier === 'growth' || tier === 'premium') && !enriched;
   const expandId = expandable ? `pkg-expand-${(salon ? salon.id : 'x')}-${pkg.id}` : '';
-  const longDesc = (salon && salon.packageDetails && salon.packageDetails[pkg.id] && salon.packageDetails[pkg.id].longDesc)
-    ? salon.packageDetails[pkg.id].longDesc
-    : pkg.desc;
-  const includes = (salon && salon.packageDetails && salon.packageDetails[pkg.id] && salon.packageDetails[pkg.id].includes)
-    ? salon.packageDetails[pkg.id].includes
-    : [];
+  const longDesc = pkg.desc;
+  const includes = [];
 
   return `
     <div class="pkg-row">
-      <div class="pkg-card${selected ? ' pkg-card--active' : ''}" data-pkg-toggle="${pkg.id}">
+      <div class="pkg-card${selected ? ' pkg-card--active' : ''}${enriched ? ' pkg-card--detail' : ''}" data-pkg-toggle="${pkg.id}">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
           <div style="flex:1;min-width:0">
-            <div style="font-size:15px;font-weight:600;color:${C.text}">${pkg.name}</div>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <div style="font-size:15px;font-weight:600;color:${C.text}">${pkg.name}</div>
+              ${enriched ? '<span class="svc-detail-tag">Details</span>' : ''}
+            </div>
             <div style="font-size:12px;color:${C.text3};margin-top:2px">${pkg.desc}</div>
           </div>
           <div class="service-select__check" style="flex-shrink:0">
             ${selected ? Icons.check(14, '#fff') : ''}
           </div>
         </div>
-        <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px">
-          ${shown.map(sid => {
+        ${(() => {
+          const COLLAPSE_AT = 20;
+          const renderChip = (sid) => {
             const svc = getSvc(sid);
-            return svc ? `<span style="font-size:11px;padding:3px 8px;background:${selected ? C.primaryS : C.surface2};border:1px solid ${selected ? C.primary + '44' : C.border};border-radius:10px;color:${selected ? C.primary : C.text2}">${svc.label}</span>` : '';
-          }).join('')}
-          ${extra > 0 ? `
-            <span id="${hiddenId}" style="display:none;flex-wrap:wrap;gap:5px;">
-              ${hidden.map(sid => {
-                const svc = getSvc(sid);
-                return svc ? `<span style="font-size:11px;padding:3px 8px;background:${selected ? C.primaryS : C.surface2};border:1px solid ${selected ? C.primary + '44' : C.border};border-radius:10px;color:${selected ? C.primary : C.text2}">${svc.label}</span>` : '';
-              }).join('')}
+            if (!svc) return '';
+            const svcEnriched = !!(salon && salon.serviceDetails && salon.serviceDetails[sid]);
+            const tappable = !!salon;          // every chip on a salon-context package is tappable
+            const arrow = svcEnriched ? `<span style="margin-left:3px;display:inline-flex;color:${selected ? C.primary : C.primary};opacity:0.85">›</span>` : '';
+            const attrs = tappable
+              ? ` data-pkg-svc-link="${sid}" data-detail-salon="${salon.id}"`
+              : '';
+            return `<span class="pkg-chip${selected ? ' pkg-chip--selected' : ''}${svcEnriched ? ' pkg-chip--detail' : ''}${tappable ? ' pkg-chip--tappable' : ''}"${attrs}>${svc.label}${arrow}</span>`;
+          };
+
+          const allSvcs = pkg.services;
+          const needsCollapse = allSvcs.length > COLLAPSE_AT;
+          if (!needsCollapse) {
+            return `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
+              ${allSvcs.map(renderChip).join('')}
+              <span class="pkg-chip pkg-chip--meta">${pkg.duration}</span>
+            </div>`;
+          }
+
+          // > 20: show first 6 + dropdown
+          const head = allSvcs.slice(0, 6);
+          const tail = allSvcs.slice(6);
+          const tailId = `pkg-chips-${pkg.id}`;
+          return `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
+            ${head.map(renderChip).join('')}
+            <span id="${tailId}" style="display:none;flex-wrap:wrap;gap:6px">
+              ${tail.map(renderChip).join('')}
             </span>
-            <span onclick="event.stopPropagation();const el=document.getElementById('${hiddenId}');const isOpen=el.style.display!=='none';el.style.display=isOpen?'none':'inline-flex';this.textContent=isOpen?'+${extra} more':'Show less';"
-              style="font-size:11px;padding:3px 8px;background:${C.surface3};border:1px solid ${C.border};border-radius:10px;color:${C.primary};font-weight:600;cursor:pointer">+${extra} more</span>` : ''}
-          <span style="font-size:11px;padding:3px 8px;background:${C.surface2};border:1px solid ${C.border};border-radius:10px;color:${C.text3}">${pkg.duration}</span>
-        </div>
+            <span onclick="event.stopPropagation();const el=document.getElementById('${tailId}');const isOpen=el.style.display!=='none';el.style.display=isOpen?'none':'inline-flex';this.textContent=isOpen?'+${tail.length} more':'Show less';"
+              class="pkg-chip pkg-chip--more">+${tail.length} more</span>
+            <span class="pkg-chip pkg-chip--meta">${pkg.duration}</span>
+          </div>`;
+        })()}
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
           ${PriceDisplay(original, pkg.price, { variant: 'inline', emphasis: 'primary' })}
-          ${expandable ? `<button class="svc-chevron" data-pkg-expand="${expandId}" aria-label="More info">${Icons.chevronDown(14, C.text3)}</button>` : ''}
+          ${enriched
+            ? `<button class="svc-chevron svc-chevron--detail" data-action="open-service-detail" data-detail-type="package" data-detail-id="${pkg.id}" data-detail-salon="${salon.id}" aria-label="View details">${Icons.forward(14, C.primary)}</button>`
+            : (expandable ? `<button class="svc-chevron" data-pkg-expand="${expandId}" aria-label="More info">${Icons.chevronDown(14, C.text3)}</button>` : '')
+          }
         </div>
         <div style="margin-top:7px">
           <span class="service-select__disc-badge">Online Booking Discount</span>
@@ -93,11 +116,7 @@ function PackageCard(pkg, selected, variant, salonId, salon) {
       </div>
       ${expandable ? `
         <div id="${expandId}" class="svc-expand-panel" style="display:none">
-          ${longDesc ? `<div style="font-size:13px;color:${C.text2};line-height:1.5;margin-bottom:8px">${longDesc}</div>` : ''}
-          ${includes.length ? `<div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:${enriched ? '10px' : '0'}">
-            ${includes.map(i => `<span class="svc-include-chip">${i}</span>`).join('')}
-          </div>` : ''}
-          ${enriched ? `<button class="svc-detail-link" data-action="open-service-detail" data-detail-type="package" data-detail-id="${pkg.id}" data-detail-salon="${salon.id}">View full details ${Icons.forward(11, C.primary)}</button>` : ''}
+          ${longDesc ? `<div style="font-size:13px;color:${C.text2};line-height:1.5">${longDesc}</div>` : ''}
         </div>` : ''}
     </div>`;
 }

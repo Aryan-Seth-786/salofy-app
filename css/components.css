@@ -414,25 +414,29 @@
 .tab-bar::-webkit-scrollbar { display: none; }
 .tab-bar { scrollbar-width: none; }
 .tab {
-  padding: 10px 0;
-  margin-right: 18px;
-  font-size: 13px;
+  padding: 14px 0;
+  margin-right: 24px;
+  font-size: 15px;
   color: var(--text-3);
-  border-bottom: 2px solid transparent;
+  border-bottom: 2.5px solid transparent;
   cursor: pointer;
-  font-weight: 400;
+  font-weight: 500;
   white-space: nowrap;
   background: none;
   border-top: none;
   border-left: none;
   border-right: none;
   font-family: var(--font-body);
+  letter-spacing: -0.01em;
+  transition: color 0.15s;
 }
+.tab:hover { color: var(--text-2); }
 .tab--active {
   color: var(--primary);
   border-bottom-color: var(--primary);
-  font-weight: 600;
+  font-weight: 700;
 }
+.tab--active:hover { color: var(--primary); }
 
 /* ── Section Headers ── */
 .section-header {
@@ -733,6 +737,82 @@
 }
 .svc-chevron:hover { background: var(--surface-2); }
 .svc-chevron--open { transform: rotate(180deg); background: var(--primary-surface); border-color: var(--primary); }
+
+/* Detail-page affordance: rose forward arrow on a soft rose pill */
+.svc-chevron--detail {
+  background: var(--primary-surface);
+  border-color: var(--primary);
+}
+.svc-chevron--detail:hover { background: var(--rose-100); }
+
+/* "Details" inline tag on rows that have a detail page */
+.svc-detail-tag {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: var(--primary-surface);
+  border: 1px solid var(--primary-border);
+  padding: 1px 6px;
+  border-radius: 5px;
+  line-height: 1.5;
+}
+
+/* Subtle left-border accent on rows with a detail page */
+.service-row--detail .service-select { border-left: 3px solid var(--primary); padding-left: 11px; }
+.pkg-card--detail { border-left: 3px solid var(--primary); }
+
+/* ── Package service chips (inside .pkg-card 'select' variant) ── */
+.pkg-chip {
+  font-size: 12.5px;
+  padding: 5px 11px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-2);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.25;
+  transition: background 0.15s, border-color 0.15s;
+}
+.pkg-chip--tappable { cursor: pointer; }
+.pkg-chip--tappable:hover {
+  background: var(--surface-3);
+  border-color: var(--ink-300);
+}
+.pkg-chip--detail {
+  background: var(--primary-surface);
+  border-color: var(--primary-border);
+  color: var(--primary);
+  font-weight: 600;
+}
+.pkg-chip--detail:hover {
+  background: var(--rose-100);
+}
+.pkg-card--active .pkg-chip {
+  background: var(--primary-surface);
+  border-color: rgba(244,63,94,0.3);
+  color: var(--primary);
+}
+.pkg-card--active .pkg-chip--detail {
+  background: #fff;
+  border-color: var(--primary);
+}
+.pkg-chip--meta {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-3);
+  font-weight: 500;
+}
+.pkg-chip--more {
+  background: var(--surface-3);
+  border-color: var(--border);
+  color: var(--primary);
+  font-weight: 700;
+  cursor: pointer;
+}
 
 .svc-expand-panel {
   padding: 10px 14px 14px;

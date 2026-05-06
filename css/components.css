@@ -815,6 +815,23 @@
   cursor: pointer;
 }
 
+/* Inert chip — service has no info to show; render as outline-only label */
+.pkg-chip--inert {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-3);
+  cursor: default;
+}
+.pkg-chip--inert:hover {
+  background: transparent;
+  border-color: var(--border);
+}
+.pkg-card--active .pkg-chip--inert {
+  background: transparent;
+  border-color: rgba(244,63,94,0.25);
+  color: var(--text-3);
+}
+
 /* Inline service-info panel inside a package card (shown when a non-enriched service chip is tapped) */
 .pkg-svc-info-panel {
   margin-top: -2px;

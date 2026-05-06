@@ -72,12 +72,15 @@ function PackageCard(pkg, selected, variant, salonId, salon) {
             const svc = getSvc(sid);
             if (!svc) return '';
             const svcEnriched = !!(salon && salon.serviceDetails && salon.serviceDetails[sid]);
-            const tappable = !!salon;          // every chip on a salon-context package is tappable
-            const arrow = svcEnriched ? `<span style="margin-left:3px;display:inline-flex;color:${selected ? C.primary : C.primary};opacity:0.85">›</span>` : '';
+            const salonHasInfo = !!(salon && (salon.tier === 'growth' || salon.tier === 'premium'));
+            const hasInlineInfo = salonHasInfo && !!((svc.desc && svc.desc.length) || (svc.includes && svc.includes.length));
+            const tappable = !!salon && (svcEnriched || hasInlineInfo);
+            const arrow = svcEnriched ? `<span style="margin-left:3px;display:inline-flex;color:${C.primary};opacity:0.85">›</span>` : '';
+            const inertClass = (!svcEnriched && !hasInlineInfo) ? ' pkg-chip--inert' : '';
             const attrs = tappable
               ? ` data-pkg-svc-link="${sid}" data-detail-salon="${salon.id}"`
               : '';
-            return `<span class="pkg-chip${selected ? ' pkg-chip--selected' : ''}${svcEnriched ? ' pkg-chip--detail' : ''}${tappable ? ' pkg-chip--tappable' : ''}"${attrs}>${svc.label}${arrow}</span>`;
+            return `<span class="pkg-chip${selected ? ' pkg-chip--selected' : ''}${svcEnriched ? ' pkg-chip--detail' : ''}${tappable ? ' pkg-chip--tappable' : ''}${inertClass}"${attrs}>${svc.label}${arrow}</span>`;
           };
 
           const allSvcs = pkg.services;

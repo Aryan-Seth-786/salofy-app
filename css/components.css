@@ -724,9 +724,9 @@
 .svc-chevron {
   background: transparent;
   border: 1px solid var(--border);
-  border-radius: 8px;
-  width: 28px;
-  height: 28px;
+  border-radius: 10px;
+  width: 40px;
+  height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -735,6 +735,7 @@
   padding: 0;
   transition: transform 0.2s var(--ease-out), background 0.15s;
 }
+.svc-chevron svg { width: 18px; height: 18px; }
 .svc-chevron:hover { background: var(--surface-2); }
 .svc-chevron--open { transform: rotate(180deg); background: var(--primary-surface); border-color: var(--primary); }
 

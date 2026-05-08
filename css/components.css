@@ -608,6 +608,30 @@
   background: var(--primary);
   border-color: var(--primary);
 }
+.service-select--readonly,
+.service-select--locked {
+  cursor: default;
+}
+.service-row .service-select.service-select--readonly,
+.service-row .service-select.service-select--locked { cursor: default; }
+.service-select--readonly:hover { background: var(--surface); }
+.service-select--locked {
+  padding: 9px 12px;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  border-width: 1px;
+}
+.service-select--locked .svc-name { font-size: 14px; }
+.service-select--locked .svc-price { font-size: 14px; }
+.pkg-card--locked { cursor: default; }
+.service-select--compact {
+  padding: 9px 12px;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  border-width: 1px;
+}
+.svc-chevron--sm { width: 32px; height: 32px; border-radius: 8px; }
+.svc-chevron--sm svg { width: 14px; height: 14px; }
 
 /* ── Package Card ── */
 .pkg-row { display: block; margin-bottom: 10px; }
@@ -778,6 +802,10 @@
   line-height: 1.25;
   transition: background 0.15s, border-color 0.15s;
 }
+.pkg-chip--sm {
+  font-size: 11.5px;
+  padding: 3px 9px;
+}
 .pkg-chip--tappable { cursor: pointer; }
 .pkg-chip--tappable:hover {
   background: var(--surface-3);
@@ -943,11 +971,16 @@
 
 /* ── Package Card variants ── */
 .pkg-card--summary {
-  background: var(--primary-surface);
-  border: 1px solid var(--primary-border);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 14px 16px;
   margin-bottom: 8px;
+}
+.pkg-card--summary--compact {
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin-bottom: 6px;
 }
 .pkg-card--suggestion {
   display: flex;
@@ -974,16 +1007,15 @@
   padding: 2px 6px;
   border-radius: 6px;
 }
-.pkg-svc-chip {
+.pkg-svc-chip--matched,
+.pkg-svc-chip--bonus {
   font-size: 12.5px;
   padding: 4px 10px;
-  background: rgba(255, 255, 255, 0.7);
   border-radius: 999px;
-  color: var(--text-2);
-  font-weight: 500;
   line-height: 1.25;
   display: inline-flex;
   align-items: center;
+  font-weight: 500;
 }
 .pkg-svc-chip--matched {
   background: var(--primary-surface);

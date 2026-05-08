@@ -49,16 +49,13 @@ function renderBookingConfirmed() {
         ${selPkgs.map(pkgId => {
           const pkg = (s.packages||[]).find(p => p.id === pkgId);
           if (!pkg) return '';
-          return PackageCard(pkg, true, 'summary');
+          return PackageCard(pkg, false, 'summary', null, s);
         }).join('')}
-        ${selSvcs.length > 0 ? `<div style="font-size:13px;color:${C.text2};margin-bottom:12px;display:flex;flex-wrap:wrap;gap:6px">${selSvcs.map(sid => {
-          const svc = getSvc(sid);
-          if (!svc) return '';
-          const enriched = !!(s.serviceDetails && s.serviceDetails[sid]);
-          return enriched
-            ? `<span class="svc-detail-link" data-action="open-service-detail" data-detail-type="service" data-detail-id="${sid}" data-detail-salon="${s.id}" style="font-size:13px">${svc.label} ›</span>`
-            : `<span>${svc.label}</span>`;
-        }).join('')}</div>` : ''}
+        ${selSvcs.map(sid => {
+          const price     = s.services[sid];
+          const discPrice = (s.serviceDiscounts && s.serviceDiscounts[sid]) || null;
+          return ServiceCard(sid, price, false, discPrice, 'view', s);
+        }).join('')}
         <div style="padding-top:10px;border-top:1px solid ${C.border}">${PayAtSalon()}</div>
       </div>
 

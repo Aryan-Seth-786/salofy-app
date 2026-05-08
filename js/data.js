@@ -287,10 +287,12 @@ function getSvc(id) {
 }
 
 const bookings = [
-  { idx: 0, salonId: 2, date: 'Sun, Mar 29', time: '10:30 AM', services: "Men's Haircut, Beard Styling", status: 'upcoming' },
-  { idx: 1, salonId: 1, date: 'Wed, Mar 26', time: '11:00 AM', pkgId: 'pkg3',                             status: 'upcoming' },
-  { idx: 5, salonId: 4, date: 'Tue, Apr 1',  time: '4:00 PM',  services: 'Clean Shave, Head Massage',     status: 'upcoming' },
-  { idx: 2, salonId: 1, date: 'Sat, Mar 22', time: '2:00 PM',  services: 'Gold Facial',                   status: 'completed' },
-  { idx: 3, salonId: 3, date: 'Mon, Mar 15', time: '11:00 AM', services: 'Basic Facial, Waxing',           status: 'completed' },
-  { idx: 4, salonId: 4, date: 'Fri, Mar 7',  time: '3:00 PM',  services: 'Beard Trim, Head Massage',       status: 'completed' },
+  { idx: 0, salonId: 2, date: 'Sun, Mar 29', time: '10:30 AM', svcIds: ['haircut', 'beard'],                                 status: 'upcoming' },
+  { idx: 1, salonId: 1, date: 'Wed, Mar 26', time: '11:00 AM', pkgId: 'pkg3',                                                status: 'upcoming' },
+  { idx: 6, salonId: 1, date: 'Sat, Apr 5',  time: '12:00 PM', svcIds: ['haircut', 'headwash', 'beard', 'facial', 'manicure'], status: 'upcoming' },
+  { idx: 7, salonId: 1, date: 'Sun, Apr 6',  time: '3:00 PM',  pkgId: 'pkg1', svcIds: ['facial', 'manicure'],                  status: 'upcoming' },
+  { idx: 5, salonId: 4, date: 'Tue, Apr 1',  time: '4:00 PM',  svcIds: ['shave', 'massage'],                                  status: 'upcoming' },
+  { idx: 2, salonId: 1, date: 'Sat, Mar 22', time: '2:00 PM',  svcIds: ['facial'],                                            status: 'completed' },
+  { idx: 3, salonId: 3, date: 'Mon, Mar 15', time: '11:00 AM', svcIds: ['facial', 'waxing'],                                  status: 'completed' },
+  { idx: 4, salonId: 4, date: 'Fri, Mar 7',  time: '3:00 PM',  svcIds: ['beard', 'massage'],                                  status: 'completed' },
 ];

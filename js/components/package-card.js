@@ -2,30 +2,35 @@
    PACKAGE CARD — canonical component
    Variants:
      'select'     — interactive, salon-profile packages tab
-     'summary'    — read-only, booking / booking-confirmed
+     'locked'     — full salon-page card, locked-selected, my-bookings
+     'summary'    — read-only compact, booking / booking-confirmed
      'suggestion' — saffron upsell strip (SuggestedPackages)
    ═══════════════════════════════════════════════════ */
 
 function PackageCard(pkg, selected, variant, salonId, salon) {
   variant = variant || 'select';
+  const interactive   = variant === 'select';
+  const lockedSelected = variant === 'locked';
 
   if (variant === 'summary') {
     const original = pkg.price + pkg.savings;
     return `
-      <div class="pkg-card--summary">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px">
+      <div class="pkg-card--summary pkg-card--summary--compact">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
           <div style="min-width:0;flex:1">
-            <span class="pkg-badge" style="margin-bottom:6px;display:inline-block">PACKAGE</span>
-            <div style="font-size:16px;font-weight:600;color:${C.text};line-height:1.25">${pkg.name}</div>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <span class="pkg-badge">PACKAGE</span>
+              <div style="font-size:14px;font-weight:600;color:${C.text};line-height:1.25">${pkg.name}</div>
+            </div>
           </div>
           <div style="flex-shrink:0">
-            ${PriceDisplay(original, pkg.price, { variant: 'stacked', emphasis: 'primary' })}
+            ${PriceDisplay(original, pkg.price, { variant: 'inline', emphasis: 'primary' })}
           </div>
         </div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px">
+        <div style="display:flex;flex-wrap:wrap;gap:5px">
           ${pkg.services.map(sid => {
             const svc = getSvc(sid);
-            return svc ? `<span class="pkg-svc-chip">${svc.label}</span>` : '';
+            return svc ? `<span class="pkg-chip pkg-chip--sm pkg-chip--inert">${svc.label}</span>` : '';
           }).join('')}
         </div>
       </div>`;
@@ -36,7 +41,8 @@ function PackageCard(pkg, selected, variant, salonId, salon) {
     return PackageCard.suggestion(pkg, selSvcs);
   }
 
-  // 'select' variant — full interactive card for salon-profile packages tab
+  // 'select' or 'locked' variant — full salon-page card
+  const isSelected = lockedSelected ? true : selected;
   const limit    = 4;
   const shown    = pkg.services.slice(0, limit);
   const hidden   = pkg.services.slice(limit);
@@ -47,24 +53,25 @@ function PackageCard(pkg, selected, variant, salonId, salon) {
   const tier = salon ? salon.tier : null;
   const enriched = !!(salon && salon.packageDetails && salon.packageDetails[pkg.id]);
   const expandable = (tier === 'growth' || tier === 'premium') && !enriched;
-  const expandId = expandable ? `pkg-expand-${(salon ? salon.id : 'x')}-${pkg.id}` : '';
+  const expandId = expandable ? `pkg-expand-${(salon ? salon.id : 'x')}-${pkg.id}-${variant}` : '';
   const longDesc = pkg.desc;
   const includes = [];
+  const toggleAttr = interactive ? ` data-pkg-toggle="${pkg.id}"` : '';
 
   return `
     <div class="pkg-row">
-      <div class="pkg-card${selected ? ' pkg-card--active' : ''}${enriched ? ' pkg-card--detail' : ''}" data-pkg-toggle="${pkg.id}">
+      <div class="pkg-card${(isSelected && interactive) ? ' pkg-card--active' : ''}${enriched ? ' pkg-card--detail' : ''}${lockedSelected ? ' pkg-card--locked' : ''}"${toggleAttr}>
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
           <div style="flex:1;min-width:0">
             <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              ${lockedSelected ? '<span class="pkg-badge">PACKAGE</span>' : ''}
               <div style="font-size:15px;font-weight:600;color:${C.text}">${pkg.name}</div>
-              ${enriched ? '<span class="svc-detail-tag">Details</span>' : ''}
             </div>
             <div style="font-size:12px;color:${C.text3};margin-top:2px">${pkg.desc}</div>
           </div>
-          <div class="service-select__check" style="flex-shrink:0">
-            ${selected ? Icons.check(14, '#fff') : ''}
-          </div>
+          ${interactive ? `<div class="service-select__check" style="flex-shrink:0">
+            ${isSelected ? Icons.check(14, '#fff') : ''}
+          </div>` : ''}
         </div>
         ${(() => {
           const COLLAPSE_AT = 20;
@@ -80,7 +87,7 @@ function PackageCard(pkg, selected, variant, salonId, salon) {
             const attrs = tappable
               ? ` data-pkg-svc-link="${sid}" data-detail-salon="${salon.id}"`
               : '';
-            return `<span class="pkg-chip${selected ? ' pkg-chip--selected' : ''}${svcEnriched ? ' pkg-chip--detail' : ''}${tappable ? ' pkg-chip--tappable' : ''}${inertClass}"${attrs}>${svc.label}${arrow}</span>`;
+            return `<span class="pkg-chip${(isSelected && interactive) ? ' pkg-chip--selected' : ''}${svcEnriched ? ' pkg-chip--detail' : ''}${tappable ? ' pkg-chip--tappable' : ''}${inertClass}"${attrs}>${svc.label}${arrow}</span>`;
           };
 
           const allSvcs = pkg.services;
@@ -113,9 +120,9 @@ function PackageCard(pkg, selected, variant, salonId, salon) {
             : (expandable ? `<button class="svc-chevron" data-pkg-expand="${expandId}" aria-label="More info">${Icons.chevronDown(14, C.text3)}</button>` : '')
           }
         </div>
-        <div style="margin-top:7px">
+        ${interactive ? `<div style="margin-top:7px">
           <span class="service-select__disc-badge">Online Booking Discount</span>
-        </div>
+        </div>` : ''}
       </div>
       ${expandable ? `
         <div id="${expandId}" class="svc-expand-panel" style="display:none">

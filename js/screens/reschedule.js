@@ -1,8 +1,11 @@
 function renderReschedule() {
   const bk = AppState.rescheduleBooking || {
-    salon: salons[1], date: 'Sun, Mar 29', time: '10:30 AM', services: "Men's Haircut, Beard Styling"
+    salon: salons[1], date: 'Sun, Mar 29', time: '10:30 AM', svcIds: ['haircut', 'beard'], pkgId: null
   };
   const s = bk.salon;
+  const bkPkg = bk.pkgId ? (s.packages || []).find(p => p.id === bk.pkgId) : null;
+  const bkSvcLabels = (bk.svcIds || []).map(sid => getSvc(sid)?.label).filter(Boolean);
+  const bkSummary = [bkPkg ? bkPkg.name : null, ...bkSvcLabels].filter(Boolean).join(' · ');
   const dates = [
     { d:'Today',n:'28' },{ d:'Sun',n:'29' },{ d:'Mon',n:'30' },
     { d:'Tue',n:'31'  },{ d:'Wed',n:'1'  },{ d:'Thu',n:'2'  },
@@ -26,7 +29,7 @@ function renderReschedule() {
         <div>
           <div style="font-size:15px;font-weight:600;color:${C.text}">${s.name}</div>
           <div style="font-size:12px;color:${C.text3}">${bk.date} at ${bk.time}</div>
-          <div style="font-size:12px;color:${C.text2};margin-top:1px">${bk.services}</div>
+          <div style="font-size:12px;color:${C.text2};margin-top:1px">${bkSummary}</div>
         </div>
       </div>
     </div>

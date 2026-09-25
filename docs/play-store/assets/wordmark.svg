@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 160" role="img" aria-label="GLAZZ">
+  <text x="32" y="108"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="96"
+    font-weight="700"
+    letter-spacing="10"
+    fill="#1f1a17">GLAZ</text>
+  <text x="420" y="108"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="96"
+    font-weight="700"
+    letter-spacing="10"
+    fill="#f43f5e">Z</text>
+  <line x1="400" y1="48" x2="430" y2="118" stroke="#f43f5e" stroke-width="8" stroke-linecap="round"/>
+</svg>

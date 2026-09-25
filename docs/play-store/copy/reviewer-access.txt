@@ -1,0 +1,19 @@
+NOTE: Reviewer OTP / test account is owned by backend (uncle), not brand/store-copy owner.
+
+GLAZZ uses phone OTP login.
+
+Test account:
+• Phone: <PROVIDE_WORKING_TEST_NUMBER>
+• OTP: <PROVIDE_FIXED_OTP_OR_INSTRUCTIONS>
+
+Steps for reviewers:
+1. Open the app
+2. Enter the test phone number above
+3. Enter the OTP provided (or check the note below)
+4. Complete onboarding (gender/city) if prompted
+5. Home → Search → open any salon → book a service
+
+Notes:
+• No payment is required inside the app (pay at salon).
+• Location permission: allow for nearby results; city can also be selected manually.
+• If OTP SMS is delayed in your region, use the fixed test OTP above.

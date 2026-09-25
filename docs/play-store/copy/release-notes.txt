@@ -1,0 +1,7 @@
+Initial release of GLAZZ
+
+• Discover salons and deals near you
+• Search and browse services and packages
+• Book appointments in seconds
+• Pay at the salon — no upfront payment
+• Manage bookings, favorites, and profile

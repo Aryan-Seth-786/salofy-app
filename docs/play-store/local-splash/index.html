@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GLAZZ — Local Splash Test</title>
+  <style>
+    :root {
+      --bg: #0b0908;
+      --phone: #120e0d;
+      --rose: #f43f5e;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: radial-gradient(ellipse at top, #1a1214 0%, var(--bg) 55%);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
+      color: #f5f2f0;
+    }
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px 16px 96px;
+    }
+    .frame {
+      width: min(390px, 100vw - 24px);
+      height: min(844px, calc(100vh - 120px));
+      border-radius: 40px;
+      overflow: hidden;
+      position: relative;
+      background:
+        radial-gradient(circle at 78% 42%, rgba(244,63,94,0.14), transparent 42%),
+        linear-gradient(165deg, #171111 0%, var(--phone) 50%, #090706 100%);
+      box-shadow:
+        0 40px 100px rgba(0,0,0,0.55),
+        inset 0 0 0 1px rgba(255,255,255,0.08);
+    }
+    canvas#fx {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .stage {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px;
+    }
+    .logo-wrap {
+      position: relative;
+      width: min(300px, 78%);
+      margin: 0 auto;
+      z-index: 3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .logo {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      opacity: 0;
+      filter: blur(10px) brightness(1.2);
+      transform: scale(0.94) translateY(10px);
+      transition:
+        opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.7s ease,
+        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .logo.show {
+      opacity: 1;
+      filter: blur(0) brightness(1);
+      transform: scale(1) translateY(0);
+    }
+    /* Invisible hit target over the magenta ZZ area (right side of wordmark) */
+    .zz-hit {
+      position: absolute;
+      right: 0%;
+      top: 12%;
+      width: 30%;
+      height: 76%;
+      pointer-events: none;
+    }
+    .drop {
+      position: absolute;
+      width: 64px;
+      height: auto;
+      object-fit: contain;
+      background: transparent;
+      z-index: 8;
+      opacity: 0;
+      pointer-events: none;
+      filter: drop-shadow(0 18px 28px rgba(244,63,94,0.45));
+      will-change: transform, left, top, opacity;
+      /* kill any accidental image plate */
+      mix-blend-mode: normal;
+      -webkit-mask-image: none;
+    }
+    .burst {
+      position: absolute;
+      width: 240px;
+      height: auto;
+      object-fit: contain;
+      background: transparent;
+      z-index: 7;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(0.35);
+      filter: drop-shadow(0 10px 30px rgba(244,63,94,0.35));
+    }
+    .center-block {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .tag {
+      margin-top: 18px;
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.42);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.55s ease;
+    }
+    .tag.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .hint {
+      position: absolute;
+      bottom: 42px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+      opacity: 0;
+      transition: opacity 0.45s ease;
+      z-index: 4;
+    }
+    .hint.show { opacity: 1; }
+    .controls {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 20;
+    }
+    button {
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(244,63,94,0.16);
+      color: #fff;
+      font: 600 12px/1 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 12px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+    }
+    button:hover { background: rgba(244,63,94,0.28); }
+    .note {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 560px;
+      width: calc(100% - 24px);
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.45;
+    }
+  </style>
+</head>
+<body>
+  <p class="note">
+    Local splash test · drop falls from <b>top-right</b> onto the magenta <b>ZZ</b> ·
+    open this folder with a tiny server (see README)
+  </p>
+
+  <div class="frame" id="phone">
+    <canvas id="fx"></canvas>
+    <img class="drop" id="drop" src="drop.png?v=3" alt="" />
+    <img class="burst" id="burst" src="splash-burst.png?v=3" alt="" />
+
+    <div class="stage">
+      <div class="center-block">
+        <div class="logo-wrap" id="logoWrap">
+          <img class="logo" id="logo" src="wordmark.png?v=3" alt="GLAZZ" />
+          <div class="zz-hit" id="zzHit"></div>
+        </div>
+        <div class="tag" id="tag">Discover · Book · Glow</div>
+      </div>
+    </div>
+    <div class="hint" id="hint">Tap to continue</div>
+  </div>
+
+  <div class="controls">
+    <button type="button" id="replay">Replay</button>
+  </div>
+
+  <script>
+    const phone = document.getElementById('phone');
+    const drop = document.getElementById('drop');
+    const burst = document.getElementById('burst');
+    const logo = document.getElementById('logo');
+    const zzHit = document.getElementById('zzHit');
+    const tag = document.getElementById('tag');
+    const hint = document.getElementById('hint');
+    const canvas = document.getElementById('fx');
+    const ctx = canvas.getContext('2d');
+
+    let particles = [];
+    let raf = 0;
+    let playing = false;
+
+    function resize() {
+      const r = phone.getBoundingClientRect();
+      canvas.width = Math.round(r.width * devicePixelRatio);
+      canvas.height = Math.round(r.height * devicePixelRatio);
+      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Droplet {
+      constructor(x, y, vx, vy, size, life) {
+        this.x = x; this.y = y; this.vx = vx; this.vy = vy;
+        this.size = size; this.life = life; this.max = life;
+        this.spin = (Math.random() - 0.5) * 0.3;
+        this.rot = Math.random() * Math.PI;
+      }
+      update(dt) {
+        this.vy += 980 * dt * 0.55; // gravity-ish
+        this.vx *= Math.pow(0.985, dt * 60);
+        this.x += this.vx * dt;
+        this.y += this.vy * dt;
+        this.rot += this.spin;
+        this.life -= dt;
+      }
+      draw(c) {
+        if (this.life <= 0) return;
+        const a = Math.max(0, this.life / this.max);
+        const s = this.size * (0.65 + 0.35 * a);
+        c.save();
+        c.translate(this.x, this.y);
+        c.rotate(this.rot);
+        c.globalAlpha = a;
+        const g = c.createRadialGradient(0, -s * 0.2, s * 0.1, 0, 0, s);
+        g.addColorStop(0, '#ffd0da');
+        g.addColorStop(0.35, '#ff607d');
+        g.addColorStop(0.75, '#f43f5e');
+        g.addColorStop(1, 'rgba(110,10,35,0)');
+        c.fillStyle = g;
+        c.beginPath();
+        c.ellipse(0, 0, s * 0.72, s, 0, 0, Math.PI * 2);
+        c.fill();
+        c.fillStyle = 'rgba(255,255,255,0.55)';
+        c.beginPath();
+        c.ellipse(-s * 0.18, -s * 0.28, s * 0.16, s * 0.28, -0.4, 0, Math.PI * 2);
+        c.fill();
+        c.restore();
+      }
+    }
+
+    function explode(cx, cy) {
+      particles = [];
+      for (let i = 0; i < 55; i++) {
+        const ang = (-Math.PI * 0.15) + Math.random() * Math.PI * 1.3 - Math.PI * 0.5;
+        const speed = 180 + Math.random() * 420;
+        particles.push(new Droplet(
+          cx, cy,
+          Math.cos(ang) * speed * (0.4 + Math.random()),
+          Math.sin(ang) * speed - (120 + Math.random() * 220),
+          3 + Math.random() * 7,
+          0.45 + Math.random() * 0.7
+        ));
+      }
+      for (let i = 0; i < 35; i++) {
+        const ang = Math.random() * Math.PI * 2;
+        const speed = 60 + Math.random() * 180;
+        particles.push(new Droplet(
+          cx + (Math.random() - 0.5) * 20,
+          cy + (Math.random() - 0.5) * 10,
+          Math.cos(ang) * speed,
+          Math.sin(ang) * speed - 40,
+          1.5 + Math.random() * 3.5,
+          0.3 + Math.random() * 0.45
+        ));
+      }
+    }
+
+    let last = 0;
+    function tick(ts) {
+      if (!last) last = ts;
+      const dt = Math.min(0.033, (ts - last) / 1000);
+      last = ts;
+      const r = phone.getBoundingClientRect();
+      ctx.clearRect(0, 0, r.width, r.height);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.update(dt);
+        p.draw(ctx);
+        if (p.life <= 0 || p.y > r.height + 40) particles.splice(i, 1);
+      }
+      if (particles.length) raf = requestAnimationFrame(tick);
+      else raf = 0;
+    }
+
+    function wait(ms) {
+      return new Promise((res) => setTimeout(res, ms));
+    }
+
+    function animateProp(el, props, duration, easing = 'cubic-bezier(0.55, 0.055, 0.675, 0.19)') {
+      return new Promise((resolve) => {
+        el.style.transition = Object.keys(props).map(k => `${k} ${duration}ms ${easing}`).join(', ');
+        requestAnimationFrame(() => {
+          Object.assign(el.style, props);
+          setTimeout(resolve, duration + 20);
+        });
+      });
+    }
+
+    async function play() {
+      if (playing) return;
+      playing = true;
+      if (raf) cancelAnimationFrame(raf);
+      particles = [];
+      last = 0;
+      ctx.clearRect(0, 0, phone.clientWidth, phone.clientHeight);
+
+      logo.classList.remove('show');
+      tag.classList.remove('show');
+      hint.classList.remove('show');
+
+      const p = phone.getBoundingClientRect();
+      const hit = zzHit.getBoundingClientRect();
+      const targetX = (hit.left - p.left) + hit.width * 0.55;
+      const targetY = (hit.top - p.top) + hit.height * 0.55;
+
+      // Start: top-right, slightly off-screen
+      const startX = p.width - 34;
+      const startY = -90;
+
+      drop.style.transition = 'none';
+      drop.style.opacity = '1';
+      drop.style.width = '68px';
+      drop.style.height = 'auto';
+      drop.style.left = `${startX - 34}px`;
+      drop.style.top = `${startY}px`;
+      drop.style.transform = 'rotate(12deg) scale(0.85, 1.15)';
+
+      burst.style.transition = 'none';
+      burst.style.opacity = '0';
+      burst.style.left = `${targetX}px`;
+      burst.style.top = `${targetY}px`;
+      burst.style.transform = 'translate(-50%, -55%) scale(0.25) rotate(-8deg)';
+
+      await wait(40);
+
+      // Fall with gravity-like ease-in toward ZZ
+      await animateProp(drop, {
+        left: `${targetX - 30}px`,
+        top: `${targetY - 70}px`,
+        transform: 'rotate(4deg) scale(0.78, 1.28)',
+      }, 820, 'cubic-bezier(0.6, 0.04, 0.98, 0.335)');
+
+      // Impact squash
+      await animateProp(drop, {
+        transform: 'rotate(0deg) scale(1.45, 0.42) translateY(16px)',
+        opacity: '0',
+      }, 90, 'ease-out');
+
+      // Photoreal splash burst plate
+      burst.style.transition = 'opacity 180ms ease-out, transform 520ms cubic-bezier(0.16, 1, 0.3, 1)';
+      burst.style.opacity = '1';
+      burst.style.transform = 'translate(-50%, -58%) scale(1.05) rotate(0deg)';
+
+      // Extra particle spray for liquid physics feel
+      explode(targetX, targetY);
+      raf = requestAnimationFrame(tick);
+
+      // Reveal preferred wordmark through the splash
+      await wait(70);
+      logo.classList.add('show');
+      await wait(280);
+      tag.classList.add('show');
+      await wait(350);
+      hint.classList.add('show');
+
+      // Fade splash plate after logo is readable
+      await wait(180);
+      burst.style.transition = 'opacity 700ms ease';
+      burst.style.opacity = '0';
+
+      playing = false;
+    }
+
+    document.getElementById('replay').addEventListener('click', play);
+    // Autoplay once assets are ready
+    Promise.all([
+      new Promise(r => { if (drop.complete) r(); else drop.onload = r; }),
+      new Promise(r => { if (burst.complete) r(); else burst.onload = r; }),
+      new Promise(r => { if (logo.complete) r(); else logo.onload = r; }),
+    ]).then(() => setTimeout(play, 250));
+  </script>
+</body>
+</html>

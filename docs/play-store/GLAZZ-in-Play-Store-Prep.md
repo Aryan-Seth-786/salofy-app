@@ -152,11 +152,29 @@ See `docs/play-store/copy/` — update “GLAZZ.in” → “GLAZZ” in titles 
 
 ## 6. Logo / icon (your lane)
 
-- Play: **512 × 512 PNG**, ≤ 1 MB
-- Simple, readable at small sizes; brand mark for **GLAZZ**
-- Feature graphic (1024×500) can wait for design help / uncle’s launch push — nice to have, not blocking your naming decisions
+Assets in `docs/play-store/assets/`:
 
-Screenshots: **dev/uncle** capture from the real app.
+| File | Use |
+|------|-----|
+| `icon-512.png` | Play Store upload — **exotic liquid glaze drop** (sculpted fluid physics, NO letter G) |
+| `icon.svg` | Scalable vector icon of the exotic liquid drop |
+| `icon-exotic-drop.png` | High-res master asset of the exotic liquid drop |
+| `wordmark.png` / `wordmark.svg` | Site header, splash, feature graphic — **clean luxury typography** (pure G-L-A-Z-Z; NO artificial slashes) |
+| `icon-512.png` | Play Store icon upload candidate |
+| `icon-option-star-gleam.png` | Alternative App Icon: **Crystalline Beauty Star / Glow Gleam** (radiant salon finish) |
+| `icon-option-monogram-zz.png` | Alternative App Icon: **Crystalline 'ZZ' Monogram** |
+| `mark.png` / `mark.svg` | Glaze-drop symbol |
+| `../splash-demo.html` | Interactive exotic splash prototype (drop falls on right, splashes on rose Z, reveals clean logo) |
+
+Brand colors: rose `#f43f5e`, ink `#1f1a17`, cream `#fbf9f8`.
+
+**Splash motion & physics (v2):**
+- Exotic fluid droplet drops along an organic trajectory on the **right side** of the screen
+- Terminal impact squarely hits the **ZZ** character position
+- Creates dynamic liquid burst particles + luminous shockwave
+- Impact reveals the glowing rose **ZZ**, shoots the slash accent, and sweeps in the white **GLAZ** wordmark from the left
+- Tagline *Discover · Book · Glow* resolves underneath
+- Interactive demo: open `docs/play-store/splash-demo.html` to preview & replay.
 
 ---
 

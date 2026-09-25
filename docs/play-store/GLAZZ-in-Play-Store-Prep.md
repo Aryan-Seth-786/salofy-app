@@ -1,386 +1,191 @@
-# GLAZZ.in — Play Store Prep Pack
+# GLAZZ — Play Store Prep Pack
 
-Use this while waiting for Play Console / App Store account access.
-Anything marked **DO NOW** does not need uncle’s login.
-Anything marked **WAIT** needs Play Console (or Apple) access.
-
----
-
-## 0. What this app is (for listing copy)
-
-GLAZZ.in is a salon discovery & booking app:
-
-- Discover salons and deals near you
-- Search / filter services (haircut, facial, bridal, etc.)
-- Book in seconds
-- Pay at the salon (no upfront payment)
-- Manage bookings, favorites, profile
-
-Old working name in code: **Salofy**. Store-facing name should be **GLAZZ.in** (or a short variant below).
+> This repo is a **frontend prototype only**. The real Android/iOS apps live elsewhere.
+> Use this doc for brand/store decisions and handoff copy — not as the shipping app source.
 
 ---
 
-## 1. App name brainstorm
+## Who owns what
 
-Play Store **app name** limit: **30 characters**.
+### Your lane (do these)
 
-### Recommended store name
+| Item | Decision / deliverable |
+|------|------------------------|
+| **App store display name** | Prefer **`GLAZZ`** (see §1) |
+| **Package / application ID** | Prefer **`com.glazz.app`** (see §2) — tell Android + iOS devs before first store upload |
+| **Logo / store icon** | 512×512 PNG for Play (+ iOS icon set when needed) |
+| **Privacy policy page** | Write + host at e.g. `https://glazz.in/privacy` |
 
-| Option | Chars | Notes |
-|--------|------:|-------|
-| **GLAZZ.in** | 8 | Final brand. Clear, unique, matches domain. **Recommended.** |
-| GLAZZ | 5 | Shorter; loses the `.in` brand signal |
-| GLAZZ Salon Booking | 19 | More searchable, but weaker brand-first |
-| GLAZZ - Book Salons | 19 | Descriptive; still brand-led |
-| GLAZZ Beauty & Salon | 20 | Category-clear; slightly generic |
+Optional but useful if you want: short/full description drafts (already in `copy/`), feature graphic brief.
 
-**Recommendation:** use **`GLAZZ.in`** as the Play Store title. Put searchable phrases in the short/full description, not in the title.
+### Uncle / Android-iOS / backend lane (not yours)
 
-### Tagline options (for feature graphic / short description)
-
-1. Discover · Book · Glow *(matches current splash)*
-2. Book salons. Pay at the chair.
-3. Salon deals near you — book in seconds
-4. Find your glow. Book nearby.
-5. Beauty bookings, zero upfront
-
-### Package / application ID (decide now — hard to change later)
-
-Pick one and lock it before first upload:
-
-- `in.glazz.app` ✅ preferred (matches brand + India)
-- `com.glazz.app`
-- `in.glazz.android`
-
-**Do not** ship with `com.salofy…` if the public brand is GLAZZ.in.
+- Reviewer test phone + always-works OTP
+- Real production SDK list + Data Safety answers
+- Signed release AAB / iOS build, prod config, testing
+- Keystore / signing backup
+- Internal tester emails
+- Screenshots from the real app
+- Play Console / App Store account actions when logins are available
+- Account deletion backend wiring (you can still own the *policy wording*)
 
 ---
 
-## 2. DO NOW vs WAIT (checklist mapped)
+## 1. App name: `GLAZZ` vs `GLAZZ.in`
 
-### DO NOW — no Play Console needed
+### Recommendation: store name = **`GLAZZ`**
 
-| # | Item | Your action |
-|---|------|-------------|
-| A | Final app name | Confirm **GLAZZ.in** (or pick from §1) |
-| B | Package / application ID | Lock with Android engineer / build config |
-| C | Free vs Paid | Decide: almost certainly **Free** |
-| D | Default language | **English (India)** or **English (US)** — pick one |
-| E | Category | **Lifestyle** or **Beauty** (Beauty if available; else Lifestyle) |
-| F | Short + full description | Copy from §3 below; edit as needed |
-| G | Store icon 512×512 PNG | Design / export (**max 1 MB**) |
-| H | Feature graphic 1024×500 | Design / export |
-| I | Phone screenshots (6–8) | Capture from release build — plan in §4 |
-| J | Privacy policy page | Write + host on **HTTPS** (e.g. `https://glazz.in/privacy`) |
-| K | In-app privacy policy link | Add in Profile / Help if not already |
-| L | Account / data deletion flow | Backend + in-app path + policy wording |
-| M | Reviewer test account | Create phone number + OTP path that works for Google |
-| N | Data Safety answers draft | Fill §5 with real SDK list from the Android app |
-| O | Ads declaration answer | Confirm: ads yes/no (and which SDK) |
-| P | Target audience | Adults / general; **not** designed for children |
-| Q | Permissions audit | Camera, location, notifications, media — only keep what’s used |
-| R | Signed release AAB | Build + test on a clean device |
-| S | Production config | Prod API URL, Firebase, no debug logs/endpoints |
-| T | Signing key backup | Store upload key / keystore offline safely |
-| U | Release notes | Use §6 template |
-| V | Internal testers list | Collect 5–20 emails/phones for Internal Testing |
+| Surface | What to use |
+|---------|-------------|
+| Play / App Store title | **GLAZZ** |
+| Website / email | **glazz.in** |
+| In-app splash / wordmark | **GLAZZ** (optionally small “glazz.in” in footer/about) |
+| Marketing line | Keep India flavor in **description**, not in the title |
 
-### WAIT — needs uncle’s Play Console login
+### Why not put `.in` in the app name?
 
-| # | Item | Why it waits |
-|---|------|--------------|
-| 1 | Developer account verified | Console access |
-| 2 | Create new app in Console | Console access |
-| 3 | Upload AAB to Internal Testing | Console access |
-| 4 | Upload store listing text/graphics | Console access |
-| 5 | Paste privacy policy URL | Console access |
-| 6 | Data Safety form submit | Console access |
-| 7 | Ads / Audience / Content rating | Console questionnaires |
-| 8 | App access / reviewer instructions | Console form |
-| 9 | Category & tags select | Console |
-| 10 | Production release submit | Console |
-| 11 | Merchant / payments profile | Only if IAP/subscriptions (likely N/A if pay-at-salon) |
+1. **`.in` is a website TLD, not part of the brand word.** Flipkart, Zomato, Swiggy, etc. don’t put `.in` in the store title even when the site is `.in` / `.com`.
+2. **Global expansion.** “GLAZZ.in” reads India-only. “GLAZZ” travels; you localize copy later.
+3. **Search / sayability.** People search and say “GLAZZ”, not “GLAZZ dot in”.
+4. **You still keep the India signal** via domain `glazz.in`, India-first listing text, INR/cities, and Play country targeting — without baking geography into the title.
 
-**Apple App Store** (if applicable later): same split — prepare assets/copy now; account + submit when uncle shares Apple Developer access.
+Using **GLAZZ.in** as the title is still *allowed* (under 30 chars). It’s a style choice, not a legal requirement. Prefer **GLAZZ** unless you specifically want the domain as the brand mark.
 
 ---
 
-## 3. Store listing — ready to paste
+## 2. Buying `glazz.in` (not `.com`) — legal / trademark notes
+
+**Not legal advice.** For clearance, have a trademark attorney search IP India (and later USPTO/EUIPO if you expand).
+
+### Short answer
+
+Buying **`glazz.in`** because **`.com` was taken** is normal and **does not by itself** create a copyright or trademark problem. Domain ownership ≠ trademark rights, and missing `.com` ≠ infringement.
+
+### What actually matters
+
+| Layer | What it protects | Relation to `.in` |
+|-------|------------------|-------------------|
+| **Domain** (`glazz.in`) | Where your site lives | Fine to launch on `.in` only |
+| **App store name** | Listing title uniqueness-ish | Separate from domain |
+| **Trademark** | Who can use the mark for similar goods/services in a territory | **This** is the real risk surface |
+| **Copyright** | Creative works (logo art, code, copy) — **not** short brand names | Names are trademark territory |
+
+Trademark risk comes from **confusing similarity** in the **same/related classes** (for an app: typically **Class 9** downloadable software / **Class 42** software services in India), not from which TLD you bought.
+
+### Practical risks of not owning `.com`
+
+- Users may type `glazz.com` and land on someone else (confusion / phishing feel).
+- Someone else could brand around that `.com` later.
+- **Mitigations:** use `glazz.in` everywhere; later try to buy/lease `.com` if it becomes available; register social handles; file trademark in India (Classes 9/42).
+
+None of that means “buying `.in` is illegal.”
+
+### Quick public scan (not a formal clearance)
+
+- India has a registered **“Glazz”** mark in **Class 19 (plywood / wood boards)** — different industry; usually low conflict with a salon booking app, but a lawyer should confirm.
+- Older US **GLAZZ** (nightclubs) appears **dead**.
+- Sound-alikes in beauty apps exist (e.g. **Glazii / Glazzi** nail try-on) — different spelling/product, but worth noting for “looks/sounds similar” reviews.
+- Do a proper search on [IP India Public Search](https://tmrsearch.ipindia.gov.in/tmrpublicsearch/) for **GLAZZ / GLAZ / GLAZE / GLAZZI** in Classes **9** and **42** before filing.
+
+**Bottom line:** Launching on **`glazz.in`** with store name **`GLAZZ`** is a reasonable India-first setup. The open item is **trademark clearance + eventual filing**, not “is `.in` without `.com` illegal?”
+
+---
+
+## 3. Package / application ID
+
+### Recommendation: **`com.glazz.app`**
+
+| Option | When it makes sense |
+|--------|---------------------|
+| **`com.glazz.app`** ✅ | Best default for India-first **and** global later. Industry-standard. Stable forever. |
+| `in.glazz.app` | Strict reverse-DNS of owned domain `glazz.in`. Fine, but *looks* country-locked and is unnecessary. |
+| `com.glazz.in` | Awkward; avoid. |
+
+### Why `com.` even if you only own `.in`?
+
+- Android package IDs are **identifiers**, not proof you own that domain. Play does not require you to own `glazz.com`.
+- Changing `applicationId` after publish = **new app** (users don’t update across). Lock it once.
+- Global products overwhelmingly use `com.company.app` regardless of website TLD.
+- `in.` does **not** improve India SEO or Play ranking; store listing + country availability do.
+
+**Tell the Android/iOS engineers:** lock `com.glazz.app` (and matching iOS bundle id style, e.g. `com.glazz.app`) before first upload.
+
+---
+
+## 4. India-first now, global later — without losing India specificity
+
+You don’t need `.in` in the title or `in.` in the package to stay India-specific.
+
+| Keep India-specific | Keep globally flexible |
+|---------------------|------------------------|
+| Website `glazz.in` | Store title **GLAZZ** |
+| Default listing language: English (India) | Package **`com.glazz.app`** (never change) |
+| Cities, INR, “pay at salon”, local salon inventory | Later: add Play **localized store listings** (languages/countries) |
+| India-first screenshots & feature graphic | Same app binary; expand country availability in Console |
+| Privacy policy under Indian DPDP / your counsel’s wording | Add regional policy sections when you enter new markets |
+| Trademark file in **India** first | File other territories when expansion is real |
+
+Play/App Store let one package serve many countries with **different listing text** per locale. So: one global ID + India-flavored default listing today; English (US)/other locales later without renaming.
+
+---
+
+## 5. Store listing drafts (optional for you)
 
 ### App name (≤30)
 
 ```
-GLAZZ.in
+GLAZZ
 ```
 
-### Short description (≤80) — pick one
+### Short description (≤80)
 
-**Option A (recommended):**
 ```
 Discover salons near you, book in seconds, and pay at the salon. No upfront payment.
 ```
-(79 chars)
 
-**Option B:**
-```
-Book nearby salons & beauty deals. Discover, book, glow — pay only at the chair.
-```
-(78 chars)
+### Full description / release notes / reviewer template
 
-**Option C:**
-```
-Find salons, compare deals, and book appointments. Pay at the salon — not online.
-```
-(80 chars)
-
-### Full description (≤4,000)
-
-```
-GLAZZ.in helps you discover salons and beauty services near you — then book in seconds.
-
-Whether you need a haircut, facial, bridal package, or a quick grooming session, GLAZZ.in makes it simple to find the right salon, pick a service, and confirm your slot.
-
-Why GLAZZ.in?
-
-• Discover deals near you — browse offers from salons in your area
-• Book in seconds — pick a service, choose a time, confirm
-• Pay at the salon — no upfront payment and no card required to book
-• Search & filter — find salons and services that match what you need
-• Packages & savings — see bundled services and what you save
-• Manage bookings — view upcoming visits, reschedule when needed
-• Save favorites — keep your preferred salons close
-• Stay updated — get alerts about bookings and offers
-
-How it works
-
-1. Sign in with your phone number
-2. Choose your city and preferences
-3. Explore salons, services, and deals nearby
-4. Book your appointment
-5. Visit the salon and pay there
-
-GLAZZ.in is built for people who want beauty bookings without friction — clear prices, fast booking, and payment only when the service is done.
-
-Download GLAZZ.in and find your next glow-up nearby.
-```
-
-### Release notes (initial)
-
-```
-Initial release of GLAZZ.in
-
-• Discover salons and deals near you
-• Search and browse services and packages
-• Book appointments in seconds
-• Pay at the salon — no upfront payment
-• Manage bookings, favorites, and profile
-```
+See `docs/play-store/copy/` — update “GLAZZ.in” → “GLAZZ” in titles where needed. Reviewer OTP remains **uncle’s** job.
 
 ---
 
-## 4. Graphics & screenshot plan
+## 6. Logo / icon (your lane)
 
-### Required assets
+- Play: **512 × 512 PNG**, ≤ 1 MB
+- Simple, readable at small sizes; brand mark for **GLAZZ**
+- Feature graphic (1024×500) can wait for design help / uncle’s launch push — nice to have, not blocking your naming decisions
 
-| Asset | Spec | Status |
-|-------|------|--------|
-| App icon | 512 × 512 PNG, ≤1 MB, no transparency preferred for Play | ⬜ |
-| Feature graphic | 1024 × 500 | ⬜ |
-| Phone screenshots | Multiple; min usually 2; aim for **6–8** | ⬜ |
-
-### Screenshot shot list (from checklist §7)
-
-Capture from a **production-like** build. No debug banners, fake “localhost”, or unfinished UI.
-
-1. **Home** — main value (deals / nearby salons)
-2. **Search** — discovery entry
-3. **Filters / service selection**
-4. **Search results**
-5. **Salon detail / profile**
-6. **Packages or key service flow**
-7. **Deals / savings** screen
-8. **Booking confirmed** (or checkout-style confirmation)
-
-Tips:
-- Use readable text; avoid tiny labels
-- Prefer real (or realistic) salon names/prices
-- Capture light mode if that’s the primary UI; add dark only if the app ships it
-- Same device frame style across all shots
-
-### Feature graphic idea
-
-- Left: **GLAZZ.in** wordmark large
-- Right / background: salon atmosphere photo (real visual, not abstract purple gradient)
-- Thin supporting line: `Discover · Book · Glow` or `Book salons. Pay at the chair.`
-- No fake ratings, “#1 app”, or award badges
+Screenshots: **dev/uncle** capture from the real app.
 
 ---
 
-## 5. Privacy, Data Safety, permissions (draft)
+## 7. Privacy policy URL (your lane)
 
-> Confirm every line against the **real Android app + SDKs** (Firebase, Maps, analytics, crash reporting, OTP, etc.). This draft is based on the product flow in this repo.
+Host over HTTPS, e.g.:
 
-### Privacy policy — must cover
+- `https://glazz.in/privacy`
 
-- Account: phone number, name, gender preference, city/address
-- Location: city selection / nearby search / map (if used)
-- Bookings & favorites history
-- Device / crash / analytics data (if Crashlytics / GA / similar)
-- Profile photo (if camera/gallery used)
-- Notifications (FCM tokens if used)
-- Sharing with salons / payment partners (if any)
-- Retention, deletion, contact email
-- Third-party SDKs list
+Must match what the **real** app + backend actually collect (phone OTP, location, bookings, etc.). Uncle/backend should confirm the data list; you can own the page and URL.
 
-**Host at:** `https://glazz.in/privacy` (or your real domain) over **HTTPS**.
-
-Also add in-app access: Profile → Privacy Policy (or Help & Support).
-
-### Likely Data Safety categories (verify)
-
-| Data type | Collected? | Shared? | Notes |
-|-----------|------------|---------|-------|
-| Phone number | Yes | Maybe (OTP / backend) | Account login |
-| Name | Yes | Possibly with salon | Profile |
-| Location | Likely | Backend | Nearby / map / city |
-| Photos | If profile pic | Backend | Optional |
-| App activity | If analytics | Analytics vendor | Events |
-| Crash logs | If Crashlytics | Google | Diagnostics |
-| Device IDs | If analytics/push | Vendors | FCM / analytics |
-
-Encryption in transit: **Yes** (HTTPS) if that’s true for your API.
-
-### Ads
-
-- If **no ad SDK and no ads shown** → declare **No ads**
-- If AdMob / any banner/interstitial → declare **Yes** and update Data Safety
-
-### Target audience
-
-- Primary: **18+** adults booking salons
-- Do **not** include children / Families program unless the product is redesigned for kids
-
-### Content rating
-
-Answer the questionnaire honestly: lifestyle / utility booking; no violence, gambling, etc. (adjust if deals/referrals change that).
-
-### Sensitive permissions likely in app
-
-| Permission | When to keep |
-|------------|--------------|
-| Location | Only if nearby/map is real in release |
-| Notifications | Booking alerts / offers |
-| Camera / photos | Profile photo only — request at use time |
-| Microphone | Remove if unused |
-| Background location | **Do not** request |
-
-### App access / reviewer instructions (prepare text now)
-
-```
-GLAZZ.in uses phone OTP login.
-
-Test account:
-• Phone: <PROVIDE_WORKING_TEST_NUMBER>
-• OTP: <PROVIDE_FIXED_OTP_OR_INSTRUCTIONS>
-
-Steps for reviewers:
-1. Open the app
-2. Enter the test phone number above
-3. Enter the OTP provided (or check the note below)
-4. Complete onboarding (gender/city) if prompted
-5. Home → Search → open any salon → book a service
-
-Notes:
-• No payment is required inside the app (pay at salon).
-• Location permission: allow for nearby results; city can also be selected manually.
-• If OTP SMS is delayed in your region, use the fixed test OTP above.
-```
-
-Create that test number **before** Console access so uncle can paste it immediately.
-
-### Account / data deletion
-
-Google requires a way to delete accounts/data if users can create accounts.
-
-Prepare:
-1. In-app: Profile → Delete account
-2. Web fallback: `https://glazz.in/delete-account` (form or email)
-3. Privacy policy section explaining what is deleted vs retained (e.g. completed booking records for legal reasons)
+Also plan a deletion path URL later (backend builds it): `https://glazz.in/delete-account` — wording can live in the same policy.
 
 ---
 
-## 6. Release AAB prep (engineering — DO NOW)
+## 8. When uncle has Console access (their checklist, not yours)
 
-- [ ] Signed release `.aab` with production signing
-- [ ] `applicationId` = final package (`in.glazz.app` or chosen)
-- [ ] `versionCode` unique / starting at 1 for first upload
-- [ ] `versionName` e.g. `1.0.0`
-- [ ] Production API / Firebase / Maps keys
-- [ ] No test endpoints, staging hosts, or verbose debug logs
-- [ ] Target SDK meets current Play requirement (verify in Console when available)
-- [ ] Install release build on clean device and run §7 tests
-- [ ] Backup keystore + passwords offline (password manager + second sealed copy)
+1. Create app → name **GLAZZ** → Free  
+2. Confirm package from uploaded AAB = `com.glazz.app`  
+3. Paste listing + upload icon / screenshots / feature graphic  
+4. Privacy URL  
+5. Data Safety / ads / audience / content rating / reviewer access  
+6. Internal testing → production  
 
 ---
 
-## 7. Testing before production (DO NOW on release build)
+## 9. Decisions to lock with the team
 
-- [ ] Login / OTP
-- [ ] Onboarding
-- [ ] Search + filters
-- [ ] Salon detail + packages
-- [ ] Booking + confirmation
-- [ ] My bookings / reschedule
-- [ ] Favorites
-- [ ] Profile edit / logout
-- [ ] Account deletion
-- [ ] Permissions allow + deny paths
-- [ ] No network / slow network
-- [ ] Android back navigation
-- [ ] App kill + relaunch mid-flow
-- [ ] Notifications (if enabled)
-- [ ] Crash reporting receives a test crash (staging or carefully)
-
----
-
-## 8. When uncle shares Console access — paste order
-
-1. Create app → name **GLAZZ.in** → App → Free → default language  
-2. Store listing → paste short/full description → upload icon, feature graphic, screenshots  
-3. Set category + tags  
-4. Privacy policy URL  
-5. App content: Ads, Audience, Content rating, Data Safety, App access  
-6. Upload AAB → **Internal testing** first → add testers  
-7. Fix any blockers → Closed testing if needed  
-8. Production release + release notes → submit  
-
----
-
-## 9. Handoff kit for uncle (zip these)
-
-Put these in one folder / Drive link:
-
-1. Final app name + package ID decision  
-2. Short description + full description (`.txt`)  
-3. Release notes  
-4. Icon `icon-512.png`  
-5. Feature graphic `feature-1024x500.png`  
-6. Screenshots folder (ordered 01–08)  
-7. Privacy policy URL  
-8. Data Safety answer sheet (from §5, filled with real SDKs)  
-9. Reviewer access instructions + test OTP  
-10. Signed `.aab` + versionCode/versionName note  
-11. Category choice + ads yes/no  
-
-Once that kit is ready, Console work is mostly paste-and-upload.
-
----
-
-## 10. Decisions still needed from you
-
-1. Confirm store title: **GLAZZ.in** vs shorter **GLAZZ**  
-2. Confirm package ID: prefer `in.glazz.app`  
-3. Confirm domain for privacy: does `glazz.in` already exist?  
-4. Ads: yes or no in the real Android build?  
-5. Which SDKs ship in production? (list them for Data Safety)  
-6. Is pay-at-salon still true for v1 (no in-app payments)?  
+1. **Store name:** **GLAZZ** (recommended) vs GLAZZ.in  
+2. **Package:** **`com.glazz.app`** (recommended) — send to Android + iOS devs  
+3. **Domain:** keep **`glazz.in`**; optionally pursue `.com` later if available  
+4. **Privacy URL:** `https://glazz.in/privacy`  
+5. Trademark: schedule IP India Class 9/42 search + file when ready  

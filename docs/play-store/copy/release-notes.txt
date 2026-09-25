@@ -1,4 +1,4 @@
-Initial release of GLAZZ.in
+Initial release of GLAZZ
 
 • Discover salons and deals near you
 • Search and browse services and packages

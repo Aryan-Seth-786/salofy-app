@@ -1,4 +1,6 @@
-GLAZZ.in uses phone OTP login.
+NOTE: Reviewer OTP / test account is owned by backend (uncle), not brand/store-copy owner.
+
+GLAZZ uses phone OTP login.
 
 Test account:
 • Phone: <PROVIDE_WORKING_TEST_NUMBER>

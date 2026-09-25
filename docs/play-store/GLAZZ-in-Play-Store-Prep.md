@@ -152,11 +152,18 @@ See `docs/play-store/copy/` — update “GLAZZ.in” → “GLAZZ” in titles 
 
 ## 6. Logo / icon (your lane)
 
-- Play: **512 × 512 PNG**, ≤ 1 MB
-- Simple, readable at small sizes; brand mark for **GLAZZ**
-- Feature graphic (1024×500) can wait for design help / uncle’s launch push — nice to have, not blocking your naming decisions
+Assets in `docs/play-store/assets/`:
 
-Screenshots: **dev/uncle** capture from the real app.
+| File | Use |
+|------|-----|
+| `icon-512.png` | Play Store upload (512×512, under 1 MB) |
+| `icon.svg` | Editable vector app icon |
+| `wordmark.png` / `wordmark.svg` | Site header, splash, feature graphic |
+| `mark.png` / `mark.svg` | Optional glaze-drop symbol |
+
+Brand colors: rose `#f43f5e`, ink `#1f1a17`, cream `#fbf9f8`.
+
+Screenshots: **dev/uncle** capture from the real app. Feature graphic (1024×500) still optional later.
 
 ---
 

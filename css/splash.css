@@ -1,151 +1,165 @@
-/* Splash — drop fall → settle → wordmark */
-@keyframes glazzDropFall {
-  0% {
-    opacity: 0;
-    transform: translateY(-42vh) scale(0.72);
-  }
-  12% { opacity: 1; }
-  70% {
-    opacity: 1;
-    transform: translateY(8px) scale(1.04, 0.94);
-  }
-  82% {
-    transform: translateY(-6px) scale(0.98, 1.03);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
+/* ═══════════════════════════════════════════════════
+   GLAZZ SPLASH SCREEN — Exotic Liquid Drop Impact & Reveal
+   ═══════════════════════════════════════════════════ */
 
-@keyframes glazzDropShine {
-  0%, 55% { opacity: 0.2; transform: translate(-2px, 4px); }
-  70%, 100% { opacity: 0.35; transform: translate(0, 0); }
-}
-
-@keyframes glazzWordIn {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-    letter-spacing: 0.35em;
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    letter-spacing: 0.18em;
-  }
-}
-
-@keyframes glazzTagIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes glazzRipple {
-  0% { transform: scaleX(0.3); opacity: 0; }
-  55% { opacity: 0; }
-  70% { opacity: 0.35; transform: scaleX(1); }
-  100% { opacity: 0; transform: scaleX(1.15); }
-}
-
-.glazz-splash {
-  position: relative;
+.glazz-splash-container {
+  width: 100%;
   height: 100%;
   min-height: 100%;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(165deg, var(--ink-900) 0%, #1a1412 48%, var(--ink-900) 100%);
+  background: radial-gradient(circle at 75% 55%, #221217 0%, var(--ink-900) 60%, #090706 100%);
   margin-top: -40px;
-  padding: 0 24px 72px;
+  padding: 0 24px 60px;
   cursor: pointer;
   user-select: none;
   overflow: hidden;
 }
 
-.glazz-splash__stage {
-  position: relative;
-  width: 100%;
-  height: 220px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.glazz-splash__drop {
-  width: 72px;
-  height: 96px;
-  animation: glazzDropFall 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  filter: drop-shadow(0 18px 28px rgba(244, 63, 94, 0.35));
-  will-change: transform, opacity;
-}
-
-.glazz-splash__drop svg {
+.glazz-splash-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  display: block;
+  pointer-events: none;
+  z-index: 15;
 }
 
-.glazz-splash__drop .shine {
-  animation: glazzDropShine 1.15s ease forwards;
-}
-
-.glazz-splash__ripple {
+.glazz-impact-shockwave {
   position: absolute;
-  bottom: 8px;
-  width: 64px;
-  height: 8px;
   border-radius: 50%;
-  background: rgba(244, 63, 94, 0.45);
-  filter: blur(2px);
-  animation: glazzRipple 1.15s ease forwards;
-}
-
-.glazz-splash__word {
-  margin-top: 28px;
-  font-family: var(--font-heading);
-  font-size: 42px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: #f5f2f0;
+  border: 2px solid rgba(244, 63, 94, 0.75);
+  box-shadow: 0 0 24px rgba(244, 63, 94, 0.9), inset 0 0 16px rgba(244, 63, 94, 0.5);
+  transform: translate(-50%, -50%) scale(0.1);
   opacity: 0;
-  animation: glazzWordIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.95s forwards;
+  pointer-events: none;
+  z-index: 10;
 }
 
-.glazz-splash__word span {
-  color: var(--primary);
+.glazz-impact-shockwave.burst {
+  animation: shockwavePulse 0.75s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
 }
 
-.glazz-splash__slash {
+@keyframes shockwavePulse {
+  0% { opacity: 0.9; transform: translate(-50%, -50%) scale(0.1); }
+  60% { opacity: 0.6; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.8); }
+}
+
+.glazz-drop-actor {
+  position: absolute;
+  top: -80px;
+  left: 0;
+  width: 44px;
+  height: 72px;
+  pointer-events: none;
+  z-index: 20;
+  opacity: 0;
+  transform-origin: center bottom;
+}
+
+.glazz-drop-actor svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 14px 22px rgba(244, 63, 94, 0.55));
+}
+
+.glazz-wordmark-stage {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  font-family: var(--font-heading, 'Fraunces', Georgia, serif);
+  font-size: 52px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  margin-top: -24px;
+  z-index: 12;
+}
+
+.glazz-part-glaz {
+  color: #f7f4f2;
+  opacity: 0;
+  transform: translateX(-16px);
+  filter: blur(8px);
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glazz-part-glaz.reveal {
+  opacity: 1;
+  transform: translateX(0);
+  filter: blur(0);
+}
+
+.glazz-part-slash {
   display: inline-block;
-  width: 0.12em;
-  height: 0.85em;
-  margin: 0 0.05em;
-  background: var(--primary);
-  transform: skewX(-18deg) translateY(0.06em);
-  border-radius: 1px;
-  vertical-align: baseline;
+  width: 5px;
+  height: 44px;
+  margin: 0 4px;
+  background: linear-gradient(180deg, #ff7b92 0%, var(--primary) 100%);
+  transform: skewX(-20deg) scaleY(0);
+  transform-origin: bottom center;
+  border-radius: 2px;
+  opacity: 0;
+  box-shadow: 0 0 16px rgba(244, 63, 94, 0.6);
+  transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.glazz-part-slash.reveal {
+  opacity: 1;
+  transform: skewX(-20deg) scaleY(1);
 }
 
-.glazz-splash__tag {
-  margin-top: 10px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.42);
+.glazz-target-zz {
+  position: relative;
+  display: inline-block;
+}
+
+.glazz-part-zz {
+  display: inline-block;
+  color: var(--primary);
+  background: linear-gradient(135deg, #ffa4b5 0%, #f43f5e 40%, #c4123d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+  transform: scale(0.6) translateY(20px);
+  filter: blur(12px);
+  transition: all 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.glazz-part-zz.reveal {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  filter: blur(0);
+}
+
+.glazz-splash-tagline {
+  margin-top: 18px;
+  font-size: 13px;
+  font-weight: 500;
   letter-spacing: 0.28em;
   text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
   opacity: 0;
-  animation: glazzTagIn 0.45s ease 1.25s forwards;
+  transform: translateY(12px);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glazz-splash-tagline.reveal {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.glazz-splash__hint {
+.glazz-splash-hint {
   position: absolute;
-  bottom: 48px;
+  bottom: 44px;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.28);
-  letter-spacing: 0.2em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.28);
   opacity: 0;
-  animation: glazzTagIn 0.4s ease 1.6s forwards;
+  transition: opacity 0.5s ease;
+}
+.glazz-splash-hint.reveal {
+  opacity: 1;
 }

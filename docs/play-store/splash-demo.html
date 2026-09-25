@@ -3,15 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GLAZZ — Splash prototype</title>
+  <title>GLAZZ — Exotic Splash Reveal Prototype</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Onest:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #f43f5e;
-      --ink-900: #120f0d;
-      --font-heading: Fraunces, Georgia, serif;
+      --primary-bright: #ff607d;
+      --primary-deep: #b5123b;
+      --bg: #0d0a09;
+      --phone-bg: #120e0d;
+      --text: #f5f2f0;
+      --font-heading: 'Fraunces', Georgia, serif;
     }
     * { box-sizing: border-box; }
     body {
@@ -19,169 +23,464 @@
       min-height: 100vh;
       display: grid;
       place-items: center;
-      background: #0c0a09;
-      font-family: Onest, system-ui, sans-serif;
-      color: #f5f2f0;
+      background: var(--bg);
+      font-family: 'Onest', system-ui, sans-serif;
+      color: var(--text);
+      overflow-x: hidden;
     }
     .phone {
       width: min(390px, 100vw);
       height: min(844px, 100vh);
-      border-radius: 36px;
+      border-radius: 40px;
       overflow: hidden;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+      box-shadow: 0 32px 90px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.08);
       position: relative;
-      background: #120f0d;
+      background: radial-gradient(circle at 75% 55%, #221217 0%, var(--phone-bg) 60%, #090706 100%);
     }
     .replay {
       position: fixed;
       bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
-      border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.06);
-      color: #f5f2f0;
-      font: 500 13px Onest, system-ui, sans-serif;
-      letter-spacing: 0.08em;
+      border: 1px solid rgba(255,255,255,0.24);
+      background: rgba(244, 63, 94, 0.14);
+      backdrop-filter: blur(12px);
+      color: #fff;
+      font: 600 13px 'Onest', system-ui, sans-serif;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      padding: 10px 18px;
+      padding: 12px 24px;
       border-radius: 999px;
       cursor: pointer;
+      box-shadow: 0 8px 24px rgba(244, 63, 94, 0.35);
+      transition: all 0.2s ease;
+      z-index: 100;
     }
-    .replay:hover { background: rgba(255,255,255,0.12); }
-
-    @keyframes glazzDropFall {
-      0% { opacity: 0; transform: translateY(-42vh) scale(0.72); }
-      12% { opacity: 1; }
-      70% { opacity: 1; transform: translateY(8px) scale(1.04, 0.94); }
-      82% { transform: translateY(-6px) scale(0.98, 1.03); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    @keyframes glazzWordIn {
-      from { opacity: 0; transform: translateY(14px); letter-spacing: 0.35em; }
-      to { opacity: 1; transform: translateY(0); letter-spacing: 0.18em; }
-    }
-    @keyframes glazzTagIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes glazzRipple {
-      0% { transform: scaleX(0.3); opacity: 0; }
-      55% { opacity: 0; }
-      70% { opacity: 0.35; transform: scaleX(1); }
-      100% { opacity: 0; transform: scaleX(1.15); }
+    .replay:hover {
+      background: rgba(244, 63, 94, 0.28);
+      transform: translateX(-50%) scale(1.04);
     }
 
-    .glazz-splash {
+    /* Splash Container */
+    .splash-wrap {
+      width: 100%;
       height: 100%;
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(165deg, #120f0d 0%, #1a1412 48%, #120f0d 100%);
-      padding: 0 24px 72px;
-      overflow: hidden;
+      padding: 32px;
+      user-select: none;
     }
-    .glazz-splash__stage {
+
+    /* Wordmark Container */
+    .wordmark-row {
       position: relative;
-      width: 100%;
-      height: 220px;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-end;
-    }
-    .glazz-splash__drop {
-      width: 72px;
-      height: 96px;
-      animation: glazzDropFall 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-      filter: drop-shadow(0 18px 28px rgba(244, 63, 94, 0.35));
-    }
-    .glazz-splash__drop svg { width: 100%; height: 100%; display: block; }
-    .glazz-splash__ripple {
-      position: absolute;
-      bottom: 8px;
-      width: 64px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(244, 63, 94, 0.45);
-      filter: blur(2px);
-      animation: glazzRipple 1.15s ease forwards;
-    }
-    .glazz-splash__word {
-      margin-top: 28px;
+      align-items: baseline;
       font-family: var(--font-heading);
-      font-size: 42px;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      color: #f5f2f0;
+      font-size: 58px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      margin-top: -30px;
+    }
+
+    /* GLAZ (left part, white) */
+    .char-glaz {
+      color: #f7f4f2;
       opacity: 0;
-      animation: glazzWordIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.95s forwards;
+      transform: translateX(-16px);
+      filter: blur(8px);
+      transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .glazz-splash__word span { color: var(--primary); }
-    .glazz-splash__slash {
+    .char-glaz.reveal {
+      opacity: 1;
+      transform: translateX(0);
+      filter: blur(0);
+    }
+
+    /* Slash Accent */
+    .char-slash {
       display: inline-block;
-      width: 0.12em;
-      height: 0.85em;
-      margin: 0 0.05em;
-      background: var(--primary);
-      transform: skewX(-18deg) translateY(0.06em);
-      border-radius: 1px;
-      vertical-align: baseline;
+      width: 6px;
+      height: 48px;
+      margin: 0 4px;
+      background: linear-gradient(180deg, #ff7b92 0%, var(--primary) 100%);
+      transform: skewX(-20deg) scaleY(0);
+      transform-origin: bottom center;
+      border-radius: 2px;
+      opacity: 0;
+      box-shadow: 0 0 16px rgba(244, 63, 94, 0.6);
+      transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    .glazz-splash__tag {
-      margin-top: 10px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.42);
+    .char-slash.reveal {
+      opacity: 1;
+      transform: skewX(-20deg) scaleY(1);
+    }
+
+    /* ZZ Part (right target of falling drop) */
+    .char-zz-target {
+      position: relative;
+      display: inline-block;
+    }
+    .char-zz {
+      display: inline-block;
+      color: var(--primary);
+      background: linear-gradient(135deg, #ffa4b5 0%, #f43f5e 40%, #c4123d 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0;
+      transform: scale(0.6) translateY(20px);
+      filter: blur(12px);
+      transition: all 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-shadow: 0 0 28px rgba(244, 63, 94, 0.8);
+    }
+    .char-zz.reveal {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      filter: blur(0);
+    }
+
+    /* Falling Drop Physics Object */
+    .drop-actor {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 44px;
+      height: 72px;
+      pointer-events: none;
+      z-index: 20;
+      opacity: 0;
+      transform-origin: center bottom;
+    }
+
+    /* Exotic Liquid Drop SVG path inside actor */
+    .drop-actor svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 14px 22px rgba(244, 63, 94, 0.55));
+    }
+
+    /* Splash Burst Particles (Canvas or SVG elements) */
+    .splash-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 15;
+    }
+
+    /* Tagline */
+    .tagline {
+      margin-top: 18px;
+      font-size: 13px;
+      font-weight: 500;
       letter-spacing: 0.28em;
       text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
       opacity: 0;
-      animation: glazzTagIn 0.45s ease 1.25s forwards;
+      transform: translateY(12px);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .glazz-splash__hint {
+    .tagline.reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Tap hint */
+    .tap-hint {
       position: absolute;
-      bottom: 48px;
-      left: 0; right: 0;
-      text-align: center;
+      bottom: 44px;
       font-size: 12px;
-      color: rgba(255,255,255,0.28);
-      letter-spacing: 0.2em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.28);
       opacity: 0;
-      animation: glazzTagIn 0.4s ease 1.6s forwards;
+      transition: opacity 0.5s ease;
+    }
+    .tap-hint.reveal {
+      opacity: 1;
+    }
+
+    /* Shockwave ring at impact */
+    .impact-shockwave {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid rgba(244, 63, 94, 0.7);
+      box-shadow: 0 0 24px rgba(244, 63, 94, 0.9), inset 0 0 16px rgba(244, 63, 94, 0.5);
+      transform: translate(-50%, -50%) scale(0.1);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .impact-shockwave.burst {
+      animation: shockwaveAnim 0.75s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+    }
+    @keyframes shockwaveAnim {
+      0% { opacity: 0.9; transform: translate(-50%, -50%) scale(0.1); }
+      60% { opacity: 0.6; }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(1.8); }
     }
   </style>
 </head>
 <body>
-  <div class="phone" id="stage"></div>
-  <button class="replay" type="button" id="replay">Replay splash</button>
-  <script>
-    const dropSvg = `
-      <svg viewBox="0 0 72 96" aria-hidden="true">
+
+  <div class="phone" id="phone">
+    <canvas class="splash-canvas" id="splashCanvas"></canvas>
+    <div class="impact-shockwave" id="shockwave"></div>
+
+    <!-- Falling Exotic Liquid Droplet Actor -->
+    <div class="drop-actor" id="dropActor">
+      <svg viewBox="0 0 60 90" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="glazzDropGrad" x1="20%" y1="5%" x2="80%" y2="95%">
-            <stop offset="0%" stop-color="#ff6b7e"/>
-            <stop offset="50%" stop-color="#f43f5e"/>
-            <stop offset="100%" stop-color="#b5123b"/>
+          <radialGradient id="drop3d" cx="42%" cy="38%" r="65%">
+            <stop offset="0%" stop-color="#ffa0b4"/>
+            <stop offset="35%" stop-color="#f43f5e"/>
+            <stop offset="75%" stop-color="#b5123b"/>
+            <stop offset="100%" stop-color="#62071f"/>
+          </radialGradient>
+          <linearGradient id="swirlCurve" x1="10%" y1="10%" x2="90%" y2="90%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
+            <stop offset="40%" stop-color="#ff738a" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#f43f5e" stop-opacity="0"/>
           </linearGradient>
         </defs>
-        <path fill="url(#glazzDropGrad)" d="M36 4C36 4 64 42 64 62a28 28 0 1 1-56 0C8 42 36 4 36 4z"/>
-        <ellipse cx="26" cy="40" rx="8" ry="14" fill="#fff" opacity="0.35"/>
-      </svg>`;
+        <!-- Exotic organic fluid shape with tail curvature -->
+        <path d="
+          M30,2
+          C32,18 48,34 54,48
+          C60,62 58,74 48,82
+          C38,90 22,90 12,82
+          C2,74 0,60 6,46
+          C12,32 28,18 30,2 Z
+        " fill="url(#drop3d)"/>
+        <!-- Inner viscous swirl reflection -->
+        <path d="
+          M30,12
+          C26,26 14,44 14,60
+          C14,74 24,80 34,78
+        " stroke="url(#swirlCurve)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        <ellipse cx="22" cy="48" rx="3.5" ry="8" transform="rotate(-20 22 48)" fill="#ffffff" opacity="0.75"/>
+      </svg>
+    </div>
 
-    function mount() {
-      document.getElementById('stage').innerHTML = `
-        <div class="glazz-splash">
-          <div class="glazz-splash__stage">
-            <div class="glazz-splash__drop">${dropSvg}</div>
-            <div class="glazz-splash__ripple" aria-hidden="true"></div>
-          </div>
-          <div class="glazz-splash__word">GLAZ<span class="glazz-splash__slash"></span><span>Z</span></div>
-          <div class="glazz-splash__tag">Discover · Book · Glow</div>
-          <div class="glazz-splash__hint">Tap to continue</div>
-        </div>`;
+    <!-- Splash Screen Text Content -->
+    <div class="splash-wrap">
+      <div class="wordmark-row" id="wordmarkRow">
+        <span class="char-glaz" id="charGlaz">GLAZ</span>
+        <span class="char-slash" id="charSlash"></span>
+        <span class="char-zz-target" id="zzTarget">
+          <span class="char-zz" id="charZz">Z</span>
+        </span>
+      </div>
+      <div class="tagline" id="tagline">Discover · Book · Glow</div>
+      <div class="tap-hint" id="tapHint">Tap to continue</div>
+    </div>
+  </div>
+
+  <button class="replay" id="replayBtn">Replay Exotic Splash</button>
+
+  <script>
+    const phone = document.getElementById('phone');
+    const dropActor = document.getElementById('dropActor');
+    const zzTarget = document.getElementById('zzTarget');
+    const charGlaz = document.getElementById('charGlaz');
+    const charSlash = document.getElementById('charSlash');
+    const charZz = document.getElementById('charZz');
+    const tagline = document.getElementById('tagline');
+    const tapHint = document.getElementById('tapHint');
+    const shockwave = document.getElementById('shockwave');
+    const canvas = document.getElementById('splashCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let particles = [];
+    let animId = null;
+
+    function resizeCanvas() {
+      const rect = phone.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
     }
-    mount();
-    document.getElementById('replay').addEventListener('click', mount);
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class SplashParticle {
+      constructor(x, y, vx, vy, size, color, alphaDecay) {
+        this.x = x;
+        this.y = y;
+        this.vx = vx;
+        this.vy = vy;
+        this.size = size;
+        this.color = color;
+        this.alpha = 1;
+        this.alphaDecay = alphaDecay || 0.024;
+        this.gravity = 0.38;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vy += this.gravity;
+        this.vx *= 0.96;
+        this.alpha -= this.alphaDecay;
+      }
+      draw(c) {
+        if (this.alpha <= 0) return;
+        c.save();
+        c.globalAlpha = Math.max(0, this.alpha);
+        c.fillStyle = this.color;
+        c.shadowColor = '#f43f5e';
+        c.shadowBlur = 8;
+        c.beginPath();
+        c.arc(this.x, this.y, Math.max(0.5, this.size * this.alpha), 0, Math.PI * 2);
+        c.fill();
+        c.restore();
+      }
+    }
+
+    function createSplashExplosion(cx, cy) {
+      particles = [];
+      const colors = ['#ffffff', '#ffa0b4', '#ff607d', '#f43f5e', '#b5123b'];
+
+      // Crown splash outward arcs (droplets bursting away)
+      const count = 38;
+      for (let i = 0; i < count; i++) {
+        const angle = (Math.PI * 2 * (i / count)) + (Math.random() * 0.4 - 0.2);
+        const speed = 4 + Math.random() * 8.5;
+        // Bias bursts upward and outward
+        const vx = Math.cos(angle) * speed;
+        const vy = Math.sin(angle) * speed - (Math.random() * 4 + 2);
+        const size = Math.random() * 4.5 + 2;
+        const col = colors[Math.floor(Math.random() * colors.length)];
+        const decay = 0.018 + Math.random() * 0.02;
+        particles.push(new SplashParticle(cx, cy, vx, vy, size, col, decay));
+      }
+
+      // Fine mist droplets
+      for (let i = 0; i < 24; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 1.5 + Math.random() * 4;
+        particles.push(new SplashParticle(
+          cx, cy,
+          Math.cos(angle) * speed,
+          Math.sin(angle) * speed - 1.5,
+          Math.random() * 2 + 1,
+          '#ff9ab0',
+          0.03 + Math.random() * 0.02
+        ));
+      }
+    }
+
+    function renderParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.update();
+        p.draw(ctx);
+        if (p.alpha <= 0) particles.splice(i, 1);
+      }
+      if (particles.length > 0) {
+        animId = requestAnimationFrame(renderParticles);
+      }
+    }
+
+    function playExoticSplash() {
+      if (animId) cancelAnimationFrame(animId);
+      particles = [];
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Reset DOM state
+      charGlaz.classList.remove('reveal');
+      charSlash.classList.remove('reveal');
+      charZz.classList.remove('reveal');
+      tagline.classList.remove('reveal');
+      tapHint.classList.remove('reveal');
+      shockwave.classList.remove('burst');
+
+      // Calculate Target coordinates for the ZZ character (on the right)
+      const pRect = phone.getBoundingClientRect();
+      const zRect = zzTarget.getBoundingClientRect();
+
+      // Destination: bottom center of the 'ZZ' character
+      const targetX = (zRect.left - pRect.left) + (zRect.width / 2);
+      const targetY = (zRect.top - pRect.top) + (zRect.height / 2);
+
+      // Start: Top right corner, slightly off-screen with organic entry
+      const startX = targetX + 18;
+      const startY = -90;
+
+      dropActor.style.transition = 'none';
+      dropActor.style.opacity = '1';
+      dropActor.style.left = `${startX - 22}px`;
+      dropActor.style.top = `${startY}px`;
+      dropActor.style.transform = 'scale(0.85, 1.25) rotate(-6deg)';
+
+      // Trigger Falling Physics with natural acceleration (gravity + air drag curve)
+      requestAnimationFrame(() => {
+        // Drop falls rapidly toward target (timing ~700ms)
+        dropActor.style.transition = 'top 0.72s cubic-bezier(0.55, 0.055, 0.675, 0.19), left 0.72s ease-out, transform 0.72s ease-in';
+        dropActor.style.top = `${targetY - 50}px`;
+        dropActor.style.left = `${targetX - 22}px`;
+        // In flight: aerodynamic elongation / stretching
+        dropActor.style.transform = 'scale(0.7, 1.45) rotate(0deg)';
+
+        // Terminal Impact phase
+        setTimeout(() => {
+          // Impact squash
+          dropActor.style.transition = 'transform 0.09s ease-out, opacity 0.09s ease-out';
+          dropActor.style.transform = 'scale(1.85, 0.35) translateY(14px)';
+          dropActor.style.opacity = '0';
+
+          // Trigger Shockwave ring centered at impact
+          shockwave.style.left = `${targetX}px`;
+          shockwave.style.top = `${targetY + 4}px`;
+          shockwave.style.width = '120px';
+          shockwave.style.height = '120px';
+          shockwave.classList.remove('burst');
+          void shockwave.offsetWidth; // reflow
+          shockwave.classList.add('burst');
+
+          // Trigger Canvas Splash Explosion
+          createSplashExplosion(targetX, targetY + 4);
+          renderParticles();
+
+          // Reveal: ZZ bursts alive from the liquid impact!
+          charZz.classList.add('reveal');
+
+          // Reveal Slash immediately following
+          setTimeout(() => {
+            charSlash.classList.add('reveal');
+          }, 90);
+
+          // Reveal GLAZ text sweeping in from the left
+          setTimeout(() => {
+            charGlaz.classList.add('reveal');
+          }, 210);
+
+          // Tagline fades in smoothly
+          setTimeout(() => {
+            tagline.classList.add('reveal');
+          }, 560);
+
+          // Tap hint
+          setTimeout(() => {
+            tapHint.classList.add('reveal');
+          }, 900);
+
+        }, 710);
+      });
+    }
+
+    document.getElementById('replayBtn').addEventListener('click', playExoticSplash);
+
+    // Initial play on load after brief delay
+    setTimeout(() => {
+      resizeCanvas();
+      playExoticSplash();
+    }, 300);
   </script>
 </body>
 </html>

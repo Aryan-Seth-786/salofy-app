@@ -80,18 +80,18 @@
       display: flex;
       align-items: baseline;
       font-family: var(--font-heading);
-      font-size: 58px;
+      font-size: 64px;
       font-weight: 800;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.08em;
       line-height: 1;
       margin-top: -30px;
     }
 
-    /* GLAZ (left part, white) */
+    /* GLAZ (left part, clean white/ivory) */
     .char-glaz {
       color: #f7f4f2;
       opacity: 0;
-      transform: translateX(-16px);
+      transform: translateX(-20px);
       filter: blur(8px);
       transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -101,34 +101,16 @@
       filter: blur(0);
     }
 
-    /* Slash Accent */
-    .char-slash {
-      display: inline-block;
-      width: 6px;
-      height: 48px;
-      margin: 0 4px;
-      background: linear-gradient(180deg, #ff7b92 0%, var(--primary) 100%);
-      transform: skewX(-20deg) scaleY(0);
-      transform-origin: bottom center;
-      border-radius: 2px;
-      opacity: 0;
-      box-shadow: 0 0 16px rgba(244, 63, 94, 0.6);
-      transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .char-slash.reveal {
-      opacity: 1;
-      transform: skewX(-20deg) scaleY(1);
-    }
-
-    /* ZZ Part (right target of falling drop) */
+    /* Target Z (clean solid Z in glowing rose - NO slash, NO cut) */
     .char-zz-target {
       position: relative;
       display: inline-block;
+      margin-left: 2px;
     }
     .char-zz {
       display: inline-block;
       color: var(--primary);
-      background: linear-gradient(135deg, #ffa4b5 0%, #f43f5e 40%, #c4123d 100%);
+      background: linear-gradient(135deg, #ffa4b5 0%, #f43f5e 45%, #c4123d 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       opacity: 0;
@@ -272,7 +254,6 @@
     <div class="splash-wrap">
       <div class="wordmark-row" id="wordmarkRow">
         <span class="char-glaz" id="charGlaz">GLAZ</span>
-        <span class="char-slash" id="charSlash"></span>
         <span class="char-zz-target" id="zzTarget">
           <span class="char-zz" id="charZz">Z</span>
         </span>
@@ -289,7 +270,6 @@
     const dropActor = document.getElementById('dropActor');
     const zzTarget = document.getElementById('zzTarget');
     const charGlaz = document.getElementById('charGlaz');
-    const charSlash = document.getElementById('charSlash');
     const charZz = document.getElementById('charZz');
     const tagline = document.getElementById('tagline');
     const tapHint = document.getElementById('tapHint');
@@ -394,7 +374,6 @@
 
       // Reset DOM state
       charGlaz.classList.remove('reveal');
-      charSlash.classList.remove('reveal');
       charZz.classList.remove('reveal');
       tagline.classList.remove('reveal');
       tapHint.classList.remove('reveal');
@@ -447,28 +426,23 @@
           createSplashExplosion(targetX, targetY + 4);
           renderParticles();
 
-          // Reveal: ZZ bursts alive from the liquid impact!
+          // Reveal: Second Z bursts alive from the liquid impact!
           charZz.classList.add('reveal');
-
-          // Reveal Slash immediately following
-          setTimeout(() => {
-            charSlash.classList.add('reveal');
-          }, 90);
 
           // Reveal GLAZ text sweeping in from the left
           setTimeout(() => {
             charGlaz.classList.add('reveal');
-          }, 210);
+          }, 140);
 
           // Tagline fades in smoothly
           setTimeout(() => {
             tagline.classList.add('reveal');
-          }, 560);
+          }, 480);
 
           // Tap hint
           setTimeout(() => {
             tapHint.classList.add('reveal');
-          }, 900);
+          }, 820);
 
         }, 710);
       });

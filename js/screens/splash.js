@@ -42,7 +42,6 @@ function renderSplash() {
 
       <div class="glazz-wordmark-stage">
         <span class="glazz-part-glaz" id="glazzPartGlaz">GLAZ</span>
-        <span class="glazz-part-slash" id="glazzPartSlash"></span>
         <span class="glazz-target-zz" id="glazzTargetZz">
           <span class="glazz-part-zz" id="glazzPartZz">Z</span>
         </span>
@@ -61,7 +60,6 @@ function initGlazzSplashPhysics() {
   const dropActor = document.getElementById('glazzDropActor');
   const zzTarget = document.getElementById('glazzTargetZz');
   const charGlaz = document.getElementById('glazzPartGlaz');
-  const charSlash = document.getElementById('glazzPartSlash');
   const charZz = document.getElementById('glazzPartZz');
   const tagline = document.getElementById('glazzTagline');
   const hint = document.getElementById('glazzHint');
@@ -154,10 +152,9 @@ function initGlazzSplashPhysics() {
       loop();
 
       charZz.classList.add('reveal');
-      setTimeout(() => charSlash.classList.add('reveal'), 90);
-      setTimeout(() => charGlaz.classList.add('reveal'), 210);
-      setTimeout(() => tagline.classList.add('reveal'), 560);
-      setTimeout(() => hint.classList.add('reveal'), 900);
+      setTimeout(() => charGlaz.classList.add('reveal'), 140);
+      setTimeout(() => tagline.classList.add('reveal'), 480);
+      setTimeout(() => hint.classList.add('reveal'), 820);
     }, 710);
   });
 }

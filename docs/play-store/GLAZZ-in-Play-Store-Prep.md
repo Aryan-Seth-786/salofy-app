@@ -14,9 +14,10 @@
 | **App store display name** | Prefer **`GLAZZ`** (see §1) |
 | **Package / application ID** | Prefer **`com.glazz.app`** (see §2) — tell Android + iOS devs before first store upload |
 | **Logo / store icon** | 512×512 PNG for Play (+ iOS icon set when needed) |
-| **Privacy policy page** | Write + host at e.g. `https://glazz.in/privacy` |
+| **Store short + full description** | Ready in `docs/play-store/copy/` — use those in Console when you have access |
+| **Privacy policy page** | Live page in repo: `privacy/index.html` → host as **`https://glazz.in/privacy`** |
 
-Optional but useful if you want: short/full description drafts (already in `copy/`), feature graphic brief.
+Short/full description files are intentional paste-ready copy for Play Console. No need to rewrite unless the product changes.
 
 ### Uncle / Android-iOS / backend lane (not yours)
 
@@ -161,13 +162,22 @@ Screenshots: **dev/uncle** capture from the real app.
 
 ## 7. Privacy policy URL (your lane)
 
-Host over HTTPS, e.g.:
+**Page source in this repo:** `privacy/index.html`
+
+**Play Console URL to paste (once hosted on your domain):**
 
 - `https://glazz.in/privacy`
 
-Must match what the **real** app + backend actually collect (phone OTP, location, bookings, etc.). Uncle/backend should confirm the data list; you can own the page and URL.
+Policy stance (as specified):
+- We do **not** sell/share personal data with third parties for their marketing
+- We use data to run the app and to show **more relevant** salons/results
+- Booking details go to the **salon you book** (needed to fulfil the appointment)
 
-Also plan a deletion path URL later (backend builds it): `https://glazz.in/delete-account` — wording can live in the same policy.
+Host this file on `glazz.in` so the path `/privacy` (or `/privacy/`) serves it over HTTPS. Until the domain is live, GitHub Pages from this repo can serve it temporarily at `/privacy/` after merge to `main`.
+
+Contact email used in the page: `privacy@glazz.in` — change if you use a different inbox.
+
+Also plan a deletion path later (backend): `https://glazz.in/delete-account`.
 
 ---
 

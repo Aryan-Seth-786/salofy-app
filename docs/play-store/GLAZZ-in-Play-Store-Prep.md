@@ -156,14 +156,15 @@ Assets in `docs/play-store/assets/`:
 
 | File | Use |
 |------|-----|
-| `icon-512.png` | Play Store upload (512×512, under 1 MB) |
-| `icon.svg` | Editable vector app icon |
+| `icon-512.png` | Play Store upload — **glaze drop on ink** (matches mark) |
+| `icon.svg` | Editable vector app icon (same drop) |
 | `wordmark.png` / `wordmark.svg` | Site header, splash, feature graphic |
-| `mark.png` / `mark.svg` | Optional glaze-drop symbol |
+| `mark.png` / `mark.svg` | Glaze-drop symbol |
+| `../splash-demo.html` | Interactive splash prototype (drop fall → wordmark) |
 
 Brand colors: rose `#f43f5e`, ink `#1f1a17`, cream `#fbf9f8`.
 
-Screenshots: **dev/uncle** capture from the real app. Feature graphic (1024×500) still optional later.
+**Splash motion (v1):** drop falls from top → soft land/squash → GLAZZ wordmark fades in → tagline. Replay at `docs/play-store/splash-demo.html`.
 
 ---
 

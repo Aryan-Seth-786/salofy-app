@@ -278,6 +278,15 @@ function confirmCancelBooking(idx) {
 /* ── Event Delegation ── */
 function initEvents() {
   document.getElementById('app').addEventListener('click', function(e) {
+    // Let the browser / Android dialer handle tel: and mailto:
+    // Stop bubbling so salon/card handlers don't steal the tap, but do NOT
+    // preventDefault — the native tel: navigation must run.
+    const nativeLink = e.target.closest('a[href^="tel:"], a[href^="mailto:"], a[data-call]');
+    if (nativeLink) {
+      e.stopPropagation();
+      return;
+    }
+
     // Bottom nav & data-nav links
     const navEl = e.target.closest('[data-nav]');
     if (navEl) {
@@ -544,8 +553,25 @@ function initEvents() {
         case 'book-now':
           navigate('booking', { salonServices: [...AppState.salonServices], salonPackages: [...AppState.salonPackages] });
           break;
-        case 'confirm-booking':
+        case 'confirm-booking': {
+          const salon = AppState.selectedSalon || {};
+          const payload = {
+            salonId: salon.id,
+            salonName: salon.name,
+            services: [...(AppState.salonServices || [])],
+            packages: [...(AppState.salonPackages || [])],
+            dateIdx: AppState.booking && AppState.booking.dateIdx,
+            time: AppState.booking && AppState.booking.time,
+            customerName: (AppState.user && AppState.user.name) || 'Guest',
+          };
+          if (typeof SalofyAPI !== 'undefined') {
+            SalofyAPI.createBooking(payload).catch(() => {});
+          }
           navigate('booking-confirmed');
+          break;
+        }
+        case 'place-call':
+          placeCall(actionEl.dataset.phone || (typeof SUPPORT_PHONE !== 'undefined' ? SUPPORT_PHONE : ''));
           break;
         case 'view-bookings':
           navigate('my-bookings');

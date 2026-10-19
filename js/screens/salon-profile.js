@@ -214,12 +214,21 @@ function renderSalonProfile() {
       <button data-action="book-now" style="flex:1;padding:13px;background:${C.primary};color:#fff;border:none;border-radius:14px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;box-shadow:${C.shadowRose};transition:transform 120ms">
         ${selSvcs.length > 0 ? `Book ${selSvcs.length} service${selSvcs.length > 1 ? 's' : ''}` : 'Book now'}
       </button>
-      <button class="btn btn--ghost" onclick="navigator.clipboard && navigator.clipboard.writeText('${s.name}')">
+      <a class="btn btn--ghost"
+         href="${toTelHref(s.phone || SUPPORT_PHONE)}"
+         data-call="salon"
+         aria-label="Call ${s.name}"
+         title="Call salon">
         ${Icons.phone(18, C.ink600)}
-      </button>
-      <button class="btn btn--ghost">
+      </a>
+      <a class="btn btn--ghost"
+         href="https://maps.google.com/?q=${encodeURIComponent(s.name + ', ' + s.loc)}"
+         target="_blank"
+         rel="noopener noreferrer"
+         aria-label="Open directions"
+         title="Directions">
         ${Icons.mapPin(18, C.ink600)}
-      </button>
+      </a>
     </div>
 
     <div style="padding:0 20px 10px">${PayAtSalon()}</div>

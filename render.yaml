@@ -1,0 +1,14 @@
+# Render Blueprint — one-click deploy for the Salofy PWA + API
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: salofy-app
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production

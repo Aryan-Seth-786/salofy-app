@@ -90,9 +90,13 @@ const allServices = [
     includes: ["Choice of oil", "Scalp massage", "Neck & shoulder"] },
 ];
 
+const SUPPORT_PHONE = '+918001234567';
+const SUPPORT_EMAIL = 'help@salofy.in';
+
 const salons = [
   {
     id: 1, name: "Luxe Hair Studio", loc: "Sector 17, Chandigarh", dist: "1.2 km", mapX: 55, mapY: 25,
+    phone: "+919876510001",
     rating: 4.8, reviews: 312, tier: "premium", photos: 32,
     cover: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=450&fit=crop&crop=center',
     gallery: [
@@ -166,6 +170,7 @@ const salons = [
   },
   {
     id: 2, name: "Urban Style", loc: "Kharar Main Road", dist: "3.8 km", mapX: 78, mapY: 72,
+    phone: "+919876510002",
     rating: 4.5, reviews: 124, tier: "growth", photos: 15,
     cover: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=800&h=450&fit=crop&crop=center',
     gallery: [
@@ -206,6 +211,7 @@ const salons = [
   },
   {
     id: 3, name: "Glow Beauty Parlour", loc: "Phase 3B2, Mohali", dist: "5.1 km", mapX: 42, mapY: 68,
+    phone: "+919876510003",
     rating: 4.1, reviews: 38, tier: "starter", photos: 5,
     cover: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&h=450&fit=crop&crop=center',
     gallery: [
@@ -223,6 +229,7 @@ const salons = [
   },
   {
     id: 4, name: "Royal Cuts", loc: "Phase 5, Mohali", dist: "2.4 km", mapX: 35, mapY: 52,
+    phone: "+919876510004",
     rating: 4.7, reviews: 198, tier: "premium", photos: 28,
     cover: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&h=450&fit=crop&crop=center',
     gallery: [
@@ -247,6 +254,7 @@ const salons = [
   },
   {
     id: 5, name: "Neha's Salon", loc: "Patiala Gate", dist: "6.3 km", mapX: 18, mapY: 82,
+    phone: "+919876510005",
     rating: 3.9, reviews: 22, tier: "starter", photos: 4,
     cover: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=450&fit=crop&crop=center',
     gallery: [
@@ -263,6 +271,7 @@ const salons = [
   },
   {
     id: 6, name: "Blade & Co.", loc: "Sector 22, Chandigarh", dist: "2.1 km", mapX: 62, mapY: 35,
+    phone: "+919876510006",
     rating: 4.6, reviews: 87, tier: "growth", photos: 12,
     cover: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=800&h=450&fit=crop&crop=center',
     gallery: [

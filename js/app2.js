@@ -176,6 +176,12 @@ function confirmCancelBooking(idx) {
 /* ── Event Delegation ── */
 function initEvents() {
   document.getElementById('app').addEventListener('click', function(e) {
+    const nativeLink = e.target.closest('a[href^="tel:"], a[href^="mailto:"], a[data-call]');
+    if (nativeLink) {
+      e.stopPropagation();
+      return;
+    }
+
     const navEl = e.target.closest('[data-nav]');
     if (navEl) {
       e.stopPropagation();
@@ -228,7 +234,24 @@ function initEvents() {
         case 'go-search':        navigate('search-input', { selectedServices: [] }); break;
         case 'show-results':     navigate('search-results', { selectedServices: [...AppState.selectedServices] }); break;
         case 'book-now':         navigate('booking', { salonServices: [...AppState.salonServices] }); break;
-        case 'confirm-booking':  navigate('booking-confirmed'); break;
+        case 'confirm-booking': {
+          if (typeof SalofyAPI !== 'undefined') {
+            SalofyAPI.createBooking({
+              salonId: AppState.selectedSalon && AppState.selectedSalon.id,
+              salonName: AppState.selectedSalon && AppState.selectedSalon.name,
+              services: [...(AppState.salonServices || [])],
+              dateIdx: AppState.booking && AppState.booking.dateIdx,
+              time: AppState.booking && AppState.booking.time,
+            }).catch(() => {});
+          }
+          navigate('booking-confirmed');
+          break;
+        }
+        case 'place-call':
+          if (typeof placeCall === 'function') {
+            placeCall(actionEl.dataset.phone || (typeof SUPPORT_PHONE !== 'undefined' ? SUPPORT_PHONE : ''));
+          }
+          break;
         case 'view-bookings':    navigate('my-bookings'); break;
         case 'go-login':         navigate('login'); break;
         case 'go-profile':       navigate('profile'); break;

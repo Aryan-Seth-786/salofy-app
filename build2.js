@@ -63,6 +63,7 @@ const jsFiles = [
   'js/icons.js',
   'js/shell.js',
   'js/components.js',
+  'js/api.js',
   'js/screens/splash.js',
   'js/screens/login.js',
   'js/screens/otp.js',
@@ -102,21 +103,53 @@ const js = jsFiles
 fs.writeFileSync(path.join(outDir, 'bundle.js'), js);
 console.log('✓ dist2/bundle.js');
 
+// Copy PWA assets into dist2
+const pwaFiles = [
+  'manifest.webmanifest',
+  'sw.js',
+];
+pwaFiles.forEach((f) => {
+  fs.copyFileSync(path.join(root, f), path.join(outDir, f));
+  console.log(`✓ dist2/${f}`);
+});
+const iconsDir = path.join(outDir, 'icons');
+fs.mkdirSync(iconsDir, { recursive: true });
+fs.readdirSync(path.join(root, 'icons')).forEach((f) => {
+  fs.copyFileSync(path.join(root, 'icons', f), path.join(iconsDir, f));
+});
+console.log('✓ dist2/icons/*');
+
 // Write index.html
 const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f43f5e">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Salofy">
   <title>Salofy</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div id="app"></div>
   <script src="bundle.js"></script>
+  <script src="js/pwa-register.js"></script>
 </body>
 </html>
 `;
 fs.writeFileSync(path.join(outDir, 'index.html'), html);
 console.log('✓ dist2/index.html');
+
+// Tiny SW register helper for bundled build (paths relative to dist2)
+fs.mkdirSync(path.join(outDir, 'js'), { recursive: true });
+fs.writeFileSync(
+  path.join(outDir, 'js', 'pwa-register.js'),
+  `if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(console.warn)); }\n`
+);
+console.log('✓ dist2/js/pwa-register.js');
 console.log('\nDone! Open dist2/index.html in your browser.');

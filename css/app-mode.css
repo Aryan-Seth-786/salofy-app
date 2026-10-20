@@ -35,7 +35,6 @@ input, textarea {
   border-radius: 0;
   border: none;
   box-shadow: none;
-  padding-top: env(safe-area-inset-top, 0px);
 }
 
 .phone-notch { display: none; }
@@ -48,8 +47,8 @@ input, textarea {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
-  /* Room to scroll the last button clear of the fixed tab bar. */
-  padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px));
+  /* Clears a ~64px tab row plus the home-indicator inset. */
+  padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
 }
 
 .phone-content--no-nav {
@@ -58,7 +57,7 @@ input, textarea {
 }
 
 .phone-content.has-summary-bar {
-  padding-bottom: calc(176px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(136px + env(safe-area-inset-bottom, 0px));
 }
 
 /* Fixed to the visible screen. Absolute tied the bar to a shell taller than the phone. */
@@ -66,7 +65,7 @@ input, textarea {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: calc(78px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(64px + env(safe-area-inset-bottom, 0px));
   z-index: 35;
 }
 
@@ -75,20 +74,14 @@ input, textarea {
   bottom: 0;
   left: 0;
   right: 0;
-  /* shell.css sets height: 78px with border-box, so a safe-area
-     padding-bottom was eaten by that height and crushed the labels
-     into the iOS home indicator. Grow the bar by the inset instead:
-     the 78px band stays for the icons, and the home indicator sits
-     in the padding. Book Now / scroll offsets below still use 78px
-     plus the same inset, so they stay docked on Android (inset 0). */
   height: auto;
-  min-height: calc(78px + env(safe-area-inset-bottom, 0px));
-  padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
-  background: linear-gradient(to top, var(--surface) 85%, transparent);
+  min-height: 0;
+  padding: 8px 8px env(safe-area-inset-bottom, 0px);
+  background: var(--surface);
 }
 
 .bottom-nav--dashboard {
-  background: linear-gradient(to top, #1A1A28 85%, transparent);
+  background: #1A1A28;
 }
 
 /* install prompt banner (beforeinstallprompt / manual) */

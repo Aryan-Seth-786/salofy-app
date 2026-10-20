@@ -21,10 +21,17 @@ input, textarea {
   user-select: text;
 }
 
+#app {
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+}
+
 .phone-shell {
   width: 100vw;
-  min-height: 100vh;
-  min-height: 100dvh;
+  height: 100dvh;
+  max-height: 100dvh;
+  min-height: 0;
   border-radius: 0;
   border: none;
   box-shadow: none;
@@ -35,23 +42,32 @@ input, textarea {
 .phone-status { display: none; }
 
 .phone-content {
-  height: calc(100dvh - 78px);
-  height: calc(100vh - 78px);
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
-  padding-bottom: 0;
+  /* Room to scroll the last button clear of the fixed tab bar. */
+  padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px));
 }
 
 .phone-content--no-nav {
-  height: 100dvh;
-  height: 100vh;
-  padding-bottom: 0;
+  height: auto;
+  padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px));
 }
 
-.phone-content.has-summary-bar { padding-bottom: 76px; }
+.phone-content.has-summary-bar {
+  padding-bottom: calc(176px + env(safe-area-inset-bottom, 0px));
+}
+
+/* Fixed to the visible screen. Absolute tied the bar to a shell taller than the phone. */
 .salon-summary-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
   bottom: calc(78px + env(safe-area-inset-bottom, 0px));
+  z-index: 35;
 }
 
 .bottom-nav {

@@ -75,6 +75,29 @@ async function hydrateCatalog() {
 }
 
 /* ── user hydration: me → AppState + bookings global ── */
+const ME_CACHE_KEY = 'glazz_me_cache';
+
+function saveMeCache(d) {
+  try {
+    localStorage.setItem(ME_CACHE_KEY, JSON.stringify({ savedAt: Date.now(), ...d }));
+  } catch {}
+}
+
+function restoreMeCache() {
+  try {
+    const raw = localStorage.getItem(ME_CACHE_KEY);
+    if (!raw) return null;
+    const d = JSON.parse(raw);
+    if (!d || !d.user) return null;
+    applyMe(d);
+    return d;
+  } catch { return null; }
+}
+
+function clearMeCache() {
+  try { localStorage.removeItem(ME_CACHE_KEY); } catch {}
+}
+
 function applyMe(d) {
   if (d.user) AppState.user = d.user;
   AppState.favorites = new Set(d.favorites || []);
@@ -90,6 +113,7 @@ function applyMe(d) {
 async function hydrateMe() {
   const d = await API.me();
   applyMe(d);
+  saveMeCache(d);
   return d;
 }
 

@@ -56,11 +56,13 @@ function BookingDates(n) {
   return out;
 }
 
+/* picker chips are unlabeled: 9–11 are morning, 12 & 1–6 are afternoon */
 function fmtTime(t) {
-  const m = String(t || '').match(/^(\d+):(\d+)/);
+  const m = String(t || '').match(/^(\d+):(\d+)\s*(AM|PM)?$/i);
   if (!m) return t || '';
   let h = parseInt(m[1]); const mm = m[2];
-  const ap = h >= 12 ? 'PM' : 'AM';
+  let ap = m[3] ? m[3].toUpperCase() : null;
+  if (!ap) ap = ((h >= 1 && h <= 6) || h >= 12) ? 'PM' : 'AM';
   h = h % 12 || 12;
   return `${h}:${mm} ${ap}`;
 }

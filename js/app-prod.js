@@ -57,11 +57,14 @@ function BookingDates(n) {
   return out;
 }
 
+/* Picker chips are unlabeled (9–11 morning · 12 and 1–6 afternoon).
+   fmtTime('2:30') → '2:30 PM'; already-labeled times pass through. */
 function fmtTime(t) {
-  const m = String(t || '').match(/^(\d+):(\d+)/);
+  const m = String(t || '').match(/^(\d+):(\d+)\s*(AM|PM)?$/i);
   if (!m) return t || '';
   let h = parseInt(m[1]); const mm = m[2];
-  const ap = h >= 12 ? 'PM' : 'AM';
+  let ap = m[3] ? m[3].toUpperCase() : null;
+  if (!ap) ap = ((h >= 1 && h <= 6) || h >= 12) ? 'PM' : 'AM';
   h = h % 12 || 12;
   return `${h}:${mm} ${ap}`;
 }
@@ -284,13 +287,19 @@ async function doCancelBooking(idx) {
 /* ── Auth actions ── */
 async function doRequestOtp() {
   const input = document.getElementById('login-phone');
-  const phone = (input ? input.value : '').replace(/\D/g, '');
+  /* on the login screen use the typed number; on the OTP screen (resend) reuse pendingPhone */
+  const phone = (input ? input.value : (AppState.pendingPhone || '')).replace(/\D/g, '');
   if (phone.length !== 10) { toast('Enter a valid 10-digit phone number'); return; }
   try {
     const d = await API.requestOtp(phone);
     AppState.pendingPhone = phone;
     AppState.demoOtp = d.demoOtp || null;
-    navigate('otp');
+    if (AppState.currentScreen === 'otp') {
+      navigate('otp'); /* re-render with the fresh demo code */
+      toast('New code sent');
+    } else {
+      navigate('otp');
+    }
   } catch (err) { toast(String(err).includes('fetch') ? 'You appear to be offline' : err.message); }
 }
 
@@ -313,6 +322,7 @@ async function doVerifyOtp() {
 
 async function doLogout() {
   await API.logout();
+  clearMeCache();
   AppState.user = null;
   AppState.favorites = new Set();
   AppState.notifications = [];
@@ -765,11 +775,17 @@ async function init() {
       return;
     } catch (err) {
       if (API.token) {
-        /* transient failure (offline / 5xx / cold start) — keep the session */
-        bookings.length = 0;
-        AppState.favorites = new Set();
-        AppState.notifications = [];
-        toast('Couldn\u2019t reach the server — showing cached data');
+        /* transient failure (offline / 5xx / cold start) — keep the session.
+           Restore the last-known me snapshot if we have one. */
+        const cached = restoreMeCache();
+        if (cached) {
+          toast('Offline \u2014 showing your last saved data');
+        } else {
+          bookings.length = 0;
+          AppState.favorites = new Set();
+          AppState.notifications = [];
+          toast('Couldn\u2019t reach the server \u2014 check your connection');
+        }
         navigate('home');
         return;
       }

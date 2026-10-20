@@ -1,12 +1,23 @@
 function renderNotifications() {
-  const ns = [
-    { icon: Icons.lightning(16, '#fff'), bg: C.error, title: 'Flash Deal: 50% Off Facials!', body: 'Luxe Hair Studio \u2014 only 2 hrs left.', time: '12 min ago', category: 'flash', action: 'go-deals' },
-    { icon: Icons.mapPin(16, '#fff'), bg: C.primary, title: 'Weekend Picks Near You', body: '3 salons in Kharar have special offers.', time: '2 hrs ago', category: 'foryou', action: 'show-results' },
-    { icon: Icons.gift(16, '#fff'), bg: C.success, title: 'New Salon Alert', body: 'Blade & Co. joined with \u20B999 head wash!', time: 'Yesterday', category: 'foryou', gotoSalon: 3 },
-    { icon: Icons.check(16, '#fff'), bg: C.info, title: 'Booking Confirmed', body: 'Urban Style on Sun, Mar 29 at 10:30 AM.', time: '2 days ago', category: 'booking', action: 'view-bookings' },
-    { icon: Icons.clock(16, '#fff'), bg: C.surface3, title: 'Appointment Reminder', body: 'Your haircut at Glow Beauty is tomorrow.', time: '3 days ago', category: 'booking', action: 'view-bookings' },
-    { icon: Icons.starFilled(16, '#fff'), bg: C.saffron, title: 'Rate Your Visit', body: 'How was Glow Beauty?', time: '5 days ago', category: 'booking', gotoSalon: 5 },
-  ];
+  const ns = (AppState.notifications && AppState.notifications.length)
+    ? AppState.notifications.map(n => ({
+        icon: n.icon === 'check' ? Icons.check(16, '#fff')
+          : n.icon === 'clock' ? Icons.clock(16, '#fff')
+          : n.icon === 'x' ? Icons.close(16, '#fff')
+          : n.icon === 'lightning' ? Icons.lightning(16, '#fff')
+          : Icons.mapPin(16, '#fff'),
+        bg: (n.bg && n.bg.startsWith('var(')) ? n.bg : 'var(--info)',
+        title: n.title, body: n.body, time: n.time,
+        category: n.category, action: n.action, gotoSalon: n.goto_salon || n.gotoSalon,
+      }))
+    : [
+      { icon: Icons.lightning(16, '#fff'), bg: C.error, title: 'Flash Deal: 50% Off Facials!', body: 'Luxe Hair Studio \u2014 only 2 hrs left.', time: '12 min ago', category: 'flash', action: 'go-deals' },
+      { icon: Icons.mapPin(16, '#fff'), bg: C.primary, title: 'Weekend Picks Near You', body: '3 salons in Kharar have special offers.', time: '2 hrs ago', category: 'foryou', action: 'show-results' },
+      { icon: Icons.gift(16, '#fff'), bg: C.success, title: 'New Salon Alert', body: 'Blade & Co. joined with \u20B999 head wash!', time: 'Yesterday', category: 'foryou', gotoSalon: 3 },
+      { icon: Icons.check(16, '#fff'), bg: C.info, title: 'Booking Confirmed', body: 'Urban Style on Sun, Mar 29 at 10:30 AM.', time: '2 days ago', category: 'booking', action: 'view-bookings' },
+      { icon: Icons.clock(16, '#fff'), bg: C.surface3, title: 'Appointment Reminder', body: 'Your haircut at Glow Beauty is tomorrow.', time: '3 days ago', category: 'booking', action: 'view-bookings' },
+      { icon: Icons.starFilled(16, '#fff'), bg: C.saffron, title: 'Rate Your Visit', body: 'How was Glow Beauty?', time: '5 days ago', category: 'booking', gotoSalon: 5 },
+    ];
 
   return Shell(`
     <div style="padding:44px 20px 10px;display:flex;align-items:center;gap:10px">

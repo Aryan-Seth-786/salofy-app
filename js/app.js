@@ -44,6 +44,27 @@ function isSalonOpen(salon) {
   return cur >= oh * 60 && cur < ch * 60;
 }
 
+/* ── Dynamic booking dates (shared with prod controller) ── */
+function BookingDates(n) {
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const out = [];
+  for (let i = 0; i < n; i++) {
+    const d = new Date(); d.setDate(d.getDate() + i);
+    out.push({ d: i === 0 ? 'Today' : days[d.getDay()], n: String(d.getDate()), full: `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}` });
+  }
+  return out;
+}
+
+function fmtTime(t) {
+  const m = String(t || '').match(/^(\d+):(\d+)/);
+  if (!m) return t || '';
+  let h = parseInt(m[1]); const mm = m[2];
+  const ap = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  return `${h}:${mm} ${ap}`;
+}
+
 /* ── Screen Registry ── */
 const screens = [
   // Auth
@@ -481,6 +502,11 @@ function initEvents() {
       const action = actionEl.dataset.action;
       switch (action) {
         case 'go-otp':         navigate('otp'); break;
+        case 'verify-otp':     AppState.onboardStep = 0; navigate('onboarding'); break;
+        case 'save-profile':   navigate('profile'); break;
+        case 'open-add-address': AppState.addingAddress = true;  navigate('saved-addresses'); break;
+        case 'cancel-add-address': AppState.addingAddress = false; navigate('saved-addresses'); break;
+        case 'delete-address': AppState.addingAddress = false; navigate('saved-addresses'); break;
         case 'go-onboarding':  AppState.onboardStep = 0; navigate('onboarding'); break;
         case 'go-home':        navigate('home'); break;
         case 'onboard-next':

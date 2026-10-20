@@ -1,0 +1,106 @@
+/* ═══════════════════════════════════════════════════
+   APP MODE — fullscreen layout for the PWA/TWA
+   (replaces the desktop demo phone-frame chrome)
+   ═══════════════════════════════════════════════════ */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+input, textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.phone-shell {
+  width: 100vw;
+  min-height: 100vh;
+  min-height: 100dvh;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.phone-notch { display: none; }
+.phone-status { display: none; }
+
+.phone-content {
+  height: calc(100dvh - 78px);
+  height: calc(100vh - 78px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  padding-bottom: 0;
+}
+
+.phone-content--no-nav {
+  height: 100dvh;
+  height: 100vh;
+  padding-bottom: 0;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: linear-gradient(to top, var(--surface) 85%, transparent);
+}
+
+.bottom-nav--dashboard {
+  background: linear-gradient(to top, #1A1A28 85%, transparent);
+}
+
+/* install prompt banner (beforeinstallprompt / manual) */
+#pwa-install-banner {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: calc(86px + env(safe-area-inset-bottom, 0px));
+  z-index: 60;
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+}
+#pwa-install-banner.on { display: flex; }
+
+/* toast */
+#app-toast {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  z-index: 70;
+  display: none;
+  max-width: 86%;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--ink-900);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+  text-align: center;
+}
+#app-toast.on { display: block; }
+
+/* statusbar-safe splash */
+.screen-container--splash {
+  padding-top: env(safe-area-inset-top, 0px);
+}

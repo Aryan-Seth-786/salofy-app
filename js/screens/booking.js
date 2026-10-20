@@ -4,7 +4,7 @@ function renderBooking() {
   const selSvcs = (AppState.salonServices && AppState.salonServices.length > 0)
     ? AppState.salonServices.filter(sid => s.services[sid])
     : selPkgs.length > 0 ? [] : Object.keys(s.services).slice(0, 2);
-  const dates   = [
+  const dates   = (typeof BookingDates === 'function') ? BookingDates(6) : [
     { d:'Today',n:'28' },{ d:'Sun',n:'29' },{ d:'Mon',n:'30' },
     { d:'Tue',n:'31'  },{ d:'Wed',n:'1'  },{ d:'Thu',n:'2'  },
   ];

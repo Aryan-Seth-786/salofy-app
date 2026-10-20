@@ -12,7 +12,10 @@ function renderLogin() {
         <div style="display:flex;align-items:center;gap:6px;padding:14px 14px;background:${C.surface2};border:1px solid ${C.border};border-radius:12px;font-size:15px;font-weight:600;color:${C.text};white-space:nowrap;flex-shrink:0">
           <span style="font-size:16px">🇮🇳</span>+91
         </div>
-        <input class="input" value="98765 43210" style="flex:1;background:${C.surface};border:1.5px solid ${C.border}" readonly>
+        <input id="login-phone" class="input" value="${AppState.pendingPhone || ''}"
+               type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="10" placeholder="9876543210"
+               oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)"
+               style="flex:1;background:${C.surface};border:1.5px solid ${C.border};letter-spacing:0.5px">
       </div>
 
       <button data-action="go-otp" class="btn btn--primary">Get OTP</button>

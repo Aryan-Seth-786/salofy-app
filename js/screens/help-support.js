@@ -31,23 +31,23 @@ function renderHelpSupport() {
       <!-- Contact -->
       <div style="font-size:15px;font-weight:600;color:${C.text};margin:24px 0 12px">Contact Us</div>
 
-      <div style="background:${C.surface};border:1px solid ${C.border};border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer">
+      <a href="tel:+918001234567" style="background:${C.surface};border:1px solid ${C.border};border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer;text-decoration:none">
         <div style="width:40px;height:40px;background:${C.primaryS};border-radius:10px;display:flex;align-items:center;justify-content:center">${Icons.phone(18, C.primary)}</div>
         <div style="flex:1">
           <div style="font-size:15px;font-weight:600;color:${C.text}">Call Us</div>
           <div style="font-size:12px;color:${C.text3}">+91 800 123 4567</div>
         </div>
         ${Icons.forward(16, C.text3)}
-      </div>
+      </a>
 
-      <div style="background:${C.surface};border:1px solid ${C.border};border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer">
+      <a href="mailto:help@salofy.in" style="background:${C.surface};border:1px solid ${C.border};border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer;text-decoration:none">
         <div style="width:40px;height:40px;background:${C.infoS};border-radius:10px;display:flex;align-items:center;justify-content:center">${Icons.mail(18, C.info)}</div>
         <div style="flex:1">
           <div style="font-size:15px;font-weight:600;color:${C.text}">Email Support</div>
           <div style="font-size:12px;color:${C.text3}">help@salofy.in</div>
         </div>
         ${Icons.forward(16, C.text3)}
-      </div>
+      </a>
 
       <div style="background:${C.surface};border:1px solid ${C.border};border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer">
         <div style="width:40px;height:40px;background:var(--success-surface);border-radius:10px;display:flex;align-items:center;justify-content:center">${Icons.message(18, C.success)}</div>

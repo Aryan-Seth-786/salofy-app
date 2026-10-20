@@ -4,14 +4,15 @@ function renderBookingConfirmed() {
   const selSvcs = (AppState.salonServices && AppState.salonServices.length > 0)
     ? AppState.salonServices.filter(sid => s.services[sid])
     : selPkgs.length > 0 ? [] : Object.keys(s.services).slice(0, 2);
+  const last   = AppState.lastBooking || null;
   const svcTotal = selSvcs.reduce((a, sid) => a + (s.services[sid] || 0), 0);
   const pkgTotal = selPkgs.reduce((a, pkgId) => { const p = (s.packages||[]).find(pk => pk.id === pkgId); return a + (p ? p.price : 0); }, 0);
-  const subtotal = svcTotal + pkgTotal;
+  const subtotal = last ? (last.total != null ? last.total : svcTotal + pkgTotal) : svcTotal + pkgTotal;
   const dp       = s.deal ? parseInt(s.deal) || 0 : 0;
-  const discount = (s.tier !== 'starter' && dp > 0) ? Math.round(subtotal * dp / 100) : 0;
-  const dates    = ['Today','Sun 29','Mon 30','Tue 31','Wed 1','Thu 2'];
-  const dateStr  = dates[AppState.booking.dateIdx] || 'Sun, Mar 29';
-  const timeStr  = AppState.booking.time || '10:30 AM';
+  const discount = last ? 0 : (s.tier !== 'starter' && dp > 0) ? Math.round(subtotal * dp / 100) : 0;
+  const dates    = (typeof BookingDates === 'function') ? BookingDates(6) : ['Today','Sun 29','Mon 30','Tue 31','Wed 1','Thu 2'];
+  const dateStr  = last ? last.date : (dates[AppState.booking.dateIdx] || 'Sun, Mar 29');
+  const timeStr  = last ? last.time : (AppState.booking.time || '10:30 AM');
 
   return Shell(`
     <div style="display:flex;flex-direction:column;align-items:center;padding:80px 24px 24px;text-align:center">
@@ -63,9 +64,9 @@ function renderBookingConfirmed() {
       <div style="background:${C.primaryS};border:1px solid ${C.primary}33;border-radius:10px;padding:12px 16px;width:100%;margin-top:12px;display:flex;justify-content:space-between;align-items:center">
         <div>
           <div style="font-size:11px;font-weight:800;color:${C.text3};text-transform:uppercase;letter-spacing:0.1em">Booking Ref</div>
-          <div style="font-size:15px;font-weight:700;color:${C.primary};letter-spacing:2px">SF2930</div>
+          <div style="font-size:15px;font-weight:700;color:${C.primary};letter-spacing:2px">${(AppState.lastBooking && AppState.lastBooking.id) || 'SF2930'}</div>
         </div>
-        <div style="display:flex;align-items:center;gap:4px;font-size:12px;color:${C.text3};cursor:pointer">${Icons.copy(14, C.text3)} Copy</div>
+        <div onclick="navigator.clipboard&&navigator.clipboard.writeText('${(AppState.lastBooking && AppState.lastBooking.id) || 'SF2930'}').then(()=>toast('Booking ref copied')).catch(()=>{})" style="display:flex;align-items:center;gap:4px;font-size:12px;color:${C.text3};cursor:pointer">${Icons.copy(14, C.text3)} Copy</div>
       </div>
 
       <button data-action="go-home" class="btn btn--primary" style="margin-top:24px;border-radius:12px">

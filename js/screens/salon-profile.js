@@ -214,12 +214,15 @@ function renderSalonProfile() {
       <button data-action="book-now" style="flex:1;padding:13px;background:${C.primary};color:#fff;border:none;border-radius:14px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;box-shadow:${C.shadowRose};transition:transform 120ms">
         ${selSvcs.length > 0 ? `Book ${selSvcs.length} service${selSvcs.length > 1 ? 's' : ''}` : 'Book now'}
       </button>
-      <button class="btn btn--ghost" onclick="navigator.clipboard && navigator.clipboard.writeText('${s.name}')">
+      <a href="tel:${s.phone || '+919876543210'}" aria-label="Call ${s.name}"
+         style="display:flex;align-items:center;justify-content:center;width:48px;flex-shrink:0;padding:13px;background:${C.surface};border:1.5px solid ${C.border};border-radius:14px;text-decoration:none;cursor:pointer">
         ${Icons.phone(18, C.ink600)}
-      </button>
-      <button class="btn btn--ghost">
+      </a>
+      <a href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(s.name + ', ' + s.loc)}${s.lat ? `&destination_lat=${s.lat}&destination_lng=${s.lng}` : ''}" target="_blank" rel="noopener" aria-label="Directions to ${s.name}"
+         onclick="event.stopPropagation()"
+         style="display:flex;align-items:center;justify-content:center;width:48px;flex-shrink:0;padding:13px;background:${C.surface};border:1.5px solid ${C.border};border-radius:14px;text-decoration:none;cursor:pointer">
         ${Icons.mapPin(18, C.ink600)}
-      </button>
+      </a>
     </div>
 
     <div style="padding:0 20px 10px">${PayAtSalon()}</div>

@@ -6,7 +6,7 @@ function renderReschedule() {
   const bkPkg = bk.pkgId ? (s.packages || []).find(p => p.id === bk.pkgId) : null;
   const bkSvcLabels = (bk.svcIds || []).map(sid => getSvc(sid)?.label).filter(Boolean);
   const bkSummary = [bkPkg ? bkPkg.name : null, ...bkSvcLabels].filter(Boolean).join(' · ');
-  const dates = [
+  const dates = (typeof BookingDates === 'function') ? BookingDates(8) : [
     { d:'Today',n:'28' },{ d:'Sun',n:'29' },{ d:'Mon',n:'30' },
     { d:'Tue',n:'31'  },{ d:'Wed',n:'1'  },{ d:'Thu',n:'2'  },
     { d:'Fri',n:'3'   },{ d:'Sat',n:'4'  },

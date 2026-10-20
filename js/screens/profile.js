@@ -15,11 +15,11 @@ function renderProfile() {
       <!-- Avatar Row -->
       <div style="display:flex;gap:14px;align-items:center;margin-bottom:20px">
         <div style="position:relative">
-          <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,${C.primaryD},${C.primary});display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;font-weight:700;box-shadow:var(--shadow-gold)">A</div>
+          <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,${C.primaryD},${C.primary});display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;font-weight:700;box-shadow:var(--shadow-gold)">${(((AppState.user || {}).name || 'A').trim().charAt(0) || 'A').toUpperCase()}</div>
         </div>
         <div>
-          <div style="font-size:17px;font-weight:600;color:${C.text}">Aryan</div>
-          <div style="font-size:13px;color:${C.text3}">+91 98765 43210</div>
+          <div style="font-size:17px;font-weight:600;color:${C.text}">${(AppState.user || {}).name || 'Guest user'}</div>
+          <div style="font-size:13px;color:${C.text3}">+91 ${String((AppState.user || {}).phone || '9876543210').replace(/(\d{5})(\d{5})/, '$1 $2')}</div>
           <div data-nav="edit-profile" style="font-size:12px;color:${C.primary};font-weight:500;margin-top:2px;cursor:pointer;display:inline-flex;align-items:center;gap:3px">
             ${Icons.edit(11, C.primary)} Edit profile
           </div>
@@ -29,9 +29,9 @@ function renderProfile() {
       <!-- Stats -->
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px">
         ${[
-          { v:'12', l:'Bookings',  action: 'view-bookings' },
-          { v:'3',  l:'Favorites', action: 'go-favorites'  },
-          { v:'\u20B92,400', l:'Saved',    action: ''               },
+          { v: String(bookings.length || 0), l: 'Bookings', action: 'view-bookings' },
+          { v: String(AppState.favorites.size || 0), l: 'Favorites', action: 'go-favorites'  },
+          { v: '\u20B9' + String(bookings.filter(b => b.status !== 'cancelled').reduce((a, b) => a + (b.total || 0), 0) || 0).replace(/(\d)(\d{2})$/, '$1,$2'), l: 'Booked', action: '' },
         ].map(s => `
           <div data-action="${s.action}" style="background:${C.surface2};border:1px solid ${C.border};border-radius:12px;padding:12px 10px;text-align:center;${s.action ? 'cursor:pointer' : ''}">
             <div style="font-size:18px;font-weight:700;color:${C.primary}">${s.v}</div>

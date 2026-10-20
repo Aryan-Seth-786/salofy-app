@@ -49,6 +49,7 @@ function memoryStore() {
     async getCatalog() { return catalog; },
     async upsertOtp(phone, code, expiresAt) { db.otp.set(phone, { code_hash: hash(code), expires_at: expiresAt, attempts: 0 }); },
     async getOtp(phone) { return db.otp.get(phone) || null; },
+    async deleteOtp(phone) { db.otp.delete(phone); },
     async bumpOtpAttempts(phone) { const o = db.otp.get(phone); if (o) o.attempts++; },
     async upsertUserByPhone(phone) {
       for (const u of db.users.values()) if (u.phone === phone) return u;
@@ -143,6 +144,7 @@ function pgStore(databaseUrl) {
       const { rows } = await q('SELECT * FROM otp_codes WHERE phone = $1', [phone]);
       return rows[0] || null;
     },
+    async deleteOtp(phone) { await q('DELETE FROM otp_codes WHERE phone = $1', [phone]); },
     async bumpOtpAttempts(phone) { await q('UPDATE otp_codes SET attempts = attempts + 1 WHERE phone = $1', [phone]); },
     async upsertUserByPhone(phone) {
       const { rows } = await q(

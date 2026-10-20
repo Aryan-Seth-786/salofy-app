@@ -144,6 +144,7 @@ async function handleApi(req, res, url) {
     const user = await store.upsertUserByPhone(phone);
     const isNew = !user.name;
     const t = await store.createSession(user.id);
+    await store.deleteOtp(phone); /* one code → one login; no replay */
     if (isNew) await seedUserNotifications(user.id);
     return send(res, 200, { token: t, user: publicUser(user) });
   }

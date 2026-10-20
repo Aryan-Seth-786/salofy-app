@@ -180,7 +180,12 @@ const Geo = {
       if (!navigator.geolocation) { this.status = 'denied'; return reject(new Error('unsupported')); }
       navigator.geolocation.getCurrentPosition(
         (pos) => { this.pos = pos; this.status = 'granted'; this.applyToSalons(); resolve(pos); },
-        (err) => { this.status = 'denied'; reject(err); },
+        (err) => {
+          /* only an actual permission denial latches — timeouts /
+             position-unavailable stay retryable for the rest of the session */
+          if (err && err.code === 1) this.status = 'denied';
+          reject(err);
+        },
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
       );
     });

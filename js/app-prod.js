@@ -789,7 +789,8 @@ async function init() {
           AppState.notifications = [];
           toast('Couldn\u2019t reach the server \u2014 check your connection');
         }
-        navigate('home');
+        /* honor the ?screen= deep link (manifest shortcuts) even in recovery */
+        navigate(deepLink && screens.some(s => s.id === deepLink) ? deepLink : 'home');
         return;
       }
       /* API.call cleared the token on 401 — genuinely expired */

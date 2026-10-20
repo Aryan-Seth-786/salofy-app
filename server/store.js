@@ -47,7 +47,7 @@ function memoryStore() {
     },
     async health() { return { mode: 'memory' }; },
     async getCatalog() { return catalog; },
-    async upsertOtp(phone, code, expiresAt) { db.otp.set(phone, { code_hash: hash(code), expiresAt, attempts: 0 }); },
+    async upsertOtp(phone, code, expiresAt) { db.otp.set(phone, { code_hash: hash(code), expires_at: expiresAt, attempts: 0 }); },
     async getOtp(phone) { return db.otp.get(phone) || null; },
     async bumpOtpAttempts(phone) { const o = db.otp.get(phone); if (o) o.attempts++; },
     async upsertUserByPhone(phone) {

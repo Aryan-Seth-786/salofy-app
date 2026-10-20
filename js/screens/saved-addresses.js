@@ -1,7 +1,10 @@
 function renderSavedAddresses() {
+  const isProd = (typeof APP_MODE !== 'undefined') && APP_MODE === 'prod';
   const addresses = (AppState.addresses && AppState.addresses.length)
     ? AppState.addresses
-    : [
+    : isProd
+      ? []
+      : [
         { id: 'demo1', label: 'Home', icon: Icons.address(18, C.primary), address: '123, Phase 3B2, Mohali, Punjab 160059', isDefault: true },
         { id: 'demo2', label: 'Work', icon: Icons.briefcase(18, C.text2), address: 'IT Park, Tower C, Sector 13, Chandigarh 160101', isDefault: false },
       ];
@@ -14,6 +17,13 @@ function renderSavedAddresses() {
     </div>
 
     <div style="padding:0 20px">
+      ${addresses.length === 0 ? `
+      <div style="padding:36px 8px;text-align:center">
+        <div style="width:64px;height:64px;border-radius:50%;background:${C.surface2};display:flex;align-items:center;justify-content:center;margin:0 auto 14px">${Icons.address(26, C.text3)}</div>
+        <div style="font-size:16px;font-weight:700;color:${C.text};margin-bottom:6px">No saved addresses</div>
+        <div style="font-size:13px;color:${C.text3};line-height:1.5;margin-bottom:18px">Save your home or work location for faster checkout.</div>
+      </div>` : ''}
+
       ${addresses.map(a => `
         <div style="background:${C.surface};border:1px solid ${a.isDefault ? C.primary + '44' : C.border};border-radius:14px;padding:16px;margin-bottom:12px">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">

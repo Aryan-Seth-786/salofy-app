@@ -130,6 +130,7 @@ const Geo = {
     salons.forEach(s => {
       if (typeof s.lat === 'number' && typeof s.lng === 'number') {
         const km = this.distanceKm(this.pos.coords.latitude, this.pos.coords.longitude, s.lat, s.lng);
+        s.distKm = km; /* numeric — used by the near-me filter */
         s.dist = km < 1 ? `${Math.round(km * 1000)} m` : `${km.toFixed(1)} km`;
       }
     });

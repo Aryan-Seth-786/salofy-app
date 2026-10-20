@@ -6,7 +6,7 @@ function renderSearchResults() {
   let results = salons.filter(s => selSvcs.length === 0 || selSvcs.some(sid => s.services[sid]));
   if (activeFilters.has('open-now'))  results = results.filter(s => isSalonOpen(s));
   if (activeFilters.has('under-500')) results = results.filter(s => Math.min(...Object.values(s.services)) <= 499);
-  if (activeFilters.has('near-me'))   results = results.filter(s => parseFloat(s.dist) <= 3);
+  if (activeFilters.has('near-me'))   results = results.filter(s => (s.distKm != null ? s.distKm <= 3 : parseFloat(s.dist) <= 3));
   results.sort((a, b) => ({ premium: 0, growth: 1, starter: 2 })[a.tier] - ({ premium: 0, growth: 1, starter: 2 })[b.tier]);
 
   const filterLabels = { 'open-now': '⚡ Open now', 'under-500': 'Under ₹500', 'near-me': 'Near me' };

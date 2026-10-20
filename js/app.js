@@ -65,6 +65,12 @@ function fmtTime(t) {
   return `${h}:${mm} ${ap}`;
 }
 
+/* '10:30 AM' → '10:30' (picker chip format) */
+function chipTime(displayTime) {
+  const m = String(displayTime || '').match(/^(\d+:\d+)\s*(AM|PM)?$/i);
+  return m ? m[1] : (displayTime || '10:30');
+}
+
 /* ── Screen Registry ── */
 const screens = [
   // Auth

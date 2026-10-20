@@ -3,6 +3,8 @@
    Single-screen navigation wired to the live API:
    login once → session persists, real bookings,
    favorites, profile, addresses, notifications.
+   Interaction wiring mirrors js/app.js (the demo
+   controller) — port changes there to here too.
    Load order: after js/api.js, last of all scripts.
    ═══════════════════════════════════════════════════ */
 
@@ -36,9 +38,11 @@ const AppState = {
   demoOtp: null,
   lastBooking: null,
   editGender: null,
+  addingAddress: false,
   detailSalonId: null,
   detailType: null,
   detailId: null,
+  detailReturnTo: null,
 };
 
 /* ── Dynamic booking dates (today + n-1) ── */
@@ -62,6 +66,12 @@ function fmtTime(t) {
   return `${h}:${mm} ${ap}`;
 }
 
+/* '10:30 AM' → '10:30' (picker chip format) */
+function chipTime(displayTime) {
+  const m = String(displayTime || '').match(/^(\d+:\d+)\s*(AM|PM)?$/i);
+  return m ? m[1] : (displayTime || '10:30');
+}
+
 /* ── Screen Registry ── */
 const screens = [
   { id: 'splash',              render: renderSplash },
@@ -82,7 +92,7 @@ const screens = [
   { id: 'my-bookings',         render: renderMyBookings },
   { id: 'reschedule',          render: renderReschedule },
   { id: 'favorites',           render: renderFavorites },
-  { id: 'profile',              render: renderProfile },
+  { id: 'profile',             render: renderProfile },
   { id: 'edit-profile',        render: renderEditProfile },
   { id: 'saved-addresses',     render: renderSavedAddresses },
   { id: 'refer-earn',          render: renderReferEarn },
@@ -92,16 +102,16 @@ const screens = [
   { id: 'dashboard-premium',   render: renderDashboardPremium },
 ];
 
-/* ── Navigation ── */
+/* ── Navigation (guarded: unknown ids never corrupt state) ── */
 function navigate(screenId, params = {}) {
+  const screen = screens.find(s => s.id === screenId);
+  if (!screen) return;
   if (AppState.currentScreen !== screenId) {
     AppState.history.push(AppState.currentScreen);
     if (AppState.history.length > 20) AppState.history.shift();
   }
   Object.assign(AppState, params);
   AppState.currentScreen = screenId;
-  const screen = screens.find(s => s.id === screenId);
-  if (!screen) return;
   document.getElementById('app').innerHTML = screen.render();
   const pc = document.querySelector('.phone-content');
   if (pc) pc.scrollTop = 0;
@@ -119,46 +129,107 @@ function goToSalon(salonId, preSelected = [], tab = 'Services', preSelectedPkgs 
   navigate(screenId, {
     selectedSalon: salon,
     salonServices: preSelected.filter(sid => salon.services[sid]),
-    salonPackages: preSelectedPkgs,
+    salonPackages: preSelectedPkgs.filter(pkgId => (salon.packages || []).some(p => p.id === pkgId)),
     salonTab: tab,
   });
 }
 
-/* ── Service selection (same as demo controller) ── */
+/* ── Service selection (mirrors app.js) ── */
 function toggleSalonService(svcId, phoneEl) {
   const s = AppState.selectedSalon;
   if (!s.services[svcId]) return;
   const idx = AppState.salonServices.indexOf(svcId);
   if (idx > -1) AppState.salonServices.splice(idx, 1);
   else AppState.salonServices.push(svcId);
+
   const row = phoneEl.querySelector(`[data-svc-toggle="${svcId}"]`);
   if (row) {
     const sel = AppState.salonServices.includes(svcId);
     row.classList.toggle('service-select--active', sel);
-    const chk = row.querySelector('.svc-chk');
-    if (chk) {
-      chk.style.background = sel ? C.primary : 'transparent';
-      chk.style.borderColor = sel ? C.primary : C.border;
-      chk.innerHTML = sel ? Icons.check(14, '#fff') : '';
-    }
+    const chk = row.querySelector('.service-select__check');
+    if (chk) chk.innerHTML = sel ? Icons.check(14, '#fff') : '';
   }
   updateSalonSummaryBar(phoneEl);
+  updateSuggestedPackages(phoneEl);
+}
+
+/* ── Package selection (mirrors app.js) ── */
+function toggleSalonPackage(pkgId, phoneEl) {
+  const s = AppState.selectedSalon;
+  const pkg = (s.packages || []).find(p => p.id === pkgId);
+  if (!pkg) return;
+  const idx = AppState.salonPackages.indexOf(pkgId);
+  if (idx > -1) {
+    AppState.salonPackages.splice(idx, 1);
+  } else {
+    AppState.salonPackages.push(pkgId);
+    // Deselect individually-selected services covered by this package
+    (pkg.services || []).forEach(svcId => {
+      const svcIdx = AppState.salonServices.indexOf(svcId);
+      if (svcIdx > -1) {
+        AppState.salonServices.splice(svcIdx, 1);
+        const row = phoneEl.querySelector(`[data-svc-toggle="${svcId}"]`);
+        if (row) {
+          row.classList.remove('service-select--active');
+          const chk = row.querySelector('.service-select__check');
+          if (chk) chk.innerHTML = '';
+        }
+      }
+    });
+    updateSuggestedPackages(phoneEl);
+  }
+
+  const card = phoneEl.querySelector(`[data-pkg-toggle="${pkgId}"]`);
+  if (card) {
+    const sel = AppState.salonPackages.includes(pkgId);
+    card.classList.toggle('pkg-card--active', sel);
+    const chk = card.querySelector('.service-select__check');
+    if (chk) chk.innerHTML = sel ? Icons.check(14, '#fff') : '';
+    card.querySelectorAll('[data-pkg-chip]').forEach(chip => {
+      chip.style.background = sel ? C.primaryS : C.surface2;
+      chip.style.borderColor = sel ? C.primary + '44' : C.border;
+      chip.style.color = sel ? C.primary : C.text2;
+    });
+  }
+  updateSalonSummaryBar(phoneEl);
+}
+
+function updateSuggestedPackages(phoneEl) {
+  const el = phoneEl.querySelector('[data-suggested-pkgs]');
+  if (!el) return;
+  el.innerHTML = SuggestedPackagesHtml(AppState.selectedSalon, AppState.salonServices);
 }
 
 function updateSalonSummaryBar(phoneEl) {
   const s = AppState.selectedSalon;
   const svcs = AppState.salonServices.filter(sid => s.services[sid]);
-  const subtotal = svcs.reduce((a, sid) => a + s.services[sid], 0);
+  const pkgs = AppState.salonPackages.filter(pkgId => (s.packages || []).some(p => p.id === pkgId));
+  const svcTotal = svcs.reduce((a, sid) => a + s.services[sid], 0);
+  const pkgTotal = pkgs.reduce((a, pkgId) => { const p = (s.packages || []).find(pk => pk.id === pkgId); return a + (p ? p.price : 0); }, 0);
+  const subtotal = svcTotal + pkgTotal;
+  const totalItems = svcs.length + pkgs.length;
   const bar = phoneEl.querySelector('.salon-summary-bar');
   if (!bar) return;
-  if (svcs.length === 0) { bar.style.display = 'none'; return; }
-  bar.style.display = 'flex';
-  const countEl = bar.querySelector('.ssb-count');
-  const priceEl = bar.querySelector('.ssb-price');
-  if (countEl) countEl.textContent = `${svcs.length} service${svcs.length > 1 ? 's' : ''}`;
-  if (priceEl) priceEl.textContent = `\u20B9${subtotal}`;
+  if (totalItems === 0) {
+    bar.style.display = 'none';
+  } else {
+    bar.style.display = 'flex';
+    const countEl = bar.querySelector('.ssb-count');
+    const priceEl = bar.querySelector('.ssb-price');
+    if (countEl) {
+      if (svcs.length > 0 && pkgs.length > 0) {
+        countEl.textContent = `${svcs.length} service${svcs.length > 1 ? 's' : ''} + ${pkgs.length} package${pkgs.length > 1 ? 's' : ''}`;
+      } else if (svcs.length > 0) {
+        countEl.textContent = `${svcs.length} service${svcs.length > 1 ? 's' : ''}`;
+      } else {
+        countEl.textContent = `${pkgs.length} package${pkgs.length > 1 ? 's' : ''}`;
+      }
+    }
+    if (priceEl) priceEl.textContent = `\u20B9${subtotal}`;
+  }
 }
 
+/* ── Tab switch / toggle ── */
 function switchTab(panelName, phoneEl) {
   phoneEl.querySelectorAll('.tab[data-panel]').forEach(t => {
     t.classList.toggle('tab--active', t.dataset.panel === panelName);
@@ -182,7 +253,7 @@ function toggleFav(salonId) {
   });
   API.toggleFavorite(salonId, on).catch(err => {
     if (on) AppState.favorites.delete(salonId); else AppState.favorites.add(salonId);
-    toast(err.message === 'Failed to fetch' ? 'You appear to be offline' : err.message);
+    toast(String(err).includes('fetch') ? 'You appear to be offline' : err.message);
   });
 }
 
@@ -207,7 +278,7 @@ async function doCancelBooking(idx) {
     await hydrateMe();
     toast('Booking cancelled');
     navigate('my-bookings');
-  } catch (err) { toast(err.message === 'Failed to fetch' ? 'You appear to be offline' : err.message); }
+  } catch (err) { toast(String(err).includes('fetch') ? 'You appear to be offline' : err.message); }
 }
 
 /* ── Auth actions ── */
@@ -220,7 +291,7 @@ async function doRequestOtp() {
     AppState.pendingPhone = phone;
     AppState.demoOtp = d.demoOtp || null;
     navigate('otp');
-  } catch (err) { toast(err.message === 'Failed to fetch' ? 'You appear to be offline' : err.message); }
+  } catch (err) { toast(String(err).includes('fetch') ? 'You appear to be offline' : err.message); }
 }
 
 async function doVerifyOtp() {
@@ -236,7 +307,7 @@ async function doVerifyOtp() {
     [...document.querySelectorAll('.otp-digit')].forEach(i => i.value = '');
     const first = document.querySelector('.otp-digit');
     if (first) first.focus();
-    toast(err.message === 'Failed to fetch' ? 'You appear to be offline' : err.message);
+    toast(String(err).includes('fetch') ? 'You appear to be offline' : err.message);
   }
 }
 
@@ -257,8 +328,8 @@ async function doConfirmBooking() {
   const s = AppState.selectedSalon;
   if (!s) return;
   const svcIds = AppState.salonServices.filter(sid => s.services[sid]);
-  const pkgIds = AppState.salonPackages || [];
-  if (svcIds.length + pkgIds.length === 0) { toast('Select at least one service'); return; }
+  const pkgIds = AppState.salonPackages.filter(pkgId => (s.packages || []).some(p => p.id === pkgId));
+  if (svcIds.length + pkgIds.length === 0) { toast('Select at least one service or package'); return; }
   const date = (BookingDates(6)[AppState.booking.dateIdx] || BookingDates(6)[1]).full;
   const time = fmtTime(AppState.booking.time);
   try {
@@ -271,7 +342,7 @@ async function doConfirmBooking() {
     navigate('booking-confirmed');
     /* clear the selection once the confirmation has rendered */
     setTimeout(() => { AppState.salonServices = []; AppState.salonPackages = []; }, 400);
-  } catch (err) { toast(err.message === 'Failed to fetch' ? 'You appear to be offline' : err.message); }
+  } catch (err) { toast(String(err).includes('fetch') ? 'You appear to be offline' : err.message); }
 }
 
 async function doReschedule() {
@@ -286,7 +357,7 @@ async function doReschedule() {
     }
     AppState.rescheduleBooking = null;
     navigate('my-bookings');
-  } catch (err) { toast(err.message === 'Failed to fetch' ? 'You appear to be offline' : err.message); }
+  } catch (err) { toast(String(err).includes('fetch') ? 'You appear to be offline' : err.message); }
 }
 
 /* ── Profile / address actions ── */
@@ -303,7 +374,7 @@ async function doSaveProfile() {
     AppState.user = d.user;
     toast('Profile saved ✓');
     navigate('profile');
-  } catch (err) { toast(err.message === 'Failed to fetch' ? 'You appear to be offline' : err.message); }
+  } catch (err) { toast(String(err).includes('fetch') ? 'You appear to be offline' : err.message); }
 }
 
 async function doAddAddress() {
@@ -315,7 +386,7 @@ async function doAddAddress() {
     await hydrateMe();
     toast('Address saved ✓');
     navigate('saved-addresses');
-  } catch (err) { toast(err.message === 'Failed to fetch' ? 'You appear to be offline' : err.message); }
+  } catch (err) { toast(String(err).includes('fetch') ? 'You appear to be offline' : err.message); }
 }
 
 async function doDeleteAddress(id) {
@@ -323,10 +394,10 @@ async function doDeleteAddress(id) {
     await API.deleteAddress(id);
     await hydrateMe();
     navigate('saved-addresses');
-  } catch (err) { toast(err.message === 'Failed to fetch' ? 'You appear to be offline' : err.message); }
+  } catch (err) { toast(String(err).includes('fetch') ? 'You appear to be offline' : err.message); }
 }
 
-/* ── Event delegation ── */
+/* ── Event delegation (mirrors app.js wiring + prod actions) ── */
 function initEvents() {
   document.getElementById('app').addEventListener('click', function (e) {
     const navEl = e.target.closest('[data-nav]');
@@ -337,9 +408,9 @@ function initEvents() {
         case 'home':          navigate('home'); break;
         case 'map':           navigate('map'); break;
         case 'search':        AppState.activeFilters = new Set(); navigate('search-input'); break;
-        case 'favorites':    navigate('favorites'); break;
+        case 'favorites':     navigate('favorites'); break;
         case 'bookings':      navigate('my-bookings'); break;
-        case 'profile':      navigate('profile'); break;
+        case 'profile':       navigate('profile'); break;
         case 'back':          goBack(); break;
         case 'notifications': navigate('notifications'); break;
         case 'deals':         navigate('deals'); break;
@@ -349,14 +420,133 @@ function initEvents() {
     }
 
     const tabEl = e.target.closest('.tab[data-panel]');
-    if (tabEl) { switchTab(tabEl.dataset.panel, tabEl.closest('.phone-shell')); return; }
+    if (tabEl) {
+      switchTab(tabEl.dataset.panel, tabEl.closest('.phone-shell'));
+      return;
+    }
 
+    /* inline expand chevrons (before svc/pkg toggles) */
+    const expandSvcEl = e.target.closest('[data-svc-expand]');
+    if (expandSvcEl) {
+      e.stopPropagation();
+      const row = expandSvcEl.closest('.service-row');
+      const panel = row && row.querySelector('.svc-expand-panel');
+      if (panel) {
+        const isOpen = panel.style.display !== 'none';
+        panel.style.display = isOpen ? 'none' : 'block';
+        expandSvcEl.classList.toggle('svc-chevron--open', !isOpen);
+      }
+      return;
+    }
+    const expandPkgEl = e.target.closest('[data-pkg-expand]');
+    if (expandPkgEl) {
+      e.stopPropagation();
+      const row = expandPkgEl.closest('.pkg-row');
+      const panel = row && row.querySelector('.svc-expand-panel');
+      if (panel) {
+        const isOpen = panel.style.display !== 'none';
+        panel.style.display = isOpen ? 'none' : 'block';
+        expandPkgEl.classList.toggle('svc-chevron--open', !isOpen);
+      }
+      return;
+    }
+
+    /* package-card service chip → service detail or inline info (before pkg-toggle) */
+    const pkgSvcLinkEl = e.target.closest('[data-pkg-svc-link]');
+    if (pkgSvcLinkEl) {
+      e.stopPropagation();
+      const sid = pkgSvcLinkEl.dataset.pkgSvcLink;
+      const salonId = pkgSvcLinkEl.dataset.detailSalon ? parseInt(pkgSvcLinkEl.dataset.detailSalon) : (AppState.selectedSalon && AppState.selectedSalon.id);
+      const salon = salons.find(s => s.id === salonId);
+      const enriched = !!(salon && salon.serviceDetails && salon.serviceDetails[sid]);
+
+      if (enriched) {
+        navigate('service-detail', {
+          detailSalonId: salonId, detailType: 'service', detailId: sid,
+          detailReturnTo: AppState.currentScreen,
+        });
+        return;
+      }
+
+      const svc = getSvc(sid);
+      const pkgRow = pkgSvcLinkEl.closest('.pkg-row');
+      const panel = pkgRow && pkgRow.querySelector('.pkg-svc-info-panel');
+      if (!svc || !panel) return;
+
+      const price = salon && salon.services[sid];
+      const desc = svc.desc || '';
+      const includes = svc.includes || [];
+      const alreadyOpenForSvc = panel.dataset.openSvc === sid && panel.style.display !== 'none';
+
+      if (alreadyOpenForSvc) {
+        panel.style.display = 'none';
+        panel.dataset.openSvc = '';
+      } else {
+        panel.dataset.openSvc = sid;
+        panel.style.display = 'block';
+        panel.innerHTML = `
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
+            <div style="min-width:0;flex:1">
+              <div style="font-size:14px;font-weight:600;color:var(--text)">${svc.label}</div>
+              <div style="font-size:12px;color:var(--text-3);margin-top:2px">${svc.time}${price ? ' · ₹' + price : ''}</div>
+            </div>
+            <button class="pkg-svc-info-close" aria-label="Close">${Icons.close(14, 'var(--text-3)')}</button>
+          </div>
+          ${desc ? `<div style="font-size:13px;color:var(--text-2);line-height:1.5;margin-bottom:${includes.length ? '8' : '0'}px">${desc}</div>` : ''}
+          ${includes.length ? `<div style="display:flex;flex-wrap:wrap;gap:10px 14px">
+            ${includes.map(i => `<span class="svc-include-chip">${i}</span>`).join('')}
+          </div>` : ''}
+        `;
+      }
+      return;
+    }
+
+    const pkgSvcCloseEl = e.target.closest('.pkg-svc-info-close');
+    if (pkgSvcCloseEl) {
+      e.stopPropagation();
+      const panel = pkgSvcCloseEl.closest('.pkg-svc-info-panel');
+      if (panel) {
+        panel.style.display = 'none';
+        panel.dataset.openSvc = '';
+        panel.innerHTML = '';
+      }
+      return;
+    }
+
+    /* service / package selection toggles (skip when click came from a detail/action button) */
     const svcEl = e.target.closest('[data-svc-toggle]');
-    if (svcEl) { toggleSalonService(svcEl.dataset.svcToggle, svcEl.closest('.phone-shell')); return; }
+    if (svcEl && !e.target.closest('[data-action]')) {
+      toggleSalonService(svcEl.dataset.svcToggle, svcEl.closest('.phone-shell'));
+      return;
+    }
+    const pkgEl = e.target.closest('[data-pkg-toggle]');
+    if (pkgEl && !e.target.closest('[data-action]')) {
+      toggleSalonPackage(pkgEl.dataset.pkgToggle, pkgEl.closest('.phone-shell'));
+      return;
+    }
 
+    /* suggested package tap — pre-select it and jump to Packages tab */
+    const suggestPkgEl = e.target.closest('[data-suggest-pkg]');
+    if (suggestPkgEl) {
+      e.stopPropagation();
+      const pkgId = suggestPkgEl.dataset.suggestPkg;
+      const phoneEl = suggestPkgEl.closest('.phone-shell');
+      if (!AppState.salonPackages.includes(pkgId)) {
+        toggleSalonPackage(pkgId, phoneEl);
+      }
+      switchTab('Packages', phoneEl);
+      return;
+    }
+
+    /* favorites */
     const favEl = e.target.closest('.fav-btn[data-fav]');
-    if (favEl) { e.stopPropagation(); toggleFav(parseInt(favEl.dataset.fav)); return; }
+    if (favEl) {
+      e.stopPropagation();
+      toggleFav(parseInt(favEl.dataset.fav));
+      return;
+    }
 
+    /* edit-profile gender pills (prod) */
     const genderEl = e.target.closest('[data-gender-pill]');
     if (genderEl) {
       AppState.editGender = genderEl.dataset.genderPill;
@@ -368,12 +558,48 @@ function initEvents() {
       return;
     }
 
+    /* map pin tap (highlight / open salon) */
+    const mapPinEl = e.target.closest('[data-map-pin]');
+    if (mapPinEl) {
+      e.stopPropagation();
+      const salonId = parseInt(mapPinEl.dataset.mapPin);
+      const salon = salons.find(s => s.id === salonId);
+      if (salon) {
+        if (AppState.mapActiveSalon && AppState.mapActiveSalon.id === salonId) {
+          goToSalon(salonId, []);
+        } else {
+          AppState.mapActiveSalon = salon;
+          navigate('map');
+        }
+      }
+      return;
+    }
+
+    /* go to salon Packages tab (search popular-packages cards) */
+    const pkgSalonEl = e.target.closest('[data-goto-package-salon]');
+    if (pkgSalonEl) {
+      e.stopPropagation();
+      goToSalon(parseInt(pkgSalonEl.dataset.gotoPackageSalon), [], 'Packages');
+      return;
+    }
+
+    /* go to a specific pre-selected package (search package-match callouts) */
+    const gotoPackageEl = e.target.closest('[data-goto-package]');
+    if (gotoPackageEl) {
+      e.stopPropagation();
+      const parts = gotoPackageEl.dataset.gotoPackage.split(':');
+      goToSalon(parseInt(parts[0]), [], 'Packages', [parts[1]]);
+      return;
+    }
+
+    /* go to salon from card */
     const salonCard = e.target.closest('[data-goto-salon]');
     if (salonCard && !e.target.closest('.fav-btn')) {
       goToSalon(parseInt(salonCard.dataset.gotoSalon), AppState.selectedServices, 'Services', AppState.salonPackages);
       return;
     }
 
+    /* generic data-action buttons */
     const actionEl = e.target.closest('[data-action]');
     if (actionEl) {
       const action = actionEl.dataset.action;
@@ -386,16 +612,48 @@ function initEvents() {
           if (API.token && AppState.currentScreen === 'profile') doLogout();
           else navigate('login');
           break;
+
         /* booking */
-        case 'book-now':         navigate('booking', { salonServices: [...AppState.salonServices], salonPackages: [...(AppState.salonPackages || [])] }); break;
+        case 'book-now':         navigate('booking', { salonServices: [...AppState.salonServices], salonPackages: [...AppState.salonPackages] }); break;
         case 'confirm-booking':  doConfirmBooking(); break;
         case 'view-bookings':
           if (AppState.currentScreen === 'reschedule') doReschedule();
           else navigate('my-bookings');
           break;
+
+        /* service detail */
+        case 'open-service-detail': {
+          const sid = actionEl.dataset.detailSalon ? parseInt(actionEl.dataset.detailSalon) : (AppState.selectedSalon && AppState.selectedSalon.id);
+          navigate('service-detail', {
+            detailSalonId: sid,
+            detailType: actionEl.dataset.detailType || 'service',
+            detailId: actionEl.dataset.detailId,
+            detailReturnTo: AppState.currentScreen,
+          });
+          break;
+        }
+        case 'detail-add-to-booking': {
+          if (AppState.detailType === 'package') {
+            if (!AppState.salonPackages.includes(AppState.detailId)) AppState.salonPackages.push(AppState.detailId);
+          } else {
+            if (!AppState.salonServices.includes(AppState.detailId)) AppState.salonServices.push(AppState.detailId);
+          }
+          /* falls through to return handling */
+        }
+        /* eslint-disable no-fallthrough */
+        case 'detail-back-to-return': {
+          const ret = AppState.detailReturnTo;
+          if (ret && ret !== 'service-detail') navigate(ret);
+          else goBack();
+          break;
+        }
+
         /* search & filters */
         case 'go-search':        navigate('search-input', { selectedServices: [] }); break;
-        case 'show-results':     navigate('search-results', { selectedServices: [...AppState.selectedServices] }); break;
+        case 'show-results':
+          AppState.activeFilters = new Set();
+          navigate('search-results', { selectedServices: [...AppState.selectedServices] });
+          break;
         case 'filter-open-now':  AppState.activeFilters = new Set(['open-now']);  navigate('search-results'); break;
         case 'filter-under-500': AppState.activeFilters = new Set(['under-500']); navigate('search-results'); break;
         case 'filter-near-me':
@@ -411,26 +669,21 @@ function initEvents() {
         case 'clear-filter':     AppState.activeFilters.delete(actionEl.dataset.filter); navigate('search-results'); break;
         case 'search-view-list': AppState.searchViewMode = 'list'; navigate('search-results'); break;
         case 'search-view-map':  AppState.searchViewMode = 'map';  navigate('search-results'); break;
-        /* service detail */
-        case 'open-service-detail':
-          navigate('service-detail', {
-            detailSalonId: parseInt(actionEl.dataset.detailSalon),
-            detailType: actionEl.dataset.detailType,
-            detailId: actionEl.dataset.detailId,
-          });
-          break;
+
         /* profile / addresses */
-        case 'save-profile':     doSaveProfile(); break;
-        case 'add-address':      doAddAddress(); break;
-        case 'open-add-address': AppState.addingAddress = true;  navigate('saved-addresses'); break;
+        case 'save-profile':       doSaveProfile(); break;
+        case 'add-address':        doAddAddress(); break;
+        case 'open-add-address':  AppState.addingAddress = true;  navigate('saved-addresses'); break;
         case 'cancel-add-address': AppState.addingAddress = false; navigate('saved-addresses'); break;
-        case 'delete-address':   doDeleteAddress(actionEl.dataset.addrId); break;
+        case 'delete-address':    doDeleteAddress(actionEl.dataset.addrId); break;
+
         /* misc */
         case 'go-home':          navigate('home'); break;
         case 'go-profile':       navigate('profile'); break;
+        case 'open-deals':
         case 'go-deals':         navigate('deals'); break;
         case 'go-notifications': navigate('notifications'); break;
-        default:                 navigate(action);
+        default:                 break;
       }
       return;
     }
@@ -468,6 +721,7 @@ function initInstallPrompt() {
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredInstall = e;
+    if (document.getElementById('pwa-install-banner')) return;
     const banner = document.createElement('div');
     banner.id = 'pwa-install-banner';
     banner.innerHTML = `
@@ -510,16 +764,16 @@ async function init() {
       navigate(deepLink && screens.some(s => s.id === deepLink) ? deepLink : 'home');
       return;
     } catch (err) {
-      if (err instanceof TypeError) {
-        /* offline: keep the session, empty user data (no mock bookings as yours) */
+      if (API.token) {
+        /* transient failure (offline / 5xx / cold start) — keep the session */
         bookings.length = 0;
         AppState.favorites = new Set();
         AppState.notifications = [];
-        toast('You\u2019re offline \u2014 showing cached data');
+        toast('Couldn\u2019t reach the server — showing cached data');
         navigate('home');
         return;
       }
-      API.token = null; /* invalid/expired session */
+      /* API.call cleared the token on 401 — genuinely expired */
     }
   }
 

@@ -36,7 +36,7 @@ function renderMyBookings() {
       ${b.status === 'upcoming' ? `
         <div style="margin-top:8px">${PayAtSalon()}</div>
         <div style="display:flex;gap:8px;margin-top:10px">
-          <button onclick="AppState.rescheduleBooking={id:'${b.id || ''}',salon:salons[${b.salon.id-1}],date:'${b.date}',time:'${b.time}',svcIds:[${(b.svcIds || []).map(sid => `'${sid}'`).join(',')}],pkgId:${b.pkg ? `'${b.pkg.id}'` : 'null'}};AppState.booking.dateIdx=1;AppState.booking.time='${(b.time||'10:30 AM').replace(/ /g,'').replace(/(^\d+:\d+)(AM|PM)/i,'$1')}';navigate('reschedule')"
+          <button onclick="AppState.rescheduleBooking={id:'${b.id || ''}',salon:salons.find(s=>s.id===${b.salon.id}),date:'${b.date}',time:'${b.time}',svcIds:[${(b.svcIds || []).map(sid => `'${sid}'`).join(',')}],pkgId:${b.pkg ? `'${b.pkg.id}'` : 'null'}};(()=>{const i=(typeof BookingDates==='function')?BookingDates(8).findIndex(d=>d.full==='${b.date}'):-1;AppState.booking.dateIdx=i<0?1:i;})();AppState.booking.time=(typeof chipTime==='function')?chipTime('${b.time}'):'10:30';navigate('reschedule')"
             style="flex:1;padding:10px;background:${C.primary};color:#fff;border:none;border-radius:8px;font-family:inherit;font-weight:600;font-size:13px;cursor:pointer">
             Reschedule
           </button>

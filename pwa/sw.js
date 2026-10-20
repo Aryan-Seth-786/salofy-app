@@ -7,7 +7,7 @@
    - /api/* never cached (auth + live data)
    ═══════════════════════════════════════════════════ */
 
-const VERSION = 'glazz-v3';
+const VERSION = 'glazz-v4';
 const SHELL_CACHE = `${VERSION}-shell`;
 
 const SHELL_ASSETS = [

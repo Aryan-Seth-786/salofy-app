@@ -75,7 +75,15 @@ input, textarea {
   bottom: 0;
   left: 0;
   right: 0;
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  /* shell.css sets height: 78px with border-box, so a safe-area
+     padding-bottom was eaten by that height and crushed the labels
+     into the iOS home indicator. Grow the bar by the inset instead:
+     the 78px band stays for the icons, and the home indicator sits
+     in the padding. Book Now / scroll offsets below still use 78px
+     plus the same inset, so they stay docked on Android (inset 0). */
+  height: auto;
+  min-height: calc(78px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
   background: linear-gradient(to top, var(--surface) 85%, transparent);
 }
 

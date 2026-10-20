@@ -72,6 +72,7 @@ function navigate(screenId, params = {}) {
   if (!screen) return;
 
   document.getElementById('app').innerHTML = screen.render();
+  dockSalonSummaryBar();
 
   const pc = document.querySelector('.phone-content');
   if (pc) pc.scrollTop = 0;
@@ -131,6 +132,7 @@ function updateSalonSummaryBar(phoneEl) {
     if (countEl) countEl.textContent = `${svcs.length} service${svcs.length > 1 ? 's' : ''}`;
     if (priceEl) priceEl.textContent = `\u20B9${subtotal}`;
   }
+  dockSalonSummaryBar(phoneEl);
 }
 
 /* ── Tab Switching ── */

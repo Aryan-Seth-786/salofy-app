@@ -42,6 +42,26 @@
 }
 
 .phone-content--no-nav { padding-bottom: 20px; }
+.phone-content.has-summary-bar { padding-bottom: 156px; }
+
+/* Lifted out of the scroller onto the phone shell, just above the tab bar. */
+.salon-summary-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 78px;
+  z-index: 30;
+  display: none;
+  padding: 10px 20px 12px;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 -8px 24px -12px rgba(18, 15, 13, 0.18);
+  animation: none;
+  transform: none;
+}
 
 /* ── Bottom Nav ── */
 .bottom-nav {

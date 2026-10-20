@@ -257,7 +257,7 @@ function renderSalonProfile() {
     ${videoPanel}
 
     <!-- Global sticky summary bar (services + packages) -->
-    <div class="salon-summary-bar" style="display:${totalItems > 0 ? 'flex' : 'none'};position:sticky;bottom:0;left:0;right:0;padding:10px 20px 12px;background:${C.bg};border-top:1px solid ${C.border};align-items:center;justify-content:space-between;gap:12px">
+    <div class="salon-summary-bar" style="display:${totalItems > 0 ? 'flex' : 'none'}">
       <div>
         <div style="font-size:12px;color:${C.text3}"><span class="ssb-count">${selSvcs.length > 0 && selPkgs.length > 0 ? `${selSvcs.length} service${selSvcs.length > 1 ? 's' : ''} + ${selPkgs.length} package${selPkgs.length > 1 ? 's' : ''}` : selSvcs.length > 0 ? `${selSvcs.length} service${selSvcs.length > 1 ? 's' : ''}` : `${selPkgs.length} package${selPkgs.length > 1 ? 's' : ''}`}</span> selected</div>
         <div style="font-size:16px;font-weight:700;color:${C.primary}"><span class="ssb-price">\u20B9${subtotal}</span>${discount > 0 ? ` <span style="font-size:12px;color:${C.success};font-weight:500">-\u20B9${discount} off</span>` : ''}</div>

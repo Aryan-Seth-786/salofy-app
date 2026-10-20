@@ -116,6 +116,7 @@ function navigate(screenId, params = {}, opts = {}) {
   Object.assign(AppState, params);
   AppState.currentScreen = screenId;
   document.getElementById('app').innerHTML = screen.render();
+  dockSalonSummaryBar();
   const pc = document.querySelector('.phone-content');
   if (pc) pc.scrollTop = 0;
 }
@@ -230,6 +231,7 @@ function updateSalonSummaryBar(phoneEl) {
     }
     if (priceEl) priceEl.textContent = `\u20B9${subtotal}`;
   }
+  dockSalonSummaryBar(phoneEl);
 }
 
 /* ── Tab switch / toggle ── */

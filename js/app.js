@@ -139,6 +139,7 @@ function navigate(screenId, params = {}, opts = {}) {
   });
 
   // Scroll phone content to top
+  dockSalonSummaryBar(container);
   const pc = container && container.querySelector('.phone-content');
   if (pc) pc.scrollTop = 0;
 }
@@ -261,6 +262,7 @@ function updateSalonSummaryBar(phoneEl) {
     }
     if (priceEl) priceEl.textContent = `\u20B9${subtotal}`;
   }
+  dockSalonSummaryBar(phoneEl);
 }
 
 /* ── Tab Switching ── */
@@ -711,6 +713,7 @@ function init() {
     ${screensHtml}
   `;
 
+  document.querySelectorAll('.phone-shell').forEach(dockSalonSummaryBar);
   initEvents();
 }
 

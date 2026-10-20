@@ -2,9 +2,9 @@
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target": {
     "namespace": "android_app",
-    "package_name": "com.glazz.app",
+    "package_name": "com.onrender.glazz_app.twa",
     "sha256_cert_fingerprints": [
-      "TODO:REPLACE_WITH_PLAY_OR_PWA_BUILDER_SIGNING_FINGERPRINT"
+      "01:BA:B4:FB:34:D4:D0:DF:6A:66:0D:E9:17:6A:28:CB:A5:FE:18:65:8B:F4:FF:B9:EC:15:15:9D:03:72:2A:16"
     ]
   }
 }]

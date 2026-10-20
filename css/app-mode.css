@@ -49,6 +49,11 @@ input, textarea {
   padding-bottom: 0;
 }
 
+.phone-content.has-summary-bar { padding-bottom: 76px; }
+.salon-summary-bar {
+  bottom: calc(78px + env(safe-area-inset-bottom, 0px));
+}
+
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -79,6 +84,9 @@ input, textarea {
   box-shadow: var(--shadow-md);
 }
 #pwa-install-banner.on { display: flex; }
+body:has(.has-summary-bar) #pwa-install-banner {
+  bottom: calc(158px + env(safe-area-inset-bottom, 0px));
+}
 
 /* toast */
 #app-toast {

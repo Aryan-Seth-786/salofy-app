@@ -70,3 +70,22 @@ function DashboardNav(active) {
 function BackBtn(color) {
   return `<div class="back-btn" data-nav="back">${Icons.back(18, color || C.text)}</div>`;
 }
+
+/* The summary bar is rendered inside the scrolling page. Move it onto the
+   shell so it stays above the tab bar while the services scroll. */
+function dockSalonSummaryBar(root) {
+  const shell = (root && root.classList && root.classList.contains('phone-shell'))
+    ? root
+    : (root && root.querySelector)
+      ? root.querySelector('.phone-shell')
+      : document.querySelector('.phone-shell');
+  if (!shell) return;
+  const bar = shell.querySelector('.salon-summary-bar');
+  const content = shell.querySelector('.phone-content');
+  const nav = shell.querySelector('.bottom-nav');
+  if (bar && bar.parentElement !== shell) {
+    if (nav) shell.insertBefore(bar, nav);
+    else shell.appendChild(bar);
+  }
+  if (content) content.classList.toggle('has-summary-bar', !!(bar && bar.style.display !== 'none'));
+}

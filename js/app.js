@@ -110,9 +110,9 @@ const screens = [
 ];
 
 /* ── Navigation ── */
-function navigate(screenId, params = {}) {
-  // Push current to history (for back button)
-  if (AppState.currentScreen !== screenId) {
+function navigate(screenId, params = {}, opts = {}) {
+  // Push current to history (for back button) — skipped when going back
+  if (!opts.skipHistory && AppState.currentScreen !== screenId) {
     AppState.history.push(AppState.currentScreen);
     if (AppState.history.length > 20) AppState.history.shift();
   }
@@ -145,7 +145,7 @@ function navigate(screenId, params = {}) {
 
 function goBack() {
   const prev = AppState.history.pop();
-  navigate(prev || 'home');
+  navigate(prev || 'home', {}, { skipHistory: true });
 }
 
 /* ── Go To Salon ── */

@@ -106,10 +106,10 @@ const screens = [
 ];
 
 /* ── Navigation (guarded: unknown ids never corrupt state) ── */
-function navigate(screenId, params = {}) {
+function navigate(screenId, params = {}, opts = {}) {
   const screen = screens.find(s => s.id === screenId);
   if (!screen) return;
-  if (AppState.currentScreen !== screenId) {
+  if (!opts.skipHistory && AppState.currentScreen !== screenId) {
     AppState.history.push(AppState.currentScreen);
     if (AppState.history.length > 20) AppState.history.shift();
   }
@@ -122,7 +122,7 @@ function navigate(screenId, params = {}) {
 
 function goBack() {
   const prev = AppState.history.pop();
-  navigate(prev || 'home');
+  navigate(prev || 'home', {}, { skipHistory: true });
 }
 
 function goToSalon(salonId, preSelected = [], tab = 'Services', preSelectedPkgs = []) {
@@ -254,7 +254,9 @@ function toggleFav(salonId) {
     const isFav = AppState.favorites.has(salonId);
     btn.innerHTML = Icons.heart(16, isFav ? C.error : C.text3, isFav);
   });
-  API.toggleFavorite(salonId, on).catch(err => {
+  API.toggleFavorite(salonId, on).then((favorites) => {
+    patchMeCache({ favorites: favorites || [...AppState.favorites] });
+  }).catch(err => {
     if (on) AppState.favorites.delete(salonId); else AppState.favorites.add(salonId);
     toast(String(err).includes('fetch') ? 'You appear to be offline' : err.message);
   });
@@ -382,6 +384,7 @@ async function doSaveProfile() {
       gender: gender || undefined,
     });
     AppState.user = d.user;
+    patchMeCache({ user: d.user }); /* keep the offline snapshot fresh */
     toast('Profile saved ✓');
     navigate('profile');
   } catch (err) { toast(String(err).includes('fetch') ? 'You appear to be offline' : err.message); }

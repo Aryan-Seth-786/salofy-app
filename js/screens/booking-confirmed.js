@@ -11,7 +11,8 @@ function renderBookingConfirmed() {
   const dp       = s.deal ? parseInt(s.deal) || 0 : 0;
   const discount = last ? 0 : (s.tier !== 'starter' && dp > 0) ? Math.round(subtotal * dp / 100) : 0;
   const dates    = (typeof BookingDates === 'function') ? BookingDates(6) : ['Today','Sun 29','Mon 30','Tue 31','Wed 1','Thu 2'];
-  const dateStr  = last ? last.date : (dates[AppState.booking.dateIdx] || 'Sun, Mar 29');
+  const picked   = dates[AppState.booking.dateIdx];
+  const dateStr  = last ? last.date : (picked ? (typeof picked === 'object' ? picked.full : picked) : 'Sun, Mar 29');
   const timeStr  = last ? last.time : (AppState.booking.time || '10:30 AM');
 
   return Shell(`

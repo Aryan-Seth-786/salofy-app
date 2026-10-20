@@ -98,6 +98,19 @@ function clearMeCache() {
   try { localStorage.removeItem(ME_CACHE_KEY); } catch {}
 }
 
+/* merge a partial update into the cached me snapshot (keeps offline boot fresh
+   without a refetch) */
+function patchMeCache(patch) {
+  try {
+    const raw = localStorage.getItem(ME_CACHE_KEY);
+    if (!raw) return;
+    const d = JSON.parse(raw);
+    if (!d || !d.user) return;
+    Object.assign(d, patch);
+    localStorage.setItem(ME_CACHE_KEY, JSON.stringify(d));
+  } catch {}
+}
+
 function applyMe(d) {
   if (d.user) AppState.user = d.user;
   AppState.favorites = new Set(d.favorites || []);

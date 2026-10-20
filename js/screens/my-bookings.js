@@ -3,6 +3,9 @@ function renderMyBookings() {
     ...b,
     salon: salons.find(s => s.id === b.salonId),
     pkg:   b.pkgId ? (salons.find(s => s.id === b.salonId)?.packages || []).find(p => p.id === b.pkgId) : null,
+    pkgs:  ((b.pkgIds && b.pkgIds.length) ? b.pkgIds : (b.pkgId ? [b.pkgId] : []))
+             .map(id => ((salons.find(s => s.id === b.salonId)?.packages) || []).find(p => p.id === id))
+             .filter(Boolean),
   })).filter(b => b.salon);
 
   const tab     = AppState.bookingsTab || null;
@@ -25,8 +28,8 @@ function renderMyBookings() {
         <div style="display:flex;align-items:center;gap:4px">${Icons.calendar(12, C.text3)}<span style="color:${C.text3}"> ${b.date}</span></div>
         <div style="display:flex;align-items:center;gap:4px">${Icons.clock(12, C.text3)}<span style="color:${C.text3}"> ${b.time}</span></div>
       </div>
-      ${(b.pkg || (b.svcIds && b.svcIds.length)) ? `<div style="margin-top:10px">
-        ${b.pkg ? PackageCard(b.pkg, true, 'locked', null, b.salon) : ''}
+      ${((b.pkgs && b.pkgs.length) || (b.svcIds && b.svcIds.length)) ? `<div style="margin-top:10px">
+        ${(b.pkgs || []).map(pkg => PackageCard(pkg, true, 'locked', null, b.salon)).join('')}
         ${(b.svcIds || []).filter(sid => b.salon.services[sid]).map(sid => {
           const discPrice = (b.salon.serviceDiscounts && b.salon.serviceDiscounts[sid]) || null;
           return ServiceCard(sid, b.salon.services[sid], true, discPrice, 'locked', b.salon);
